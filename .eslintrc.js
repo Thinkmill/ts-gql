@@ -3,5 +3,6 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   rules: {
     "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/ban-ts-ignore": 0,
   },
 };
