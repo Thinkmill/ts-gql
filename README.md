@@ -48,6 +48,8 @@ ts-gql-meta-begin
 ts-gql-meta-end
 */
 
+export {};
+
 declare module "@ts-gql/tag" {
   interface Documents {
     MyQuery: {
