@@ -1,8 +1,15 @@
 module.exports = {
   extends: ["plugin:@typescript-eslint/recommended"],
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: require("path").join(__dirname, "tsconfig.json"),
+  },
   rules: {
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-empty-function": 0,
+    "prefer-const": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
   },
 };

@@ -5,7 +5,7 @@ import {
   DocumentVariables,
   BaseTypedQuery,
 } from "@ts-gql/tag";
-import { QueryHookOptions, QueryResult } from "@apollo/client";
+import { QueryHookOptions, QueryResult, useSubscription } from "@apollo/client";
 
 // TODO: Mutations and all the other ways you can call queries and mutations
 
@@ -32,8 +32,14 @@ declare module "@apollo/client" {
   >(
     query: TTypedDocumentNode,
     options?: Omit<
-      QueryHookOptions<DocumentResult<TTypedDocumentNode>, undefined>,
+      QueryHookOptions<
+        DocumentResult<TTypedDocumentNode>,
+        DocumentVariables<TTypedDocumentNode>
+      >,
       "variables"
     >
-  ): QueryResult<DocumentResult<TTypedDocumentNode>, undefined>;
+  ): QueryResult<
+    DocumentResult<TTypedDocumentNode>,
+    DocumentVariables<TTypedDocumentNode>
+  >;
 }

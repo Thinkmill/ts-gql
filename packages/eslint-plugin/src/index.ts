@@ -1,81 +1,70 @@
 import { ESLintUtils } from "@typescript-eslint/experimental-utils";
-import { codegen } from "./codegen-core";
-import * as typescriptPlugin from "@graphql-codegen/typescript";
-import fs from "fs-extra";
-import crypto from "crypto";
+
 import path from "path";
 
-import { print, printSchema, GraphQLSchema, parse } from "graphql";
+import { OperationDefinitionNode, GraphQLSchema } from "graphql";
 import { handleTemplateTag } from "./parse";
 import { getSchemaFromOptions } from "./get-schema";
+import { ensureSchemaTypesAreWritten } from "./schema-types";
+import { ensureOperationTypesAreWritten } from "./operation-types";
+import fs from "fs-extra";
+import { parseTsGqlMeta } from "./utils";
+import { getNodes } from "./get-nodes";
+import { getParserServices } from "./get-parser-services";
 
-let createRule = ESLintUtils.RuleCreator(
+const createRule = ESLintUtils.RuleCreator(
   (name) =>
     `https://github.com/Thinkmill/ts-gql/blob/master/packages/eslint-plugin/docs/rules/${name}.md`
 );
 
-let messages = {
+const messages = {
   fragmentInterpolationMustBeOutsideBrackets:
     "Invalid interpolation - fragment interpolation must occur outside of the brackets.",
   invalidFragmentOrVariable:
     "Invalid interpolation - not a valid fragment or variable.",
   singleOperation: "GraphQL documents must have only one operation",
+  mustBeNamed: "GraphQL operations must have a name",
+  mustCallWithOperationName:
+    "You must call the result of the gql tag with the operation name",
+  invalidGeneratedDirectory:
+    "The directory with generated types is in an incorrect state",
+  invalidGeneratedDirectorySchema:
+    "The generated schema types are in an incorrect state",
 };
 
-function hashString(input: string) {
-  let md5sum = crypto.createHash("md5");
-  md5sum.update(input);
-  return md5sum.digest("hex");
-}
+function ensureNoExtraneousFilesExist(
+  directory: string,
+  currentContents: string,
+  currentFilename: string
+) {
+  // TODO: investigate perf implications of this
+  const result = fs.readdirSync(directory);
+  const filesToDelete: string[] = [];
+  result.forEach((filename) => {
+    if (filename === "@schema.d.ts") {
+      return;
+    }
+    const filepath = path.join(directory, filename);
 
-function parseTsGqlMeta(content: string) {
-  let result = /ts-gql-meta-begin([^]+)ts-gql-meta-end/m.exec(content);
-  if (result === null) {
-    throw new Error("could not find ts-gql meta");
+    const contents =
+      filepath === currentFilename
+        ? currentContents
+        : fs.readFileSync(filepath, "utf8");
+    const meta = parseTsGqlMeta(contents);
+    const srcFilename = path.resolve(directory, meta.filename);
+    const srcContents = fs.readFileSync(srcFilename, "utf8");
+    if (!srcContents.includes(meta.document)) {
+      filesToDelete.push(filepath);
+    }
+  });
+  if (filesToDelete.length) {
+    filesToDelete.forEach((filename) => {
+      fs.removeSync(filename);
+    });
   }
-  return JSON.parse(result[1]);
 }
 
 export type MessageId = keyof typeof messages;
-
-function writeSchemaTypes(
-  schema: GraphQLSchema,
-  filename: string,
-  schemaHash: string
-) {
-  let result = codegen({
-    documents: [],
-    schema: parse(printSchema(schema)),
-    schemaAst: schema,
-    config: {},
-    filename: "",
-    plugins: [
-      {
-        typescript: {},
-      },
-    ],
-    pluginMap: { typescript: typescriptPlugin },
-  });
-  fs.outputFileSync(filename, result);
-}
-
-function ensureSchemaTypesAreWritten(schema: GraphQLSchema, filename: string) {
-  let printedSchema = printSchema(schema);
-  let schemaHash = hashString(printedSchema);
-  let types: string;
-  try {
-    types = fs.readFileSync(filename, "utf8");
-  } catch (err) {
-    if (err.code === "ENOENT") {
-      return writeSchemaTypes(schema, filename, schemaHash);
-    }
-    throw err;
-  }
-  let meta = parseTsGqlMeta(types);
-  if (meta.hash !== schemaHash) {
-    writeSchemaTypes(schema, filename, schemaHash);
-  }
-}
 
 export const rules = {
   "ts-gql": createRule<
@@ -112,28 +101,141 @@ export const rules = {
     ],
     create(context) {
       return {
-        TaggedTemplateExpression(node) {
-          // TODO: check import
-          // idea: instead of checking the import, check the _type_
-          // so people could re-export the tag if they want to and everything would still _just work_
-          if (node.tag.type === "Identifier" && node.tag.name === "gql") {
-            let schema = getSchemaFromOptions(context.options[0]);
-            ensureSchemaTypesAreWritten(
-              schema,
-              path.join(context.options[0].generatedDirectory, "@types.d.ts")
-            );
-            let ast = handleTemplateTag(node, context, schema, "apollo");
-            if (ast) {
-              let filteredDefinitions = ast.definitions.filter(
-                (x) => x.kind === "OperationDefinition"
-              );
-              if (filteredDefinitions.length !== 1) {
-                context.report({
-                  messageId: "singleOperation",
+        Program(programNode) {
+          let schema:
+            | {
+                schema: GraphQLSchema;
+                hash: string;
+              }
+            | undefined;
+          const generatedDirectory = context.options[0].generatedDirectory;
+          let hasReportedAnError = false;
+          let report: typeof context["report"] = (arg) => {
+            hasReportedAnError = true;
+            return context.report(arg);
+          };
+          const parserServices = getParserServices(context);
+          for (const node of getNodes(context, programNode)) {
+            if (node.type === "TaggedTemplateExpression") {
+              if (node.tag.type === "Identifier" && node.tag.name === "gql") {
+                let typeChecker = parserServices.program.getTypeChecker();
+                let gqlTagNode = parserServices.esTreeNodeToTSNodeMap.get(
+                  node.tag
+                );
+                if (!gqlTagNode) {
+                  throw new Error("Could not get gql tag TS node");
+                }
+                let gqlTagSymbol = typeChecker.getSymbolAtLocation(gqlTagNode);
+                if (!gqlTagSymbol) {
+                  throw new Error("Could not get gql symbol TS node");
+                }
+                let type = typeChecker.getTypeOfSymbolAtLocation(
+                  gqlTagSymbol,
+                  gqlTagNode
+                );
+                if (!type.getProperty("___isTsGqlTag")) {
+                  continue;
+                }
+                if (!schema) {
+                  const gqlSchema = getSchemaFromOptions(context.options[0]);
+
+                  schema = {
+                    schema: gqlSchema,
+                    hash: ensureSchemaTypesAreWritten(
+                      gqlSchema,
+                      generatedDirectory
+                    ),
+                  };
+                }
+
+                const operation = handleTemplateTag(
                   node,
-                });
+                  report,
+                  schema.schema,
+                  "apollo"
+                );
+                if (operation) {
+                  const filteredDefinitions: [
+                    OperationDefinitionNode
+                  ] = operation.ast.definitions.filter(
+                    (x) => x.kind === "OperationDefinition"
+                  ) as any;
+                  if (filteredDefinitions.length !== 1) {
+                    report({
+                      messageId: "singleOperation",
+                      node,
+                    });
+                    return;
+                  }
+                  const [operationNode] = filteredDefinitions;
+
+                  if (!operationNode.name) {
+                    report({
+                      messageId: "mustBeNamed",
+                      node,
+                    });
+                    return;
+                  }
+                  const name = operationNode.name.value;
+
+                  if (node.parent?.type !== "CallExpression") {
+                    report({
+                      messageId: "mustCallWithOperationName",
+                      node,
+                      fix(fix) {
+                        return fix.insertTextAfter(
+                          node,
+                          `(${JSON.stringify(name)})`
+                        );
+                      },
+                    });
+                    return;
+                  }
+                  if (
+                    node.parent.arguments.length !== 1 ||
+                    node.parent.arguments[0].type !== "Literal" ||
+                    node.parent.arguments[0].value !== name
+                  ) {
+                    const parent = node.parent;
+
+                    report({
+                      messageId: "mustCallWithOperationName",
+                      node,
+                      fix(fix) {
+                        return fix.replaceTextRange(
+                          [
+                            parent.arguments[0].range[0],
+                            parent.arguments[parent.arguments.length - 1]
+                              .range[1],
+                          ],
+                          JSON.stringify(name)
+                        );
+                      },
+                    });
+                    return;
+                  }
+                  ensureOperationTypesAreWritten(
+                    schema.schema,
+                    operation,
+                    path.join(
+                      context.options[0].generatedDirectory,
+                      `${name}.d.ts`
+                    ),
+                    context.getFilename(),
+                    schema.hash,
+                    name
+                  );
+                }
               }
             }
+          }
+          if (schema && !hasReportedAnError) {
+            console.log("remove extraneous");
+            ensureNoExtraneousFilesExist(
+              generatedDirectory,
+              context.getSourceCode().text,
+              context.getFilename()
+            );
           }
         },
       };

@@ -11,7 +11,7 @@ function strWithLen(len: number) {
 
 function replaceExpressions(
   node: TSESTree.TemplateLiteral,
-  context: TSESLint.RuleContext<MessageId, any>,
+  report: TSESLint.RuleContext<MessageId, any>["report"],
   env: "apollo" | "relay" | "lokka" | "fraql"
 ) {
   const chunks: string[] = [];
@@ -27,8 +27,8 @@ function replaceExpressions(
       // We'll check to make sure there's an equivalent set of opening and closing brackets, otherwise
       // we're attempting to do an invalid interpolation.
       if (chunk.split("{").length - 1 !== chunk.split("}").length - 1) {
-        context.report({
-          node: value,
+        report({
+          node: value || element,
           messageId: "fragmentInterpolationMustBeOutsideBrackets",
         });
         throw new Error("Invalid interpolation");
@@ -65,7 +65,7 @@ function replaceExpressions(
         }
       } else {
         // Invalid interpolation
-        context.report({
+        report({
           node: value,
           messageId: "invalidFragmentOrVariable",
         });
@@ -101,13 +101,13 @@ function locFrom(node: TSESTree.TaggedTemplateExpression, error: any) {
 
 export function handleTemplateTag(
   node: TSESTree.TaggedTemplateExpression,
-  context: TSESLint.RuleContext<MessageId, any>,
+  report: TSESLint.RuleContext<MessageId, any>["report"],
   schema: GraphQLSchema,
   env: "apollo" | "relay" | "lokka" | "fraql"
 ) {
   let text;
   try {
-    text = replaceExpressions(node.quasi, context, env);
+    text = replaceExpressions(node.quasi, report, env);
   } catch (e) {
     if (e.message !== "Invalid interpolation") {
       console.log(e); // eslint-disable-line no-console
@@ -129,7 +129,7 @@ export function handleTemplateTag(
   try {
     ast = parse(text);
   } catch (error) {
-    context.report({
+    report({
       node,
       // @ts-ignore
       message: error.message.split("\n")[0],
@@ -140,7 +140,7 @@ export function handleTemplateTag(
 
   const validationErrors = schema ? validate(schema, ast) : [];
   if (validationErrors && validationErrors.length > 0) {
-    context.report({
+    report({
       node,
       // @ts-ignore
       message: validationErrors[0].message,
@@ -148,5 +148,5 @@ export function handleTemplateTag(
     });
     return;
   }
-  return ast;
+  return { ast, document: text };
 }

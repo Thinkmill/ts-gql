@@ -45,16 +45,19 @@ type DocumentResult<
 > = Node["___type"]["result"];
 
 type DocumentVariables<
-  Node extends
-    | TypedDocumentNode<BaseTypedQueryWithRequiredVariables>
-    | TypedDocumentNode<BaseTypedMutationWithVariables>
+  Node extends TypedDocumentNode<BaseOperations>
 > = Node["___type"]["variables"];
 
-export declare function gql(
-  strings: readonly string[],
-  ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
-): <Key extends keyof Documents>(
-  name: Key
-) => TypedDocumentNode<Documents[Key]>;
+interface GqlTag {
+  (
+    strings: readonly string[],
+    ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
+  ): <Key extends keyof Documents>(
+    name: Key
+  ) => TypedDocumentNode<Documents[Key]>;
+  ___isTsGqlTag: true;
+}
 
-export interface Documents extends Record<string, BaseDocumentTypes> {}
+export declare const gql: GqlTag;
+
+export interface Documents {}

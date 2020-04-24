@@ -1,3 +1,6 @@
 type Query {
   hello: String!
+  other: Boolean!
+  another: String!
+  oneMore(thing: String): String!
 }
