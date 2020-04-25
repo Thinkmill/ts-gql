@@ -6,12 +6,12 @@ type BaseTypedDocument = { document: string; result: any };
 
 type BaseTypedQuery = BaseTypedDocument & {
   type: "query";
-  variables: Record<string, any>;
+  variables: Record<string, any> | undefined;
 };
 
 type BaseTypedMutation = BaseTypedDocument & {
   type: "mutation";
-  variables: Record<string, any>;
+  variables: Record<string, any> | undefined;
 };
 
 // we have separate types for operations with _required_
@@ -24,7 +24,7 @@ type BaseTypedQueryWithRequiredVariables = BaseTypedDocument & {
   variables: Record<string, any>;
 };
 
-type BaseTypedMutationWithVariables = BaseTypedDocument & {
+type BaseTypedMutationWithRequiredVariables = BaseTypedDocument & {
   type: "mutation-with-required-variables";
   variables: Record<string, any>;
 };
@@ -33,7 +33,7 @@ type BaseOperations =
   | BaseTypedQuery
   | BaseTypedMutation
   | BaseTypedQueryWithRequiredVariables
-  | BaseTypedMutationWithVariables;
+  | BaseTypedMutationWithRequiredVariables;
 
 type BaseTypedFragment = BaseTypedDocument & {
   type: "fragment";

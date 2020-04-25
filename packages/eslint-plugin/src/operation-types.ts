@@ -50,6 +50,9 @@ function writeOperationTypes(
   if (isAtLeastOneVariableRequired) {
     operationType += "-with-required-variables";
   }
+  let upperCaseOperationName =
+    operationNode.operation.charAt(0).toUpperCase() +
+    operationNode.operation.slice(1);
   fs.outputFileSync(
     filename,
     `/*\nts-gql-meta-begin\n${JSON.stringify(
@@ -66,11 +69,11 @@ declare module "@ts-gql/tag" {
     ${operationName}: {
       document: ${JSON.stringify(operation.document)};
       type: ${JSON.stringify(operationType)};
-      result: ${operationName}Query;
+      result: ${operationName + upperCaseOperationName};
       variables: ${
         operationNode.variableDefinitions &&
         operationNode.variableDefinitions.length
-          ? operationName + "QueryVariables"
+          ? operationName + upperCaseOperationName + "Variables"
           : undefined
       };
     };

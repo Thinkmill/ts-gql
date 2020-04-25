@@ -4,8 +4,16 @@ import {
   DocumentResult,
   DocumentVariables,
   BaseTypedQuery,
+  BaseTypedMutationWithRequiredVariables,
+  BaseTypedMutation,
 } from "@ts-gql/tag";
-import { QueryHookOptions, QueryResult } from "@apollo/client";
+import {
+  QueryHookOptions,
+  QueryResult,
+  MutationFunctionOptions,
+  FetchResult,
+  MutationResult,
+} from "@apollo/client";
 
 // TODO: Mutations and all the other ways you can call queries and mutations
 
@@ -28,6 +36,41 @@ type QueryOptionsWithRequiredVariables<
 > = QueryOptions<TTypedDocumentNode> & {
   variables: DocumentVariables<TTypedDocumentNode>;
 };
+
+type HookMutationFuncOptions<
+  TTypedDocumentNode extends TypedDocumentNode<
+    BaseTypedMutationWithRequiredVariables | BaseTypedMutation
+  >
+> = Omit<
+  MutationFunctionOptions<
+    DocumentResult<TTypedDocumentNode>,
+    DocumentVariables<TTypedDocumentNode>
+  >,
+  "variables"
+>;
+
+type MutationTuple<
+  TTypedDocumentNode extends TypedDocumentNode<
+    BaseTypedMutationWithRequiredVariables | BaseTypedMutation
+  >
+> = [
+  [TTypedDocumentNode] extends [
+    TypedDocumentNode<BaseTypedMutationWithRequiredVariables>
+  ]
+    ? (
+        options: HookMutationFuncOptions<TTypedDocumentNode> & {
+          variables: DocumentVariables<TTypedDocumentNode>;
+        }
+      ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>
+    : (
+        options?: DocumentVariables<TTypedDocumentNode> extends undefined
+          ? HookMutationFuncOptions<TTypedDocumentNode>
+          : HookMutationFuncOptions<TTypedDocumentNode> & {
+              variables?: DocumentVariables<TTypedDocumentNode>;
+            }
+      ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>,
+  MutationResult<DocumentResult<TTypedDocumentNode>>
+];
 
 declare module "@apollo/client" {
   export function useQuery<
@@ -56,4 +99,9 @@ declare module "@apollo/client" {
     DocumentResult<TTypedDocumentNode>,
     DocumentVariables<TTypedDocumentNode>
   >;
+  export function useMutation<
+    TTypedDocumentNode extends TypedDocumentNode<
+      BaseTypedMutationWithRequiredVariables | BaseTypedMutation
+    >
+  >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
 }

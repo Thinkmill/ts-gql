@@ -1,6 +1,6 @@
 import "@ts-gql/apollo";
 import { gql } from "@ts-gql/tag";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 const query2 = gql`
   query MyOtherQuery {
@@ -11,18 +11,6 @@ const query2 = gql`
   }
 `("MyOtherQuery");
 
-type Thing = { thing?: { other: true }; other: boolean; another: {} };
-
-type Exclude<T, U> = [T] extends [U] ? never : T;
-
-type X = Exclude<any, undefined>;
-
-// type Thing = Diff<undefined | string, undefined>;
-
-type Other = {
-  [Key in keyof Thing]: [Thing[Key]] extends [boolean] ? never : Thing[Key];
-};
-
 let query = gql`
   query SomeQuery($arg: String!) {
     optional(thing: $arg)
@@ -30,8 +18,17 @@ let query = gql`
   }
 `("SomeQuery");
 
+let someMutation = gql`
+  mutation SomeMutation($arg: String!) {
+    optional(thing: $arg)
+    ye: something
+  }
+`("SomeMutation");
+
 export default () => {
   const { data } = useQuery(query, { variables: {} });
+  let [mutate] = useMutation(someMutation);
+  mutate({ variables: { arg: "" } });
   data.hello;
   data.other;
   data.aThing;
