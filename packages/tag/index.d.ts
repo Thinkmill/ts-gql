@@ -6,14 +6,19 @@ type BaseTypedDocument = { document: string; result: any };
 
 type BaseTypedQuery = BaseTypedDocument & {
   type: "query";
-  variables?: Record<string, any>;
+  variables: Record<string, any>;
 };
 
 type BaseTypedMutation = BaseTypedDocument & {
   type: "mutation";
-  variables?: Record<string, any>;
+  variables: Record<string, any>;
 };
 
+// we have separate types for operations with _required_
+// variables because we want to be able to discriminate between
+// operations that require variables and those that don't
+// so that when you execute an operation, we can determine whether
+// there is at least one variable that you must pass or not
 type BaseTypedQueryWithRequiredVariables = BaseTypedDocument & {
   type: "query-with-required-variables";
   variables: Record<string, any>;

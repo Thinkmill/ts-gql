@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "9b7a64ffd1fb96bb69d63c72ed4c463c"
+  "hash": "7250c827cd504dee0fa159223c6fbb96"
 }
 ts-gql-meta-end
 */
@@ -16,14 +16,27 @@ export type Scalars = {
 };
 
 export type Query = {
-   __typename?: 'Query';
-  hello: Scalars['String'];
-  other: Scalars['Boolean'];
-  another: Scalars['String'];
-  oneMore: Scalars['String'];
+  readonly __typename: 'Query';
+  readonly hello: Scalars['String'];
+  readonly other: Scalars['Boolean'];
+  readonly another: Scalars['String'];
+  readonly something: Maybe<Scalars['String']>;
+  readonly optional: Scalars['String'];
+  readonly oneMore: Scalars['String'];
 };
 
 
-export type QueryOneMoreArgs = {
-  thing?: Maybe<Scalars['String']>;
+export type QueryoptionalArgs = {
+  thing: Maybe<Scalars['String']>;
+};
+
+
+export type QueryoneMoreArgs = {
+  thing: Maybe<Scalars['String']>;
+  other: Something;
+};
+
+export type Something = {
+  readonly yes: Maybe<Scalars['Boolean']>;
+  readonly no: Scalars['String'];
 };

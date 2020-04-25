@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "3dcd1a7f08d7574c080f80d87333f1cf",
+  "hash": "3e12ec99af4dad5a582fcecb65807be3",
   "filename": "../../pages/index.tsx",
   "document": "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aThing: another\n  }\n"
 }
@@ -14,7 +14,7 @@ type MyOtherQueryQueryVariables = {};
 
 
 type MyOtherQueryQuery = (
-  { readonly __typename?: 'Query' }
+  { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'hello' | 'other' | 'another'>
   & { aThing: SchemaTypes.Query['another'] }
 );

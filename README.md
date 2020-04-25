@@ -110,6 +110,9 @@ yarn add @ts-graphql/gatsby-plugin
 # Future Ideas
 
 - Offer the option to use hashes instead of document names so document names don't have to be unique
+- Autofix not specifying a variable in an operation
+- A Babel plugin/some kind of build time transform that performs optimisations like the Relay Compiler does
+  - This should be relatively easy since every operation must be entirely static since the only kind of interpolations allowed will be fragment interpolations and we'll know the contents of the fragment because it's encoded in the type.]
 
 # Thanks
 

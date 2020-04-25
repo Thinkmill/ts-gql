@@ -8,6 +8,7 @@ import { hashString, parseTsGqlMeta } from "./utils";
 function writeOperationTypes(
   schema: GraphQLSchema,
   operation: { ast: DocumentNode; document: string },
+  operationType: string,
   filename: string,
   srcFilename: string,
   operationHash: string,
@@ -26,6 +27,8 @@ function writeOperationTypes(
           namespacedImportName: "SchemaTypes",
           immutableTypes: true,
           noExport: true,
+          nonOptionalTypename: true,
+          namingConvention: "keep",
         },
       },
     ],
@@ -46,7 +49,7 @@ declare module "@ts-gql/tag" {
   interface Documents {
     ${operationName}: {
       document: ${JSON.stringify(operation.document)};
-      type: ${JSON.stringify("query")};
+      type: ${JSON.stringify(operationType)};
       result: ${operationName}Query;
       variables: ${operationName}QueryVariables;
     };
@@ -58,6 +61,7 @@ declare module "@ts-gql/tag" {
 export function ensureOperationTypesAreWritten(
   schema: GraphQLSchema,
   operation: { ast: DocumentNode; document: string },
+  operationType: string,
   filename: string,
   srcFilename: string,
   schemaHash: string,
@@ -72,6 +76,7 @@ export function ensureOperationTypesAreWritten(
       writeOperationTypes(
         schema,
         operation,
+        operationType,
         filename,
         srcFilename,
         operationHash,
@@ -85,6 +90,7 @@ export function ensureOperationTypesAreWritten(
     writeOperationTypes(
       schema,
       operation,
+      operationType,
       filename,
       srcFilename,
       operationHash,

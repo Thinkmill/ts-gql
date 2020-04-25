@@ -5,39 +5,47 @@ import {
   DocumentVariables,
   BaseTypedQuery,
 } from "@ts-gql/tag";
-import { QueryHookOptions, QueryResult, useSubscription } from "@apollo/client";
+import { QueryHookOptions, QueryResult } from "@apollo/client";
 
 // TODO: Mutations and all the other ways you can call queries and mutations
+
+type QueryOptionsWithRequiredVariables<
+  TTypedDocumentNode extends TypedDocumentNode<
+    BaseTypedQueryWithRequiredVariables
+  >
+> = Omit<
+  QueryHookOptions<
+    DocumentResult<TTypedDocumentNode>,
+    DocumentVariables<TTypedDocumentNode>
+  >,
+  "variables" | "query"
+> & { variables: DocumentVariables<TTypedDocumentNode> };
 
 declare module "@apollo/client" {
   export function useQuery<
     TTypedDocumentNode extends TypedDocumentNode<
-      BaseTypedQueryWithRequiredVariables
+      BaseTypedQueryWithRequiredVariables | BaseTypedQuery
     >
   >(
-    query: TTypedDocumentNode,
-    options: Omit<
-      QueryHookOptions<
-        DocumentResult<TTypedDocumentNode>,
-        DocumentVariables<TTypedDocumentNode>
-      >,
-      "variables"
-    > & { variables: DocumentVariables<TTypedDocumentNode> }
-  ): QueryResult<
-    DocumentResult<TTypedDocumentNode>,
-    DocumentVariables<TTypedDocumentNode>
-  >;
-  export function useQuery<
-    TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
-  >(
-    query: TTypedDocumentNode,
-    options?: Omit<
-      QueryHookOptions<
-        DocumentResult<TTypedDocumentNode>,
-        DocumentVariables<TTypedDocumentNode>
-      >,
-      "variables"
-    >
+    ...args: [TTypedDocumentNode] extends [
+      TypedDocumentNode<BaseTypedQueryWithRequiredVariables>
+    ]
+      ? [
+          TTypedDocumentNode,
+          QueryOptionsWithRequiredVariables<TTypedDocumentNode>
+        ]
+      :
+          | [
+              TTypedDocumentNode,
+              Omit<
+                QueryHookOptions<
+                  DocumentResult<TTypedDocumentNode>,
+                  DocumentVariables<TTypedDocumentNode>
+                >,
+                "query"
+              >
+            ]
+          | [TTypedDocumentNode]
   ): QueryResult<
     DocumentResult<TTypedDocumentNode>,
     DocumentVariables<TTypedDocumentNode>

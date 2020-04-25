@@ -18,7 +18,12 @@ function writeSchemaTypes(
     filename: "",
     plugins: [
       {
-        typescript: {},
+        typescript: {
+          avoidOptionals: true,
+          immutableTypes: true,
+          nonOptionalTypename: true,
+          namingConvention: "keep",
+        },
       },
     ],
     pluginMap: { typescript: typescriptPlugin },
