@@ -122,17 +122,7 @@ export const rules = {
                 let gqlTagNode = parserServices.esTreeNodeToTSNodeMap.get(
                   node.tag
                 );
-                if (!gqlTagNode) {
-                  throw new Error("Could not get gql tag TS node");
-                }
-                let gqlTagSymbol = typeChecker.getSymbolAtLocation(gqlTagNode);
-                if (!gqlTagSymbol) {
-                  throw new Error("Could not get gql symbol TS node");
-                }
-                let type = typeChecker.getTypeOfSymbolAtLocation(
-                  gqlTagSymbol,
-                  gqlTagNode
-                );
+                let type = typeChecker.getTypeAtLocation(gqlTagNode);
                 if (!type.getProperty("___isTsGqlTag")) {
                   continue;
                 }
