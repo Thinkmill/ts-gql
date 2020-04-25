@@ -15,6 +15,7 @@ export default () => {
   const { data } = useQuery(query2);
   data.hello;
   data.other;
+  data.aThing;
   data.aThin;
 
   return "something";

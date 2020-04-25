@@ -46,13 +46,13 @@ function ensureNoExtraneousFilesExist(
     }
     const filepath = path.join(directory, filename);
 
-    const contents =
-      filepath === currentFilename
-        ? currentContents
-        : fs.readFileSync(filepath, "utf8");
+    const contents = fs.readFileSync(filepath, "utf8");
     const meta = parseTsGqlMeta(contents);
     const srcFilename = path.resolve(directory, meta.filename);
-    const srcContents = fs.readFileSync(srcFilename, "utf8");
+    const srcContents =
+      srcFilename === currentFilename
+        ? currentContents
+        : fs.readFileSync(srcFilename, "utf8");
     if (!srcContents.includes(meta.document)) {
       filesToDelete.push(filepath);
     }
