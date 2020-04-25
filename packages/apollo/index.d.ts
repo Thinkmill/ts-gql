@@ -9,9 +9,9 @@ import { QueryHookOptions, QueryResult } from "@apollo/client";
 
 // TODO: Mutations and all the other ways you can call queries and mutations
 
-type QueryOptionsWithRequiredVariables<
+type QueryOptions<
   TTypedDocumentNode extends TypedDocumentNode<
-    BaseTypedQueryWithRequiredVariables
+    BaseTypedQueryWithRequiredVariables | BaseTypedQuery
   >
 > = Omit<
   QueryHookOptions<
@@ -19,7 +19,15 @@ type QueryOptionsWithRequiredVariables<
     DocumentVariables<TTypedDocumentNode>
   >,
   "variables" | "query"
-> & { variables: DocumentVariables<TTypedDocumentNode> };
+>;
+
+type QueryOptionsWithRequiredVariables<
+  TTypedDocumentNode extends TypedDocumentNode<
+    BaseTypedQueryWithRequiredVariables
+  >
+> = QueryOptions<TTypedDocumentNode> & {
+  variables: DocumentVariables<TTypedDocumentNode>;
+};
 
 declare module "@apollo/client" {
   export function useQuery<
@@ -37,13 +45,11 @@ declare module "@apollo/client" {
       :
           | [
               TTypedDocumentNode,
-              Omit<
-                QueryHookOptions<
-                  DocumentResult<TTypedDocumentNode>,
-                  DocumentVariables<TTypedDocumentNode>
-                >,
-                "query"
-              >
+              DocumentVariables<TTypedDocumentNode> extends undefined
+                ? QueryOptions<TTypedDocumentNode>
+                : QueryOptions<TTypedDocumentNode> & {
+                    variables?: DocumentVariables<TTypedDocumentNode>;
+                  }
             ]
           | [TTypedDocumentNode]
   ): QueryResult<

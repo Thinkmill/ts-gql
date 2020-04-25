@@ -1,9 +1,9 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "3e12ec99af4dad5a582fcecb65807be3",
+  "hash": "c941fe95578d632859d05e201a9face3",
   "filename": "../../pages/index.tsx",
-  "document": "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aThing: another\n  }\n"
+  "document": "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aTh: another\n  }\n"
 }
 ts-gql-meta-end
 */
@@ -16,16 +16,16 @@ type MyOtherQueryQueryVariables = {};
 type MyOtherQueryQuery = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'hello' | 'other' | 'another'>
-  & { aThing: SchemaTypes.Query['another'] }
+  & { aTh: SchemaTypes.Query['another'] }
 );
 
 declare module "@ts-gql/tag" {
   interface Documents {
     MyOtherQuery: {
-      document: "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aThing: another\n  }\n";
+      document: "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aTh: another\n  }\n";
       type: "query";
       result: MyOtherQueryQuery;
-      variables: MyOtherQueryQueryVariables;
+      variables: undefined;
     };
   }
 }

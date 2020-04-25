@@ -7,6 +7,15 @@ type Query {
   oneMore(thing: String, other: Something!): String!
 }
 
+type Mutation {
+  hello: String!
+  other: Boolean!
+  another: String!
+  something: String
+  optional(thing: String): String!
+  oneMore(thing: String, other: Something!): String!
+}
+
 input Something {
   yes: Boolean
   no: String!

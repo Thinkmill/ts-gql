@@ -7,7 +7,7 @@ const query2 = gql`
     hello
     other
     another
-    aThing: another
+    aTh: another
   }
 `("MyOtherQuery");
 
@@ -31,11 +31,11 @@ let query = gql`
 `("SomeQuery");
 
 export default () => {
-  const { data } = useQuery(query, { variables: { arg: "true" } });
+  const { data } = useQuery(query, { variables: {} });
   data.hello;
   data.other;
   data.aThing;
-  data.aThin;
+  // data.aThin;
 
   return "something";
 };

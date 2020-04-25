@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "7250c827cd504dee0fa159223c6fbb96"
+  "hash": "d7580af4aaa9620ad3aaba7fe7c8ed52"
 }
 ts-gql-meta-end
 */
@@ -13,6 +13,27 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+};
+
+export type Mutation = {
+  readonly __typename: 'Mutation';
+  readonly hello: Scalars['String'];
+  readonly other: Scalars['Boolean'];
+  readonly another: Scalars['String'];
+  readonly something: Maybe<Scalars['String']>;
+  readonly optional: Scalars['String'];
+  readonly oneMore: Scalars['String'];
+};
+
+
+export type MutationoptionalArgs = {
+  thing: Maybe<Scalars['String']>;
+};
+
+
+export type MutationoneMoreArgs = {
+  thing: Maybe<Scalars['String']>;
+  other: Something;
 };
 
 export type Query = {

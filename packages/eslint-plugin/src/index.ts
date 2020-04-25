@@ -206,19 +206,10 @@ export const rules = {
                     return;
                   }
 
-                  let operationType = operationNode.operation;
-
-                  let isAtLeastOneVariableRequired = (
-                    operationNode.variableDefinitions || []
-                  ).some((x) => x.type.kind === "NonNullType");
-
-                  if (isAtLeastOneVariableRequired) {
-                    operationType += "-with-required-variables";
-                  }
                   ensureOperationTypesAreWritten(
                     schema.schema,
                     operation,
-                    operationType,
+                    operationNode,
                     path.join(
                       context.options[0].generatedDirectory,
                       `${name}.d.ts`

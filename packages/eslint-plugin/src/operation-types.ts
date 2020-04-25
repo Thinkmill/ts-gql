@@ -1,5 +1,11 @@
 import fs from "fs-extra";
-import { GraphQLSchema, DocumentNode, parse, printSchema } from "graphql";
+import {
+  GraphQLSchema,
+  DocumentNode,
+  parse,
+  printSchema,
+  OperationDefinitionNode,
+} from "graphql";
 import { codegen } from "./codegen-core";
 import path from "path";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
@@ -8,7 +14,7 @@ import { hashString, parseTsGqlMeta } from "./utils";
 function writeOperationTypes(
   schema: GraphQLSchema,
   operation: { ast: DocumentNode; document: string },
-  operationType: string,
+  operationNode: OperationDefinitionNode,
   filename: string,
   srcFilename: string,
   operationHash: string,
@@ -34,6 +40,16 @@ function writeOperationTypes(
     ],
     pluginMap: { "typescript-operations": typescriptOperationsPlugin },
   });
+
+  let operationType = operationNode.operation;
+
+  let isAtLeastOneVariableRequired = (
+    operationNode.variableDefinitions || []
+  ).some((x) => x.type.kind === "NonNullType");
+
+  if (isAtLeastOneVariableRequired) {
+    operationType += "-with-required-variables";
+  }
   fs.outputFileSync(
     filename,
     `/*\nts-gql-meta-begin\n${JSON.stringify(
@@ -51,7 +67,12 @@ declare module "@ts-gql/tag" {
       document: ${JSON.stringify(operation.document)};
       type: ${JSON.stringify(operationType)};
       result: ${operationName}Query;
-      variables: ${operationName}QueryVariables;
+      variables: ${
+        operationNode.variableDefinitions &&
+        operationNode.variableDefinitions.length
+          ? operationName + "QueryVariables"
+          : undefined
+      };
     };
   }
 }\n`
@@ -61,7 +82,7 @@ declare module "@ts-gql/tag" {
 export function ensureOperationTypesAreWritten(
   schema: GraphQLSchema,
   operation: { ast: DocumentNode; document: string },
-  operationType: string,
+  operationNode: OperationDefinitionNode,
   filename: string,
   srcFilename: string,
   schemaHash: string,
@@ -76,7 +97,7 @@ export function ensureOperationTypesAreWritten(
       writeOperationTypes(
         schema,
         operation,
-        operationType,
+        operationNode,
         filename,
         srcFilename,
         operationHash,
@@ -90,7 +111,7 @@ export function ensureOperationTypesAreWritten(
     writeOperationTypes(
       schema,
       operation,
-      operationType,
+      operationNode,
       filename,
       srcFilename,
       operationHash,

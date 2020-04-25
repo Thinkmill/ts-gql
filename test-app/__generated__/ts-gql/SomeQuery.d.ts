@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "48c8c05a515e17f2d49540fcc7cde87e",
+  "hash": "68be0a4b4c956d4ccf24379f79b01436",
   "filename": "../../pages/index.tsx",
   "document": "\n  query SomeQuery($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n  }\n"
 }
