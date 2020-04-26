@@ -8,36 +8,42 @@ import {
   BaseTypedMutation,
 } from "@ts-gql/tag";
 import {
-  QueryHookOptions,
+  QueryHookOptions as _QueryHookOptions,
   QueryResult,
   MutationFunctionOptions,
   FetchResult,
   MutationResult,
+  FetchPolicy,
+  MutationUpdaterFn,
+  ErrorPolicy,
+  MutationQueryReducersMap,
+  ExecutionResult,
+  PureQueryOptions,
 } from "@apollo/client";
 
 // TODO: Mutations and all the other ways you can call queries and mutations
 
-type QueryOptions<
+type QueryHookOptions<
   TTypedDocumentNode extends TypedDocumentNode<
     BaseTypedQueryWithRequiredVariables | BaseTypedQuery
   >
 > = Omit<
-  QueryHookOptions<
+  _QueryHookOptions<
     DocumentResult<TTypedDocumentNode>,
     DocumentVariables<TTypedDocumentNode>
   >,
   "variables" | "query"
 >;
 
-type QueryOptionsWithRequiredVariables<
+type QueryHookOptionsWithRequiredVariables<
   TTypedDocumentNode extends TypedDocumentNode<
     BaseTypedQueryWithRequiredVariables
   >
-> = QueryOptions<TTypedDocumentNode> & {
+> = QueryHookOptions<TTypedDocumentNode> & {
   variables: DocumentVariables<TTypedDocumentNode>;
 };
 
-type HookMutationFuncOptions<
+type MutationHookFuncOptions<
   TTypedDocumentNode extends TypedDocumentNode<
     BaseTypedMutationWithRequiredVariables | BaseTypedMutation
   >
@@ -58,14 +64,14 @@ type MutationTuple<
     TypedDocumentNode<BaseTypedMutationWithRequiredVariables>
   ]
     ? (
-        options: HookMutationFuncOptions<TTypedDocumentNode> & {
+        options: MutationHookFuncOptions<TTypedDocumentNode> & {
           variables: DocumentVariables<TTypedDocumentNode>;
         }
       ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>
     : (
         options?: DocumentVariables<TTypedDocumentNode> extends undefined
-          ? HookMutationFuncOptions<TTypedDocumentNode>
-          : HookMutationFuncOptions<TTypedDocumentNode> & {
+          ? MutationHookFuncOptions<TTypedDocumentNode>
+          : MutationHookFuncOptions<TTypedDocumentNode> & {
               variables?: DocumentVariables<TTypedDocumentNode>;
             }
       ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>,
@@ -83,14 +89,14 @@ declare module "@apollo/client" {
     ]
       ? [
           TTypedDocumentNode,
-          QueryOptionsWithRequiredVariables<TTypedDocumentNode>
+          QueryHookOptionsWithRequiredVariables<TTypedDocumentNode>
         ]
       :
           | [
               TTypedDocumentNode,
               DocumentVariables<TTypedDocumentNode> extends undefined
-                ? QueryOptions<TTypedDocumentNode>
-                : QueryOptions<TTypedDocumentNode> & {
+                ? QueryHookOptions<TTypedDocumentNode>
+                : QueryHookOptions<TTypedDocumentNode> & {
                     variables?: DocumentVariables<TTypedDocumentNode>;
                   }
             ]
@@ -104,4 +110,49 @@ declare module "@apollo/client" {
       BaseTypedMutationWithRequiredVariables | BaseTypedMutation
     >
   >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
+}
+
+type RefetchQueryDescription = Array<string | PureQueryOptions>;
+
+export type MutationOptions<
+  TTypedDocumentNode extends TypedDocumentNode<
+    BaseTypedMutationWithRequiredVariables | BaseTypedMutation
+  >
+> = {
+  mutation: TTypedDocumentNode;
+  context?: any;
+  fetchPolicy?: FetchPolicy;
+  optimisticResponse?:
+    | DocumentResult<TTypedDocumentNode>
+    | ((
+        vars: DocumentVariables<TTypedDocumentNode>
+      ) => DocumentResult<TTypedDocumentNode>);
+  updateQueries?: MutationQueryReducersMap<DocumentResult<TTypedDocumentNode>>;
+  refetchQueries?:
+    | ((
+        result: ExecutionResult<DocumentResult<TTypedDocumentNode>>
+      ) => RefetchQueryDescription)
+    | RefetchQueryDescription;
+  awaitRefetchQueries?: boolean;
+  update?: MutationUpdaterFn<DocumentResult<TTypedDocumentNode>>;
+  errorPolicy?: ErrorPolicy;
+} & (TTypedDocumentNode extends TypedDocumentNode<
+  BaseTypedMutationWithRequiredVariables
+>
+  ? { variables: DocumentVariables<TTypedDocumentNode> }
+  : { variables?: DocumentVariables<TTypedDocumentNode> });
+
+declare module "@apollo/client/ApolloClient" {
+  export interface ApolloClient<TCacheShape> {
+    // query<T = any, TVariables = OperationVariables>(
+    //   options: QueryHookOptions<TVariables>
+    // ): Promise<ApolloQueryResult<T>>;
+    mutate<
+      TTypedDocumentNode extends TypedDocumentNode<
+        BaseTypedMutationWithRequiredVariables | BaseTypedMutation
+      >
+    >(
+      options: MutationOptions<TTypedDocumentNode>
+    ): Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>;
+  }
 }

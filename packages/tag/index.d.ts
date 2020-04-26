@@ -41,9 +41,9 @@ type BaseTypedFragment = BaseTypedDocument & {
 
 type BaseDocumentTypes = BaseOperations | BaseTypedFragment;
 
-type TypedDocumentNode<
-  TypedDocument extends BaseDocumentTypes
-> = DocumentNode & { ___type: TypedDocument };
+type TypedDocumentNode<TypedDocument extends BaseDocumentTypes> = {
+  ___type: TypedDocument;
+};
 
 type DocumentResult<
   Node extends TypedDocumentNode<BaseDocumentTypes>
@@ -64,5 +64,9 @@ interface GqlTag {
 }
 
 export declare const gql: GqlTag;
+
+export function getDocumentNode(
+  node: TypedDocumentNode<BaseDocumentTypes>
+): DocumentNode;
 
 export interface Documents {}

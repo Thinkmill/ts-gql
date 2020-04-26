@@ -1,6 +1,6 @@
 import "@ts-gql/apollo";
 import { gql } from "@ts-gql/tag";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useApolloClient } from "@apollo/client";
 
 const query2 = gql`
   query MyOtherQuery {
@@ -26,9 +26,11 @@ let someMutation = gql`
 `("SomeMutation");
 
 export default () => {
-  const { data } = useQuery(query, { variables: {} });
-  let [mutate] = useMutation(someMutation);
-  mutate({ variables: { arg: "" } });
+  let client = useApolloClient();
+
+  const { data } = useQuery(query2, void 0);
+  // let [mutate] = useMutation(someMutation);
+  // mutate({ variables: { arg: "" } });
   data.hello;
   data.other;
   data.aThing;
