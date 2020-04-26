@@ -9,7 +9,9 @@ export function hashString(input: string) {
 export function parseTsGqlMeta(content: string) {
   let result = /ts-gql-meta-begin([^]+)ts-gql-meta-end/m.exec(content);
   if (result === null) {
-    throw new Error("could not find ts-gql meta");
+    throw new Error(
+      "could not find ts-gql meta in the following contents:\n" + content
+    );
   }
   return JSON.parse(result[1]);
 }

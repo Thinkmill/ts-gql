@@ -59,26 +59,24 @@ function writeOperationTypes(
       {
         hash: operationHash,
         filename: path.relative(path.dirname(filename), srcFilename),
-        document: operation.document,
+        partial: `${operationNode.operation} ${operationName}`,
       },
       null,
       2
     )}\nts-gql-meta-end\n*/\n\nimport * as SchemaTypes from "./@schema";\n\n${result}
-declare module "@ts-gql/tag" {
-  interface Documents {
-    ${operationName}: {
-      document: ${JSON.stringify(operation.document)};
-      type: ${JSON.stringify(operationType)};
-      result: ${operationName + upperCaseOperationName};
-      variables: ${
-        operationNode.variableDefinitions &&
-        operationNode.variableDefinitions.length
-          ? operationName + upperCaseOperationName + "Variables"
-          : undefined
-      };
-    };
-  }
-}\n`
+
+export type type = {
+  document: ${JSON.stringify(operation.document)};
+  type: ${JSON.stringify(operationType)};
+  result: ${operationName + upperCaseOperationName};
+  variables: ${
+    operationNode.variableDefinitions &&
+    operationNode.variableDefinitions.length
+      ? operationName + upperCaseOperationName + "Variables"
+      : undefined
+  };
+};
+`
   );
 }
 
@@ -106,6 +104,7 @@ export function ensureOperationTypesAreWritten(
         operationHash,
         operationName
       );
+      return;
     }
     throw err;
   }

@@ -1,16 +1,16 @@
-# @ts-gql
+# ts-gql
 
 > Write GraphQL queries in TypeScript and have them be typed with no effort
 
 ## Why?
 
-There are lots of great tools(some of which ts-gql use internally!) for generating types from GraphQL Queries though all the solutions I've seen have at least one of two problems
+There are lots of great tools(some of which ts-gql use internally!) for generating types from GraphQL Queries though a lot of the solutions have at least one of two problems
 
 - The writing of a query isn't connected to the type that it returns
 - You're forced to write queries in `.graphql` files rather than inline
-  - This also often means that you can't use fragments
+  - This also often means that you can't use fragments or that there's a new import syntax to learn
 
-## How does ts-gql solve it?
+## How does ts-gql solve these problems?
 
 When using ts-gql, you write GraphQL queries with a tagged template literal like normal.
 
@@ -107,12 +107,16 @@ yarn add @ts-graphql/apollo
 yarn add @ts-graphql/gatsby-plugin
 ```
 
-# Future Ideas
+# Future Goals
 
 - Offer the option to use hashes instead of document names so document names don't have to be unique
 - Autofix not specifying a variable in an operation
 - A Babel plugin/some kind of build time transform that performs optimisations like the Relay Compiler does
   - This should be relatively easy since every operation must be entirely static since the only kind of interpolations allowed will be fragment interpolations and we'll know the contents of the fragment because it's encoded in the type.]
+
+## Non-Goals
+
+- Improve the experience of creating GraphQL APIs, [Nexus](https://www.nexusjs.org/) does a really great job of this.
 
 # Thanks
 

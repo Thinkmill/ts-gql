@@ -1,6 +1,7 @@
 import "@ts-gql/apollo";
 import { gql } from "@ts-gql/tag";
 import { useQuery, useApolloClient } from "@apollo/client";
+import "../__generated__/ts-gql/SomethingOther";
 
 const query2 = gql`
   query MyOtherQuery {
@@ -9,21 +10,32 @@ const query2 = gql`
     another
     aTh: another
   }
-`("MyOtherQuery");
+`<import("../__generated__/ts-gql/MyOtherQuery").type>();
+
+const someFragment = gql`
+  fragment Somethins on Query {
+    something
+  }
+`<import("../__generated__/ts-gql/Somethins").type>();
+
+someFragment;
 
 let query = gql`
   query SomeQuery($arg: String!) {
     optional(thing: $arg)
     ye: something
+
+    ...Something
   }
-`("SomeQuery");
+  ${someFragment}
+`<import("../__generated__/ts-gql/SomeQuery").type>();
 
 let someMutation = gql`
   mutation SomeMutation($arg: String!) {
     optional(thing: $arg)
     ye: something
   }
-`("SomeMutation");
+`<import("../__generated__/ts-gql/SomeMutation").type>();
 
 export default () => {
   let client = useApolloClient();

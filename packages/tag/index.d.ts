@@ -57,9 +57,7 @@ interface GqlTag {
   (
     strings: readonly string[],
     ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
-  ): <Key extends keyof Documents>(
-    name: Key
-  ) => TypedDocumentNode<Documents[Key]>;
+  ): <NodeTypes extends BaseDocumentTypes>() => TypedDocumentNode<NodeTypes>;
   ___isTsGqlTag: true;
 }
 

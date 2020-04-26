@@ -1,6 +1,13 @@
 import { TSESTree, TSESLint } from "@typescript-eslint/experimental-utils";
 import { MessageId } from ".";
-import { parse, validate, DocumentNode, GraphQLSchema } from "graphql";
+import {
+  parse,
+  validate,
+  DocumentNode,
+  GraphQLSchema,
+  specifiedRules,
+  NoUnusedFragmentsRule,
+} from "graphql";
 
 // https://github.com/apollographql/eslint-plugin-graphql/blob/master/src/createRule.js
 
@@ -8,6 +15,9 @@ function strWithLen(len: number) {
   // from http://stackoverflow.com/questions/14343844/create-a-string-of-variable-length-filled-with-a-repeated-character
   return new Array(len + 1).join("x");
 }
+
+// TODO: only remove this on fragment definitions
+let rules = specifiedRules.filter((x) => x !== NoUnusedFragmentsRule);
 
 function replaceExpressions(
   node: TSESTree.TemplateLiteral,
@@ -103,7 +113,8 @@ export function handleTemplateTag(
   node: TSESTree.TaggedTemplateExpression,
   report: TSESLint.RuleContext<MessageId, any>["report"],
   schema: GraphQLSchema,
-  env: "apollo" | "relay" | "lokka" | "fraql"
+  env: "apollo" | "relay" | "lokka" | "fraql",
+  fragments: string[]
 ) {
   let text;
   try {
@@ -114,6 +125,8 @@ export function handleTemplateTag(
     }
     return;
   }
+
+  text += "\n" + fragments.join("\n");
 
   // Re-implement syntax sugar for fragment names, which is technically not valid
   // graphql
@@ -138,7 +151,7 @@ export function handleTemplateTag(
     return;
   }
 
-  const validationErrors = schema ? validate(schema, ast) : [];
+  const validationErrors = schema ? validate(schema, ast, rules) : [];
   if (validationErrors && validationErrors.length > 0) {
     report({
       node,

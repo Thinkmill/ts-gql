@@ -1,8 +1,17 @@
-import { ESLintUtils } from "@typescript-eslint/experimental-utils";
+import {
+  ESLintUtils,
+  TSESTree,
+  TSESLint,
+} from "@typescript-eslint/experimental-utils";
 
 import path from "path";
 
-import { OperationDefinitionNode, GraphQLSchema } from "graphql";
+import {
+  OperationDefinitionNode,
+  GraphQLSchema,
+  DocumentNode,
+  FragmentDefinitionNode,
+} from "graphql";
 import { handleTemplateTag } from "./parse";
 import { getSchemaFromOptions } from "./get-schema";
 import { ensureSchemaTypesAreWritten } from "./schema-types";
@@ -24,12 +33,16 @@ const messages = {
     "Invalid interpolation - not a valid fragment or variable.",
   singleOperation: "GraphQL documents must have only one operation",
   mustBeNamed: "GraphQL operations must have a name",
-  mustCallWithOperationName:
-    "You must call the result of the gql tag with the operation name",
+  mustCallWithImport:
+    "You must call the result with the type of the GraphQL document",
+
   invalidGeneratedDirectory:
     "The directory with generated types is in an incorrect state",
   invalidGeneratedDirectorySchema:
     "The generated schema types are in an incorrect state",
+  operationOrSingleFragment:
+    "GraphQL documents must either have a single operation or a single fragment",
+  couldNotFindFragmentType: "Could not get fragment type",
 };
 
 function ensureNoExtraneousFilesExist(
@@ -41,7 +54,7 @@ function ensureNoExtraneousFilesExist(
   const result = fs.readdirSync(directory);
   const filesToDelete: string[] = [];
   result.forEach((filename) => {
-    if (filename === "@schema.d.ts") {
+    if (filename === "@schema.ts") {
       return;
     }
     const filepath = path.join(directory, filename);
@@ -53,7 +66,7 @@ function ensureNoExtraneousFilesExist(
       srcFilename === currentFilename
         ? currentContents
         : fs.readFileSync(srcFilename, "utf8");
-    if (!srcContents.includes(meta.document)) {
+    if (!srcContents.includes(meta.partial)) {
       filesToDelete.push(filepath);
     }
   });
@@ -61,6 +74,162 @@ function ensureNoExtraneousFilesExist(
     filesToDelete.forEach((filename) => {
       fs.removeSync(filename);
     });
+  }
+}
+
+function checkFragment(
+  document: { ast: DocumentNode; document: string },
+  node: TSESTree.TaggedTemplateExpression,
+  report: TSESLint.RuleContext<MessageId, any>["report"],
+  schema: { schema: GraphQLSchema; hash: string },
+  generatedDirectory: string,
+  currentFilename: string
+) {
+  if (
+    document.ast.definitions.length !== 1 ||
+    document.ast.definitions[0].kind !== "FragmentDefinition"
+  ) {
+    report({
+      node,
+      messageId: "operationOrSingleFragment",
+    });
+    return;
+  }
+  let definition = document.ast.definitions[0];
+
+  if (
+    addNameToGqlTag(
+      node,
+      definition,
+      report,
+      path.relative(
+        path.dirname(currentFilename),
+        path.join(generatedDirectory, definition.name!.value)
+      )
+    )
+  ) {
+    ensureOperationTypesAreWritten(
+      schema.schema,
+      document,
+      { ...definition, operation: "fragment" } as any,
+      path.join(generatedDirectory, `${definition.name.value}.ts`),
+      currentFilename,
+      schema.hash,
+      definition.name.value
+    );
+  }
+}
+
+function addNameToGqlTag(
+  node: TSESTree.TaggedTemplateExpression,
+  gqlNode: OperationDefinitionNode | FragmentDefinitionNode,
+  report: TSESLint.RuleContext<MessageId, any>["report"],
+  relativePath: string
+) {
+  if (!gqlNode.name) {
+    report({
+      messageId: "mustBeNamed",
+      node,
+    });
+    return false;
+  }
+
+  const name = gqlNode.name.value;
+
+  if (node.parent?.type !== "CallExpression") {
+    report({
+      messageId: "mustCallWithImport",
+      node,
+      fix(fix) {
+        return fix.insertTextAfter(
+          node,
+          `<import(${JSON.stringify(relativePath)}).type>()`
+        );
+      },
+    });
+    return false;
+  }
+  if (
+    !node.parent.typeParameters ||
+    node.parent.typeParameters.params.length !== 1 ||
+    node.parent.typeParameters.params[0].type !== "TSImportType" ||
+    node.parent.typeParameters.params[0].isTypeOf ||
+    node.parent.typeParameters.params[0].parameter.type !== "TSLiteralType" ||
+    node.parent.typeParameters.params[0].parameter.literal.type !== "Literal" ||
+    node.parent.typeParameters.params[0].parameter.literal.value !==
+      relativePath ||
+    node.parent.typeParameters.params[0].qualifier === null ||
+    node.parent.typeParameters.params[0].qualifier.type !== "Identifier" ||
+    node.parent.typeParameters.params[0].qualifier.name !== "type"
+  ) {
+    const parent = node.parent;
+
+    report({
+      messageId: "mustCallWithImport",
+      node,
+      fix(fix) {
+        return fix.replaceTextRange(
+          [node.range[1], parent.range[1]],
+          `<import(${JSON.stringify(relativePath)}).type>()`
+        );
+      },
+    });
+    return false;
+  }
+  return true;
+}
+
+function checkDocument(
+  document: { ast: DocumentNode; document: string },
+  node: TSESTree.TaggedTemplateExpression,
+  report: TSESLint.RuleContext<MessageId, any>["report"],
+  schema: { schema: GraphQLSchema; hash: string },
+  generatedDirectory: string,
+  currentFilename: string
+) {
+  const filteredDefinitions = document.ast.definitions.filter(
+    (x): x is OperationDefinitionNode => x.kind === "OperationDefinition"
+  );
+  if (filteredDefinitions.length === 0) {
+    checkFragment(
+      document,
+      node,
+      report,
+      schema,
+      generatedDirectory,
+      currentFilename
+    );
+    return;
+  }
+  if (filteredDefinitions.length !== 1) {
+    report({
+      messageId: "singleOperation",
+      node,
+    });
+    return;
+  }
+  const [operationNode] = filteredDefinitions;
+
+  if (
+    addNameToGqlTag(
+      node,
+      operationNode,
+      report,
+      path.relative(
+        path.dirname(currentFilename),
+        path.join(generatedDirectory, operationNode.name!.value)
+      )
+    )
+  ) {
+    ensureOperationTypesAreWritten(
+      schema.schema,
+      document,
+      operationNode,
+      path.join(generatedDirectory, `${operationNode.name!.value}.ts`),
+      currentFilename,
+      schema.hash,
+      operationNode.name!.value
+    );
   }
 }
 
@@ -115,7 +284,7 @@ export const rules = {
             return context.report(arg);
           };
           const parserServices = getParserServices(context);
-          for (const node of getNodes(context, programNode)) {
+          NodesLoop: for (const node of getNodes(context, programNode)) {
             if (node.type === "TaggedTemplateExpression") {
               if (node.tag.type === "Identifier" && node.tag.name === "gql") {
                 let typeChecker = parserServices.program.getTypeChecker();
@@ -138,85 +307,66 @@ export const rules = {
                   };
                 }
 
-                const operation = handleTemplateTag(
+                let fragments: string[] = [];
+                for (let expression of node.quasi.expressions) {
+                  let expressionTsNode = parserServices.esTreeNodeToTSNodeMap.get(
+                    expression
+                  );
+                  let type = typeChecker.getTypeAtLocation(expressionTsNode);
+                  let internalTypesSymbol = type.getProperty("___type");
+                  if (!internalTypesSymbol) {
+                    report({
+                      node: expression,
+                      messageId: "couldNotFindFragmentType",
+                    });
+                    continue NodesLoop;
+                  }
+                  let internalTypes = typeChecker.getTypeOfSymbolAtLocation(
+                    internalTypesSymbol,
+                    internalTypesSymbol.valueDeclaration
+                  );
+
+                  let internalTypesDocumentSymbol = internalTypes.getProperty(
+                    "document"
+                  );
+                  if (!internalTypesDocumentSymbol) {
+                    report({
+                      node: expression,
+                      messageId: "couldNotFindFragmentType",
+                    });
+                    continue NodesLoop;
+                  }
+
+                  let internalTypesDocument = typeChecker.getTypeOfSymbolAtLocation(
+                    internalTypesDocumentSymbol,
+                    internalTypesDocumentSymbol.valueDeclaration
+                  );
+
+                  if (!internalTypesDocument.isStringLiteral()) {
+                    report({
+                      node: expression,
+                      messageId: "couldNotFindFragmentType",
+                    });
+                    continue NodesLoop;
+                  }
+                  fragments.push(internalTypesDocument.value);
+                }
+
+                const document = handleTemplateTag(
                   node,
                   report,
                   schema.schema,
-                  "apollo"
+                  "apollo",
+                  fragments
                 );
-                if (operation) {
-                  const filteredDefinitions: [
-                    OperationDefinitionNode
-                  ] = operation.ast.definitions.filter(
-                    (x) => x.kind === "OperationDefinition"
-                  ) as any;
-                  if (filteredDefinitions.length !== 1) {
-                    report({
-                      messageId: "singleOperation",
-                      node,
-                    });
-                    return;
-                  }
-                  const [operationNode] = filteredDefinitions;
-
-                  if (!operationNode.name) {
-                    report({
-                      messageId: "mustBeNamed",
-                      node,
-                    });
-                    return;
-                  }
-
-                  const name = operationNode.name.value;
-
-                  if (node.parent?.type !== "CallExpression") {
-                    report({
-                      messageId: "mustCallWithOperationName",
-                      node,
-                      fix(fix) {
-                        return fix.insertTextAfter(
-                          node,
-                          `(${JSON.stringify(name)})`
-                        );
-                      },
-                    });
-                    return;
-                  }
-                  if (
-                    node.parent.arguments.length !== 1 ||
-                    node.parent.arguments[0].type !== "Literal" ||
-                    node.parent.arguments[0].value !== name
-                  ) {
-                    const parent = node.parent;
-
-                    report({
-                      messageId: "mustCallWithOperationName",
-                      node,
-                      fix(fix) {
-                        return fix.replaceTextRange(
-                          [
-                            parent.arguments[0].range[0],
-                            parent.arguments[parent.arguments.length - 1]
-                              .range[1],
-                          ],
-                          JSON.stringify(name)
-                        );
-                      },
-                    });
-                    return;
-                  }
-
-                  ensureOperationTypesAreWritten(
-                    schema.schema,
-                    operation,
-                    operationNode,
-                    path.join(
-                      context.options[0].generatedDirectory,
-                      `${name}.d.ts`
-                    ),
-                    context.getFilename(),
-                    schema.hash,
-                    name
+                if (document) {
+                  checkDocument(
+                    document,
+                    node,
+                    report,
+                    schema,
+                    generatedDirectory,
+                    context.getFilename()
                   );
                 }
               }
