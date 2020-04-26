@@ -43,7 +43,7 @@ export default () => {
   // mutate({ variables: { arg: "" } });
   data.hello;
   data.other;
-  data.aThing;
+  data.aTh;
   // data.aThin;
 
   return "something";

@@ -206,6 +206,68 @@ function checkDocument(
 export type MessageId = keyof typeof messages;
 
 export const rules = {
+  // "test-rule": createRule<[], MessageId>({
+  //   name: "ts-gql",
+  //   meta: {
+  //     fixable: "code",
+  //     docs: {
+  //       requiresTypeChecking: true,
+  //       category: "Best Practices",
+  //       recommended: "error",
+  //       description: "",
+  //     },
+  //     messages,
+  //     type: "problem",
+  //     schema: [],
+  //   },
+  //   defaultOptions: [],
+  //   create(context) {
+  //     return {
+  //       CallExpression(node) {
+  //         if (
+  //           node.callee.type !== "Identifier" ||
+  //           node.callee.name !== "showType"
+  //         ) {
+  //           return;
+  //         }
+  //         if (!node.typeParameters || !node.typeParameters.params.length) {
+  //           return context.report({
+  //             node,
+  //             // @ts-ignore
+  //             message: "No type params",
+  //           });
+  //         }
+  //         let parserServices = getParserServices(context);
+  //         let typeChecker = parserServices.program.getTypeChecker();
+  //         let [param] = node.typeParameters.params;
+  //         let tsNode = parserServices.esTreeNodeToTSNodeMap.get(param);
+  //         let type = typeChecker.getTypeAtLocation(tsNode);
+  //         let str = typeChecker.typeToString(type);
+  //         if (
+  //           node.arguments.length !== 1 ||
+  //           node.arguments[0].type !== "Literal" ||
+  //           node.arguments[0].value !== str
+  //         )
+  //           context.report({
+  //             node,
+  //             // @ts-ignore
+  //             message: "wrong type",
+  //             fix(fixer) {
+  //               return fixer.replaceTextRange(
+  //                 [
+  //                   node.arguments[0]
+  //                     ? node.arguments[0].range[0] - 1
+  //                     : node.range[1] - 2,
+  //                   node.range[1],
+  //                 ],
+  //                 `(${JSON.stringify(str)})`
+  //               );
+  //             },
+  //           });
+  //       },
+  //     };
+  //   },
+  // }),
   "ts-gql": createRule<
     [{ schemaFilename?: string; schema?: any; generatedDirectory: string }],
     MessageId
