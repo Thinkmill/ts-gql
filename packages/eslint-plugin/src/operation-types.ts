@@ -53,6 +53,7 @@ function writeOperationTypes(
   let upperCaseOperationName =
     operationNode.operation.charAt(0).toUpperCase() +
     operationNode.operation.slice(1);
+  console.log({ write: filename });
   fs.outputFileSync(
     filename,
     `/*\nts-gql-meta-begin\n${JSON.stringify(
@@ -65,17 +66,21 @@ function writeOperationTypes(
       2
     )}\nts-gql-meta-end\n*/\n\nimport * as SchemaTypes from "./@schema";\n\n${result}
 
-export type type = {
-  document: ${JSON.stringify(operation.document)};
-  type: ${JSON.stringify(operationType)};
-  result: ${operationName + upperCaseOperationName};
-  variables: ${
-    operationNode.variableDefinitions &&
-    operationNode.variableDefinitions.length
-      ? operationName + upperCaseOperationName + "Variables"
-      : undefined
-  };
-};
+declare module "@ts-gql/tag" {
+  interface Documents {
+    ${operationName}: {
+      document: ${JSON.stringify(operation.document)};
+      type: ${JSON.stringify(operationType)};
+      result: ${operationName + upperCaseOperationName};
+      variables: ${
+        operationNode.variableDefinitions &&
+        operationNode.variableDefinitions.length
+          ? operationName + upperCaseOperationName + "Variables"
+          : "undefined"
+      };
+    };
+  }
+}
 `
   );
 }

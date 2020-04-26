@@ -20,9 +20,13 @@ type MyOtherQueryQuery = (
 );
 
 
-export type type = {
-  document: "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aTh: another\n  }\n\n";
-  type: "query";
-  result: MyOtherQueryQuery;
-  variables: undefined;
-};
+declare module "@ts-gql/tag" {
+  interface Documents {
+    MyOtherQuery: {
+      document: "\n  query MyOtherQuery {\n    hello\n    other\n    another\n    aTh: another\n  }\n\n";
+      type: "query";
+      result: MyOtherQueryQuery;
+      variables: undefined;
+    };
+  }
+}

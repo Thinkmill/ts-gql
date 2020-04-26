@@ -33,8 +33,8 @@ const messages = {
     "Invalid interpolation - not a valid fragment or variable.",
   singleOperation: "GraphQL documents must have only one operation",
   mustBeNamed: "GraphQL operations must have a name",
-  mustCallWithImport:
-    "You must call the result with the type of the GraphQL document",
+  mustCallWithOperationName:
+    "You must call the result with the name of the GraphQL operation or fragment",
 
   invalidGeneratedDirectory:
     "The directory with generated types is in an incorrect state",
@@ -54,7 +54,7 @@ function ensureNoExtraneousFilesExist(
   const result = fs.readdirSync(directory);
   const filesToDelete: string[] = [];
   result.forEach((filename) => {
-    if (filename === "@schema.ts") {
+    if (filename === "@schema.d.ts") {
       return;
     }
     const filepath = path.join(directory, filename);
@@ -72,6 +72,8 @@ function ensureNoExtraneousFilesExist(
   });
   if (filesToDelete.length) {
     filesToDelete.forEach((filename) => {
+      console.log({ delete: filename });
+
       fs.removeSync(filename);
     });
   }
@@ -97,22 +99,12 @@ function checkFragment(
   }
   let definition = document.ast.definitions[0];
 
-  if (
-    addNameToGqlTag(
-      node,
-      definition,
-      report,
-      path.relative(
-        path.dirname(currentFilename),
-        path.join(generatedDirectory, definition.name!.value)
-      )
-    )
-  ) {
+  if (addNameToGqlTag(node, definition, report)) {
     ensureOperationTypesAreWritten(
       schema.schema,
       document,
       { ...definition, operation: "fragment" } as any,
-      path.join(generatedDirectory, `${definition.name.value}.ts`),
+      path.join(generatedDirectory, `${definition.name.value}.d.ts`),
       currentFilename,
       schema.hash,
       definition.name.value
@@ -123,8 +115,7 @@ function checkFragment(
 function addNameToGqlTag(
   node: TSESTree.TaggedTemplateExpression,
   gqlNode: OperationDefinitionNode | FragmentDefinitionNode,
-  report: TSESLint.RuleContext<MessageId, any>["report"],
-  relativePath: string
+  report: TSESLint.RuleContext<MessageId, any>["report"]
 ) {
   if (!gqlNode.name) {
     report({
@@ -138,39 +129,28 @@ function addNameToGqlTag(
 
   if (node.parent?.type !== "CallExpression") {
     report({
-      messageId: "mustCallWithImport",
+      messageId: "mustCallWithOperationName",
       node,
       fix(fix) {
-        return fix.insertTextAfter(
-          node,
-          `<import(${JSON.stringify(relativePath)}).type>()`
-        );
+        return fix.insertTextAfter(node, `(${JSON.stringify(name)})`);
       },
     });
     return false;
   }
   if (
-    !node.parent.typeParameters ||
-    node.parent.typeParameters.params.length !== 1 ||
-    node.parent.typeParameters.params[0].type !== "TSImportType" ||
-    node.parent.typeParameters.params[0].isTypeOf ||
-    node.parent.typeParameters.params[0].parameter.type !== "TSLiteralType" ||
-    node.parent.typeParameters.params[0].parameter.literal.type !== "Literal" ||
-    node.parent.typeParameters.params[0].parameter.literal.value !==
-      relativePath ||
-    node.parent.typeParameters.params[0].qualifier === null ||
-    node.parent.typeParameters.params[0].qualifier.type !== "Identifier" ||
-    node.parent.typeParameters.params[0].qualifier.name !== "type"
+    node.parent.arguments.length !== 1 ||
+    node.parent.arguments[0].type !== "Literal" ||
+    node.parent.arguments[0].value !== name
   ) {
     const parent = node.parent;
 
     report({
-      messageId: "mustCallWithImport",
-      node,
+      messageId: "mustCallWithOperationName",
+      node: parent,
       fix(fix) {
         return fix.replaceTextRange(
           [node.range[1], parent.range[1]],
-          `<import(${JSON.stringify(relativePath)}).type>()`
+          `(${JSON.stringify(name)})`
         );
       },
     });
@@ -210,22 +190,12 @@ function checkDocument(
   }
   const [operationNode] = filteredDefinitions;
 
-  if (
-    addNameToGqlTag(
-      node,
-      operationNode,
-      report,
-      path.relative(
-        path.dirname(currentFilename),
-        path.join(generatedDirectory, operationNode.name!.value)
-      )
-    )
-  ) {
+  if (addNameToGqlTag(node, operationNode, report)) {
     ensureOperationTypesAreWritten(
       schema.schema,
       document,
       operationNode,
-      path.join(generatedDirectory, `${operationNode.name!.value}.ts`),
+      path.join(generatedDirectory, `${operationNode.name!.value}.d.ts`),
       currentFilename,
       schema.hash,
       operationNode.name!.value

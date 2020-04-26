@@ -47,7 +47,7 @@ export function ensureSchemaTypesAreWritten(
   let printedSchema = printSchema(schema);
   let schemaHash = hashString(printedSchema);
   let types: string;
-  let filename = path.join(directory, "@schema.ts");
+  let filename = path.join(directory, "@schema.d.ts");
   try {
     types = fs.readFileSync(filename, "utf8");
   } catch (err) {

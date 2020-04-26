@@ -22,9 +22,13 @@ type SomeMutationMutation = (
 );
 
 
-export type type = {
-  document: "\n  mutation SomeMutation($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n  }\n\n";
-  type: "mutation-with-required-variables";
-  result: SomeMutationMutation;
-  variables: SomeMutationMutationVariables;
-};
+declare module "@ts-gql/tag" {
+  interface Documents {
+    SomeMutation: {
+      document: "\n  mutation SomeMutation($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n  }\n\n";
+      type: "mutation-with-required-variables";
+      result: SomeMutationMutation;
+      variables: SomeMutationMutationVariables;
+    };
+  }
+}

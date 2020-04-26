@@ -10,32 +10,30 @@ const query2 = gql`
     another
     aTh: another
   }
-`<import("../__generated__/ts-gql/MyOtherQuery").type>();
+`("MyOtherQuery");
 
 const someFragment = gql`
   fragment Somethins on Query {
     something
   }
-`<import("../__generated__/ts-gql/Somethins").type>();
-
-someFragment;
+`("Somethins");
 
 let query = gql`
   query SomeQuery($arg: String!) {
     optional(thing: $arg)
     ye: something
 
-    ...Something
+    ...Somethins
   }
   ${someFragment}
-`<import("../__generated__/ts-gql/SomeQuery").type>();
+`("SomeQuery");
 
 let someMutation = gql`
   mutation SomeMutation($arg: String!) {
     optional(thing: $arg)
     ye: something
   }
-`<import("../__generated__/ts-gql/SomeMutation").type>();
+`("SomeMutation");
 
 export default () => {
   let client = useApolloClient();

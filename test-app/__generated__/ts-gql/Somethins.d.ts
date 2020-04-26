@@ -16,9 +16,13 @@ type SomethinsFragment = (
 );
 
 
-export type type = {
-  document: "\n  fragment Somethins on Query {\n    something\n  }\n\n";
-  type: "fragment";
-  result: SomethinsFragment;
-  variables: undefined;
-};
+declare module "@ts-gql/tag" {
+  interface Documents {
+    Somethins: {
+      document: "\n  fragment Somethins on Query {\n    something\n  }\n\n";
+      type: "fragment";
+      result: SomethinsFragment;
+      variables: undefined;
+    };
+  }
+}
