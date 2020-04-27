@@ -1,41 +1,39 @@
-import "@ts-gql/apollo";
+import "@ts-gql/urql";
 import { gql } from "@ts-gql/tag";
-import { useQuery, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation } from "urql";
 import "../__generated__/ts-gql/SomethingOther";
 
 const query2 = gql`
-  query MyQuery {
+  query MyQueryUrql {
     hello
   }
-`("MyQuery");
+`("MyQueryUrql");
 
 const someFragment = gql`
-  fragment Something2 on Query {
+  fragment Something2Urql on Query {
     something
   }
-`("Something2");
+`("Something2Urql");
 
 let query = gql`
-  query SomeQuery($arg: String!) {
+  query SomeQueryUrql($arg: String!) {
     optional(thing: $arg)
     ye: something
 
-    ...Something2
+    ...Something2Urql
   }
   ${someFragment}
-`("SomeQuery");
+`("SomeQueryUrql");
 
 let someMutation = gql`
-  mutation SomeMutation($arg: String!) {
+  mutation SomeMutationUrql($arg: String!) {
     optional(thing: $arg)
     ye: something
   }
-`("SomeMutation");
+`("SomeMutationUrql");
 
 export default () => {
-  let client = useApolloClient();
-
-  const { data } = useQuery(query2, void 0);
+  const [{ data }] = useQuery({ query: query, variables: { arg: "" } });
   // let [mutate] = useMutation(someMutation);
   // mutate({ variables: { arg: "" } });
   data.hello;

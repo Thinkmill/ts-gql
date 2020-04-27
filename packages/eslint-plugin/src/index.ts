@@ -62,18 +62,24 @@ function ensureNoExtraneousFilesExist(
     const contents = fs.readFileSync(filepath, "utf8");
     const meta = parseTsGqlMeta(contents);
     const srcFilename = path.resolve(directory, meta.filename);
-    const srcContents =
-      srcFilename === currentFilename
-        ? currentContents
-        : fs.readFileSync(srcFilename, "utf8");
-    if (!srcContents.includes(meta.partial)) {
-      filesToDelete.push(filepath);
+    try {
+      const srcContents =
+        srcFilename === currentFilename
+          ? currentContents
+          : fs.readFileSync(srcFilename, "utf8");
+      if (!srcContents.includes(meta.partial)) {
+        filesToDelete.push(filepath);
+      }
+    } catch (err) {
+      if (err.code === "ENOENT") {
+        filesToDelete.push(filepath);
+      } else {
+        throw err;
+      }
     }
   });
   if (filesToDelete.length) {
     filesToDelete.forEach((filename) => {
-      console.log({ delete: filename });
-
       fs.removeSync(filename);
     });
   }
@@ -405,7 +411,6 @@ export const rules = {
             }
           }
           if (schema && !hasReportedAnError) {
-            console.log("remove extraneous");
             ensureNoExtraneousFilesExist(
               generatedDirectory,
               context.getSourceCode().text,

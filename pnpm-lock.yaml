@@ -6,6 +6,7 @@ importers:
       '@babel/preset-env': 7.9.5_@babel+core@7.9.0
       '@babel/preset-react': 7.9.4_@babel+core@7.9.0
       '@babel/preset-typescript': 7.9.0_@babel+core@7.9.0
+      '@changesets/changelog-github': 0.2.5
       '@changesets/cli': 2.6.5
       '@manypkg/cli': 0.11.0
       '@preconstruct/cli': 1.1.12
@@ -27,6 +28,7 @@ importers:
       '@babel/preset-env': ^7.9.5
       '@babel/preset-react': ^7.9.4
       '@babel/preset-typescript': ^7.9.0
+      '@changesets/changelog-github': ^0.2.5
       '@changesets/cli': ^2.6.5
       '@manypkg/cli': 0.11.0
       '@preconstruct/cli': ^1.1.12
@@ -80,12 +82,21 @@ importers:
     specifiers:
       graphql: ^14.0.0
       graphql-tag: ^2.10.3
+  packages/urql:
+    dependencies:
+      '@ts-gql/tag': 'link:../tag'
+    devDependencies:
+      urql: 1.9.7
+    specifiers:
+      '@ts-gql/tag': ^0.0.0
+      urql: ^1.9.7
   test-app:
     dependencies:
       '@apollo/client': 3.0.0-beta.43_react@16.13.1
       '@ts-gql/apollo': 'link:../packages/apollo'
       '@ts-gql/eslint-plugin': 'link:../packages/eslint-plugin'
       '@ts-gql/tag': 'link:../packages/tag'
+      '@ts-gql/urql': 'link:../packages/urql'
       '@types/node': 13.13.2
       '@types/react': 16.9.34
       '@typescript-eslint/parser': 2.29.0
@@ -94,11 +105,13 @@ importers:
       raw-loader: 4.0.1
       react: 16.13.1
       react-dom: 16.13.1_react@16.13.1
+      urql: 1.9.7_react@16.13.1
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
       '@ts-gql/apollo': ^0.0.0
       '@ts-gql/eslint-plugin': ^0.0.0
       '@ts-gql/tag': ^0.0.0
+      '@ts-gql/urql': ^0.0.0
       '@types/node': ^13.13.2
       '@types/react': ^16.9.34
       '@typescript-eslint/parser': ^2.29.0
@@ -107,6 +120,7 @@ importers:
       raw-loader: ^4.0.1
       react: ^16.13.1
       react-dom: ^16.13.1
+      urql: ^1.9.7
 lockfileVersion: 5.1
 packages:
   /@ampproject/toolbox-core/2.3.0:
@@ -2066,6 +2080,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-luWSta8yUcYxCXJw2IrCDhsBE+AilONt1iZ7Ifj7a9qprcgX9NiPY6R6zyX1KLWB7F3HHj90XD3N4+jNni66SA==
+  /@changesets/changelog-github/0.2.5:
+    dependencies:
+      '@changesets/get-github-info': 0.4.3
+      '@changesets/types': 2.0.1
+      dotenv: 8.2.0
+    dev: false
+    resolution:
+      integrity: sha512-p2jwWCVQIRXcdFE0k+JwIMuyd6bQBgECVExk1bvoUdM0ckynuUX935vu8IAYGFO4MNi4kuhJJ6zEooAAxhVCcQ==
   /@changesets/cli/2.6.5:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -2126,6 +2148,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-E6r4vMAdiT3qI8pzbK4bcKzeE5tvWB54FClyBKsqA5E8WyD8eDbipYTshaBWnKy0GefTGuhkML2k4U+1d7PCOA==
+  /@changesets/get-github-info/0.4.3:
+    dependencies:
+      dataloader: 1.4.0
+      node-fetch: 2.6.0
+    dev: false
+    resolution:
+      integrity: sha512-hMtNDn4Kp2wDUohYipBIH3qGMxONZ3wEoaGtrflXHCSu57iulBcOSQ1oHRYSCJ9pO87dYQHA2XRUfrZUnqRfKA==
   /@changesets/get-release-plan/1.0.3:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -3137,6 +3166,13 @@ packages:
         optional: true
     resolution:
       integrity: sha512-3YGbtnWy4az16Egy5Fj5CckkVlpIh0MADtAQza+jiMADRSKkjdpzZp/5WuvwK/Qib3Z0HtzrDFeWanS99dNhnA==
+  /@urql/core/1.11.5:
+    dependencies:
+      wonka: 4.0.9
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-id341sUsA5NQqftKFMV2d8AtV1h+cX68+QVZOfueZPCLyLTt8JlZQOn8/uFJQ2vlg3swNMvqtWAGytqMZNutSg==
   /@webassemblyjs/ast/1.9.0:
     dependencies:
       '@webassemblyjs/helper-module-context': 1.9.0
@@ -5328,6 +5364,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /duplexify/3.7.1:
     dependencies:
       end-of-stream: 1.4.4
@@ -11288,6 +11330,27 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
+  /urql/1.9.7:
+    dependencies:
+      '@urql/core': 1.11.5
+      wonka: 4.0.9
+    dev: true
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+      react: '>= 16.8.0'
+    resolution:
+      integrity: sha512-zMLVeoAzY+C/RQGXjYYNC/XMqzMoyF1xjMNELTz4FNwXMEnk1wfCbgcQBbHyRVPql/9/CjY9Igq7AxUfY67Y5Q==
+  /urql/1.9.7_react@16.13.1:
+    dependencies:
+      '@urql/core': 1.11.5
+      react: 16.13.1
+      wonka: 4.0.9
+    dev: false
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+      react: '>= 16.8.0'
+    resolution:
+      integrity: sha512-zMLVeoAzY+C/RQGXjYYNC/XMqzMoyF1xjMNELTz4FNwXMEnk1wfCbgcQBbHyRVPql/9/CjY9Igq7AxUfY67Y5Q==
   /use-subscription/1.1.1_react@16.13.1:
     dependencies:
       react: 16.13.1
@@ -11528,6 +11591,9 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-Ba5m9/Fa4Xt9eb2ELXt77JxVDV8w7qQrH0zS/TWSJdLyAwQjWoOzpzj5lwVftDz6n/EOu3tNACS84v509qwnJA==
+  /wonka/4.0.9:
+    resolution:
+      integrity: sha512-he7Nn1254ToUN03zLbJok6QxKdRJd46/QHm8nUcJNViXQnCutCuUgAbZvzoxrX+VXzGb4sCFolC4XhkHsmvdaA==
   /word-wrap/1.2.3:
     dev: false
     engines:

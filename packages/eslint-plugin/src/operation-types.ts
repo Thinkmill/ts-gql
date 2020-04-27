@@ -53,7 +53,6 @@ function writeOperationTypes(
   let upperCaseOperationName =
     operationNode.operation.charAt(0).toUpperCase() +
     operationNode.operation.slice(1);
-  console.log({ write: filename });
   fs.outputFileSync(
     filename,
     `/*\nts-gql-meta-begin\n${JSON.stringify(

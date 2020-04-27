@@ -28,7 +28,6 @@ function writeSchemaTypes(
     ],
     pluginMap: { typescript: typescriptPlugin },
   });
-  console.log({ write: filename });
 
   fs.outputFileSync(
     filename,

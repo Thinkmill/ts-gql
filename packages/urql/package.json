@@ -1,0 +1,16 @@
+{
+  "name": "@ts-gql/urql",
+  "version": "0.0.0",
+  "main": "dist/urql.cjs.js",
+  "module": "dist/urql.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "@ts-gql/tag": "^0.0.0"
+  },
+  "peerDependencies": {
+    "urql": "*"
+  },
+  "devDependencies": {
+    "urql": "^1.9.7"
+  }
+}
