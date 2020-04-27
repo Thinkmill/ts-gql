@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 13.x
+        uses: actions/setup-node@master
+        with:
+          node-version: 13.x
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: pnpm-
+
+      - name: Install pnpm
+        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: "Create Pull Request or Publish to npm"
+        uses: changesets/action@master
+        with:
+          publish: yarn release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
