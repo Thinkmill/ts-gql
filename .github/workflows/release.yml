@@ -30,7 +30,7 @@ jobs:
         run: curl -L https://unpkg.com/@pnpm/self-installer | node
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile=false
 
       - name: "Create Pull Request or Publish to npm"
         uses: changesets/action@master
