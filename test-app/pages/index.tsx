@@ -4,26 +4,23 @@ import { useQuery, useApolloClient } from "@apollo/client";
 import "../__generated__/ts-gql/SomethingOther";
 
 const query2 = gql`
-  query MyOtherQuery {
+  query MyQuery {
     hello
-    other
-    another
-    aTh: another
   }
-`("MyOtherQuery");
+`("MyQuery");
 
 const someFragment = gql`
-  fragment Somethins on Query {
+  fragment Something2 on Query {
     something
   }
-`("Somethins");
+`("Something2");
 
 let query = gql`
   query SomeQuery($arg: String!) {
     optional(thing: $arg)
     ye: something
 
-    ...Somethins
+    ...Something2
   }
   ${someFragment}
 `("SomeQuery");

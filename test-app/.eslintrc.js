@@ -12,6 +12,6 @@ module.exports = {
         ),
       },
     ],
-    "@ts-gql/test-rule": "error",
+    // "@ts-gql/test-rule": "error",
   },
 };

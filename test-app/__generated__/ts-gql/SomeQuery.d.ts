@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "847281bb73f932c5243cc46e560ab581",
+  "hash": "11daa30ad64a233d30f2584915d5d528",
   "filename": "../../pages/index.tsx",
   "partial": "query SomeQuery"
 }
@@ -19,22 +19,23 @@ type SomeQueryQuery = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'optional'>
   & { ye: SchemaTypes.Query['something'] }
-  & SomethinsFragment
+  & Something2Fragment
 );
 
-type SomethinsFragment = (
+type Something2Fragment = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'something'>
 );
 
-
-declare module "@ts-gql/tag" {
-  interface Documents {
-    SomeQuery: {
-      document: "\n  query SomeQuery($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n\n    ...Somethins\n  }\n  \n\n\n  fragment Somethins on Query {\n    something\n  }\n\n";
-      type: "query-with-required-variables";
-      result: SomeQueryQuery;
-      variables: SomeQueryQueryVariables;
-    };
-  }
-}
+    
+    declare module "@ts-gql/tag" {
+      interface Documents {
+        SomeQuery: {
+          document: "\n  query SomeQuery($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n\n    ...Something2\n  }\n  \n\n\n  fragment Something2 on Query {\n    something\n  }\n\n";
+          type: "query-with-required-variables";
+          result: SomeQueryQuery;
+          variables: SomeQueryQueryVariables;
+        };
+      }
+    }
+    

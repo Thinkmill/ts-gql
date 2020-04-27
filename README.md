@@ -42,20 +42,29 @@ It will also generate a file at `__generated__/ts-gql/MyQuery.d.ts`
 /*
 ts-gql-meta-begin
 {
-  "filename": "src/index.ts",
-  "start": 50
+  "hash": "1b2c07ec819c249efde9717f714dcac4",
+  "filename": "../../pages/index.tsx",
+  "partial": "query MyQuery"
 }
 ts-gql-meta-end
 */
 
-export {};
+import * as SchemaTypes from "./@schema";
+
+type MyQueryQueryVariables = {};
+
+type MyQueryQuery = { readonly __typename: "Query" } & Pick<
+  SchemaTypes.Query,
+  "hello"
+>;
 
 declare module "@ts-gql/tag" {
   interface Documents {
     MyQuery: {
+      document: "\n  query MyQuery {\n    hello\n  }\n\n";
       type: "query";
-      document: "\n  query MyQuery {\n    hello\n  }\n";
-      result: { hello: string };
+      result: MyQueryQuery;
+      variables: undefined;
     };
   }
 }
@@ -74,7 +83,7 @@ TypeScript doesn't currently type tagged template literals with literal string t
 What this means is that behind the scenes `myQuery` will be typed as
 
 ```tsx
-type MyQuery = import("graphql").DocumentNode & {
+type MyQuery = {
   ___type: {
     type: "query";
     document: "\n  query MyQuery {\n    hello\n  }\n";
@@ -83,7 +92,7 @@ type MyQuery = import("graphql").DocumentNode & {
 };
 ```
 
-You can then use `@ts-graphql/apollo` or `@ts-graphql/gatsby-plugin` to augment the types of GraphQL libraries so that they will type their results and query variables based on your query.
+You can then use `@ts-gql/apollo` or `@ts-gql/urql` to augment the types of GraphQL libraries so that they will type their results and query variables based on your query.
 
 ## Getting Started
 
@@ -98,25 +107,26 @@ If you're not already using ESLint and `@typescript-eslint/parser`, you'll need 
 ## Using Apollo
 
 ```bash
-yarn add @ts-graphql/apollo
+yarn add @ts-gql/apollo
 ```
 
-## Using Gatsby
+## Using urql
 
 ```bash
-yarn add @ts-graphql/gatsby-plugin
+yarn add @ts-gql/urql
 ```
 
-# Future Goals
+# TODOs
 
 - Offer the option to use hashes instead of document names so document names don't have to be unique
 - Autofix not specifying a variable in an operation
 - A Babel plugin/some kind of build time transform that performs optimisations like the Relay Compiler does
   - This should be relatively easy since every operation must be entirely static since the only kind of interpolations allowed will be fragment interpolations and we'll know the contents of the fragment because it's encoded in the type.]
+- Fix types being out of date in editors so types can't be generated for operations with fragments
 
 ## Non-Goals
 
-- Improve the experience of creating GraphQL APIs, [Nexus](https://www.nexusjs.org/) does a really great job of this.
+- Improve the experience of creating GraphQL APIs, [Nexus](https://www.nexusjs.org/) does a really great job of this
 
 # Thanks
 
