@@ -29,7 +29,8 @@
   },
   "scripts": {
     "postinstall": "manypkg check && preconstruct dev",
-    "start": "cd test-app && pnpx next"
+    "start": "cd test-app && pnpx next",
+    "release": "preconstruct build && changeset publish"
   },
   "preconstruct": {
     "packages": [
