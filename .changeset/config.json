@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@1.0.3/schema.json",
-  "changelog": ["@changests/changelog-github", { "repo": "Thinkmill/ts-gql" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "Thinkmill/ts-gql" }],
   "commit": false,
   "linked": [],
   "access": "public",
