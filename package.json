@@ -14,7 +14,7 @@
     "@changesets/cli": "^2.6.5",
     "@manypkg/cli": "0.11.0",
     "@preconstruct/cli": "^1.1.12",
-    "@ts-gql/eslint-plugin": "^0.0.0",
+    "@ts-gql/eslint-plugin": "*",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
@@ -30,7 +30,8 @@
   "scripts": {
     "postinstall": "manypkg check && preconstruct dev",
     "start": "cd test-app && pnpx next",
-    "release": "preconstruct build && changeset publish"
+    "release": "preconstruct build && changeset publish",
+    "version": "changeset version && pnpm i --frozen-lockfile=false"
   },
   "preconstruct": {
     "packages": [
