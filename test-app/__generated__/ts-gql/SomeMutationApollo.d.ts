@@ -26,7 +26,7 @@ declare module "@ts-gql/tag" {
   interface Documents {
     SomeMutationApollo: {
       document: "\n  mutation SomeMutationApollo($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n  }\n\n";
-      type: "mutation-with-required-variables";
+      type: "mutation";
       result: SomeMutationApolloMutation;
       variables: SomeMutationApolloMutationVariables;
     };

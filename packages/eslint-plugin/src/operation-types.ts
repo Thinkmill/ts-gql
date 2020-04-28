@@ -43,13 +43,6 @@ function writeOperationTypes(
 
   let operationType = operationNode.operation;
 
-  let isAtLeastOneVariableRequired = (
-    operationNode.variableDefinitions || []
-  ).some((x) => x.type.kind === "NonNullType");
-
-  if (isAtLeastOneVariableRequired) {
-    operationType += "-with-required-variables";
-  }
   let upperCaseOperationName =
     operationNode.operation.charAt(0).toUpperCase() +
     operationNode.operation.slice(1);
@@ -70,13 +63,14 @@ declare module "@ts-gql/tag" {
     ${operationName}: {
       document: ${JSON.stringify(operation.document)};
       type: ${JSON.stringify(operationType)};
-      result: ${operationName + upperCaseOperationName};
-      variables: ${
-        operationNode.variableDefinitions &&
-        operationNode.variableDefinitions.length
-          ? operationName + upperCaseOperationName + "Variables"
-          : "undefined"
-      };
+      result: ${operationName + upperCaseOperationName};${
+      // @ts-ignore
+      operationType === "fragment"
+        ? ""
+        : `\n      variables: ${
+            operationName + upperCaseOperationName + "Variables"
+          };`
+    }
     };
   }
 }

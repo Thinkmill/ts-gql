@@ -25,7 +25,7 @@ declare module "@ts-gql/tag" {
       document: "\n  query MyQueryApollo {\n    hello\n    another\n  }\n\n";
       type: "query";
       result: MyQueryApolloQuery;
-      variables: undefined;
+      variables: MyQueryApolloQueryVariables;
     };
   }
 }

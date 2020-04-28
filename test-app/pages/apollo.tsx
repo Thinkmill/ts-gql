@@ -36,7 +36,7 @@ let someMutation = gql`
 export default () => {
   let client = useApolloClient();
 
-  const { data } = useQuery(query2);
+  const { data } = useQuery(query, { variables: {} });
   data.hello;
   data.another;
   // let [mutate] = useMutation(someMutation);

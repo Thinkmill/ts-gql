@@ -32,7 +32,7 @@ declare module "@ts-gql/tag" {
   interface Documents {
     SomeQueryUrql: {
       document: "\n  query SomeQueryUrql($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n\n    ...Something2Urql\n  }\n  \n\n\n  fragment Something2Urql on Query {\n    something\n  }\n\n";
-      type: "query-with-required-variables";
+      type: "query";
       result: SomeQueryUrqlQuery;
       variables: SomeQueryUrqlQueryVariables;
     };

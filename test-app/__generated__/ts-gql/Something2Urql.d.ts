@@ -22,7 +22,6 @@ declare module "@ts-gql/tag" {
       document: "\n  fragment Something2Urql on Query {\n    something\n  }\n\n";
       type: "fragment";
       result: Something2UrqlFragment;
-      variables: undefined;
     };
   }
 }

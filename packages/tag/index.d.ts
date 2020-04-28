@@ -14,26 +14,7 @@ type BaseTypedMutation = BaseTypedDocument & {
   variables: Record<string, any> | undefined;
 };
 
-// we have separate types for operations with _required_
-// variables because we want to be able to discriminate between
-// operations that require variables and those that don't
-// so that when you execute an operation, we can determine whether
-// there is at least one variable that you must pass or not
-type BaseTypedQueryWithRequiredVariables = BaseTypedDocument & {
-  type: "query-with-required-variables";
-  variables: Record<string, any>;
-};
-
-type BaseTypedMutationWithRequiredVariables = BaseTypedDocument & {
-  type: "mutation-with-required-variables";
-  variables: Record<string, any>;
-};
-
-type BaseOperations =
-  | BaseTypedQuery
-  | BaseTypedMutation
-  | BaseTypedQueryWithRequiredVariables
-  | BaseTypedMutationWithRequiredVariables;
+type BaseOperations = BaseTypedQuery | BaseTypedMutation;
 
 type BaseTypedFragment = BaseTypedDocument & {
   type: "fragment";

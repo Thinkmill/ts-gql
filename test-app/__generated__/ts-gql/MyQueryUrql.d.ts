@@ -25,7 +25,7 @@ declare module "@ts-gql/tag" {
       document: "\n  query MyQueryUrql {\n    hello\n  }\n\n";
       type: "query";
       result: MyQueryUrqlQuery;
-      variables: undefined;
+      variables: MyQueryUrqlQueryVariables;
     };
   }
 }

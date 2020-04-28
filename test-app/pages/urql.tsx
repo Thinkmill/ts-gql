@@ -1,5 +1,5 @@
-import "@ts-gql/urql";
-import { gql } from "@ts-gql/tag";
+import { HasRequiredVariables, RequiredKeys } from "@ts-gql/urql";
+import { gql, DocumentVariables } from "@ts-gql/tag";
 import { useQuery, useMutation } from "urql";
 import "../__generated__/ts-gql/SomethingOther";
 
@@ -33,7 +33,7 @@ let someMutation = gql`
 `("SomeMutationUrql");
 
 export default () => {
-  const [{ data }] = useQuery({ query: query, variables: { arg: "" } });
+  const [{ data }] = useQuery({ query: query });
   // let [mutate] = useMutation(someMutation);
   // mutate({ variables: { arg: "" } });
   data.hello;

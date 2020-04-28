@@ -32,7 +32,7 @@ declare module "@ts-gql/tag" {
   interface Documents {
     SomeQueryApollo: {
       document: "\n  query SomeQueryApollo($arg: String!) {\n    optional(thing: $arg)\n    ye: something\n\n    ...Something2Apollo\n  }\n  \n\n\n  fragment Something2Apollo on Query {\n    something\n  }\n\n";
-      type: "query-with-required-variables";
+      type: "query";
       result: SomeQueryApolloQuery;
       variables: SomeQueryApolloQueryVariables;
     };
