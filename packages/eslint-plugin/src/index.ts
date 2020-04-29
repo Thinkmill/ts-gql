@@ -275,7 +275,14 @@ export const rules = {
   //   },
   // }),
   "ts-gql": createRule<
-    [{ schemaFilename?: string; schema?: any; generatedDirectory: string }],
+    [
+      {
+        schemaFilename?: string;
+        schema?: any;
+        generatedDirectory: string;
+        scalars?: Record<string, string>;
+      }
+    ],
     MessageId
   >({
     name: "ts-gql",
@@ -297,6 +304,7 @@ export const rules = {
             schemaFilename: { type: "string" },
             schema: { type: "any" },
             generatedDirectory: { type: "string", required: true },
+            scalars: { type: "object" },
           },
         },
       ],
@@ -340,7 +348,8 @@ export const rules = {
                     schema: gqlSchema,
                     hash: ensureSchemaTypesAreWritten(
                       gqlSchema,
-                      generatedDirectory
+                      generatedDirectory,
+                      context.options[0].scalars || {}
                     ),
                   };
                 }

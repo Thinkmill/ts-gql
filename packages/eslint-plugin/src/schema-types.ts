@@ -8,7 +8,8 @@ import { hashString, parseTsGqlMeta } from "./utils";
 function writeSchemaTypes(
   schema: GraphQLSchema,
   filename: string,
-  schemaHash: string
+  schemaHash: string,
+  scalars: Record<string, string>
 ) {
   let result = codegen({
     documents: [],
@@ -19,6 +20,8 @@ function writeSchemaTypes(
     plugins: [
       {
         typescript: {
+          enumsAsTypes: true,
+          scalars,
           avoidOptionals: true,
           immutableTypes: true,
           nonOptionalTypename: true,
@@ -41,24 +44,25 @@ function writeSchemaTypes(
 
 export function ensureSchemaTypesAreWritten(
   schema: GraphQLSchema,
-  directory: string
+  directory: string,
+  scalars: Record<string, string>
 ) {
   let printedSchema = printSchema(schema);
-  let schemaHash = hashString(printedSchema);
+  let schemaHash = hashString(printedSchema + JSON.stringify(scalars) + "v1");
   let types: string;
   let filename = path.join(directory, "@schema.d.ts");
   try {
     types = fs.readFileSync(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      writeSchemaTypes(schema, filename, schemaHash);
+      writeSchemaTypes(schema, filename, schemaHash, scalars);
       return schemaHash;
     }
     throw err;
   }
   let meta = parseTsGqlMeta(types);
   if (meta.hash !== schemaHash) {
-    writeSchemaTypes(schema, filename, schemaHash);
+    writeSchemaTypes(schema, filename, schemaHash, scalars);
   }
   return schemaHash;
 }
