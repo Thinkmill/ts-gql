@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.3.0
+
+### Minor Changes
+
+- [`8175079`](https://github.com/Thinkmill/ts-gql/commit/817507911de80cb628e01f42d1c547915f811415) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Represent enums as types rather than TS enums and add scalars option
+
 ## 0.2.0
 
 ### Minor Changes
