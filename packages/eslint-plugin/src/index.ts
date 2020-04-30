@@ -42,7 +42,8 @@ const messages = {
     "The generated schema types are in an incorrect state",
   operationOrSingleFragment:
     "GraphQL documents must either have a single operation or a single fragment",
-  couldNotFindFragmentType: "Could not get fragment type",
+  couldNotFindFragmentType:
+    "Could not get fragment type. If you're seeing this error and there are no type errors in your code, please restart your editor or re-run ESLint",
 };
 
 function ensureNoExtraneousFilesExist(

@@ -104,17 +104,54 @@ yarn add graphql @ts-gql/tag @ts-gql/eslint-plugin
 
 If you're not already using ESLint and `@typescript-eslint/parser`, you'll need those too.
 
+You'll need to configure ESLint like this.
+
+```js
+module.exports = {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: "tsconfig.json",
+  },
+  plugins: ["@ts-gql"],
+  rules: {
+    "@ts-gql/ts-gql": [
+      "error",
+      {
+        schemaFilename: require("path").join(__dirname, "schema.graphql"),
+        generatedDirectory: require("path").join(
+          __dirname,
+          "__generated__",
+          "ts-gql"
+        ),
+      },
+    ],
+  },
+};
+```
+
+> Note: you should have your GraphQL schema written at `schema.graphql`. You can also have a `schema.json` with the result of an introspection query.
+
 ## Using Apollo
+
+> Note: ts-gql only supports `@apollo/client` (Apollo client version 3)
 
 ```bash
 yarn add @ts-gql/apollo
 ```
+
+Add an import of `@ts-gql/apollo` somewhere in your app.
+
+You can now use `useQuery` and etc. with queries created with `@ts-gql/tag`.
 
 ## Using urql
 
 ```bash
 yarn add @ts-gql/urql
 ```
+
+Add an import of `@ts-gql/urql` somewhere in your app.
+
+You can now use `useQuery` and etc. with queries created with `@ts-gql/tag`.
 
 # TODOs
 
