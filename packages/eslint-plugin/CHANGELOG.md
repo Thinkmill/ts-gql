@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.3.1
+
+### Patch Changes
+
+- [`756f672`](https://github.com/Thinkmill/ts-gql/commit/756f67221ce5bf44a7a949779df8413712eed7ab) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Improve fragment type not found error
+
 ## 0.3.0
 
 ### Minor Changes
