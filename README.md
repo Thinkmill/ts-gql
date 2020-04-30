@@ -1,6 +1,6 @@
 # ts-gql
 
-> Write GraphQL queries in TypeScript and have them be typed with no effort
+> Write GraphQL queries in TypeScript and generate types effortlessly
 
 ## Why?
 
