@@ -56,6 +56,7 @@ importers:
     dependencies:
       '@babel/helper-module-imports': 7.8.3
       '@babel/runtime': 7.9.2
+    devDependencies:
       '@types/babel__core': 7.1.7
     specifiers:
       '@babel/helper-module-imports': ^7.8.3
@@ -623,7 +624,6 @@ packages:
     resolution:
       integrity: sha512-3x3yOeyBhW851hroze7ElzdkeRXQYQbFIb7gLK1WQYsw2GWDay5gAJNw1sWJ0VFP6z5J1whqeXH/WCdCjZv6dA==
   /@babel/helper-validator-identifier/7.9.5:
-    dev: false
     resolution:
       integrity: sha512-/8arLKUFq882w4tWGj9JYzRpAlZgiWUJ+dtteNTDqrRBz9Iguck9Rn3ykuBDoUwh2TO4tSAJlrxDUOXWklJe4g==
   /@babel/helper-wrap-function/7.8.3:
@@ -667,7 +667,6 @@ packages:
     resolution:
       integrity: sha512-bC49otXX6N0/VYhgOMh4gnP26E9xnDZK3TmbNpxYzzz9BQLBosQwfyOe9/cXUU3txYhTzLCbcqd5c8y/OmCjHA==
   /@babel/parser/7.9.6:
-    dev: false
     engines:
       node: '>=6.0.0'
     hasBin: true
@@ -2484,7 +2483,6 @@ packages:
       '@babel/helper-validator-identifier': 7.9.5
       lodash: 4.17.15
       to-fast-properties: 2.0.0
-    dev: false
     resolution:
       integrity: sha512-qxXzvBO//jO9ZnoasKF1uJzHd2+M6Q2ZPIVfnFps8JJvXy0ZBbwbNOmE6SGIY5XOY6d1Bo5lb9d9RJ8nv3WSeA==
   /@bcoe/v8-coverage/0.2.3:
@@ -3216,20 +3214,17 @@ packages:
       '@types/babel__generator': 7.6.1
       '@types/babel__template': 7.0.2
       '@types/babel__traverse': 7.0.11
-    dev: false
     resolution:
       integrity: sha512-RL62NqSFPCDK2FM1pSDH0scHpJvsXtZNiYlMB73DgPBaG1E38ZYVL+ei5EkWRbr+KC4YNiAUNBnRj+bgwpgjMw==
   /@types/babel__generator/7.6.1:
     dependencies:
       '@babel/types': 7.9.6
-    dev: false
     resolution:
       integrity: sha512-bBKm+2VPJcMRVwNhxKu8W+5/zT7pwNEqeokFOmbvVSqGzFneNxYcEBro9Ac7/N9tlsaPYnZLK8J1LWKkMsLAew==
   /@types/babel__template/7.0.2:
     dependencies:
       '@babel/parser': 7.9.6
       '@babel/types': 7.9.6
-    dev: false
     resolution:
       integrity: sha512-/K6zCpeW7Imzgab2bLkLEbz0+1JlFSrUMdw7KoIIu+IUdu51GWaBZpd3y1VXGVXzynvGa4DaIaxNZHiON3GXUg==
   /@types/babel__traverse/7.0.10:
@@ -3241,7 +3236,6 @@ packages:
   /@types/babel__traverse/7.0.11:
     dependencies:
       '@babel/types': 7.9.6
-    dev: false
     resolution:
       integrity: sha512-ddHK5icION5U6q11+tV2f9Mo6CZVuT8GJKld2q9LqHSZbvLbH34Kcu2yFGckZut453+eQU6btIA3RihmnRgI+Q==
   /@types/body-parser/1.19.0:
@@ -11511,7 +11505,6 @@ packages:
     resolution:
       integrity: sha1-fSKbH8xjfkZsoIEYCDanqr/4P0M=
   /to-fast-properties/2.0.0:
-    dev: false
     engines:
       node: '>=4'
     resolution:
