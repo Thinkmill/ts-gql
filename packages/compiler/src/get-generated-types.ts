@@ -43,6 +43,8 @@ export const getGeneratedTypes = async ({
   const files = await globby(["**/*.{ts,tsx}"], {
     cwd: directory,
     absolute: true,
+    gitignore: true,
+    ignore: ["**/node_modules/**"],
   });
 
   let nodeMap: Record<
