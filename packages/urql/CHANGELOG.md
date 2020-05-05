@@ -1,5 +1,16 @@
 # @ts-gql/urql
 
+## 0.3.0
+
+### Minor Changes
+
+- [`b83e180`](https://github.com/Thinkmill/ts-gql/commit/b83e180ea94cd7fb1d66d5c7835f333a5fcf56f5) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Rename some types
+
+### Patch Changes
+
+- Updated dependencies [[`b83e180`](https://github.com/Thinkmill/ts-gql/commit/b83e180ea94cd7fb1d66d5c7835f333a5fcf56f5)]:
+  - @ts-gql/tag@0.4.0
+
 ## 0.2.1
 
 ### Patch Changes

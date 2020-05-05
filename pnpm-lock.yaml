@@ -51,7 +51,7 @@ importers:
       '@apollo/client': 3.0.0-beta.43
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/tag': ^0.3.0
+      '@ts-gql/tag': ^0.4.0
   packages/babel-plugin:
     dependencies:
       '@babel/helper-module-imports': 7.8.3
@@ -132,7 +132,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.9.2
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.1.0
+      '@ts-gql/compiler': ^0.2.0
       graphql: ^14.0.0
   packages/tag:
     dependencies:
@@ -148,7 +148,7 @@ importers:
     devDependencies:
       urql: 1.9.7
     specifiers:
-      '@ts-gql/tag': ^0.3.0
+      '@ts-gql/tag': ^0.4.0
       urql: ^1.9.7
   test-app:
     dependencies:
@@ -171,13 +171,13 @@ importers:
       urql: 1.9.7_react@16.13.1
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/apollo': ^0.2.1
+      '@ts-gql/apollo': ^0.3.0
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.1.0
+      '@ts-gql/compiler': ^0.2.0
       '@ts-gql/eslint-plugin': ^0.4.0
-      '@ts-gql/next': 'workspace:^1.0.0'
-      '@ts-gql/tag': ^0.3.0
-      '@ts-gql/urql': ^0.2.1
+      '@ts-gql/next': 'workspace:^2.0.0'
+      '@ts-gql/tag': ^0.4.0
+      '@ts-gql/urql': ^0.3.0
       '@types/node': ^13.13.2
       '@types/react': ^16.9.34
       '@typescript-eslint/parser': ^2.29.0
