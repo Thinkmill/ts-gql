@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.2.0
+
+### Minor Changes
+
+- [`b83e180`](https://github.com/Thinkmill/ts-gql/commit/b83e180ea94cd7fb1d66d5c7835f333a5fcf56f5) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Require fragments to be named in the format ComponentName_propName
+
 ## 0.1.1
 
 ### Patch Changes
