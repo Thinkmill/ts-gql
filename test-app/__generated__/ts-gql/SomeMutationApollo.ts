@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "e30f7b590da0affd27a3ec9f63542133"
+  "hash": "b2f2aaeb06ad869392bb497158d74b53"
 }
 ts-gql-meta-end
 */

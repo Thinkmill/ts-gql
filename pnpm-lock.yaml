@@ -77,6 +77,8 @@ importers:
       fs-extra: 9.0.0
       globby: 11.0.0
       invariant: 2.2.4
+      slash: 3.0.0
+      strip-ansi: 6.0.0
     devDependencies:
       graphql: 14.6.0
     specifiers:
@@ -95,6 +97,8 @@ importers:
       globby: ^11.0.0
       graphql: ^14.0.0
       invariant: ^2.2.4
+      slash: ^3.0.0
+      strip-ansi: ^6.0.0
   packages/eslint-plugin:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -150,6 +154,7 @@ importers:
       '@ts-gql/babel-plugin': 'link:../packages/babel-plugin'
       '@ts-gql/compiler': 'link:../packages/compiler'
       '@ts-gql/eslint-plugin': 'link:../packages/eslint-plugin'
+      '@ts-gql/next': 'link:../packages/next'
       '@ts-gql/tag': 'link:../packages/tag'
       '@ts-gql/urql': 'link:../packages/urql'
       '@types/node': 13.13.2
@@ -167,6 +172,7 @@ importers:
       '@ts-gql/babel-plugin': ^0.0.0
       '@ts-gql/compiler': ^0.0.0
       '@ts-gql/eslint-plugin': ^0.3.0
+      '@ts-gql/next': 'workspace:^0.0.0'
       '@ts-gql/tag': ^0.2.0
       '@ts-gql/urql': ^0.2.0
       '@types/node': ^13.13.2
@@ -3516,7 +3522,6 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
-      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:

@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import path from "path";
+import nodePath from "path";
 import {
   DocumentNode,
   OperationDefinitionNode,
@@ -18,6 +18,8 @@ import {
   PluginObj,
 } from "@babel/core";
 import { TaggedTemplateExpression } from "@babel/types";
+import stripAnsi from "strip-ansi";
+import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
 import { cachedGenerateOperationTypes } from "./operation-types";
@@ -34,8 +36,8 @@ export const getGeneratedTypes = async ({
   schema: GraphQLSchema;
   directory: string;
 }) => {
-  let generatedDirectory = path.join(
-    path.join(directory, "__generated__", "ts-gql")
+  let generatedDirectory = nodePath.join(
+    nodePath.join(directory, "__generated__", "ts-gql")
   );
 
   const files = await globby(["**/*.{ts,tsx}"], {
@@ -46,6 +48,7 @@ export const getGeneratedTypes = async ({
   let nodeMap: Record<
     string,
     {
+      filename: string;
       makeFrameError: (error: GraphQLError) => string;
       nodes:
         | readonly [OperationDefinitionNode, ...FragmentDefinitionNode[]]
@@ -99,6 +102,7 @@ export const getGeneratedTypes = async ({
                           );
                         }
                         nodeMap[val] = {
+                          filename: slash(nodePath.relative(directory, file)),
                           makeFrameError: (error) => {
                             let loc = locFrom(path.node, error);
                             if (loc) {
@@ -148,7 +152,7 @@ export const getGeneratedTypes = async ({
     if (nodeMap[name] === undefined) {
       fsOperations.push({
         type: "remove",
-        filename: path.join(generatedDirectory, name + ".ts"),
+        filename: nodePath.join(generatedDirectory, name + ".ts"),
       });
     }
   }
@@ -203,22 +207,26 @@ export const getGeneratedTypes = async ({
         nodes[0].kind === "OperationDefinition"
           ? specifiedRules
           : fragmentDocumentRules
+      ).map((err) =>
+        // TODO: make this better
+        nodeMap[key].makeFrameError(err)
       );
 
       if (gqlErrors.length) {
-        // TODO: make this better
-        errors.push(
-          ...gqlErrors.map((err) => nodeMap[key].makeFrameError(err))
-        );
+        errors.push(...gqlErrors);
       }
       let operation = await cachedGenerateOperationTypes(
         schema,
         document,
         nodes[0],
-        path.join(generatedDirectory, `${nodes[0].name!.value}.ts`),
+        nodePath.join(generatedDirectory, `${nodes[0].name!.value}.ts`),
         schemaHash,
         nodes[0].name!.value,
-        gqlErrors.length === 0
+        gqlErrors.length
+          ? `${nodeMap[key].filename}\nThere ${
+              gqlErrors.length === 1 ? "is an error" : "are errors"
+            } with ${nodes[0].name!.value}\n${stripAnsi(gqlErrors.join("\n"))}`
+          : undefined
       );
       if (operation) fsOperations.push(operation);
     })

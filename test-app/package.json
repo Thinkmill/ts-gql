@@ -9,6 +9,7 @@
     "@ts-gql/babel-plugin": "^0.0.0",
     "@ts-gql/compiler": "^0.0.0",
     "@ts-gql/eslint-plugin": "^0.3.0",
+    "@ts-gql/next": "workspace:^0.0.0",
     "@ts-gql/tag": "^0.2.0",
     "@ts-gql/urql": "^0.2.0",
     "@types/node": "^13.13.2",

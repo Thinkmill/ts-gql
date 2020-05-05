@@ -1,9 +1,9 @@
 import chokidar from "chokidar";
 import { getRawConfig } from "./config";
 import { createWatcher } from "./watcher";
-import { getGeneratedTypes } from "../dist/compiler.cjs";
+import { getGeneratedTypes } from "./get-generated-types";
 import { getSchemaFromOptions } from "./get-schema";
-import { applyFsOperation, FsOperation } from "./fs-operations";
+import { applyFsOperation } from "./fs-operations";
 
 // TODO: handle changes incrementally
 export const watch = async (cwd: string) => {

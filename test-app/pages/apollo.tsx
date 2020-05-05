@@ -28,8 +28,6 @@ let query = gql`
   }
 ` as import("../__generated__/ts-gql/SomeQueryApollo").type;
 
-console.log(query);
-
 let someMutation = gql`
   mutation SomeMutationApollo($arg: String!) {
     optional(thing: $arg)
@@ -38,14 +36,14 @@ let someMutation = gql`
 ` as import("../__generated__/ts-gql/SomeMutationApollo").type;
 
 export default () => {
-  let client = useApolloClient();
-  const { data } = useQuery(query, { variables: { arg: "" } });
-  <MyComp query={data} />;
-  data.hello;
+  // let client = useApolloClient();
+  // const { data } = useQuery(query, { variables: { arg: "" } });
+  // <MyComp query={data} />;
+  // data.hello;
   // data.another;
   // let [mutate] = useMutation(someMutation);
   // mutate({ variables: { arg: "" } });
-  data.hello;
+  // data.hello;
   // data.other;
   // data.aTh;
   // data.aThin;

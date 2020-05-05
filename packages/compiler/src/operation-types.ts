@@ -19,9 +19,9 @@ async function generateOperationTypes(
   filename: string,
   operationHash: string,
   operationName: string,
-  isValid: boolean
+  error: string | undefined
 ): Promise<FsOperation> {
-  if (!isValid) {
+  if (error) {
     return {
       type: "output",
       filename,
@@ -31,11 +31,11 @@ async function generateOperationTypes(
         },
         null,
         2
-      )}\nts-gql-meta-end\n*/\n\n
-  
-  export type type = never
-  
-  throw new Error("There is an error in the types of ${operationName}")
+      )}\nts-gql-meta-end\n*/
+
+export type type = never;
+
+throw new Error(${JSON.stringify(error)});
   `,
     };
   }
@@ -106,9 +106,11 @@ export async function cachedGenerateOperationTypes(
   filename: string,
   schemaHash: string,
   operationName: string,
-  isValid: boolean
+  error: string | undefined
 ) {
-  let operationHash = hashString(schemaHash + JSON.stringify(operation) + "v3");
+  let operationHash = hashString(
+    schemaHash + JSON.stringify(operation) + error || "" + "v3"
+  );
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
@@ -121,7 +123,7 @@ export async function cachedGenerateOperationTypes(
         filename,
         operationHash,
         operationName,
-        isValid
+        error
       );
     }
     throw err;
@@ -135,7 +137,7 @@ export async function cachedGenerateOperationTypes(
       filename,
       operationHash,
       operationName,
-      isValid
+      error
     );
   }
 }

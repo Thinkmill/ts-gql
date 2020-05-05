@@ -1,9 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "c189a63de17ba16c019a5ab5ca330c75",
-  "filename": "../../pages/urql.tsx",
-  "partial": "fragment Something2Urql"
+  "hash": "874fbb4b882324459b33116f202899d6"
 }
 ts-gql-meta-end
 */
