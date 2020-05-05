@@ -1,20 +1,19 @@
 import "@ts-gql/apollo";
 import { gql } from "@ts-gql/tag";
 import { useQuery, useApolloClient } from "@apollo/client";
-import "../__generated__/ts-gql/SomethingOther";
 
 const query2 = gql`
   query MyQueryApollo {
     hello
     another
   }
-`("MyQueryApollo");
+` as import("../__generated__/ts-gql/MyQueryApollo").type;
 
 const someFragment = gql`
   fragment Something2Apollo on Query {
-    something
+    hello
   }
-`("Something2Apollo");
+` as import("../__generated__/ts-gql/Something2Apollo").type;
 
 let query = gql`
   query SomeQueryApollo($arg: String!) {
@@ -23,19 +22,20 @@ let query = gql`
 
     ...Something2Apollo
   }
-  ${someFragment}
-`("SomeQueryApollo");
+` as import("../__generated__/ts-gql/SomeQueryApollo").type;
+
+console.log(query);
 
 let someMutation = gql`
   mutation SomeMutationApollo($arg: String!) {
     optional(thing: $arg)
     ye: something
   }
-`("SomeMutationApollo");
+` as import("../__generated__/ts-gql/SomeMutationApollo").type;
 
 export default () => {
   let client = useApolloClient();
-
+  // @ts-ignore
   const { data } = useQuery(query, { variables: {} });
   data.hello;
   data.another;

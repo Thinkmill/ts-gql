@@ -1,17 +1,9 @@
-import {
-  buildClientSchema,
-  IntrospectionQuery,
-  GraphQLSchema,
-  buildSchema,
-} from "graphql";
-import fs from "fs";
+import { buildClientSchema, GraphQLSchema, buildSchema } from "graphql";
+import fs from "fs-extra";
 
 // https://github.com/apollographql/eslint-plugin-graphql
 
 function initSchema(schema: any) {
-  if (typeof schema === "string") {
-    return buildSchema(schema);
-  }
   const unpackedSchemaJson = schema.data ? schema.data : schema;
   if (!unpackedSchemaJson.__schema) {
     throw new Error("Please pass a valid GraphQL introspection query result.");
@@ -19,22 +11,13 @@ function initSchema(schema: any) {
   return buildClientSchema(unpackedSchemaJson);
 }
 
-export function getSchemaFromOptions(options: {
-  schema?: string | IntrospectionQuery | { data: IntrospectionQuery };
-  schemaFilename?: string;
-}) {
+export async function getSchemaFromOptions(schemaFilename: string) {
   // Validate and unpack schema
   let schema: GraphQLSchema;
-  if (options.schema) {
-    schema = initSchema(options.schema);
-  } else if (options.schemaFilename) {
-    let contents = fs.readFileSync(options.schemaFilename, "utf8");
-    schema = initSchema(
-      options.schemaFilename.endsWith(".json") ? JSON.parse(contents) : contents
-    );
-  } else {
-    throw new Error("Please provide GraphQL a schema");
-  }
+  let contents = await fs.readFile(schemaFilename, "utf8");
+  schema = schemaFilename.endsWith(".json")
+    ? initSchema(JSON.parse(contents))
+    : buildSchema(contents);
 
   return schema;
 }

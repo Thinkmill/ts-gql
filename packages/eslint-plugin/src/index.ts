@@ -8,18 +8,14 @@ import path from "path";
 
 import {
   OperationDefinitionNode,
-  GraphQLSchema,
   DocumentNode,
   FragmentDefinitionNode,
 } from "graphql";
+import { findPkgJsonFieldUpSync } from "find-pkg-json-field-up";
 import { handleTemplateTag } from "./parse";
-import { getSchemaFromOptions } from "./get-schema";
-import { ensureSchemaTypesAreWritten } from "./schema-types";
-import { ensureOperationTypesAreWritten } from "./operation-types";
-import fs from "fs-extra";
-import { parseTsGqlMeta } from "./utils";
 import { getNodes } from "./get-nodes";
 import { getParserServices } from "./get-parser-services";
+import { getSchemaFromOptions } from "./get-schema";
 
 const createRule = ESLintUtils.RuleCreator(
   (name) =>
@@ -27,78 +23,25 @@ const createRule = ESLintUtils.RuleCreator(
 );
 
 const messages = {
-  fragmentInterpolationMustBeOutsideBrackets:
-    "Invalid interpolation - fragment interpolation must occur outside of the brackets.",
-  invalidFragmentOrVariable:
-    "Invalid interpolation - not a valid fragment or variable.",
+  noInterpolation: "Interpolations are not allowed in gql tags",
   singleOperation: "GraphQL documents must have only one operation",
   mustBeNamed: "GraphQL operations must have a name",
-  mustCallWithOperationName:
-    "You must call the result with the name of the GraphQL operation or fragment",
-
-  invalidGeneratedDirectory:
-    "The directory with generated types is in an incorrect state",
-  invalidGeneratedDirectorySchema:
-    "The generated schema types are in an incorrect state",
+  mustUseAs: "You must cast gql tags with the generated type",
   operationOrSingleFragment:
     "GraphQL documents must either have a single operation or a single fragment",
-  couldNotFindFragmentType:
-    "Could not get fragment type. If you're seeing this error and there are no type errors in your code, please restart your editor or re-run ESLint",
 };
-
-function ensureNoExtraneousFilesExist(
-  directory: string,
-  currentContents: string,
-  currentFilename: string
-) {
-  // TODO: investigate perf implications of this
-  const result = fs.readdirSync(directory);
-  const filesToDelete: string[] = [];
-  result.forEach((filename) => {
-    if (filename === "@schema.d.ts") {
-      return;
-    }
-    const filepath = path.join(directory, filename);
-
-    const contents = fs.readFileSync(filepath, "utf8");
-    const meta = parseTsGqlMeta(contents);
-    const srcFilename = path.resolve(directory, meta.filename);
-    try {
-      const srcContents =
-        srcFilename === currentFilename
-          ? currentContents
-          : fs.readFileSync(srcFilename, "utf8");
-      if (!srcContents.includes(meta.partial)) {
-        filesToDelete.push(filepath);
-      }
-    } catch (err) {
-      if (err.code === "ENOENT") {
-        filesToDelete.push(filepath);
-      } else {
-        throw err;
-      }
-    }
-  });
-  if (filesToDelete.length) {
-    filesToDelete.forEach((filename) => {
-      fs.removeSync(filename);
-    });
-  }
-}
 
 function checkFragment(
   document: { ast: DocumentNode; document: string },
   node: TSESTree.TaggedTemplateExpression,
-  report: TSESLint.RuleContext<MessageId, any>["report"],
-  schema: { schema: GraphQLSchema; hash: string },
-  generatedDirectory: string,
-  currentFilename: string
+  context: TSESLint.RuleContext<MessageId, any>,
+  generatedDirectory: string
 ) {
   if (
     document.ast.definitions.length !== 1 ||
     document.ast.definitions[0].kind !== "FragmentDefinition"
   ) {
-    report({
+    context.report({
       node,
       messageId: "operationOrSingleFragment",
     });
@@ -106,26 +49,17 @@ function checkFragment(
   }
   let definition = document.ast.definitions[0];
 
-  if (addNameToGqlTag(node, definition, report)) {
-    ensureOperationTypesAreWritten(
-      schema.schema,
-      document,
-      { ...definition, operation: "fragment" } as any,
-      path.join(generatedDirectory, `${definition.name.value}.d.ts`),
-      currentFilename,
-      schema.hash,
-      definition.name.value
-    );
-  }
+  addNameToGqlTag(node, definition, context, generatedDirectory);
 }
 
 function addNameToGqlTag(
   node: TSESTree.TaggedTemplateExpression,
   gqlNode: OperationDefinitionNode | FragmentDefinitionNode,
-  report: TSESLint.RuleContext<MessageId, any>["report"]
+  context: TSESLint.RuleContext<MessageId, any>,
+  generatedDirectory: string
 ) {
   if (!gqlNode.name) {
-    report({
+    context.report({
       messageId: "mustBeNamed",
       node,
     });
@@ -134,30 +68,42 @@ function addNameToGqlTag(
 
   const name = gqlNode.name.value;
 
-  if (node.parent?.type !== "CallExpression") {
-    report({
-      messageId: "mustCallWithOperationName",
+  let pathname = path.relative(
+    path.dirname(context.getFilename()),
+    path.join(generatedDirectory, name)
+  );
+
+  if (node.parent?.type !== "TSAsExpression") {
+    context.report({
+      messageId: "mustUseAs",
       node,
       fix(fix) {
-        return fix.insertTextAfter(node, `(${JSON.stringify(name)})`);
+        return fix.insertTextAfter(
+          node,
+          `as import(${JSON.stringify(pathname)}).type`
+        );
       },
     });
     return false;
   }
   if (
-    node.parent.arguments.length !== 1 ||
-    node.parent.arguments[0].type !== "Literal" ||
-    node.parent.arguments[0].value !== name
+    node.parent.typeAnnotation.type !== "TSImportType" ||
+    node.parent.typeAnnotation.isTypeOf ||
+    node.parent.typeAnnotation.parameter.type !== "TSLiteralType" ||
+    node.parent.typeAnnotation.parameter.literal.type !== "Literal" ||
+    node.parent.typeAnnotation.parameter.literal.value !== pathname ||
+    !node.parent.typeAnnotation.qualifier ||
+    node.parent.typeAnnotation.qualifier.type !== "Identifier" ||
+    node.parent.typeAnnotation.qualifier.name !== "type"
   ) {
-    const parent = node.parent;
-
-    report({
-      messageId: "mustCallWithOperationName",
-      node: parent,
+    const typeAnnotation = node.parent.typeAnnotation;
+    context.report({
+      messageId: "mustUseAs",
+      node: typeAnnotation,
       fix(fix) {
-        return fix.replaceTextRange(
-          [node.range[1], parent.range[1]],
-          `(${JSON.stringify(name)})`
+        return fix.replaceText(
+          typeAnnotation,
+          `import(${JSON.stringify(pathname)}).type`
         );
       },
     });
@@ -169,27 +115,18 @@ function addNameToGqlTag(
 function checkDocument(
   document: { ast: DocumentNode; document: string },
   node: TSESTree.TaggedTemplateExpression,
-  report: TSESLint.RuleContext<MessageId, any>["report"],
-  schema: { schema: GraphQLSchema; hash: string },
-  generatedDirectory: string,
-  currentFilename: string
+  context: TSESLint.RuleContext<MessageId, any>,
+  generatedDirectory: string
 ) {
   const filteredDefinitions = document.ast.definitions.filter(
     (x): x is OperationDefinitionNode => x.kind === "OperationDefinition"
   );
   if (filteredDefinitions.length === 0) {
-    checkFragment(
-      document,
-      node,
-      report,
-      schema,
-      generatedDirectory,
-      currentFilename
-    );
+    checkFragment(document, node, context, generatedDirectory);
     return;
   }
   if (filteredDefinitions.length !== 1) {
-    report({
+    context.report({
       messageId: "singleOperation",
       node,
     });
@@ -197,95 +134,29 @@ function checkDocument(
   }
   const [operationNode] = filteredDefinitions;
 
-  if (addNameToGqlTag(node, operationNode, report)) {
-    ensureOperationTypesAreWritten(
-      schema.schema,
-      document,
-      operationNode,
-      path.join(generatedDirectory, `${operationNode.name!.value}.d.ts`),
-      currentFilename,
-      schema.hash,
-      operationNode.name!.value
-    );
-  }
+  addNameToGqlTag(node, operationNode, context, generatedDirectory);
 }
 
 export type MessageId = keyof typeof messages;
 
+function getConfig(cwd: string) {
+  let { packageJson, directory } = findPkgJsonFieldUpSync("ts-gql", cwd);
+  let field = packageJson["ts-gql"];
+  if (
+    typeof field === "object" &&
+    field !== null &&
+    typeof field.schema === "string"
+  ) {
+    return {
+      schema: getSchemaFromOptions(path.resolve(directory, field.schema)),
+      directory,
+    };
+  }
+  throw new Error("Config not found");
+}
+
 export const rules = {
-  // "test-rule": createRule<[], MessageId>({
-  //   name: "ts-gql",
-  //   meta: {
-  //     fixable: "code",
-  //     docs: {
-  //       requiresTypeChecking: true,
-  //       category: "Best Practices",
-  //       recommended: "error",
-  //       description: "",
-  //     },
-  //     messages,
-  //     type: "problem",
-  //     schema: [],
-  //   },
-  //   defaultOptions: [],
-  //   create(context) {
-  //     return {
-  //       CallExpression(node) {
-  //         if (
-  //           node.callee.type !== "Identifier" ||
-  //           node.callee.name !== "showType"
-  //         ) {
-  //           return;
-  //         }
-  //         if (!node.typeParameters || !node.typeParameters.params.length) {
-  //           return context.report({
-  //             node,
-  //             // @ts-ignore
-  //             message: "No type params",
-  //           });
-  //         }
-  //         let parserServices = getParserServices(context);
-  //         let typeChecker = parserServices.program.getTypeChecker();
-  //         let [param] = node.typeParameters.params;
-  //         let tsNode = parserServices.esTreeNodeToTSNodeMap.get(param);
-  //         let type = typeChecker.getTypeAtLocation(tsNode);
-  //         let str = typeChecker.typeToString(type);
-  //         if (
-  //           node.arguments.length !== 1 ||
-  //           node.arguments[0].type !== "Literal" ||
-  //           node.arguments[0].value !== str
-  //         )
-  //           context.report({
-  //             node,
-  //             // @ts-ignore
-  //             message: "wrong type",
-  //             fix(fixer) {
-  //               return fixer.replaceTextRange(
-  //                 [
-  //                   node.arguments[0]
-  //                     ? node.arguments[0].range[0] - 1
-  //                     : node.range[1] - 2,
-  //                   node.range[1],
-  //                 ],
-  //                 `(${JSON.stringify(str)})`
-  //               );
-  //             },
-  //           });
-  //       },
-  //     };
-  //   },
-  // }),
-  "ts-gql": createRule<
-    [
-      {
-        schemaFilename?: string;
-        schema?: any;
-        generatedDirectory: string;
-        scalars?: Record<string, string>;
-      }
-    ],
-    MessageId
-  >({
+  "ts-gql": createRule<[], MessageId>({
     name: "ts-gql",
     meta: {
       fixable: "code",
@@ -297,37 +168,14 @@ export const rules = {
       },
       messages,
       type: "problem",
-      schema: [
-        {
-          type: "object",
-          required: true,
-          properties: {
-            schemaFilename: { type: "string" },
-            schema: { type: "any" },
-            generatedDirectory: { type: "string", required: true },
-            scalars: { type: "object" },
-          },
-        },
-      ],
+      schema: [],
     },
-    defaultOptions: [
-      {
-        generatedDirectory: path.join(process.cwd(), "__generated__", "ts-gql"),
-      },
-    ],
+    defaultOptions: [],
     create(context) {
       return {
         Program(programNode) {
-          let schema:
-            | {
-                schema: GraphQLSchema;
-                hash: string;
-              }
-            | undefined;
-          const generatedDirectory = context.options[0].generatedDirectory;
-          let hasReportedAnError = false;
+          let config: ReturnType<typeof getConfig> | undefined;
           let report: typeof context["report"] = (arg) => {
-            hasReportedAnError = true;
             return context.report(arg);
           };
           const parserServices = getParserServices(context);
@@ -342,90 +190,21 @@ export const rules = {
                 if (!type.getProperty("___isTsGqlTag")) {
                   continue;
                 }
-                if (!schema) {
-                  const gqlSchema = getSchemaFromOptions(context.options[0]);
-
-                  schema = {
-                    schema: gqlSchema,
-                    hash: ensureSchemaTypesAreWritten(
-                      gqlSchema,
-                      generatedDirectory,
-                      context.options[0].scalars || {}
-                    ),
-                  };
+                if (!config) {
+                  config = getConfig(path.dirname(context.getFilename()));
                 }
 
-                let fragments: string[] = [];
-                for (let expression of node.quasi.expressions) {
-                  let expressionTsNode = parserServices.esTreeNodeToTSNodeMap.get(
-                    expression
-                  );
-                  let type = typeChecker.getTypeAtLocation(expressionTsNode);
-                  let internalTypesSymbol = type.getProperty("___type");
-                  if (!internalTypesSymbol) {
-                    report({
-                      node: expression,
-                      messageId: "couldNotFindFragmentType",
-                    });
-                    continue NodesLoop;
-                  }
-                  let internalTypes = typeChecker.getTypeOfSymbolAtLocation(
-                    internalTypesSymbol,
-                    internalTypesSymbol.valueDeclaration
-                  );
-
-                  let internalTypesDocumentSymbol = internalTypes.getProperty(
-                    "document"
-                  );
-                  if (!internalTypesDocumentSymbol) {
-                    report({
-                      node: expression,
-                      messageId: "couldNotFindFragmentType",
-                    });
-                    continue NodesLoop;
-                  }
-
-                  let internalTypesDocument = typeChecker.getTypeOfSymbolAtLocation(
-                    internalTypesDocumentSymbol,
-                    internalTypesDocumentSymbol.valueDeclaration
-                  );
-
-                  if (!internalTypesDocument.isStringLiteral()) {
-                    report({
-                      node: expression,
-                      messageId: "couldNotFindFragmentType",
-                    });
-                    continue NodesLoop;
-                  }
-                  fragments.push(internalTypesDocument.value);
-                }
-
-                const document = handleTemplateTag(
-                  node,
-                  report,
-                  schema.schema,
-                  "apollo",
-                  fragments
-                );
+                const document = handleTemplateTag(node, report, config.schema);
                 if (document) {
                   checkDocument(
                     document,
                     node,
-                    report,
-                    schema,
-                    generatedDirectory,
-                    context.getFilename()
+                    context,
+                    path.join(config.directory, "__generated__", "ts-gql")
                   );
                 }
               }
             }
-          }
-          if (schema && !hasReportedAnError) {
-            ensureNoExtraneousFilesExist(
-              generatedDirectory,
-              context.getSourceCode().text,
-              context.getFilename()
-            );
           }
         },
       };

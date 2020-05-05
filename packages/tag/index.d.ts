@@ -2,7 +2,7 @@ import { DocumentNode } from "graphql";
 
 // TODO: subscriptions
 
-type BaseTypedDocument = { document: string; result: any };
+type BaseTypedDocument = { document?: string; result: any };
 
 type BaseTypedQuery = BaseTypedDocument & {
   type: "query";
@@ -38,9 +38,7 @@ interface GqlTag {
   (
     strings: readonly string[],
     ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
-  ): <Key extends keyof Documents>(
-    name: Key
-  ) => TypedDocumentNode<Documents[Key]>;
+  ): TypedDocumentNode<BaseDocumentTypes>;
   ___isTsGqlTag: true;
 }
 
