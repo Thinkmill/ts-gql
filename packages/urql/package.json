@@ -12,5 +12,6 @@
   },
   "devDependencies": {
     "urql": "^1.9.7"
-  }
+  },
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/urql"
 }

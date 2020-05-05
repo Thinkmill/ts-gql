@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "e67dbed19bef622b57e1a8f79233d65c",
+  "hash": "c189a63de17ba16c019a5ab5ca330c75",
   "filename": "../../pages/urql.tsx",
   "partial": "fragment Something2Urql"
 }

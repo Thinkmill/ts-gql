@@ -4,13 +4,14 @@ import path from "path";
 import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
 import { hashString, parseTsGqlMeta } from "./utils";
+import { FsOperation } from "./types";
 
-function writeSchemaTypes(
+function generateSchemaTypes(
   schema: GraphQLSchema,
   filename: string,
   schemaHash: string,
   scalars: Record<string, string>
-) {
+): FsOperation {
   let result = codegen({
     documents: [],
     schema: parse(printSchema(schema)),
@@ -32,17 +33,18 @@ function writeSchemaTypes(
     pluginMap: { typescript: typescriptPlugin },
   });
 
-  fs.outputFileSync(
+  return {
+    type: "output",
     filename,
-    `/*\nts-gql-meta-begin\n${JSON.stringify(
+    content: `/*\nts-gql-meta-begin\n${JSON.stringify(
       { hash: schemaHash },
       null,
       2
-    )}\nts-gql-meta-end\n*/\n${result}`
-  );
+    )}\nts-gql-meta-end\n*/\n${result}`,
+  };
 }
 
-export function ensureSchemaTypesAreWritten(
+export async function cachedGenerateSchemaTypes(
   schema: GraphQLSchema,
   directory: string,
   scalars: Record<string, string>
@@ -52,18 +54,22 @@ export function ensureSchemaTypesAreWritten(
   let types: string;
   let filename = path.join(directory, "@schema.d.ts");
   try {
-    types = fs.readFileSync(filename, "utf8");
+    types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      writeSchemaTypes(schema, filename, schemaHash, scalars);
-      return { hash: schemaHash, didWrite: true };
+      return {
+        hash: schemaHash,
+        operation: generateSchemaTypes(schema, filename, schemaHash, scalars),
+      };
     }
     throw err;
   }
   let meta = parseTsGqlMeta(types);
   if (meta.hash !== schemaHash) {
-    writeSchemaTypes(schema, filename, schemaHash, scalars);
-    return { hash: schemaHash, didWrite: true };
+    return {
+      hash: schemaHash,
+      operation: generateSchemaTypes(schema, filename, schemaHash, scalars),
+    };
   }
-  return { hash: schemaHash, didWrite: false };
+  return { hash: schemaHash };
 }

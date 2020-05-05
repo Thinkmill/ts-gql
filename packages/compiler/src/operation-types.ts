@@ -9,10 +9,12 @@ import {
 } from "graphql";
 import { codegen } from "./codegen-core";
 import path from "path";
+import slash from "slash";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
+import { FsOperation } from "./types";
 
-async function writeOperationTypes(
+async function generateOperationTypes(
   schema: GraphQLSchema,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
@@ -20,7 +22,7 @@ async function writeOperationTypes(
   srcFilename: string,
   operationHash: string,
   operationName: string
-) {
+): Promise<FsOperation> {
   let result = codegen({
     documents: [{ document: operation }],
     schema: parse(printSchema(schema)),
@@ -49,12 +51,13 @@ async function writeOperationTypes(
 
   let upperCaseOperationName =
     operationType.charAt(0).toUpperCase() + operationType.slice(1);
-  await fs.outputFile(
+  return {
+    type: "output",
     filename,
-    `/*\nts-gql-meta-begin\n${JSON.stringify(
+    content: `/*\nts-gql-meta-begin\n${JSON.stringify(
       {
         hash: operationHash,
-        filename: path.relative(path.dirname(filename), srcFilename),
+        filename: slash(path.relative(path.dirname(filename), srcFilename)),
         partial: `${operationType} ${operationName}`,
       },
       null,
@@ -77,11 +80,11 @@ export const document = ${JSON.stringify(
       (key, value) => (key === "loc" ? undefined : value),
       2
     )}
-`
-  );
+`,
+  };
 }
 
-export async function ensureOperationTypesAreWritten(
+export async function cachedGenerateOperationTypes(
   schema: GraphQLSchema,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
@@ -96,7 +99,7 @@ export async function ensureOperationTypesAreWritten(
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      await writeOperationTypes(
+      return generateOperationTypes(
         schema,
         operation,
         operationNode,
@@ -105,13 +108,12 @@ export async function ensureOperationTypesAreWritten(
         operationHash,
         operationName
       );
-      return true;
     }
     throw err;
   }
   let meta = parseTsGqlMeta(types);
   if (meta.hash !== operationHash) {
-    await writeOperationTypes(
+    return generateOperationTypes(
       schema,
       operation,
       operationNode,
@@ -120,7 +122,5 @@ export async function ensureOperationTypesAreWritten(
       operationHash,
       operationName
     );
-    return true;
   }
-  return false;
 }

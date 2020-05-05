@@ -3,14 +3,13 @@ import {
   TSESTree,
   TSESLint,
 } from "@typescript-eslint/experimental-utils";
-
 import path from "path";
-
 import {
   OperationDefinitionNode,
   DocumentNode,
   FragmentDefinitionNode,
 } from "graphql";
+import slash from "slash";
 import { findPkgJsonFieldUpSync } from "find-pkg-json-field-up";
 import { handleTemplateTag } from "./parse";
 import { getNodes } from "./get-nodes";
@@ -68,9 +67,11 @@ function addNameToGqlTag(
 
   const name = gqlNode.name.value;
 
-  let pathname = path.relative(
-    path.dirname(context.getFilename()),
-    path.join(generatedDirectory, name)
+  let pathname = slash(
+    path.relative(
+      path.dirname(context.getFilename()),
+      path.join(generatedDirectory, name)
+    )
   );
 
   if (node.parent?.type !== "TSAsExpression") {

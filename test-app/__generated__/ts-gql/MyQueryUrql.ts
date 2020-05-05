@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "a5f4fcf492d816e52a66a44e7e147881",
+  "hash": "be887feb51f7a40a74eff325563dc0c8",
   "filename": "../../pages/urql.tsx",
   "partial": "query MyQueryUrql"
 }
@@ -23,7 +23,7 @@ type MyQueryUrqlQuery = (
 export type type = TypedDocumentNode<{
   type: "query";
   result: MyQueryUrqlQuery;
-      variables: MyQueryUrqlQueryVariables;
+  variables: MyQueryUrqlQueryVariables;
 }>
 
 export const document = {

@@ -1,3 +1,7 @@
+The README below is currently out of date with the specifics of how ts-gql works and how to use it. It will be updated soon.
+
+---
+
 # ts-gql
 
 > Write GraphQL queries in TypeScript and generate types effortlessly

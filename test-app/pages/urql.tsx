@@ -7,13 +7,13 @@ const query2 = gql`
   query MyQueryUrql {
     hello
   }
-`("MyQueryUrql");
+` as import("../__generated__/ts-gql/MyQueryUrql").type;
 
 const someFragment = gql`
   fragment Something2Urql on Query {
     something
   }
-`("Something2Urql");
+` as import("../__generated__/ts-gql/Something2Urql").type;
 
 let query = gql`
   query SomeQueryUrql($arg: String!) {
@@ -22,15 +22,14 @@ let query = gql`
 
     ...Something2Urql
   }
-  ${someFragment}
-`("SomeQueryUrql");
+` as import("../__generated__/ts-gql/SomeQueryUrql").type;
 
 let someMutation = gql`
   mutation SomeMutationUrql($arg: String!) {
     optional(thing: $arg)
     ye: something
   }
-`("SomeMutationUrql");
+` as import("../__generated__/ts-gql/SomeMutationUrql").type;
 
 export default () => {
   const [{ data }] = useQuery({ query: query });

@@ -5,15 +5,15 @@
   "repository": "https://github.com/Thinkmill/ts-gql",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.9.6",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@changesets/changelog-github": "^0.2.5",
     "@changesets/cli": "^2.6.5",
-    "@manypkg/cli": "0.11.0",
-    "@preconstruct/cli": "^1.1.12",
+    "@manypkg/cli": "0.12.0",
+    "@preconstruct/cli": "^1.1.14",
     "@ts-gql/eslint-plugin": "*",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
@@ -28,7 +28,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "postinstall": "manypkg check && preconstruct dev",
+    "postinstall": "preconstruct dev",
     "start": "cd test-app && pnpx next",
     "release": "preconstruct build && changeset publish",
     "version": "changeset version && pnpm i --frozen-lockfile=false"
@@ -36,6 +36,9 @@
   "preconstruct": {
     "packages": [
       "packages/*"
-    ]
+    ],
+    "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
+      "newEntrypoints": true
+    }
   }
 }

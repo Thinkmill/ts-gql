@@ -1,0 +1,18 @@
+{
+  "name": "@ts-gql/next",
+  "version": "0.0.0",
+  "main": "dist/next.cjs.js",
+  "module": "dist/next.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.9.2"
+  },
+  "peerDependencies": {
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
+  },
+  "devDependencies": {
+    "@ts-gql/compiler": "^0.0.0",
+    "graphql": "^14.0.0"
+  },
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/next"
+}

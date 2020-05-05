@@ -1,9 +1,9 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "4e27e6e401c6503a9671ae034544ec9a",
+  "hash": "2e2ccb79e302dad214b5d5f226d42cfe",
   "filename": "../../pages/urql.tsx",
-  "partial": "mutation SomeMutationUrql"
+  "partial": "query SomeQueryUrql"
 }
 ts-gql-meta-end
 */
@@ -11,22 +11,28 @@ ts-gql-meta-end
 import * as SchemaTypes from "./@schema";
 import { TypedDocumentNode } from "@ts-gql/tag";
 
-type SomeMutationUrqlMutationVariables = {
+type SomeQueryUrqlQueryVariables = {
   arg: SchemaTypes.Scalars['String'];
 };
 
 
-type SomeMutationUrqlMutation = (
-  { readonly __typename: 'Mutation' }
-  & Pick<SchemaTypes.Mutation, 'optional'>
-  & { ye: SchemaTypes.Mutation['something'] }
+type SomeQueryUrqlQuery = (
+  { readonly __typename: 'Query' }
+  & Pick<SchemaTypes.Query, 'optional'>
+  & { ye: SchemaTypes.Query['something'] }
+  & Something2UrqlFragment
+);
+
+type Something2UrqlFragment = (
+  { readonly __typename: 'Query' }
+  & Pick<SchemaTypes.Query, 'something'>
 );
 
 
 export type type = TypedDocumentNode<{
-  type: "mutation";
-  result: SomeMutationUrqlMutation;
-  variables: SomeMutationUrqlMutationVariables;
+  type: "query";
+  result: SomeQueryUrqlQuery;
+  variables: SomeQueryUrqlQueryVariables;
 }>
 
 export const document = {
@@ -34,10 +40,10 @@ export const document = {
   "definitions": [
     {
       "kind": "OperationDefinition",
-      "operation": "mutation",
+      "operation": "query",
       "name": {
         "kind": "Name",
-        "value": "SomeMutationUrql"
+        "value": "SomeQueryUrql"
       },
       "variableDefinitions": [
         {
@@ -96,6 +102,43 @@ export const document = {
               "kind": "Name",
               "value": "ye"
             },
+            "name": {
+              "kind": "Name",
+              "value": "something"
+            },
+            "arguments": [],
+            "directives": []
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "Something2Urql"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "Something2Urql"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "Query"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
             "name": {
               "kind": "Name",
               "value": "something"
