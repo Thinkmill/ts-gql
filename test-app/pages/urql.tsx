@@ -27,7 +27,7 @@ let query = gql`
 let someMutation = gql`
   mutation SomeMutationUrql($arg: String!) {
     optional(thing: $arg)
-    ye: somethin
+    ye: something
   }
 ` as import("../__generated__/ts-gql/SomeMutationUrql").type;
 

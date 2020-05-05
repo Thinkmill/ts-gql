@@ -35,6 +35,8 @@ let someMutation = gql`
   }
 ` as import("../__generated__/ts-gql/SomeMutationApollo").type;
 
+console.log({ query, someMutation });
+
 export default () => {
   // let client = useApolloClient();
   // const { data } = useQuery(query, { variables: { arg: "" } });
