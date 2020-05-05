@@ -1,7 +1,7 @@
 import {
   TypedDocumentNode,
-  DocumentResult,
-  DocumentVariables,
+  OperationData,
+  OperationVariables,
   BaseTypedQuery,
   BaseTypedMutation,
   BaseOperations,
@@ -21,7 +21,7 @@ export type HasRequiredVariables<
   TTypedDocumentNode extends TypedDocumentNode<BaseOperations>,
   RequiredResult,
   OptionalResult
-> = RequiredKeys<DocumentVariables<TTypedDocumentNode>> extends never
+> = RequiredKeys<OperationVariables<TTypedDocumentNode>> extends never
   ? OptionalResult
   : RequiredResult;
 
@@ -35,24 +35,24 @@ type UseQueryArgs<
   pause?: boolean;
 } & HasRequiredVariables<
   TTypedDocumentNode,
-  { variables: DocumentVariables<TTypedDocumentNode> },
-  { variables?: DocumentVariables<TTypedDocumentNode> }
+  { variables: OperationVariables<TTypedDocumentNode> },
+  { variables?: OperationVariables<TTypedDocumentNode> }
 >;
 
 export declare type UseMutationResponse<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 > = [
-  UseMutationState<DocumentResult<TTypedDocumentNode>>,
+  UseMutationState<OperationData<TTypedDocumentNode>>,
   HasRequiredVariables<
     TTypedDocumentNode,
     (
-      variables: DocumentVariables<TTypedDocumentNode>,
+      variables: OperationVariables<TTypedDocumentNode>,
       context?: Partial<OperationContext>
-    ) => Promise<OperationResult<DocumentResult<TTypedDocumentNode>>>,
+    ) => Promise<OperationResult<OperationData<TTypedDocumentNode>>>,
     (
-      variables?: DocumentVariables<TTypedDocumentNode>,
+      variables?: OperationVariables<TTypedDocumentNode>,
       context?: Partial<OperationContext>
-    ) => Promise<OperationResult<DocumentResult<TTypedDocumentNode>>>
+    ) => Promise<OperationResult<OperationData<TTypedDocumentNode>>>
   >
 ];
 
@@ -61,7 +61,7 @@ declare module "urql" {
     BaseTypedQuery
   >>(
     args: UseQueryArgs<TTypedDocumentNode>
-  ) => UseQueryResponse<DocumentResult<TTypedDocumentNode>>;
+  ) => UseQueryResponse<OperationData<TTypedDocumentNode>>;
   export const useMutation: <TTypedDocumentNode extends TypedDocumentNode<
     BaseTypedMutation
   >>(

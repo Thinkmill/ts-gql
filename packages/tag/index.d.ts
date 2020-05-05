@@ -2,37 +2,41 @@ import { DocumentNode } from "graphql";
 
 // TODO: subscriptions
 
-type BaseTypedDocument = { document?: string; result: any };
+export type BaseTypedDocument = { document?: string; result: any };
 
-type BaseTypedQuery = BaseTypedDocument & {
+export type BaseTypedQuery = BaseTypedDocument & {
   type: "query";
   variables: Record<string, any> | undefined;
 };
 
-type BaseTypedMutation = BaseTypedDocument & {
+export type BaseTypedMutation = BaseTypedDocument & {
   type: "mutation";
   variables: Record<string, any> | undefined;
 };
 
-type BaseOperations = BaseTypedQuery | BaseTypedMutation;
+export type BaseOperations = BaseTypedQuery | BaseTypedMutation;
 
-type BaseTypedFragment = BaseTypedDocument & {
+export type BaseTypedFragment = BaseTypedDocument & {
   type: "fragment";
 };
 
-type BaseDocumentTypes = BaseOperations | BaseTypedFragment;
+export type BaseDocumentTypes = BaseOperations | BaseTypedFragment;
 
-type TypedDocumentNode<TypedDocument extends BaseDocumentTypes> = {
+export type TypedDocumentNode<TypedDocument extends BaseDocumentTypes> = {
   ___type: TypedDocument;
 };
 
-type DocumentResult<
-  Node extends TypedDocumentNode<BaseDocumentTypes>
+export type OperationData<
+  Node extends TypedDocumentNode<BaseOperations>
 > = Node["___type"]["result"];
 
-type DocumentVariables<
+export type OperationVariables<
   Node extends TypedDocumentNode<BaseOperations>
 > = Node["___type"]["variables"];
+
+export type FragmentData<
+  Node extends TypedDocumentNode<BaseTypedFragment>
+> = Node["___type"]["result"];
 
 interface GqlTag {
   (

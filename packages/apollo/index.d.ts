@@ -1,7 +1,7 @@
 import {
   TypedDocumentNode,
-  DocumentResult,
-  DocumentVariables,
+  OperationData,
+  OperationVariables,
   BaseTypedQuery,
   BaseTypedMutation,
   BaseOperations,
@@ -32,7 +32,7 @@ export type HasRequiredVariables<
   TTypedDocumentNode extends TypedDocumentNode<BaseOperations>,
   RequiredResult,
   OptionalResult
-> = RequiredKeys<DocumentVariables<TTypedDocumentNode>> extends never
+> = RequiredKeys<OperationVariables<TTypedDocumentNode>> extends never
   ? OptionalResult
   : RequiredResult;
 
@@ -42,8 +42,8 @@ type QueryHookOptions<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
 > = Omit<
   _QueryHookOptions<
-    DocumentResult<TTypedDocumentNode>,
-    DocumentVariables<TTypedDocumentNode>
+    OperationData<TTypedDocumentNode>,
+    OperationVariables<TTypedDocumentNode>
   >,
   "variables" | "query"
 >;
@@ -51,15 +51,15 @@ type QueryHookOptions<
 type QueryHookOptionsWithRequiredVariables<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
 > = QueryHookOptions<TTypedDocumentNode> & {
-  variables: DocumentVariables<TTypedDocumentNode>;
+  variables: OperationVariables<TTypedDocumentNode>;
 };
 
 type MutationHookFuncOptions<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 > = Omit<
   MutationFunctionOptions<
-    DocumentResult<TTypedDocumentNode>,
-    DocumentVariables<TTypedDocumentNode>
+    OperationData<TTypedDocumentNode>,
+    OperationVariables<TTypedDocumentNode>
   >,
   "variables"
 >;
@@ -71,19 +71,19 @@ type MutationTuple<
     TTypedDocumentNode,
     (
       options: MutationHookFuncOptions<TTypedDocumentNode> & {
-        variables: DocumentVariables<TTypedDocumentNode>;
+        variables: OperationVariables<TTypedDocumentNode>;
       }
-    ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>,
+    ) => Promise<FetchResult<OperationData<TTypedDocumentNode>>>,
     (
-      options?: DocumentVariables<TTypedDocumentNode> extends undefined
+      options?: OperationVariables<TTypedDocumentNode> extends undefined
         ? MutationHookFuncOptions<TTypedDocumentNode>
         : MutationHookFuncOptions<TTypedDocumentNode> & {
-            variables?: DocumentVariables<TTypedDocumentNode>;
+            variables?: OperationVariables<TTypedDocumentNode>;
           }
-    ) => Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>
+    ) => Promise<FetchResult<OperationData<TTypedDocumentNode>>>
   >,
 
-  MutationResult<DocumentResult<TTypedDocumentNode>>
+  MutationResult<OperationData<TTypedDocumentNode>>
 ];
 
 declare module "@apollo/client" {
@@ -98,17 +98,17 @@ declare module "@apollo/client" {
       ],
       | [
           TTypedDocumentNode,
-          DocumentVariables<TTypedDocumentNode> extends undefined
+          OperationVariables<TTypedDocumentNode> extends undefined
             ? QueryHookOptions<TTypedDocumentNode>
             : QueryHookOptions<TTypedDocumentNode> & {
-                variables?: DocumentVariables<TTypedDocumentNode>;
+                variables?: OperationVariables<TTypedDocumentNode>;
               }
         ]
       | [TTypedDocumentNode]
     >
   ): QueryResult<
-    DocumentResult<TTypedDocumentNode>,
-    DocumentVariables<TTypedDocumentNode>
+    OperationData<TTypedDocumentNode>,
+    OperationVariables<TTypedDocumentNode>
   >;
   export function useMutation<
     TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
@@ -124,23 +124,23 @@ export type MutationOptions<
   context?: any;
   fetchPolicy?: FetchPolicy;
   optimisticResponse?:
-    | DocumentResult<TTypedDocumentNode>
+    | OperationData<TTypedDocumentNode>
     | ((
-        vars: DocumentVariables<TTypedDocumentNode>
-      ) => DocumentResult<TTypedDocumentNode>);
-  updateQueries?: MutationQueryReducersMap<DocumentResult<TTypedDocumentNode>>;
+        vars: OperationVariables<TTypedDocumentNode>
+      ) => OperationData<TTypedDocumentNode>);
+  updateQueries?: MutationQueryReducersMap<OperationData<TTypedDocumentNode>>;
   refetchQueries?:
     | ((
-        result: ExecutionResult<DocumentResult<TTypedDocumentNode>>
+        result: ExecutionResult<OperationData<TTypedDocumentNode>>
       ) => RefetchQueryDescription)
     | RefetchQueryDescription;
   awaitRefetchQueries?: boolean;
-  update?: MutationUpdaterFn<DocumentResult<TTypedDocumentNode>>;
+  update?: MutationUpdaterFn<OperationData<TTypedDocumentNode>>;
   errorPolicy?: ErrorPolicy;
 } & HasRequiredVariables<
   TTypedDocumentNode,
-  { variables: DocumentVariables<TTypedDocumentNode> },
-  { variables?: DocumentVariables<TTypedDocumentNode> }
+  { variables: OperationVariables<TTypedDocumentNode> },
+  { variables?: OperationVariables<TTypedDocumentNode> }
 >;
 
 declare module "@apollo/client/ApolloClient" {
@@ -150,6 +150,6 @@ declare module "@apollo/client/ApolloClient" {
     // ): Promise<ApolloQueryResult<T>>;
     mutate<TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>>(
       options: MutationOptions<TTypedDocumentNode>
-    ): Promise<FetchResult<DocumentResult<TTypedDocumentNode>>>;
+    ): Promise<FetchResult<OperationData<TTypedDocumentNode>>>;
   }
 }

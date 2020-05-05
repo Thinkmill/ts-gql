@@ -4,7 +4,7 @@ import path from "path";
 import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
 import { hashString, parseTsGqlMeta } from "./utils";
-import { FsOperation } from "./types";
+import { FsOperation } from "./fs-operations";
 
 function generateSchemaTypes(
   schema: GraphQLSchema,
