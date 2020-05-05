@@ -7,16 +7,25 @@ import {
   FragmentDefinitionNode,
   visit,
   GraphQLSchema,
+  validate,
+  specifiedRules,
+  NoUnusedFragmentsRule,
+  GraphQLError,
 } from "graphql";
 import {
   parse as babelParse,
   transformFromAstAsync,
   PluginObj,
 } from "@babel/core";
+import { TaggedTemplateExpression } from "@babel/types";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
 import { cachedGenerateOperationTypes } from "./operation-types";
 import { FsOperation } from "./fs-operations";
+
+let fragmentDocumentRules = specifiedRules.filter(
+  (x) => x !== NoUnusedFragmentsRule
+);
 
 export const getGeneratedTypes = async ({
   schema,
@@ -37,7 +46,7 @@ export const getGeneratedTypes = async ({
   let nodeMap: Record<
     string,
     {
-      filename: string;
+      makeFrameError: (error: GraphQLError) => string;
       nodes:
         | readonly [OperationDefinitionNode, ...FragmentDefinitionNode[]]
         | readonly [FragmentDefinitionNode];
@@ -60,7 +69,7 @@ export const getGeneratedTypes = async ({
             plugins: [
               (): PluginObj => ({
                 visitor: {
-                  TaggedTemplateExpression(path) {
+                  TaggedTemplateExpression(path, state) {
                     let isGqlTag =
                       path.node.tag.type === "Identifier" &&
                       path.node.tag.name === "gql";
@@ -76,22 +85,37 @@ export const getGeneratedTypes = async ({
                     if (isGqlTag && hasNoInterpolations && parentIsAs) {
                       try {
                         let content = path.node.quasi.quasis[0].value.cooked!;
-                        let ast: DocumentNode | undefined;
-                        ast = parse(content);
-                        if (ast) {
-                          let nodes = getGqlNode(ast);
-                          let val = nodes[0].name!.value;
-                          if (nodeMap[val]) {
-                            errors.push(
-                              path
-                                .buildCodeFrameError(
-                                  `An operation already exists with the name ${val}`
-                                )
-                                .toString()
-                            );
-                          }
-                          nodeMap[val] = { nodes, filename: file };
+                        let ast = parse(content);
+
+                        let nodes = getGqlNode(ast);
+                        let val = nodes[0].name!.value;
+                        if (nodeMap[val]) {
+                          errors.push(
+                            path
+                              .buildCodeFrameError(
+                                `An operation already exists with the name ${val}`
+                              )
+                              .toString()
+                          );
                         }
+                        nodeMap[val] = {
+                          makeFrameError: (error) => {
+                            let loc = locFrom(path.node, error);
+                            if (loc) {
+                              // @ts-ignore
+                              return state.file
+                                .buildCodeFrameError(
+                                  { loc: { start: loc } },
+                                  error.message
+                                )
+                                .toString();
+                            }
+                            return path
+                              .buildCodeFrameError(error.message)
+                              .toString();
+                          },
+                          nodes,
+                        };
                       } catch (err) {
                         errors.push(
                           path.buildCodeFrameError(err.message).toString()
@@ -168,23 +192,61 @@ export const getGeneratedTypes = async ({
         )
       );
 
+      let document = {
+        kind: "Document",
+        definitions: nodes,
+      } as const;
+
+      let gqlErrors = validate(
+        schema,
+        document,
+        nodes[0].kind === "OperationDefinition"
+          ? specifiedRules
+          : fragmentDocumentRules
+      );
+
+      if (gqlErrors.length) {
+        // TODO: make this better
+        errors.push(
+          ...gqlErrors.map((err) => nodeMap[key].makeFrameError(err))
+        );
+      }
       let operation = await cachedGenerateOperationTypes(
         schema,
-        {
-          kind: "Document",
-          definitions: nodes,
-        },
+        document,
         nodes[0],
         path.join(generatedDirectory, `${nodes[0].name!.value}.ts`),
-        nodeMap[key].filename,
         schemaHash,
-        nodes[0].name!.value
+        nodes[0].name!.value,
+        gqlErrors.length === 0
       );
       if (operation) fsOperations.push(operation);
     })
   );
   return { fsOperations, errors };
 };
+
+function locFrom(node: TaggedTemplateExpression, error: GraphQLError) {
+  if (!error.locations || !error.locations.length) {
+    return;
+  }
+  const location = error.locations[0];
+
+  let line;
+  let column;
+  if (location.line === 1) {
+    line = node.loc!.start.line;
+    column = node.tag.loc!.end.column + location.column;
+  } else {
+    line = node.loc!.start.line + location.line - 1;
+    column = location.column - 1;
+  }
+
+  return {
+    line,
+    column,
+  };
+}
 
 function getFlatDependenciesForItem(
   deps: Record<string, string[]>,

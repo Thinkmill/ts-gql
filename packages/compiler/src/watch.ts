@@ -3,7 +3,7 @@ import { getRawConfig } from "./config";
 import { createWatcher } from "./watcher";
 import { getGeneratedTypes } from "../dist/compiler.cjs";
 import { getSchemaFromOptions } from "./get-schema";
-import { applyFsOperation } from "./fs-operations";
+import { applyFsOperation, FsOperation } from "./fs-operations";
 
 // TODO: handle changes incrementally
 export const watch = async (cwd: string) => {

@@ -1,9 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "84b94d7ccf9bd06288c6baa9705dd332",
-  "filename": "../../pages/apollo.tsx",
-  "partial": "query SomeQueryApollo"
+  "hash": "84b94d7ccf9bd06288c6baa9705dd332"
 }
 ts-gql-meta-end
 */

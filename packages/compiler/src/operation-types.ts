@@ -8,21 +8,38 @@ import {
   FragmentDefinitionNode,
 } from "graphql";
 import { codegen } from "./codegen-core";
-import path from "path";
-import slash from "slash";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
-import { FsOperation } from "./types";
+import { FsOperation } from "./fs-operations";
 
 async function generateOperationTypes(
   schema: GraphQLSchema,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
-  srcFilename: string,
   operationHash: string,
-  operationName: string
+  operationName: string,
+  isValid: boolean
 ): Promise<FsOperation> {
+  if (!isValid) {
+    return {
+      type: "output",
+      filename,
+      content: `/*\nts-gql-meta-begin\n${JSON.stringify(
+        {
+          hash: operationHash,
+        },
+        null,
+        2
+      )}\nts-gql-meta-end\n*/\n\n
+  
+  export type type = never
+  
+  throw new Error("There is an error in the types of ${operationName}")
+  `,
+    };
+  }
+
   let result = codegen({
     documents: [{ document: operation }],
     schema: parse(printSchema(schema)),
@@ -57,8 +74,6 @@ async function generateOperationTypes(
     content: `/*\nts-gql-meta-begin\n${JSON.stringify(
       {
         hash: operationHash,
-        filename: slash(path.relative(path.dirname(filename), srcFilename)),
-        partial: `${operationType} ${operationName}`,
       },
       null,
       2
@@ -89,9 +104,9 @@ export async function cachedGenerateOperationTypes(
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
-  srcFilename: string,
   schemaHash: string,
-  operationName: string
+  operationName: string,
+  isValid: boolean
 ) {
   let operationHash = hashString(schemaHash + JSON.stringify(operation) + "v3");
   let types: string;
@@ -104,9 +119,9 @@ export async function cachedGenerateOperationTypes(
         operation,
         operationNode,
         filename,
-        srcFilename,
         operationHash,
-        operationName
+        operationName,
+        isValid
       );
     }
     throw err;
@@ -118,9 +133,9 @@ export async function cachedGenerateOperationTypes(
       operation,
       operationNode,
       filename,
-      srcFilename,
       operationHash,
-      operationName
+      operationName,
+      isValid
     );
   }
 }

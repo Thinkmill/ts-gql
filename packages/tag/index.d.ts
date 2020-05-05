@@ -38,7 +38,7 @@ interface GqlTag {
   (
     strings: readonly string[],
     ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
-  ): TypedDocumentNode<BaseDocumentTypes>;
+  ): never;
   ___isTsGqlTag: true;
 }
 

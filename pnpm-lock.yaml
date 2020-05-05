@@ -72,16 +72,11 @@ importers:
       '@types/babel__core': 7.1.7
       '@types/fs-extra': 8.1.0
       '@types/invariant': 2.2.32
-      '@types/toposort': 2.0.3
       chokidar: 3.4.0
       find-pkg-json-field-up: 1.0.1
-      find-up: 4.1.0
       fs-extra: 9.0.0
       globby: 11.0.0
       invariant: 2.2.4
-      p-filter: 2.1.0
-      slash: 3.0.0
-      toposort: 2.0.2
     devDependencies:
       graphql: 14.6.0
     specifiers:
@@ -94,17 +89,12 @@ importers:
       '@types/babel__core': ^7.1.7
       '@types/fs-extra': ^8.1.0
       '@types/invariant': ^2.2.32
-      '@types/toposort': ^2.0.3
       chokidar: ^3.4.0
       find-pkg-json-field-up: ^1.0.1
-      find-up: ^4.1.0
       fs-extra: ^9.0.0
       globby: ^11.0.0
       graphql: ^14.0.0
       invariant: ^2.2.4
-      p-filter: ^2.1.0
-      slash: ^3.0.0
-      toposort: ^2.0.2
   packages/eslint-plugin:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -3476,10 +3466,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
-  /@types/toposort/2.0.3:
-    dev: false
-    resolution:
-      integrity: sha512-jRtyvEu0Na/sy0oIxBW0f6wPQjidgVqlmCTJVHEGTNEUdL1f0YSvdPzHY7nX7MUWAZS6zcAa0KkqofHjy/xDZQ==
   /@types/ws/6.0.4:
     dependencies:
       '@types/node': 13.13.2
@@ -11564,10 +11550,6 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
-  /toposort/2.0.2:
-    dev: false
-    resolution:
-      integrity: sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
   /tough-cookie/2.5.0:
     dependencies:
       psl: 1.8.0
