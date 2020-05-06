@@ -16,7 +16,6 @@ import {
   transformFromAstAsync,
   PluginObj,
 } from "@babel/core";
-import { TaggedTemplateExpression } from "@babel/types";
 import stripAnsi from "strip-ansi";
 import slash from "slash";
 import globby from "globby";
@@ -25,9 +24,83 @@ import { cachedGenerateOperationTypes } from "./operation-types";
 import { FsOperation } from "./fs-operations";
 import { Config } from "@ts-gql/config";
 
+type Position = {
+  line: number;
+  column: number;
+};
+
+type SourceLocation = {
+  start: Position;
+  end: Position;
+};
+
 let fragmentDocumentRules = specifiedRules.filter(
   (x) => x !== NoUnusedFragmentsRule
 );
+
+async function extractGraphQLDocumentsContentsFromFile(file: string) {
+  let errors: string[] = [];
+  let documents: { loc: SourceLocation; document: string }[];
+  let content = await fs.readFile(file, "utf8");
+  if (/gql\s*`/.test(content)) {
+    try {
+      let ast = babelParse(content, {
+        filename: file,
+        rootMode: "upward-optional",
+      })!;
+
+      await transformFromAstAsync(ast, content, {
+        plugins: [
+          (): PluginObj => ({
+            visitor: {
+              TaggedTemplateExpression(path) {
+                let isGqlTag =
+                  path.node.tag.type === "Identifier" &&
+                  path.node.tag.name === "gql";
+                let hasNoInterpolations =
+                  path.node.quasi.quasis.length === 1 &&
+                  path.node.quasi.expressions.length === 0;
+
+                // TODO: verify operation name === import
+                let parentIsAs =
+                  path.parent.type === "TSAsExpression" &&
+                  path.parent.typeAnnotation.type === "TSImportType";
+
+                if (isGqlTag && hasNoInterpolations && parentIsAs) {
+                  documents.push({
+                    loc: path.node.quasi.loc!,
+                    document: path.node.quasi.quasis[0].value.cooked!,
+                  });
+                }
+              },
+            },
+          }),
+        ],
+        babelrc: false,
+        code: false,
+        configFile: false,
+        filename: file,
+      });
+    } catch (err) {
+      errors.push(err.toString());
+    }
+  }
+  // is storing the contents of the file a bit bad for memory?
+  // yeah, probably
+  // why am i doing it?
+  // you ever used jest and seen a code frame that shows an error from some old code
+  // but the new code is shown in the code frame so it's ridiculously confusing
+  // because the code positions are totally wrong?
+  // yeah, that's why
+  // i don't want that
+  // i think showing the old code makes more sense
+  // while it might be a bit strange
+  return {};
+}
+
+async function buildNodeMap(files: string[], directory: string) {
+  await Promise.all(files.map(async (file) => {}));
+}
 
 export const getGeneratedTypes = async ({ schema, directory }: Config) => {
   let generatedDirectory = nodePath.join(
@@ -53,90 +126,6 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
   > = {};
 
   let errors: string[] = [];
-
-  await Promise.all(
-    files.map(async (file) => {
-      let content = await fs.readFile(file, "utf8");
-      if (/gql\s*`/.test(content)) {
-        try {
-          let ast = babelParse(content, {
-            filename: file,
-            rootMode: "upward-optional",
-          })!;
-
-          await transformFromAstAsync(ast, content, {
-            plugins: [
-              (): PluginObj => ({
-                visitor: {
-                  TaggedTemplateExpression(path, state) {
-                    let isGqlTag =
-                      path.node.tag.type === "Identifier" &&
-                      path.node.tag.name === "gql";
-                    let hasNoInterpolations =
-                      path.node.quasi.quasis.length === 1 &&
-                      path.node.quasi.expressions.length === 0;
-
-                    // TODO: verify operation name === import
-                    let parentIsAs =
-                      path.parent.type === "TSAsExpression" &&
-                      path.parent.typeAnnotation.type === "TSImportType";
-
-                    if (isGqlTag && hasNoInterpolations && parentIsAs) {
-                      try {
-                        let content = path.node.quasi.quasis[0].value.cooked!;
-                        let ast = parse(content);
-
-                        let nodes = getGqlNode(ast);
-                        let val = nodes[0].name!.value;
-                        if (nodeMap[val]) {
-                          errors.push(
-                            path
-                              .buildCodeFrameError(
-                                `An operation already exists with the name ${val}`
-                              )
-                              .toString()
-                          );
-                        }
-                        nodeMap[val] = {
-                          filename: slash(nodePath.relative(directory, file)),
-                          makeFrameError: (error) => {
-                            let loc = locFrom(path.node, error);
-                            if (loc) {
-                              // @ts-ignore
-                              return state.file
-                                .buildCodeFrameError(
-                                  { loc: { start: loc } },
-                                  error.message
-                                )
-                                .toString();
-                            }
-                            return path
-                              .buildCodeFrameError(error.message)
-                              .toString();
-                          },
-                          nodes,
-                        };
-                      } catch (err) {
-                        errors.push(
-                          path.buildCodeFrameError(err.message).toString()
-                        );
-                      }
-                    }
-                  },
-                },
-              }),
-            ],
-            babelrc: false,
-            code: false,
-            configFile: false,
-            filename: file,
-          });
-        } catch (err) {
-          errors.push(err.toString());
-        }
-      }
-    })
-  );
 
   let fsOperations: FsOperation[] = [];
 
@@ -245,7 +234,10 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
   return { fsOperations, errors };
 };
 
-function locFrom(node: TaggedTemplateExpression, error: GraphQLError) {
+function locFromSourceAndGraphQLError(
+  loc: SourceLocation,
+  error: GraphQLError
+) {
   if (!error.locations || !error.locations.length) {
     return;
   }
@@ -254,10 +246,10 @@ function locFrom(node: TaggedTemplateExpression, error: GraphQLError) {
   let line;
   let column;
   if (location.line === 1) {
-    line = node.loc!.start.line;
-    column = node.tag.loc!.end.column + location.column;
+    line = loc.start.line;
+    column = loc.end.column + location.column;
   } else {
-    line = node.loc!.start.line + location.line - 1;
+    line = loc.start.line + location.line - 1;
     column = location.column - 1;
   }
 
