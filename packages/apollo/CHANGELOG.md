@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.4.0
+
+### Minor Changes
+
+- [`0d551fd`](https://github.com/Thinkmill/ts-gql/commit/0d551fd388f97631ff90866c6e6ed91a57423037) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Re-export useQuery and useMutation from `@ts-gql/apollo` instead of declaration merging
+
 ## 0.3.0
 
 ### Minor Changes

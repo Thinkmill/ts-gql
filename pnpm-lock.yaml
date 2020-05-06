@@ -171,7 +171,7 @@ importers:
       urql: 1.9.7_react@16.13.1
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/apollo': ^0.3.0
+      '@ts-gql/apollo': ^0.4.0
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.2.0
       '@ts-gql/eslint-plugin': ^0.4.0
