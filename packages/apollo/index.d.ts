@@ -18,6 +18,7 @@ import {
   MutationQueryReducersMap,
   ExecutionResult,
   PureQueryOptions,
+  QueryFunctionOptions,
 } from "@apollo/client";
 
 export type RequiredKeys<T> = {
@@ -82,7 +83,6 @@ type MutationTuple<
           }
     ) => Promise<FetchResult<OperationData<TTypedDocumentNode>>>
   >,
-
   MutationResult<OperationData<TTypedDocumentNode>>
 ];
 
@@ -112,6 +112,41 @@ export function useQuery<
 export function useMutation<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
+
+type LazyQueryHookFuncOptions<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+> = Omit<
+  QueryFunctionOptions<
+    OperationData<TTypedDocumentNode>,
+    OperationVariables<TTypedDocumentNode>
+  >,
+  "variables"
+>;
+
+type LazyQueryTuple<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+> = [
+  HasRequiredVariables<
+    TTypedDocumentNode,
+    (
+      options: LazyQueryHookFuncOptions<TTypedDocumentNode> & {
+        variables: OperationVariables<TTypedDocumentNode>;
+      }
+    ) => Promise<FetchResult<OperationData<TTypedDocumentNode>>>,
+    (
+      options?: OperationVariables<TTypedDocumentNode> extends undefined
+        ? LazyQueryHookFuncOptions<TTypedDocumentNode>
+        : LazyQueryHookFuncOptions<TTypedDocumentNode> & {
+            variables?: OperationVariables<TTypedDocumentNode>;
+          }
+    ) => Promise<FetchResult<OperationData<TTypedDocumentNode>>>
+  >,
+  QueryResult<OperationData<TTypedDocumentNode>>
+];
+
+export function useLazyQuery<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+>(query: TTypedDocumentNode): LazyQueryTuple<TTypedDocumentNode>;
 
 type RefetchQueryDescription = Array<string | PureQueryOptions>;
 
