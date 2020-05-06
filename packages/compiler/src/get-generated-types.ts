@@ -216,7 +216,7 @@ export const getGeneratedTypes = async ({
       // TODO: make into proper validation thing
       if (
         nodes[0].kind === "FragmentDefinition" &&
-        (!nodes[0].name || /.+_.+/.test(nodes[0].name.value))
+        (!nodes[0].name || !/.+_.+/.test(nodes[0].name.value))
       ) {
         errors.push(
           nodeMap[key].makeFrameError(
