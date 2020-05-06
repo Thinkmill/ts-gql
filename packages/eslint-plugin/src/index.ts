@@ -10,11 +10,10 @@ import {
   FragmentDefinitionNode,
 } from "graphql";
 import slash from "slash";
-import { findPkgJsonFieldUpSync } from "find-pkg-json-field-up";
 import { handleTemplateTag } from "./parse";
 import { getNodes } from "./get-nodes";
 import { getParserServices } from "./get-parser-services";
-import { getSchemaFromOptions } from "./get-schema";
+import { getConfigSync, Config } from "@ts-gql/config";
 
 const createRule = ESLintUtils.RuleCreator(
   (name) =>
@@ -140,22 +139,6 @@ function checkDocument(
 
 export type MessageId = keyof typeof messages;
 
-function getConfig(cwd: string) {
-  let { packageJson, directory } = findPkgJsonFieldUpSync("ts-gql", cwd);
-  let field = packageJson["ts-gql"];
-  if (
-    typeof field === "object" &&
-    field !== null &&
-    typeof field.schema === "string"
-  ) {
-    return {
-      schema: getSchemaFromOptions(path.resolve(directory, field.schema)),
-      directory,
-    };
-  }
-  throw new Error("Config not found");
-}
-
 export const rules = {
   "ts-gql": createRule<[], MessageId>({
     name: "ts-gql",
@@ -175,12 +158,12 @@ export const rules = {
     create(context) {
       return {
         Program(programNode) {
-          let config: ReturnType<typeof getConfig> | undefined;
+          let config: Config | undefined;
           let report: typeof context["report"] = (arg) => {
             return context.report(arg);
           };
           const parserServices = getParserServices(context);
-          NodesLoop: for (const node of getNodes(context, programNode)) {
+          for (const node of getNodes(context, programNode)) {
             if (node.type === "TaggedTemplateExpression") {
               if (node.tag.type === "Identifier" && node.tag.name === "gql") {
                 let typeChecker = parserServices.program.getTypeChecker();
@@ -192,7 +175,7 @@ export const rules = {
                   continue;
                 }
                 if (!config) {
-                  config = getConfig(path.dirname(context.getFilename()));
+                  config = getConfigSync(path.dirname(context.getFilename()));
                 }
 
                 const document = handleTemplateTag(node, report, config.schema);

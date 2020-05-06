@@ -1,8 +1,8 @@
 import chokidar from "chokidar";
-import { getRawConfig } from "./config";
+import { getRawConfig } from "@ts-gql/config";
 import { createWatcher } from "./watcher";
 import { getGeneratedTypes } from "./get-generated-types";
-import { getSchemaFromOptions } from "./get-schema";
+import { readSchema } from "@ts-gql/config";
 import { applyFsOperation } from "./fs-operations";
 
 // TODO: handle changes incrementally
@@ -11,7 +11,7 @@ export const watch = async (cwd: string) => {
   let rawConfig = await getRawConfig(cwd);
 
   let getNext = createWatcher(
-    chokidar.watch(["**/*.{ts,tsx}"], {
+    chokidar.watch(["**/*.{ts,tsx}", rawConfig.schema], {
       cwd: rawConfig.directory,
       ignored: ["**/node_modules/**"],
     })
@@ -20,7 +20,7 @@ export const watch = async (cwd: string) => {
   while (true) {
     await getNext();
     let { fsOperations, errors } = await getGeneratedTypes({
-      schema: await getSchemaFromOptions(rawConfig.schema),
+      schema: await readSchema(rawConfig.schema),
       directory: rawConfig.directory,
     });
     await Promise.all(

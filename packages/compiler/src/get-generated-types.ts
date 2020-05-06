@@ -6,7 +6,6 @@ import {
   parse,
   FragmentDefinitionNode,
   visit,
-  GraphQLSchema,
   validate,
   specifiedRules,
   NoUnusedFragmentsRule,
@@ -24,18 +23,13 @@ import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
 import { cachedGenerateOperationTypes } from "./operation-types";
 import { FsOperation } from "./fs-operations";
+import { Config } from "@ts-gql/config";
 
 let fragmentDocumentRules = specifiedRules.filter(
   (x) => x !== NoUnusedFragmentsRule
 );
 
-export const getGeneratedTypes = async ({
-  schema,
-  directory,
-}: {
-  schema: GraphQLSchema;
-  directory: string;
-}) => {
+export const getGeneratedTypes = async ({ schema, directory }: Config) => {
   let generatedDirectory = nodePath.join(
     nodePath.join(directory, "__generated__", "ts-gql")
   );

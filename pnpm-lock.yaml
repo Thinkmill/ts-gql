@@ -70,6 +70,7 @@ importers:
       '@graphql-codegen/plugin-helpers': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript-operations': 1.13.3_graphql@14.6.0
+      '@ts-gql/config': 'link:../config'
       '@types/babel__core': 7.1.7
       '@types/fs-extra': 8.1.0
       '@types/invariant': 2.2.32
@@ -89,6 +90,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
+      '@ts-gql/config': ^0.0.0
       '@types/babel__core': ^7.1.7
       '@types/fs-extra': ^8.1.0
       '@types/invariant': ^2.2.32
@@ -100,12 +102,23 @@ importers:
       invariant: ^2.2.4
       slash: ^3.0.0
       strip-ansi: ^6.0.0
+  packages/config:
+    dependencies:
+      '@babel/runtime': 7.9.2
+      find-pkg-json-field-up: 1.0.1
+    devDependencies:
+      graphql: 14.6.0
+    specifiers:
+      '@babel/runtime': ^7.9.2
+      find-pkg-json-field-up: ^1.0.1
+      graphql: ^14.0.0
   packages/eslint-plugin:
     dependencies:
       '@babel/runtime': 7.9.2
       '@graphql-codegen/plugin-helpers': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript-operations': 1.13.3_graphql@14.6.0
+      '@ts-gql/config': 'link:../config'
       '@typescript-eslint/experimental-utils': 2.29.0
       find-pkg-json-field-up: 1.0.1
       slash: 3.0.0
@@ -117,6 +130,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
+      '@ts-gql/config': ^0.0.0
       '@typescript-eslint/experimental-utils': ^2.29.0
       '@typescript-eslint/parser': ^2.29.0
       find-pkg-json-field-up: ^1.0.1
@@ -3518,7 +3532,6 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
-      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:
