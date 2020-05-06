@@ -86,34 +86,32 @@ type MutationTuple<
   MutationResult<OperationData<TTypedDocumentNode>>
 ];
 
-declare module "@apollo/client" {
-  export function useQuery<
-    TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
-  >(
-    ...args: HasRequiredVariables<
+export function useQuery<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+>(
+  ...args: HasRequiredVariables<
+    TTypedDocumentNode,
+    [
       TTypedDocumentNode,
-      [
+      QueryHookOptionsWithRequiredVariables<TTypedDocumentNode>
+    ],
+    | [
         TTypedDocumentNode,
-        QueryHookOptionsWithRequiredVariables<TTypedDocumentNode>
-      ],
-      | [
-          TTypedDocumentNode,
-          OperationVariables<TTypedDocumentNode> extends undefined
-            ? QueryHookOptions<TTypedDocumentNode>
-            : QueryHookOptions<TTypedDocumentNode> & {
-                variables?: OperationVariables<TTypedDocumentNode>;
-              }
-        ]
-      | [TTypedDocumentNode]
-    >
-  ): QueryResult<
-    OperationData<TTypedDocumentNode>,
-    OperationVariables<TTypedDocumentNode>
-  >;
-  export function useMutation<
-    TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
-  >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
-}
+        OperationVariables<TTypedDocumentNode> extends undefined
+          ? QueryHookOptions<TTypedDocumentNode>
+          : QueryHookOptions<TTypedDocumentNode> & {
+              variables?: OperationVariables<TTypedDocumentNode>;
+            }
+      ]
+    | [TTypedDocumentNode]
+  >
+): QueryResult<
+  OperationData<TTypedDocumentNode>,
+  OperationVariables<TTypedDocumentNode>
+>;
+export function useMutation<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
+>(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
 
 type RefetchQueryDescription = Array<string | PureQueryOptions>;
 
