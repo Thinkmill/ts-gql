@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.2.1
+
+### Patch Changes
+
+- [`fb9523a`](https://github.com/Thinkmill/ts-gql/commit/fb9523ac73b1a73b379ba8d95d0c87851991d254) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix a bug
+
 ## 0.2.0
 
 ### Minor Changes
