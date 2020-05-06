@@ -197,18 +197,6 @@ export const getGeneratedTypes = async ({
           (x) => nodeMap[x].nodes[0] as FragmentDefinitionNode
         )
       );
-      // TODO: make into proper validation thing
-      if (nodes[0].kind === "FragmentDefinition") {
-        errors.push(
-          nodeMap[key].makeFrameError(
-            // @ts-ignore
-            {
-              message:
-                "Fragment names must be in the format ComponentName_propName",
-            }
-          )
-        );
-      }
       let document = {
         kind: "Document",
         definitions: nodes,
@@ -224,6 +212,22 @@ export const getGeneratedTypes = async ({
         // TODO: make this better
         nodeMap[key].makeFrameError(err)
       );
+
+      // TODO: make into proper validation thing
+      if (
+        nodes[0].kind === "FragmentDefinition" &&
+        (!nodes[0].name || /.+_.+/.test(nodes[0].name.value))
+      ) {
+        errors.push(
+          nodeMap[key].makeFrameError(
+            // @ts-ignore
+            {
+              message:
+                "Fragment names must be in the format ComponentName_propName",
+            }
+          )
+        );
+      }
 
       if (gqlErrors.length) {
         errors.push(...gqlErrors);
