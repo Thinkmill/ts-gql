@@ -31,16 +31,36 @@ type Position = {
 
 type SourceLocation = {
   start: Position;
-  end: Position;
+  end?: Position;
 };
+
+type CompilerError = {
+  message: string;
+  loc?: SourceLocation;
+};
+
+type CompilerErrors = {
+  [filename: string]: CompilerError[];
+};
+
+async function printCompilerErrors(compilerErrors: CompilerErrors) {
+  await Promise.all(
+    Object.keys(compilerErrors).map(async (filename) => {
+      let errors = compilerErrors[filename];
+      if (errors.length) {
+        await fs.readFile(filename);
+      }
+    })
+  );
+}
 
 let fragmentDocumentRules = specifiedRules.filter(
   (x) => x !== NoUnusedFragmentsRule
 );
 
 async function extractGraphQLDocumentsContentsFromFile(file: string) {
-  let errors: string[] = [];
-  let documents: { loc: SourceLocation; document: string }[];
+  let errors: CompilerError[] = [];
+  let documents: { loc: SourceLocation; document: string }[] = [];
   let content = await fs.readFile(file, "utf8");
   if (/gql\s*`/.test(content)) {
     try {
@@ -82,20 +102,10 @@ async function extractGraphQLDocumentsContentsFromFile(file: string) {
         filename: file,
       });
     } catch (err) {
-      errors.push(err.toString());
+      errors.push({ message: err.message, loc: err.loc });
     }
+    return { errors, filename: file, documents };
   }
-  // is storing the contents of the file a bit bad for memory?
-  // yeah, probably
-  // why am i doing it?
-  // you ever used jest and seen a code frame that shows an error from some old code
-  // but the new code is shown in the code frame so it's ridiculously confusing
-  // because the code positions are totally wrong?
-  // yeah, that's why
-  // i don't want that
-  // i think showing the old code makes more sense
-  // while it might be a bit strange
-  return {};
 }
 
 async function buildNodeMap(files: string[], directory: string) {
