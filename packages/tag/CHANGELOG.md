@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.5.0
+
+### Minor Changes
+
+- [`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Include all documents on typed document nodes
+
 ## 0.4.0
 
 ### Minor Changes

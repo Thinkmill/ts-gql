@@ -1,5 +1,18 @@
 # @ts-gql/compiler
 
+## 0.3.0
+
+### Minor Changes
+
+- [`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Include all documents on typed document nodes
+
+### Patch Changes
+
+- [`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Use `@ts-gql/config` package
+
+- Updated dependencies [[`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52)]:
+  - @ts-gql/config@0.1.0
+
 ## 0.2.2
 
 ### Patch Changes
