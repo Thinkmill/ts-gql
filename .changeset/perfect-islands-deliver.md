@@ -3,4 +3,4 @@
 "@ts-gql/eslint-plugin": patch
 ---
 
-Use `@ts-gql/tag` package
+Use `@ts-gql/config` package
