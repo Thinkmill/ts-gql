@@ -88,12 +88,17 @@ export type type = TypedDocumentNode<{
             operationName + upperCaseOperationName + "Variables"
           };`
     }
+  documents: SchemaTypes.TSGQLDocuments;
 }>
 
-export const document = ${JSON.stringify(
-      operation,
-      (key, value) => (key === "loc" ? undefined : value),
-      2
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    ${operationName}: type;
+  }
+}
+
+export const document = ${JSON.stringify(operation, (key, value) =>
+      key === "loc" ? undefined : value
     )}
 `,
   };
@@ -109,7 +114,7 @@ export async function cachedGenerateOperationTypes(
   error: string | undefined
 ) {
   let operationHash = hashString(
-    schemaHash + JSON.stringify(operation) + error || "" + "v3"
+    schemaHash + JSON.stringify(operation) + error || "" + "v4"
   );
   let types: string;
   try {

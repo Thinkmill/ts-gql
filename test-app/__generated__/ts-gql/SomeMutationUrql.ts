@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "0e1ed159f92134ea6763db5a36f5581a"
+  "hash": "9fadf9aded6eba5f143aac40cdaca969"
 }
 ts-gql-meta-end
 */
@@ -25,7 +25,14 @@ export type type = TypedDocumentNode<{
   type: "mutation";
   result: SomeMutationUrqlMutation;
   variables: SomeMutationUrqlMutationVariables;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    SomeMutationUrql: type;
+  }
+}
 
 export const document = {
   "kind": "Document",

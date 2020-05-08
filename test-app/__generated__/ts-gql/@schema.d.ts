@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "17699184ba591abefab2b8c03069a309"
+  "hash": "d827e8e5423bd4762c1edc18858c6e75"
 }
 ts-gql-meta-end
 */
@@ -61,3 +61,5 @@ export type Something = {
   readonly yes: Maybe<Scalars['Boolean']>;
   readonly no: Scalars['String'];
 };
+
+export interface TSGQLDocuments extends Record<string, import('@ts-gql').TypedDocumentNode<import('@ts-gql').BaseDocumentTypes>> {}

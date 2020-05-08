@@ -2,7 +2,10 @@ import { DocumentNode } from "graphql";
 
 // TODO: subscriptions
 
-export type BaseTypedDocument = { document?: string; result: any };
+export type BaseTypedDocument = {
+  result: any;
+  documents: Record<string, BaseDocumentTypes>;
+};
 
 export type BaseTypedQuery = BaseTypedDocument & {
   type: "query";
@@ -37,6 +40,10 @@ export type OperationVariables<
 export type FragmentData<
   Node extends TypedDocumentNode<BaseTypedFragment>
 > = Node["___type"]["result"];
+
+export type AllDocuments<
+  Node extends TypedDocumentNode<BaseDocumentTypes>
+> = Node["___type"]["documents"];
 
 interface GqlTag {
   (

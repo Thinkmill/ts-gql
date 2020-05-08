@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "47b813a856b0f10169ec44c5ebcfc4e3"
+  "hash": "51006bc50c355dbb9e625b93551f841e"
 }
 ts-gql-meta-end
 */
@@ -9,16 +9,23 @@ ts-gql-meta-end
 import * as SchemaTypes from "./@schema";
 import { TypedDocumentNode } from "@ts-gql/tag";
 
-type Something2ApolloFragment = (
+type Something2Urql_xFragment = (
   { readonly __typename: 'Query' }
-  & Pick<SchemaTypes.Query, 'hello'>
+  & Pick<SchemaTypes.Query, 'something'>
 );
 
 
 export type type = TypedDocumentNode<{
   type: "fragment";
-  result: Something2ApolloFragment;
+  result: Something2Urql_xFragment;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    Something2Urql_x: type;
+  }
+}
 
 export const document = {
   "kind": "Document",
@@ -27,7 +34,7 @@ export const document = {
       "kind": "FragmentDefinition",
       "name": {
         "kind": "Name",
-        "value": "Something2Apollo"
+        "value": "Something2Urql_x"
       },
       "typeCondition": {
         "kind": "NamedType",
@@ -44,7 +51,7 @@ export const document = {
             "kind": "Field",
             "name": {
               "kind": "Name",
-              "value": "hello"
+              "value": "something"
             },
             "arguments": [],
             "directives": []

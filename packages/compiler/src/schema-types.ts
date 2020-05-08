@@ -40,7 +40,7 @@ function generateSchemaTypes(
       { hash: schemaHash },
       null,
       2
-    )}\nts-gql-meta-end\n*/\n${result}`,
+    )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql').TypedDocumentNode<import('@ts-gql').BaseDocumentTypes>> {}`,
   };
 }
 
@@ -50,7 +50,7 @@ export async function cachedGenerateSchemaTypes(
   scalars: Record<string, string>
 ) {
   let printedSchema = printSchema(schema);
-  let schemaHash = hashString(printedSchema + JSON.stringify(scalars) + "v1");
+  let schemaHash = hashString(printedSchema + JSON.stringify(scalars) + "v2");
   let types: string;
   let filename = path.join(directory, "@schema.d.ts");
   try {

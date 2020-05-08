@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "0b3dacc12924bc730134f2ad94a7bbb7"
+  "hash": "bb6f31b5f9c07bdb5e64071cb59f4ddc"
 }
 ts-gql-meta-end
 */
@@ -22,7 +22,14 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: MyQueryUrqlQuery;
   variables: MyQueryUrqlQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    MyQueryUrql: type;
+  }
+}
 
 export const document = {
   "kind": "Document",

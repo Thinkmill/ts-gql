@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "e52029c17dd27ac59337fc58496d3619"
+  "hash": "1c4c0a81655082ca5729a96247ef6d8e"
 }
 ts-gql-meta-end
 */
@@ -18,10 +18,10 @@ type SomeQueryUrqlQuery = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'optional'>
   & { ye: SchemaTypes.Query['something'] }
-  & Something2UrqlFragment
+  & Something2Urql_xFragment
 );
 
-type Something2UrqlFragment = (
+type Something2Urql_xFragment = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'something'>
 );
@@ -31,7 +31,14 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: SomeQueryUrqlQuery;
   variables: SomeQueryUrqlQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    SomeQueryUrql: type;
+  }
+}
 
 export const document = {
   "kind": "Document",
@@ -111,7 +118,7 @@ export const document = {
             "kind": "FragmentSpread",
             "name": {
               "kind": "Name",
-              "value": "Something2Urql"
+              "value": "Something2Urql_x"
             },
             "directives": []
           }
@@ -122,7 +129,7 @@ export const document = {
       "kind": "FragmentDefinition",
       "name": {
         "kind": "Name",
-        "value": "Something2Urql"
+        "value": "Something2Urql_x"
       },
       "typeCondition": {
         "kind": "NamedType",

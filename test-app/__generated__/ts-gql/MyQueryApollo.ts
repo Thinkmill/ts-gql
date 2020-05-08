@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "c12690a0b56d8808f75a161739100ca3"
+  "hash": "e0fbf4d042dfa78a6397b3cb40461772"
 }
 ts-gql-meta-end
 */
@@ -22,7 +22,14 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: MyQueryApolloQuery;
   variables: MyQueryApolloQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    MyQueryApollo: type;
+  }
+}
 
 export const document = {
   "kind": "Document",

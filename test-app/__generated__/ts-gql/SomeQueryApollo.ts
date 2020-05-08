@@ -1,7 +1,7 @@
 /*
 ts-gql-meta-begin
 {
-  "hash": "ff2a3daf0a5c683c662ab9084ec5f5c3"
+  "hash": "9daf144fc9f094d61b9929d4f64f9c28"
 }
 ts-gql-meta-end
 */
@@ -18,10 +18,10 @@ type SomeQueryApolloQuery = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'optional'>
   & { ye: SchemaTypes.Query['something'] }
-  & Something2ApolloFragment
+  & Something2Apollo_xFragment
 );
 
-type Something2ApolloFragment = (
+type Something2Apollo_xFragment = (
   { readonly __typename: 'Query' }
   & Pick<SchemaTypes.Query, 'hello'>
 );
@@ -31,7 +31,14 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: SomeQueryApolloQuery;
   variables: SomeQueryApolloQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments
 }>
+
+declare module "./@schema" {
+  interface TSGQLDocuments {
+    SomeQueryApollo: type;
+  }
+}
 
 export const document = {
   "kind": "Document",
@@ -111,7 +118,7 @@ export const document = {
             "kind": "FragmentSpread",
             "name": {
               "kind": "Name",
-              "value": "Something2Apollo"
+              "value": "Something2Apollo_x"
             },
             "directives": []
           }
@@ -122,7 +129,7 @@ export const document = {
       "kind": "FragmentDefinition",
       "name": {
         "kind": "Name",
-        "value": "Something2Apollo"
+        "value": "Something2Apollo_x"
       },
       "typeCondition": {
         "kind": "NamedType",

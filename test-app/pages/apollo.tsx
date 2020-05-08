@@ -1,6 +1,5 @@
-import "@ts-gql/apollo";
-import { gql, DocumentResult } from "@ts-gql/tag";
-import { useQuery, useApolloClient } from "@apollo/client";
+import { gql } from "@ts-gql/tag";
+import { useQuery, useMutation } from "@ts-gql/apollo";
 
 const query2 = gql`
   query MyQueryApollo {
@@ -10,21 +9,17 @@ const query2 = gql`
 ` as import("../__generated__/ts-gql/MyQueryApollo").type;
 
 const someFragment = gql`
-  fragment Something2Apollo on Query {
+  fragment Something2Apollo_x on Query {
     hello
   }
-` as import("../__generated__/ts-gql/Something2Apollo").type;
-
-function MyComp({ query }: { query: DocumentResult<typeof someFragment> }) {
-  return null;
-}
+` as import("../__generated__/ts-gql/Something2Apollo_x").type;
 
 let query = gql`
   query SomeQueryApollo($arg: String!) {
     optional(thing: $arg)
     ye: something
 
-    ...Something2Apollo
+    ...Something2Apollo_x
   }
 ` as import("../__generated__/ts-gql/SomeQueryApollo").type;
 
@@ -43,8 +38,11 @@ export default () => {
   // <MyComp query={data} />;
   // data.hello;
   // data.another;
-  // let [mutate] = useMutation(someMutation);
-  // mutate({ variables: { arg: "" } });
+  let [mutate] = useMutation(someMutation);
+  mutate({
+    variables: { arg: "" },
+    refetchQueries: ["MyQueryUrql", "SomeQueryApollo"],
+  });
   // data.hello;
   // data.other;
   // data.aTh;
