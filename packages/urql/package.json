@@ -1,11 +1,11 @@
 {
   "name": "@ts-gql/urql",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "dist/urql.cjs.js",
   "module": "dist/urql.esm.js",
   "license": "MIT",
   "dependencies": {
-    "@ts-gql/tag": "^0.4.0"
+    "@ts-gql/tag": "^0.5.0"
   },
   "peerDependencies": {
     "urql": "*"

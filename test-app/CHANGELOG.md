@@ -1,5 +1,17 @@
 # @ts-gql/test-app
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [[`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f), [`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52), [`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f)]:
+  - @ts-gql/compiler@0.3.0
+  - @ts-gql/tag@0.5.0
+  - @ts-gql/eslint-plugin@0.4.1
+  - @ts-gql/apollo@0.5.0
+  - @ts-gql/next@3.0.0
+  - @ts-gql/urql@0.3.1
+
 ## 0.1.5
 
 ### Patch Changes

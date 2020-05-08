@@ -1,5 +1,16 @@
 # @ts-gql/apollo
 
+## 0.5.0
+
+### Minor Changes
+
+- [`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Restrict the type of `refetchQueries` to be the name of queries rather than `string`
+
+### Patch Changes
+
+- Updated dependencies [[`abba421`](https://github.com/Thinkmill/ts-gql/commit/abba4214b10bc878de9c7c9e350e5ef04f3ef11f)]:
+  - @ts-gql/tag@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
