@@ -101,8 +101,10 @@ declare module "./@schema" {
   }
 }
 
-export const document = ${JSON.stringify(operation, (key, value) =>
-      key === "loc" ? undefined : value
+export const document = ${JSON.stringify(
+      operation,
+      (key, value) => (key === "loc" ? undefined : value),
+      2
     )}
 `),
   };
