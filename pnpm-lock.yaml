@@ -51,7 +51,7 @@ importers:
       '@apollo/client': 3.0.0-beta.43
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/tag': ^0.4.0
+      '@ts-gql/tag': ^0.5.0
   packages/babel-plugin:
     dependencies:
       '@babel/helper-module-imports': 7.8.3
@@ -90,7 +90,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.0.0
+      '@ts-gql/config': ^0.1.0
       '@types/babel__core': ^7.1.7
       '@types/fs-extra': ^8.1.0
       '@types/invariant': ^2.2.32
@@ -130,7 +130,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.0.0
+      '@ts-gql/config': ^0.1.0
       '@typescript-eslint/experimental-utils': ^2.29.0
       '@typescript-eslint/parser': ^2.29.0
       find-pkg-json-field-up: ^1.0.1
@@ -146,7 +146,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.9.2
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.2.0
+      '@ts-gql/compiler': ^0.3.0
       graphql: ^14.0.0
   packages/tag:
     dependencies:
@@ -162,7 +162,7 @@ importers:
     devDependencies:
       urql: 1.9.7
     specifiers:
-      '@ts-gql/tag': ^0.4.0
+      '@ts-gql/tag': ^0.5.0
       urql: ^1.9.7
   test-app:
     dependencies:
@@ -185,13 +185,13 @@ importers:
       urql: 1.9.7_react@16.13.1
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/apollo': ^0.4.0
+      '@ts-gql/apollo': ^0.5.0
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.2.0
-      '@ts-gql/eslint-plugin': ^0.4.0
-      '@ts-gql/next': ^2.0.0
-      '@ts-gql/tag': ^0.4.0
-      '@ts-gql/urql': ^0.3.0
+      '@ts-gql/compiler': ^0.3.0
+      '@ts-gql/eslint-plugin': ^0.4.1
+      '@ts-gql/next': ^3.0.0
+      '@ts-gql/tag': ^0.5.0
+      '@ts-gql/urql': ^0.3.1
       '@types/node': ^13.13.2
       '@types/react': ^16.9.34
       '@typescript-eslint/parser': ^2.29.0
@@ -3532,6 +3532,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
+      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:

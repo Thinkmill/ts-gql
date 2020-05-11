@@ -139,16 +139,22 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
 
   let fsOperations: FsOperation[] = [];
 
-  let generatedDirectoryFiles = (await fs.readdir(generatedDirectory))
-    .filter((x) => x !== "@schema.d.ts")
-    .map((x) => x.replace(/\.ts$/, ""));
+  try {
+    let generatedDirectoryFiles = (await fs.readdir(generatedDirectory))
+      .filter((x) => x !== "@schema.d.ts")
+      .map((x) => x.replace(/\.ts$/, ""));
 
-  for (let name of generatedDirectoryFiles) {
-    if (nodeMap[name] === undefined) {
-      fsOperations.push({
-        type: "remove",
-        filename: nodePath.join(generatedDirectory, name + ".ts"),
-      });
+    for (let name of generatedDirectoryFiles) {
+      if (nodeMap[name] === undefined) {
+        fsOperations.push({
+          type: "remove",
+          filename: nodePath.join(generatedDirectory, name + ".ts"),
+        });
+      }
+    }
+  } catch (err) {
+    if (err.code !== "ENOENT") {
+      throw err;
     }
   }
 

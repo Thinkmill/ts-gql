@@ -5,6 +5,8 @@ import {
   BaseTypedQuery,
   BaseTypedMutation,
   BaseOperations,
+  AllDocuments,
+  BaseDocumentTypes,
 } from "@ts-gql/tag";
 import {
   QueryHookOptions as _QueryHookOptions,
@@ -17,7 +19,6 @@ import {
   ErrorPolicy,
   MutationQueryReducersMap,
   ExecutionResult,
-  PureQueryOptions,
 } from "@apollo/client";
 
 export type RequiredKeys<T> = {
@@ -61,8 +62,8 @@ type MutationHookFuncOptions<
     OperationData<TTypedDocumentNode>,
     OperationVariables<TTypedDocumentNode>
   >,
-  "variables"
->;
+  "variables" | "refetchQueries"
+> & { refetchQueries?: RefetchQueryDescription<TTypedDocumentNode> };
 
 type MutationTuple<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
@@ -113,7 +114,23 @@ export function useMutation<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
 
-type RefetchQueryDescription = Array<string | PureQueryOptions>;
+type KnownKeysWhichAreQueries<T extends Record<string, BaseDocumentTypes>> = {
+  [K in keyof T]: string extends K
+    ? never
+    : number extends K
+    ? never
+    : T[K] extends TypedDocumentNode<BaseTypedQuery>
+    ? K
+    : never;
+} extends { [_ in keyof T]: infer U }
+  ? {} extends U
+    ? never
+    : U
+  : never;
+
+type RefetchQueryDescription<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
+> = Array<KnownKeysWhichAreQueries<AllDocuments<TTypedDocumentNode>>>;
 
 export type MutationOptions<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
@@ -130,8 +147,8 @@ export type MutationOptions<
   refetchQueries?:
     | ((
         result: ExecutionResult<OperationData<TTypedDocumentNode>>
-      ) => RefetchQueryDescription)
-    | RefetchQueryDescription;
+      ) => RefetchQueryDescription<TTypedDocumentNode>)
+    | RefetchQueryDescription<TTypedDocumentNode>;
   awaitRefetchQueries?: boolean;
   update?: MutationUpdaterFn<OperationData<TTypedDocumentNode>>;
   errorPolicy?: ErrorPolicy;

@@ -1,6 +1,5 @@
-import { HasRequiredVariables, RequiredKeys } from "@ts-gql/urql";
-import { gql, DocumentVariables } from "@ts-gql/tag";
-import { useQuery, useMutation } from "urql";
+import { gql } from "@ts-gql/tag";
+import { useQuery } from "urql";
 import "../__generated__/ts-gql/SomethingOther";
 
 const query2 = gql`
@@ -10,17 +9,17 @@ const query2 = gql`
 ` as import("../__generated__/ts-gql/MyQueryUrql").type;
 
 const someFragment = gql`
-  fragment Something2Urql on Query {
+  fragment Something2Urql_x on Query {
     something
   }
-` as import("../__generated__/ts-gql/Something2Urql").type;
+` as import("../__generated__/ts-gql/Something2Urql_x").type;
 
 let query = gql`
   query SomeQueryUrql($arg: String!) {
     optional(thing: $arg)
     ye: something
 
-    ...Something2Urql
+    ...Something2Urql_x
   }
 ` as import("../__generated__/ts-gql/SomeQueryUrql").type;
 
