@@ -11,6 +11,10 @@ import { codegen } from "./codegen-core";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
+import {
+  getDoesFileHaveIntegrity,
+  wrapFileInIntegrityComment,
+} from "./integrity";
 
 async function generateOperationTypes(
   schema: GraphQLSchema,
@@ -71,7 +75,7 @@ throw new Error(${JSON.stringify(error)});
   return {
     type: "output",
     filename,
-    content: `/*\nts-gql-meta-begin\n${JSON.stringify(
+    content: wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
       {
         hash: operationHash,
       },
@@ -100,7 +104,7 @@ declare module "./@schema" {
 export const document = ${JSON.stringify(operation, (key, value) =>
       key === "loc" ? undefined : value
     )}
-`,
+`),
   };
 }
 
@@ -133,8 +137,10 @@ export async function cachedGenerateOperationTypes(
     }
     throw err;
   }
-  let meta = parseTsGqlMeta(types);
-  if (meta.hash !== operationHash) {
+  if (
+    !getDoesFileHaveIntegrity(types) ||
+    parseTsGqlMeta(types).hash !== operationHash
+  ) {
     return generateOperationTypes(
       schema,
       operation,

@@ -1,3 +1,4 @@
+// ts-gql-integrity:6313a5f378da46a8ece79aa9af65a430
 /*
 ts-gql-meta-begin
 {
@@ -22,7 +23,7 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: MyQueryUrqlQuery;
   variables: MyQueryUrqlQueryVariables;
-  documents: SchemaTypes.TSGQLDocuments
+  documents: SchemaTypes.TSGQLDocuments;
 }>
 
 declare module "./@schema" {
@@ -31,32 +32,4 @@ declare module "./@schema" {
   }
 }
 
-export const document = {
-  "kind": "Document",
-  "definitions": [
-    {
-      "kind": "OperationDefinition",
-      "operation": "query",
-      "name": {
-        "kind": "Name",
-        "value": "MyQueryUrql"
-      },
-      "variableDefinitions": [],
-      "directives": [],
-      "selectionSet": {
-        "kind": "SelectionSet",
-        "selections": [
-          {
-            "kind": "Field",
-            "name": {
-              "kind": "Name",
-              "value": "hello"
-            },
-            "arguments": [],
-            "directives": []
-          }
-        ]
-      }
-    }
-  ]
-}
+export const document = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyQueryUrql"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"},"arguments":[],"directives":[]}]}}]}

@@ -1,3 +1,4 @@
+// ts-gql-integrity:2c8233df98cc217f096110e7ca671437
 /*
 ts-gql-meta-begin
 {
@@ -25,7 +26,7 @@ export type type = TypedDocumentNode<{
   type: "mutation";
   result: SomeMutationUrqlMutation;
   variables: SomeMutationUrqlMutationVariables;
-  documents: SchemaTypes.TSGQLDocuments
+  documents: SchemaTypes.TSGQLDocuments;
 }>
 
 declare module "./@schema" {
@@ -34,82 +35,4 @@ declare module "./@schema" {
   }
 }
 
-export const document = {
-  "kind": "Document",
-  "definitions": [
-    {
-      "kind": "OperationDefinition",
-      "operation": "mutation",
-      "name": {
-        "kind": "Name",
-        "value": "SomeMutationUrql"
-      },
-      "variableDefinitions": [
-        {
-          "kind": "VariableDefinition",
-          "variable": {
-            "kind": "Variable",
-            "name": {
-              "kind": "Name",
-              "value": "arg"
-            }
-          },
-          "type": {
-            "kind": "NonNullType",
-            "type": {
-              "kind": "NamedType",
-              "name": {
-                "kind": "Name",
-                "value": "String"
-              }
-            }
-          },
-          "directives": []
-        }
-      ],
-      "directives": [],
-      "selectionSet": {
-        "kind": "SelectionSet",
-        "selections": [
-          {
-            "kind": "Field",
-            "name": {
-              "kind": "Name",
-              "value": "optional"
-            },
-            "arguments": [
-              {
-                "kind": "Argument",
-                "name": {
-                  "kind": "Name",
-                  "value": "thing"
-                },
-                "value": {
-                  "kind": "Variable",
-                  "name": {
-                    "kind": "Name",
-                    "value": "arg"
-                  }
-                }
-              }
-            ],
-            "directives": []
-          },
-          {
-            "kind": "Field",
-            "alias": {
-              "kind": "Name",
-              "value": "ye"
-            },
-            "name": {
-              "kind": "Name",
-              "value": "something"
-            },
-            "arguments": [],
-            "directives": []
-          }
-        ]
-      }
-    }
-  ]
-}
+export const document = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SomeMutationUrql"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"arg"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"optional"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"thing"},"value":{"kind":"Variable","name":{"kind":"Name","value":"arg"}}}],"directives":[]},{"kind":"Field","alias":{"kind":"Name","value":"ye"},"name":{"kind":"Name","value":"something"},"arguments":[],"directives":[]}]}}]}

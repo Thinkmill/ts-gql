@@ -5,6 +5,10 @@ import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
+import {
+  wrapFileInIntegrityComment,
+  getDoesFileHaveIntegrity,
+} from "./integrity";
 
 function generateSchemaTypes(
   schema: GraphQLSchema,
@@ -36,11 +40,13 @@ function generateSchemaTypes(
   return {
     type: "output",
     filename,
-    content: `/*\nts-gql-meta-begin\n${JSON.stringify(
-      { hash: schemaHash },
-      null,
-      2
-    )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql').TypedDocumentNode<import('@ts-gql').BaseDocumentTypes>> {}`,
+    content: wrapFileInIntegrityComment(
+      `/*\nts-gql-meta-begin\n${JSON.stringify(
+        { hash: schemaHash },
+        null,
+        2
+      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql').TypedDocumentNode<import('@ts-gql').BaseDocumentTypes>> {}`
+    ),
   };
 }
 
@@ -64,8 +70,10 @@ export async function cachedGenerateSchemaTypes(
     }
     throw err;
   }
-  let meta = parseTsGqlMeta(types);
-  if (meta.hash !== schemaHash) {
+  if (
+    !getDoesFileHaveIntegrity(types) ||
+    parseTsGqlMeta(types).hash !== schemaHash
+  ) {
     return {
       hash: schemaHash,
       operation: generateSchemaTypes(schema, filename, schemaHash, scalars),

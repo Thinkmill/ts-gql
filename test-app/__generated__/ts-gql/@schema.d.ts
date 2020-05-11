@@ -1,3 +1,4 @@
+// ts-gql-integrity:7b1c17aae603a80cbe46a05fa3de6053
 /*
 ts-gql-meta-begin
 {

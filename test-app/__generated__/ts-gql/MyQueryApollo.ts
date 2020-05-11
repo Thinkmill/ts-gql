@@ -1,3 +1,4 @@
+// ts-gql-integrity:81164b36d57c7d3144391ced56030ccd
 /*
 ts-gql-meta-begin
 {
@@ -22,7 +23,7 @@ export type type = TypedDocumentNode<{
   type: "query";
   result: MyQueryApolloQuery;
   variables: MyQueryApolloQueryVariables;
-  documents: SchemaTypes.TSGQLDocuments
+  documents: SchemaTypes.TSGQLDocuments;
 }>
 
 declare module "./@schema" {
@@ -31,41 +32,4 @@ declare module "./@schema" {
   }
 }
 
-export const document = {
-  "kind": "Document",
-  "definitions": [
-    {
-      "kind": "OperationDefinition",
-      "operation": "query",
-      "name": {
-        "kind": "Name",
-        "value": "MyQueryApollo"
-      },
-      "variableDefinitions": [],
-      "directives": [],
-      "selectionSet": {
-        "kind": "SelectionSet",
-        "selections": [
-          {
-            "kind": "Field",
-            "name": {
-              "kind": "Name",
-              "value": "hello"
-            },
-            "arguments": [],
-            "directives": []
-          },
-          {
-            "kind": "Field",
-            "name": {
-              "kind": "Name",
-              "value": "another"
-            },
-            "arguments": [],
-            "directives": []
-          }
-        ]
-      }
-    }
-  ]
-}
+export const document = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyQueryApollo"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"another"},"arguments":[],"directives":[]}]}}]}

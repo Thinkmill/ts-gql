@@ -1,3 +1,4 @@
+// ts-gql-integrity:aa2652a3cc05cc275226744d806fd3b2
 /*
 ts-gql-meta-begin
 {
@@ -18,7 +19,7 @@ type Something2Apollo_xFragment = (
 export type type = TypedDocumentNode<{
   type: "fragment";
   result: Something2Apollo_xFragment;
-  documents: SchemaTypes.TSGQLDocuments
+  documents: SchemaTypes.TSGQLDocuments;
 }>
 
 declare module "./@schema" {
@@ -27,37 +28,4 @@ declare module "./@schema" {
   }
 }
 
-export const document = {
-  "kind": "Document",
-  "definitions": [
-    {
-      "kind": "FragmentDefinition",
-      "name": {
-        "kind": "Name",
-        "value": "Something2Apollo_x"
-      },
-      "typeCondition": {
-        "kind": "NamedType",
-        "name": {
-          "kind": "Name",
-          "value": "Query"
-        }
-      },
-      "directives": [],
-      "selectionSet": {
-        "kind": "SelectionSet",
-        "selections": [
-          {
-            "kind": "Field",
-            "name": {
-              "kind": "Name",
-              "value": "hello"
-            },
-            "arguments": [],
-            "directives": []
-          }
-        ]
-      }
-    }
-  ]
-}
+export const document = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Something2Apollo_x"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Query"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"},"arguments":[],"directives":[]}]}}]}
