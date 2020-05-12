@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/apollo",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "main": "dist/apollo.cjs.js",
   "module": "dist/apollo.esm.js",
   "license": "MIT",
