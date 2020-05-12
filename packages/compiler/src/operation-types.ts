@@ -111,7 +111,7 @@ export type type = never;
 
 throw new Error(typeof window === 'undefined' ? ${JSON.stringify(
       stripAnsi(error)
-    )} : ${JSON.stringify(error)};
+    )} : ${JSON.stringify(error)});
 `),
   };
 }

@@ -285,9 +285,9 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
             filename,
             `${uniqueDocumentsByName[key].filename}\nThere ${
               gqlErrors.length === 1 ? "is an error" : "are errors"
-            } with ${nodes[0].name.value}\n${stripAnsi(
-              gqlErrors.map((x) => printCompilerError(x)).join("\n")
-            )}`
+            } with ${nodes[0].name.value}\n${(
+              await Promise.all(errors.map((x) => printCompilerError(x)))
+            ).join("\n")}`
           )
         : await cachedGenerateOperationTypes(
             schema,
