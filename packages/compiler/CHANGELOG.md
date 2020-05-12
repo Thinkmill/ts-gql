@@ -1,5 +1,15 @@
 # @ts-gql/compiler
 
+## 0.4.0
+
+### Minor Changes
+
+- [`e0cdba4`](https://github.com/Thinkmill/ts-gql/commit/e0cdba40c84c522845e860bec694d837bfaec684) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add indentation back to printed GraphQL documents
+
+* [`ef7a2fe`](https://github.com/Thinkmill/ts-gql/commit/ef7a2fec4b05b7a9b2622ccf5e5e7d5f564311ea) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Re-generate generated files if the content is not what the compiler generated
+
+- [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Optimise compiler performance
+
 ## 0.3.0
 
 ### Minor Changes

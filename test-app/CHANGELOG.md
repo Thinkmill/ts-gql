@@ -1,5 +1,13 @@
 # @ts-gql/test-app
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [[`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b), [`e0cdba4`](https://github.com/Thinkmill/ts-gql/commit/e0cdba40c84c522845e860bec694d837bfaec684), [`ef7a2fe`](https://github.com/Thinkmill/ts-gql/commit/ef7a2fec4b05b7a9b2622ccf5e5e7d5f564311ea), [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b)]:
+  - @ts-gql/next@4.0.0
+  - @ts-gql/compiler@0.4.0
+
 ## 0.1.6
 
 ### Patch Changes
