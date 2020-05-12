@@ -1,5 +1,16 @@
 # @ts-gql/next
 
+## 4.0.0
+
+### Major Changes
+
+- [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Exit the process when ts-gql fails with a fatal error(this means something has gone very wrong, not that a user has a syntax error, a GraphQL error or etc.)
+
+### Patch Changes
+
+- Updated dependencies [[`e0cdba4`](https://github.com/Thinkmill/ts-gql/commit/e0cdba40c84c522845e860bec694d837bfaec684), [`ef7a2fe`](https://github.com/Thinkmill/ts-gql/commit/ef7a2fec4b05b7a9b2622ccf5e5e7d5f564311ea), [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b)]:
+  - @ts-gql/compiler@0.4.0
+
 ## 3.0.0
 
 ### Patch Changes

@@ -148,7 +148,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.9.2
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.3.0
+      '@ts-gql/compiler': ^0.4.0
       graphql: ^14.0.0
   packages/tag:
     dependencies:
@@ -189,9 +189,9 @@ importers:
       '@apollo/client': ^3.0.0-beta.43
       '@ts-gql/apollo': ^0.5.0
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.3.0
+      '@ts-gql/compiler': ^0.4.0
       '@ts-gql/eslint-plugin': ^0.4.1
-      '@ts-gql/next': ^3.0.0
+      '@ts-gql/next': ^4.0.0
       '@ts-gql/tag': ^0.5.0
       '@ts-gql/urql': ^0.3.1
       '@types/node': ^13.13.2
