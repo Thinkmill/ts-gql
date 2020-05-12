@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.5.1
+
+### Patch Changes
+
+- [`89bbe8b`](https://github.com/Thinkmill/ts-gql/commit/89bbe8bbd8c3ed3fd3d42ccb5fb0bfacb0d15575) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix the type of the `documents` field
+
 ## 0.5.0
 
 ### Minor Changes
