@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.4.1
+
+### Patch Changes
+
+- [`23aba77`](https://github.com/Thinkmill/ts-gql/commit/23aba77d087ceb631f4952161062ab2b49821814) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix generating incorrect error files
+
 ## 0.4.0
 
 ### Minor Changes
