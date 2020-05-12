@@ -4,7 +4,7 @@ import { DocumentNode } from "graphql";
 
 export type BaseTypedDocument = {
   result: any;
-  documents: Record<string, BaseDocumentTypes>;
+  documents: Record<string, TypedDocumentNode<BaseDocumentTypes>>;
 };
 
 export type BaseTypedQuery = BaseTypedDocument & {
