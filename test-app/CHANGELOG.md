@@ -1,5 +1,12 @@
 # @ts-gql/test-app
 
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [[`ece17c7`](https://github.com/Thinkmill/ts-gql/commit/ece17c7adaedda085755d8ad06e822d45ac56f35)]:
+  - @ts-gql/apollo@0.6.0
+
 ## 0.1.7
 
 ### Patch Changes

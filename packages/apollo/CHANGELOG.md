@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.6.0
+
+### Minor Changes
+
+- [`ece17c7`](https://github.com/Thinkmill/ts-gql/commit/ece17c7adaedda085755d8ad06e822d45ac56f35) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add peerDependency on react
+
 ## 0.5.0
 
 ### Minor Changes
