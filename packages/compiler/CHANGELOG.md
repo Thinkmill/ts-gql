@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.4.2
+
+### Patch Changes
+
+- [`afaa32a`](https://github.com/Thinkmill/ts-gql/commit/afaa32a387cecb21e329112487f716fbaf41e954) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix a generated import in the schema types file
+
 ## 0.4.1
 
 ### Patch Changes
