@@ -3,113 +3,128 @@ import nodePath from "path";
 import {
   DocumentNode,
   OperationDefinitionNode,
-  parse,
   FragmentDefinitionNode,
   visit,
   validate,
   specifiedRules,
   NoUnusedFragmentsRule,
   GraphQLError,
+  parse,
+  NameNode,
+  ValidationContext,
+  ASTVisitor,
 } from "graphql";
-import {
-  parse as babelParse,
-  transformFromAstAsync,
-  PluginObj,
-} from "@babel/core";
 import stripAnsi from "strip-ansi";
 import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
-import { cachedGenerateOperationTypes } from "./operation-types";
+import {
+  cachedGenerateOperationTypes,
+  cachedGenerateErrorModuleFsOperation,
+} from "./operation-types";
 import { FsOperation } from "./fs-operations";
 import { Config } from "@ts-gql/config";
+import { extractGraphQLDocumentsContentsFromFile } from "./extract-documents";
+import { CompilerError, FullSourceLocation } from "./types";
+import { codeFrameColumns } from "@babel/code-frame";
 
-type Position = {
-  line: number;
-  column: number;
+function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
+  const cache: { [key: string]: V } = {};
+
+  return (arg: string) => {
+    if (cache[arg] === undefined) cache[arg] = fn(arg);
+    return cache[arg];
+  };
+}
+
+function getPrintCompilerError() {
+  let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
+  return async (error: CompilerError) => {
+    let content = await readFile(error.filename);
+    return (
+      error.filename +
+      "\n" +
+      (error.loc
+        ? codeFrameColumns(content, error.loc, {
+            message: error.message,
+            highlightCode: true,
+          })
+        : error.message)
+    );
+  };
+}
+
+let fragmentDocumentRules = specifiedRules
+  .filter((x) => x !== NoUnusedFragmentsRule)
+  .concat(function FragmentNameValidationRule(
+    context: ValidationContext
+  ): ASTVisitor {
+    return {
+      FragmentDefinition(node) {
+        let message =
+          "Fragment names must be in the format ComponentName_propName";
+
+        if (!node.name) {
+          context.reportError(new GraphQLError(message, [node]));
+        } else if (!/.+_.+/.test(node.name.value)) {
+          context.reportError(new GraphQLError(message, [node.name]));
+        }
+      },
+    };
+  });
+
+type NamedOperationDefinitionNode = Omit<OperationDefinitionNode, "name"> & {
+  readonly name: NameNode;
 };
 
-type SourceLocation = {
-  start: Position;
-  end?: Position;
+type NamedFragmentDefinitionNode = Omit<FragmentDefinitionNode, "name"> & {
+  readonly name: NameNode;
 };
 
-type CompilerError = {
-  message: string;
-  loc?: SourceLocation;
+type Document = {
+  filename: string;
+  loc: FullSourceLocation;
+  nodes:
+    | readonly [NamedOperationDefinitionNode, ...NamedFragmentDefinitionNode[]]
+    | readonly [NamedFragmentDefinitionNode];
 };
-
-type CompilerErrors = {
-  [filename: string]: CompilerError[];
-};
-
-async function printCompilerErrors(compilerErrors: CompilerErrors) {
+async function getDocuments(files: string[]) {
+  let errors: CompilerError[] = [];
+  let allDocuments: Document[] = [];
   await Promise.all(
-    Object.keys(compilerErrors).map(async (filename) => {
-      let errors = compilerErrors[filename];
-      if (errors.length) {
-        await fs.readFile(filename);
-      }
+    files.map(async (filename) => {
+      let { errors, documents } = await extractGraphQLDocumentsContentsFromFile(
+        filename
+      );
+      errors.push(...errors);
+
+      documents.forEach((document) => {
+        try {
+          let ast = parse(document.document);
+          allDocuments.push({
+            nodes: getGqlNode(ast),
+            loc: document.loc,
+            filename,
+          });
+        } catch (err) {
+          if (err instanceof GraphQLError) {
+            errors.push({
+              filename,
+              message: err.message,
+              loc: locFromSourceAndGraphQLError(document.loc, err),
+            });
+          } else {
+            errors.push({
+              filename,
+              message: err.message,
+              loc: document.loc,
+            });
+          }
+        }
+      });
     })
   );
-}
-
-let fragmentDocumentRules = specifiedRules.filter(
-  (x) => x !== NoUnusedFragmentsRule
-);
-
-async function extractGraphQLDocumentsContentsFromFile(file: string) {
-  let errors: CompilerError[] = [];
-  let documents: { loc: SourceLocation; document: string }[] = [];
-  let content = await fs.readFile(file, "utf8");
-  if (/gql\s*`/.test(content)) {
-    try {
-      let ast = babelParse(content, {
-        filename: file,
-        rootMode: "upward-optional",
-      })!;
-
-      await transformFromAstAsync(ast, content, {
-        plugins: [
-          (): PluginObj => ({
-            visitor: {
-              TaggedTemplateExpression(path) {
-                let isGqlTag =
-                  path.node.tag.type === "Identifier" &&
-                  path.node.tag.name === "gql";
-                let hasNoInterpolations =
-                  path.node.quasi.quasis.length === 1 &&
-                  path.node.quasi.expressions.length === 0;
-
-                // TODO: verify operation name === import
-                let parentIsAs =
-                  path.parent.type === "TSAsExpression" &&
-                  path.parent.typeAnnotation.type === "TSImportType";
-
-                if (isGqlTag && hasNoInterpolations && parentIsAs) {
-                  documents.push({
-                    loc: path.node.quasi.loc!,
-                    document: path.node.quasi.quasis[0].value.cooked!,
-                  });
-                }
-              },
-            },
-          }),
-        ],
-        babelrc: false,
-        code: false,
-        configFile: false,
-        filename: file,
-      });
-    } catch (err) {
-      errors.push({ message: err.message, loc: err.loc });
-    }
-    return { errors, filename: file, documents };
-  }
-}
-
-async function buildNodeMap(files: string[], directory: string) {
-  await Promise.all(files.map(async (file) => {}));
+  return { errors, documents: allDocuments };
 }
 
 export const getGeneratedTypes = async ({ schema, directory }: Config) => {
@@ -117,27 +132,66 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
     nodePath.join(directory, "__generated__", "ts-gql")
   );
 
-  const files = await globby(["**/*.{ts,tsx}"], {
-    cwd: directory,
-    absolute: true,
-    gitignore: true,
-    ignore: ["**/node_modules/**"],
-  });
+  const files = (
+    await globby(["**/*.{ts,tsx}"], {
+      cwd: directory,
+      absolute: true,
+      gitignore: true,
+      ignore: ["**/node_modules/**"],
+    })
+  ).map((x) => slash(x));
 
-  let nodeMap: Record<
-    string,
-    {
-      filename: string;
-      makeFrameError: (error: GraphQLError) => string;
-      nodes:
-        | readonly [OperationDefinitionNode, ...FragmentDefinitionNode[]]
-        | readonly [FragmentDefinitionNode];
+  let { errors, documents } = await getDocuments(files);
+
+  let allDocumentsByName: Record<string, Document[]> = {};
+
+  for (let document of documents) {
+    let name = document.nodes[0].name.value;
+    if (!allDocumentsByName[name]) {
+      allDocumentsByName[name] = [];
     }
-  > = {};
-
-  let errors: string[] = [];
-
+    allDocumentsByName[name].push(document);
+  }
+  let uniqueDocumentsByName: Record<string, Document> = {};
+  let printCompilerError = getPrintCompilerError();
   let fsOperations: FsOperation[] = [];
+
+  await Promise.all(
+    Object.keys(allDocumentsByName).map(async (name) => {
+      if (allDocumentsByName[name].length !== 1) {
+        let nonUniqueNameErrors = allDocumentsByName[name].map((document) => {
+          return {
+            filename: document.filename,
+            loc: locFromSourceAndGraphQLError(
+              document.loc,
+              new GraphQLError("", document.nodes[0].name)
+            ),
+            message: `Multiple ${
+              document.nodes[0].kind === "FragmentDefinition"
+                ? "fragments"
+                : "operations"
+            } exist with the name ${document.nodes[0].name.value}`,
+          };
+        });
+        errors.push(...nonUniqueNameErrors);
+
+        let operation = await cachedGenerateErrorModuleFsOperation(
+          nodePath.join(generatedDirectory, `${name}.ts`),
+          `There ${
+            nonUniqueNameErrors.length === 1 ? "is an error" : "are errors"
+          } with ${name}\n${(
+            await Promise.all(errors.map((x) => printCompilerError(x)))
+          ).join("\n")}`
+        );
+        if (operation) {
+          fsOperations.push(operation);
+        }
+      } else {
+        uniqueDocumentsByName[allDocumentsByName[name][0].nodes[0].name.value] =
+          allDocumentsByName[name][0];
+      }
+    })
+  );
 
   try {
     let generatedDirectoryFiles = (await fs.readdir(generatedDirectory))
@@ -145,7 +199,7 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
       .map((x) => x.replace(/\.ts$/, ""));
 
     for (let name of generatedDirectoryFiles) {
-      if (nodeMap[name] === undefined) {
+      if (allDocumentsByName[name] === undefined) {
         fsOperations.push({
           type: "remove",
           filename: nodePath.join(generatedDirectory, name + ".ts"),
@@ -167,21 +221,28 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
     fsOperations.push(schemaOperation);
   }
 
-  let dependencies = Object.keys(nodeMap).reduce((obj, item) => {
+  let dependencies = Object.keys(uniqueDocumentsByName).reduce((obj, item) => {
     obj[item] = [];
     return obj;
   }, {} as Record<string, string[]>);
 
-  for (let key in nodeMap) {
-    for (let node of nodeMap[key].nodes) {
+  for (let key in uniqueDocumentsByName) {
+    for (let node of uniqueDocumentsByName[key].nodes) {
       visit(node, {
         FragmentSpread(node) {
           let name = node.name.value;
           if (
-            !nodeMap[name] ||
-            nodeMap[name].nodes[0].kind === "OperationDefinition"
+            !uniqueDocumentsByName[name] ||
+            uniqueDocumentsByName[name].nodes[0].kind === "OperationDefinition"
           ) {
-            errors.push(`Fragment ${name} not found`);
+            errors.push({
+              message: `Fragment ${name} not found`,
+              filename: uniqueDocumentsByName[key].filename,
+              loc: locFromSourceAndGraphQLError(
+                uniqueDocumentsByName[key].loc,
+                new GraphQLError("Fragment", [node])
+              ),
+            });
           } else {
             dependencies[key].push(name);
           }
@@ -190,10 +251,10 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
     }
   }
   await Promise.all(
-    Object.keys(nodeMap).map(async (key) => {
-      let nodes = nodeMap[key].nodes.concat(
+    Object.keys(uniqueDocumentsByName).map(async (key) => {
+      let nodes = uniqueDocumentsByName[key].nodes.concat(
         getFlatDependenciesForItem(dependencies, key).map(
-          (x) => nodeMap[x].nodes[0] as FragmentDefinitionNode
+          (x) => uniqueDocumentsByName[x].nodes[0] as FragmentDefinitionNode
         )
       );
       let document = {
@@ -207,71 +268,69 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
         nodes[0].kind === "OperationDefinition"
           ? specifiedRules
           : fragmentDocumentRules
-      ).map((err) =>
-        // TODO: make this better
-        nodeMap[key].makeFrameError(err)
+      ).map((err) => ({
+        filename: uniqueDocumentsByName[key].filename,
+        message: err.message,
+        loc: locFromSourceAndGraphQLError(uniqueDocumentsByName[key].loc, err),
+      }));
+
+      errors.push(...gqlErrors);
+
+      let filename = nodePath.join(
+        generatedDirectory,
+        `${nodes[0].name.value}.ts`
       );
-
-      // TODO: make into proper validation thing
-      if (
-        nodes[0].kind === "FragmentDefinition" &&
-        (!nodes[0].name || !/.+_.+/.test(nodes[0].name.value))
-      ) {
-        errors.push(
-          nodeMap[key].makeFrameError(
-            // @ts-ignore
-            {
-              message:
-                "Fragment names must be in the format ComponentName_propName",
-            }
-          )
-        );
-      }
-
-      if (gqlErrors.length) {
-        errors.push(...gqlErrors);
-      }
-      let operation = await cachedGenerateOperationTypes(
-        schema,
-        document,
-        nodes[0],
-        nodePath.join(generatedDirectory, `${nodes[0].name!.value}.ts`),
-        schemaHash,
-        nodes[0].name!.value,
-        gqlErrors.length
-          ? `${nodeMap[key].filename}\nThere ${
+      let operation = gqlErrors.length
+        ? await cachedGenerateErrorModuleFsOperation(
+            filename,
+            `${uniqueDocumentsByName[key].filename}\nThere ${
               gqlErrors.length === 1 ? "is an error" : "are errors"
-            } with ${nodes[0].name!.value}\n${stripAnsi(gqlErrors.join("\n"))}`
-          : undefined
-      );
+            } with ${nodes[0].name.value}\n${stripAnsi(
+              gqlErrors.map((x) => printCompilerError(x)).join("\n")
+            )}`
+          )
+        : await cachedGenerateOperationTypes(
+            schema,
+            document,
+            nodes[0],
+            filename,
+            schemaHash,
+            nodes[0].name!.value
+          );
       if (operation) fsOperations.push(operation);
     })
   );
-  return { fsOperations, errors };
+  return {
+    fsOperations,
+    errors: await Promise.all(errors.map((x) => printCompilerError(x))),
+  };
 };
 
 function locFromSourceAndGraphQLError(
-  loc: SourceLocation,
+  loc: FullSourceLocation,
   error: GraphQLError
 ) {
   if (!error.locations || !error.locations.length) {
     return;
   }
-  const location = error.locations[0];
+  const gqlLocation = error.locations[0];
 
-  let line;
-  let column;
-  if (location.line === 1) {
-    line = loc.start.line;
-    column = loc.end.column + location.column;
-  } else {
-    line = loc.start.line + location.line - 1;
-    column = location.column - 1;
-  }
-
+  // TODO: look at nodes instead of locations so we can get the start AND end
   return {
-    line,
-    column,
+    start: {
+      line: loc.start.line + gqlLocation.line - 1,
+      column:
+        gqlLocation.line === 1
+          ? loc.start.column + gqlLocation.column + 1
+          : gqlLocation.column,
+    },
+    // end: {
+    //   line: loc.start.line + gqlLocation.endToken.line - 1,
+    //   column:
+    //     (gqlLocation.endToken.line === 1
+    //       ? loc.end.column + gqlLocation.endToken.column
+    //       : gqlLocation.endToken.column) - 1,
+    // },
   };
 }
 
@@ -309,9 +368,9 @@ function getGqlNode(ast: DocumentNode) {
     if (!operationNode.name) {
       throw new ValidationError("Operations must have names");
     }
-    return ast.definitions as [
-      OperationDefinitionNode,
-      ...FragmentDefinitionNode[]
+    return (ast.definitions as any) as [
+      NamedOperationDefinitionNode,
+      ...NamedFragmentDefinitionNode[]
     ];
   }
   if (
@@ -326,7 +385,7 @@ function getGqlNode(ast: DocumentNode) {
   if (!fragmentNode.name) {
     throw new ValidationError("Fragments must have names");
   }
-  return [fragmentNode] as const;
+  return ([fragmentNode] as any) as [NamedFragmentDefinitionNode];
 }
 
 class ValidationError extends Error {}

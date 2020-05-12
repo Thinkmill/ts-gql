@@ -15,6 +15,7 @@ import {
   getDoesFileHaveIntegrity,
   wrapFileInIntegrityComment,
 } from "./integrity";
+import stripAnsi from "strip-ansi";
 
 async function generateOperationTypes(
   schema: GraphQLSchema,
@@ -22,28 +23,8 @@ async function generateOperationTypes(
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   operationHash: string,
-  operationName: string,
-  error: string | undefined
+  operationName: string
 ): Promise<FsOperation> {
-  if (error) {
-    return {
-      type: "output",
-      filename,
-      content: `/*\nts-gql-meta-begin\n${JSON.stringify(
-        {
-          hash: operationHash,
-        },
-        null,
-        2
-      )}\nts-gql-meta-end\n*/
-
-export type type = never;
-
-throw new Error(${JSON.stringify(error)});
-  `,
-    };
-  }
-
   let result = codegen({
     documents: [{ document: operation }],
     schema: parse(printSchema(schema)),
@@ -110,18 +91,59 @@ export const document = ${JSON.stringify(
   };
 }
 
+function generateErrorModuleFsOperation(
+  filename: string,
+  hash: string,
+  error: string
+) {
+  return {
+    type: "output" as const,
+    filename,
+    content: wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
+      {
+        hash,
+      },
+      null,
+      2
+    )}\nts-gql-meta-end\n*/
+
+export type type = never;
+
+throw new Error(typeof window === 'undefined' ? ${JSON.stringify(
+      stripAnsi(error)
+    )} : ${JSON.stringify(error)};
+`),
+  };
+}
+
+export async function cachedGenerateErrorModuleFsOperation(
+  filename: string,
+  error: string
+) {
+  let hash = hashString(error + "v1");
+  let types: string;
+  try {
+    types = await fs.readFile(filename, "utf8");
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      return generateErrorModuleFsOperation(filename, hash, error);
+    }
+    throw err;
+  }
+  if (!getDoesFileHaveIntegrity(types) || parseTsGqlMeta(types).hash !== hash) {
+    return generateErrorModuleFsOperation(filename, hash, error);
+  }
+}
+
 export async function cachedGenerateOperationTypes(
   schema: GraphQLSchema,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   schemaHash: string,
-  operationName: string,
-  error: string | undefined
+  operationName: string
 ) {
-  let operationHash = hashString(
-    schemaHash + JSON.stringify(operation) + error || "" + "v4"
-  );
+  let operationHash = hashString(schemaHash + JSON.stringify(operation) + "v4");
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
@@ -133,8 +155,7 @@ export async function cachedGenerateOperationTypes(
         operationNode,
         filename,
         operationHash,
-        operationName,
-        error
+        operationName
       );
     }
     throw err;
@@ -149,8 +170,7 @@ export async function cachedGenerateOperationTypes(
       operationNode,
       filename,
       operationHash,
-      operationName,
-      error
+      operationName
     );
   }
 }

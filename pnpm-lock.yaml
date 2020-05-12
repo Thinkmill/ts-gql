@@ -64,14 +64,15 @@ importers:
       '@types/babel__core': ^7.1.7
   packages/compiler:
     dependencies:
-      '@babel/core': 7.9.6
+      '@babel/code-frame': 7.8.3
+      '@babel/parser': 7.9.6
       '@babel/runtime': 7.9.2
       '@babel/types': 7.9.6
       '@graphql-codegen/plugin-helpers': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript-operations': 1.13.3_graphql@14.6.0
       '@ts-gql/config': 'link:../config'
-      '@types/babel__core': 7.1.7
+      '@types/babel__code-frame': 7.0.1
       '@types/fs-extra': 8.1.0
       '@types/invariant': 2.2.32
       chokidar: 3.4.0
@@ -84,14 +85,15 @@ importers:
     devDependencies:
       graphql: 14.6.0
     specifiers:
-      '@babel/core': ^7.9.6
+      '@babel/code-frame': ^7.8.3
+      '@babel/parser': ^7.9.6
       '@babel/runtime': ^7.9.2
       '@babel/types': ^7.9.6
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
       '@ts-gql/config': ^0.1.0
-      '@types/babel__core': ^7.1.7
+      '@types/babel__code-frame': ^7.0.1
       '@types/fs-extra': ^8.1.0
       '@types/invariant': ^2.2.32
       chokidar: ^3.4.0
@@ -3221,6 +3223,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==
+  /@types/babel__code-frame/7.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-FFfbQozKxYmOnCKFYV+EQprjBI7u2yaNc2ly/K9AhzyC8MzXtCtSRqptpw+HUJxhwCOo5mLwf1ATmzyhOaVbDg==
   /@types/babel__core/7.1.7:
     dependencies:
       '@babel/parser': 7.9.6

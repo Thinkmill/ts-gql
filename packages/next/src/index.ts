@@ -9,7 +9,10 @@ export const withTsGql = (internalConfig: any = {}) => (
   thing: any
 ) => {
   if (phase === "phase-development-server") {
-    watch(process.cwd());
+    watch(process.cwd()).catch((err) => {
+      console.error(err.toString());
+      process.exit(1);
+    });
   }
   let internalConfigObj =
     typeof internalConfig === "function"
