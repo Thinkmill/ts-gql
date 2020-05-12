@@ -114,7 +114,9 @@ export function useMutation<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 >(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
 
-type KnownKeysWhichAreQueries<T extends Record<string, BaseDocumentTypes>> = {
+type KnownKeysWhichAreQueries<
+  T extends Record<string, TypedDocumentNode<BaseDocumentTypes>>
+> = {
   [K in keyof T]: string extends K
     ? never
     : number extends K
