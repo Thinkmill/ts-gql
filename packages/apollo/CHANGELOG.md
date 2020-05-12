@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.6.1
+
+### Patch Changes
+
+- [`72467ba`](https://github.com/Thinkmill/ts-gql/commit/72467ba72dc625fec6cda50aae4e88903b638c74) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix a type
+
 ## 0.6.0
 
 ### Minor Changes
