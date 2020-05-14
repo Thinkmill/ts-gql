@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.7.0
+
+### Minor Changes
+
+- [`3a062d4`](https://github.com/Thinkmill/ts-gql/commit/3a062d421ea1c0f515334a2ab1d3e38234c4f400) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Disallow the usage of onCompleted and onError
+
 ## 0.6.1
 
 ### Patch Changes
