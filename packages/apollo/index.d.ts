@@ -46,7 +46,7 @@ type QueryHookOptions<
     OperationData<TTypedDocumentNode>,
     OperationVariables<TTypedDocumentNode>
   >,
-  "variables" | "query"
+  "variables" | "query" | "onCompleted" | "onError"
 >;
 
 type QueryHookOptionsWithRequiredVariables<
