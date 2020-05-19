@@ -127,7 +127,11 @@ async function getDocuments(files: string[]) {
   return { errors, documents: allDocuments };
 }
 
-export const getGeneratedTypes = async ({ schema, directory }: Config) => {
+export const getGeneratedTypes = async ({
+  schema,
+  directory,
+  scalars,
+}: Config) => {
   let generatedDirectory = nodePath.join(
     nodePath.join(directory, "__generated__", "ts-gql")
   );
@@ -215,7 +219,7 @@ export const getGeneratedTypes = async ({ schema, directory }: Config) => {
   let {
     hash: schemaHash,
     operation: schemaOperation,
-  } = await cachedGenerateSchemaTypes(schema, generatedDirectory, {});
+  } = await cachedGenerateSchemaTypes(schema, generatedDirectory, scalars);
 
   if (schemaOperation) {
     fsOperations.push(schemaOperation);

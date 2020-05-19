@@ -13,11 +13,13 @@ export class ConfigNotFoundError extends Error {}
 export type Config = {
   directory: string;
   schema: GraphQLSchema;
+  scalars: Record<string, string>;
 };
 
 export type RawConfig = {
   directory: string;
   schema: string;
+  scalars: Record<string, string>;
 };
 
 function parseFieldToConfig({
@@ -26,7 +28,7 @@ function parseFieldToConfig({
 }: {
   packageJson: Record<string, any>;
   directory: string;
-}) {
+}): RawConfig {
   let field = packageJson["ts-gql"];
   if (
     typeof field === "object" &&
@@ -36,6 +38,7 @@ function parseFieldToConfig({
     return {
       schema: path.resolve(directory, field.schema),
       directory,
+      scalars: field.scalars || {},
     };
   }
   throw new ConfigNotFoundError("ts-gql config not found");
@@ -49,18 +52,20 @@ export function getRawConfigSync(cwd: string) {
   return parseFieldToConfig(findPkgJsonFieldUpSync("ts-gql", cwd));
 }
 
-export async function getConfig(cwd: string) {
+export async function getConfig(cwd: string): Promise<Config> {
   let config = await getRawConfig(cwd);
   return {
     directory: config.directory,
     schema: await readSchema(config.schema),
+    scalars: config.scalars,
   };
 }
 
-export function getConfigSync(cwd: string) {
+export function getConfigSync(cwd: string): Config {
   let config = getRawConfigSync(cwd);
   return {
     directory: config.directory,
     schema: readSchemaSync(config.schema),
+    scalars: config.scalars,
   };
 }
