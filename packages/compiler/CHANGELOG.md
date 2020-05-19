@@ -1,5 +1,16 @@
 # @ts-gql/compiler
 
+## 0.5.0
+
+### Minor Changes
+
+- [`caa1974`](https://github.com/Thinkmill/ts-gql/commit/caa19743de1aa1345795691b8d4eea58c052fc8f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support scalars option
+
+### Patch Changes
+
+- Updated dependencies [[`caa1974`](https://github.com/Thinkmill/ts-gql/commit/caa19743de1aa1345795691b8d4eea58c052fc8f)]:
+  - @ts-gql/config@0.2.0
+
 ## 0.4.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/eslint-plugin",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "main": "dist/eslint-plugin.cjs.js",
   "module": "dist/eslint-plugin.esm.js",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "@graphql-codegen/plugin-helpers": "^1.13.3",
     "@graphql-codegen/typescript": "^1.13.3",
     "@graphql-codegen/typescript-operations": "^1.13.3",
-    "@ts-gql/config": "^0.1.0",
+    "@ts-gql/config": "^0.2.0",
     "@typescript-eslint/experimental-utils": "^2.29.0",
     "find-pkg-json-field-up": "^1.0.1",
     "slash": "^3.0.0"
