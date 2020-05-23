@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.6.0
+
+### Minor Changes
+
+- [`c430143`](https://github.com/Thinkmill/ts-gql/commit/c43014372c6f14d680a3476722b883037c57bcae) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add `raw` entrypoint
+
 ## 0.5.1
 
 ### Patch Changes

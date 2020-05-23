@@ -1,5 +1,12 @@
 # @ts-gql/urql
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`c430143`](https://github.com/Thinkmill/ts-gql/commit/c43014372c6f14d680a3476722b883037c57bcae)]:
+  - @ts-gql/tag@0.6.0
+
 ## 0.3.1
 
 ### Patch Changes
