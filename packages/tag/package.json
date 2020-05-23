@@ -14,5 +14,11 @@
   "devDependencies": {
     "graphql": "^14.0.0"
   },
-  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/tag"
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/tag",
+  "preconstruct": {
+    "entrypoints": [
+      "index.js",
+      "raw.js"
+    ]
+  }
 }

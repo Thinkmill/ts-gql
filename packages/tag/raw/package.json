@@ -1,0 +1,6 @@
+{
+  "name": "@ts-gql/tag/raw",
+  "main": "dist/tag.cjs.js",
+  "module": "dist/tag.esm.js",
+  "types": "index.d.ts"
+}
