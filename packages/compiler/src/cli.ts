@@ -2,6 +2,7 @@ import { getGeneratedTypes } from "./get-generated-types";
 import { applyFsOperation } from "./fs-operations";
 import { getConfig } from "@ts-gql/config";
 import { watch } from "./watch";
+import { build } from "./build";
 
 let arg = process.argv[2];
 
@@ -28,25 +29,7 @@ let commands: Record<string, () => Promise<any>> = {
     }
   },
   async build() {
-    let { fsOperations, errors } = await getGeneratedTypes(
-      await getConfig(process.cwd())
-    );
-    await Promise.all(
-      fsOperations.map(async (operation) => {
-        await applyFsOperation(operation);
-        if (operation.type === "output") {
-          console.log(`updated ${operation.filename}`);
-        } else {
-          console.log(`removed ${operation.filename}`);
-        }
-      })
-    );
-    if (errors.length) {
-      for (let error of errors) {
-        console.error(error);
-      }
-      process.exit(1);
-    }
+    build(process.cwd());
   },
   watch: async () => {
     watch(process.cwd());
