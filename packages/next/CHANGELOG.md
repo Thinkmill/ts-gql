@@ -1,5 +1,12 @@
 # @ts-gql/next
 
+## 7.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`1acfb89`](https://github.com/Thinkmill/ts-gql/commit/1acfb89b8aca3db55a5a583eac57bd26654e54b1)]:
+  - @ts-gql/compiler@0.7.0
+
 ## 6.0.0
 
 ### Patch Changes
