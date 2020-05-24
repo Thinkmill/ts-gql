@@ -14,12 +14,14 @@ export type Config = {
   directory: string;
   schema: GraphQLSchema;
   scalars: Record<string, string>;
+  nonOptionalTypename: boolean;
 };
 
 export type RawConfig = {
   directory: string;
   schema: string;
   scalars: Record<string, string>;
+  nonOptionalTypename: boolean;
 };
 
 function parseFieldToConfig({
@@ -39,6 +41,7 @@ function parseFieldToConfig({
       schema: path.resolve(directory, field.schema),
       directory,
       scalars: field.scalars || {},
+      nonOptionalTypename: field.nonOptionalTypename ?? true,
     };
   }
   throw new ConfigNotFoundError("ts-gql config not found");
@@ -55,17 +58,15 @@ export function getRawConfigSync(cwd: string) {
 export async function getConfig(cwd: string): Promise<Config> {
   let config = await getRawConfig(cwd);
   return {
-    directory: config.directory,
+    ...config,
     schema: await readSchema(config.schema),
-    scalars: config.scalars,
   };
 }
 
 export function getConfigSync(cwd: string): Config {
   let config = getRawConfigSync(cwd);
   return {
-    directory: config.directory,
+    ...config,
     schema: readSchemaSync(config.schema),
-    scalars: config.scalars,
   };
 }

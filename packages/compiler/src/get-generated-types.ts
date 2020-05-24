@@ -14,7 +14,6 @@ import {
   ValidationContext,
   ASTVisitor,
 } from "graphql";
-import stripAnsi from "strip-ansi";
 import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
@@ -131,6 +130,7 @@ export const getGeneratedTypes = async ({
   schema,
   directory,
   scalars,
+  nonOptionalTypename,
 }: Config) => {
   let generatedDirectory = nodePath.join(
     nodePath.join(directory, "__generated__", "ts-gql")
@@ -299,7 +299,8 @@ export const getGeneratedTypes = async ({
             nodes[0],
             filename,
             schemaHash,
-            nodes[0].name!.value
+            nodes[0].name!.value,
+            nonOptionalTypename
           );
       if (operation) fsOperations.push(operation);
     })

@@ -23,7 +23,8 @@ async function generateOperationTypes(
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   operationHash: string,
-  operationName: string
+  operationName: string,
+  nonOptionalTypename: boolean
 ): Promise<FsOperation> {
   let result = codegen({
     documents: [{ document: operation }],
@@ -38,7 +39,7 @@ async function generateOperationTypes(
           namespacedImportName: "SchemaTypes",
           immutableTypes: true,
           noExport: true,
-          nonOptionalTypename: true,
+          nonOptionalTypename,
           namingConvention: "keep",
         },
       },
@@ -141,9 +142,12 @@ export async function cachedGenerateOperationTypes(
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   schemaHash: string,
-  operationName: string
+  operationName: string,
+  nonOptionalTypename: boolean
 ) {
-  let operationHash = hashString(schemaHash + JSON.stringify(operation) + "v4");
+  let operationHash = hashString(
+    schemaHash + JSON.stringify(operation) + nonOptionalTypename + "v4"
+  );
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
@@ -155,7 +159,8 @@ export async function cachedGenerateOperationTypes(
         operationNode,
         filename,
         operationHash,
-        operationName
+        operationName,
+        nonOptionalTypename
       );
     }
     throw err;
@@ -170,7 +175,8 @@ export async function cachedGenerateOperationTypes(
       operationNode,
       filename,
       operationHash,
-      operationName
+      operationName,
+      nonOptionalTypename
     );
   }
 }
