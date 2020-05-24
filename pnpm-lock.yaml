@@ -92,7 +92,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.2.0
+      '@ts-gql/config': ^0.3.0
       '@types/babel__code-frame': ^7.0.1
       '@types/fs-extra': ^8.1.0
       '@types/invariant': ^2.2.32
@@ -132,7 +132,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.2.0
+      '@ts-gql/config': ^0.3.0
       '@typescript-eslint/experimental-utils': ^2.29.0
       '@typescript-eslint/parser': ^2.29.0
       find-pkg-json-field-up: ^1.0.1
@@ -148,7 +148,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.9.2
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.5.0
+      '@ts-gql/compiler': ^0.6.0
       graphql: ^14.0.0
   packages/tag:
     dependencies:
@@ -189,9 +189,9 @@ importers:
       '@apollo/client': ^3.0.0-beta.43
       '@ts-gql/apollo': ^0.7.0
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.5.0
-      '@ts-gql/eslint-plugin': ^0.4.2
-      '@ts-gql/next': ^5.0.0
+      '@ts-gql/compiler': ^0.6.0
+      '@ts-gql/eslint-plugin': ^0.4.3
+      '@ts-gql/next': ^6.0.0
       '@ts-gql/tag': ^0.5.0
       '@ts-gql/urql': ^0.3.1
       '@types/node': ^13.13.2

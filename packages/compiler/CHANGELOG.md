@@ -1,5 +1,16 @@
 # @ts-gql/compiler
 
+## 0.6.0
+
+### Minor Changes
+
+- [`d798897`](https://github.com/Thinkmill/ts-gql/commit/d7988972e801c41bb96aaa4dec5763ebae73e30e) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add nonOptionalTypename option
+
+### Patch Changes
+
+- Updated dependencies [[`d798897`](https://github.com/Thinkmill/ts-gql/commit/d7988972e801c41bb96aaa4dec5763ebae73e30e)]:
+  - @ts-gql/config@0.3.0
+
 ## 0.5.0
 
 ### Minor Changes
