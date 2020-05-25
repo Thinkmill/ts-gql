@@ -1,8 +1,8 @@
-// ts-gql-integrity:629aabc50da24b7b92aa753aae69089d
+// ts-gql-integrity:2be86fa860076fd2bff9fcacdf3563db
 /*
 ts-gql-meta-begin
 {
-  "hash": "51006bc50c355dbb9e625b93551f841e"
+  "hash": "2f5d1b3d6a09a3c37fb44c2d52f3714f"
 }
 ts-gql-meta-end
 */
@@ -28,4 +28,37 @@ declare module "./@schema" {
   }
 }
 
-export const document = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Something2Urql_x"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Query"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"something"},"arguments":[],"directives":[]}]}}]}
+export const document = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "Something2Urql_x"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "Query"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "something"
+            },
+            "arguments": [],
+            "directives": []
+          }
+        ]
+      }
+    }
+  ]
+}

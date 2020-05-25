@@ -345,7 +345,7 @@ function getFlatDependenciesForItem(
 ): string[] {
   return [
     ...new Set<string>(
-      ...deps[item].concat(
+      deps[item].concat(
         ...deps[item].map((item) => getFlatDependenciesForItem(deps, item))
       )
     ),

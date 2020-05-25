@@ -1,8 +1,8 @@
-// ts-gql-integrity:6313a5f378da46a8ece79aa9af65a430
+// ts-gql-integrity:faa55c24562f0f0009e5ce18ec964468
 /*
 ts-gql-meta-begin
 {
-  "hash": "bb6f31b5f9c07bdb5e64071cb59f4ddc"
+  "hash": "f2346af5d41d3307ad98ff68b3e98fb1"
 }
 ts-gql-meta-end
 */
@@ -32,4 +32,32 @@ declare module "./@schema" {
   }
 }
 
-export const document = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyQueryUrql"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"},"arguments":[],"directives":[]}]}}]}
+export const document = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "MyQueryUrql"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "hello"
+            },
+            "arguments": [],
+            "directives": []
+          }
+        ]
+      }
+    }
+  ]
+}

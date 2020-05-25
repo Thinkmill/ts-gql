@@ -1,8 +1,8 @@
-// ts-gql-integrity:81164b36d57c7d3144391ced56030ccd
+// ts-gql-integrity:3d87730f831a23f2399eb2c8d6901c3e
 /*
 ts-gql-meta-begin
 {
-  "hash": "e0fbf4d042dfa78a6397b3cb40461772"
+  "hash": "d9d42135bda2d1adc058f0bd91b9f146"
 }
 ts-gql-meta-end
 */
@@ -32,4 +32,41 @@ declare module "./@schema" {
   }
 }
 
-export const document = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyQueryApollo"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"another"},"arguments":[],"directives":[]}]}}]}
+export const document = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "MyQueryApollo"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "hello"
+            },
+            "arguments": [],
+            "directives": []
+          },
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "another"
+            },
+            "arguments": [],
+            "directives": []
+          }
+        ]
+      }
+    }
+  ]
+}
