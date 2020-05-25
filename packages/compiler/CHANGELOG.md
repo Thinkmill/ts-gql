@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.7.1
+
+### Patch Changes
+
+- [`da8e37b`](https://github.com/Thinkmill/ts-gql/commit/da8e37b6ce93f9f09c99306208312452161ab6c3) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix referencing the same fragment twice in the same query resulting in an error
+
 ## 0.7.0
 
 ### Minor Changes
