@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.7.2
+
+### Patch Changes
+
+- [`acb8a29`](https://github.com/Thinkmill/ts-gql/commit/acb8a292c0bb2cf54a6ba34b43ade27d36571794) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix build failing
+
 ## 0.7.1
 
 ### Patch Changes
