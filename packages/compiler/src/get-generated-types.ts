@@ -343,9 +343,13 @@ function getFlatDependenciesForItem(
   deps: Record<string, string[]>,
   item: string
 ): string[] {
-  return deps[item].concat(
-    ...deps[item].map((item) => getFlatDependenciesForItem(deps, item))
-  );
+  return [
+    ...new Set<string>(
+      ...deps[item].concat(
+        ...deps[item].map((item) => getFlatDependenciesForItem(deps, item))
+      )
+    ),
+  ];
 }
 
 function getGqlNode(ast: DocumentNode) {
