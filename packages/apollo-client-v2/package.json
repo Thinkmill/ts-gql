@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/apollo-client-v2",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "dist/apollo-client-v2.cjs.js",
   "module": "dist/apollo-client-v2.esm.js",
   "files": [
