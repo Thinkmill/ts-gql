@@ -12,7 +12,6 @@ import {
   QueryHookOptions as _QueryHookOptions,
   QueryResult,
   MutationFunctionOptions,
-  FetchResult,
   MutationResult,
   FetchPolicy,
   MutationUpdaterFn,
@@ -20,6 +19,17 @@ import {
   MutationQueryReducersMap,
   ExecutionResult,
 } from "@apollo/client";
+
+type FetchResult<
+  TData = {
+    [key: string]: any;
+  },
+  C = Record<string, any>,
+  E = Record<string, any>
+> = ExecutionResult<TData> & {
+  extensions?: E;
+  context?: C;
+};
 
 export type RequiredKeys<T> = {
   [K in keyof T]: {} extends Pick<T, K> ? never : K;
