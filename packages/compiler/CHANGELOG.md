@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.9.1
+
+### Patch Changes
+
+- [`13ceedf`](https://github.com/Thinkmill/ts-gql/commit/13ceedf590f127d19800765c8485a296be5ab575) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix infinite loop with introspection result file
+
 ## 0.9.0
 
 ### Minor Changes
