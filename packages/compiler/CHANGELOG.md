@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.9.0
+
+### Minor Changes
+
+- [`f279b23`](https://github.com/Thinkmill/ts-gql/commit/f279b234ca1a264ed675863bccc9eca52b9d12f4) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add @introspection.ts generated file with introspection query result
+
 ## 0.8.1
 
 ### Patch Changes
