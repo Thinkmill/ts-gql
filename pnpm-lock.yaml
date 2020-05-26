@@ -54,11 +54,15 @@ importers:
       '@ts-gql/tag': ^0.5.0
   packages/apollo-client-v2:
     dependencies:
-      '@apollo/react-common': 3.1.4
-      '@apollo/react-hooks': 3.1.5
+      '@apollo/react-common': 3.1.4_f280a79c7b9d3eb7560fc7c341d769d6
+      '@apollo/react-hooks': 3.1.5_f280a79c7b9d3eb7560fc7c341d769d6
+      apollo-client: 2.6.10
+      apollo-utilities: 1.3.4
     specifiers:
       '@apollo/react-common': ^3.1.4
       '@apollo/react-hooks': ^3.1.5
+      apollo-client: ^2.6.10
+      apollo-utilities: ^1.3.4
   packages/babel-plugin:
     dependencies:
       '@babel/helper-module-imports': 7.8.3
@@ -322,8 +326,10 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-gqeT810Ect9WIqsrgfUvr+ljSB5m1PyBae9HGdrRyQ3HjHjTcjVvxpsMYXlUk4rUHnrfUqyoGvLSy2yLlRGEOw==
-  /@apollo/react-common/3.1.4:
+  /@apollo/react-common/3.1.4_f280a79c7b9d3eb7560fc7c341d769d6:
     dependencies:
+      apollo-client: 2.6.10
+      apollo-utilities: 1.3.4
       ts-invariant: 0.4.4
       tslib: 1.11.1
     dev: false
@@ -335,16 +341,18 @@ packages:
       react: ^16.8.0
     resolution:
       integrity: sha512-X5Kyro73bthWSCBJUC5XYQqMnG0dLWuDZmVkzog9dynovhfiVCV4kPSdgSIkqnb++cwCzOVuQ4rDKVwo2XRzQA==
-  /@apollo/react-hooks/3.1.5:
+  /@apollo/react-hooks/3.1.5_f280a79c7b9d3eb7560fc7c341d769d6:
     dependencies:
-      '@apollo/react-common': 3.1.4
+      '@apollo/react-common': 3.1.4_f280a79c7b9d3eb7560fc7c341d769d6
       '@wry/equality': 0.1.11
+      apollo-client: 2.6.10
       ts-invariant: 0.4.4
       tslib: 1.11.1
     dev: false
     peerDependencies:
       '@types/react': ^16.8.0
       apollo-client: ^2.6.4
+      apollo-utilities: '*'
       graphql: ^14.3.1
       react: ^16.8.0
       react-dom: ^16.8.0
@@ -4005,6 +4013,30 @@ packages:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     resolution:
       integrity: sha512-9t2EcRevUrANuGhF5XUbKJEfnc6Jy2Rn7Y8nOIKlsEEC+AX7Ko4svWYTyyTxj0h0RXfiegY2nbz4sVry/pS3rA==
+  /apollo-cache/1.3.5:
+    dependencies:
+      apollo-utilities: 1.3.4
+      tslib: 1.11.1
+    dev: false
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-1XoDy8kJnyWY/i/+gLTEbYLnoiVtS8y7ikBr/IfmML4Qb+CM7dEEbIUOjnY716WqmZ/UpXIxTfJsY7rMcqiCXA==
+  /apollo-client/2.6.10:
+    dependencies:
+      '@types/zen-observable': 0.8.0
+      apollo-cache: 1.3.5
+      apollo-link: 1.2.14
+      apollo-utilities: 1.3.4
+      symbol-observable: 1.2.0
+      ts-invariant: 0.4.4
+      tslib: 1.11.1
+      zen-observable: 0.8.15
+    dev: false
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-jiPlMTN6/5CjZpJOkGeUV0mb4zxx33uXWdj/xQCfAMkuNAC3HN7CvYDyMHHEzmcQ5GV12LszWoQ/VlxET24CtA==
   /apollo-datasource/0.7.0:
     dependencies:
       apollo-server-caching: 0.5.1
@@ -4072,7 +4104,7 @@ packages:
       integrity: sha512-2tIhOIrnaF4UbQHf7kjeQA/EmSorB7+HyJIIrUjJOKBgnXwuexi8aMecRlqTIDWcyVXCeqLhUnztMa6bOH/jTg==
   /apollo-link/1.2.14:
     dependencies:
-      apollo-utilities: 1.3.3
+      apollo-utilities: 1.3.4
       ts-invariant: 0.4.4
       tslib: 1.11.1
       zen-observable-ts: 0.8.21
@@ -4083,7 +4115,7 @@ packages:
       integrity: sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
   /apollo-link/1.2.14_graphql@14.6.0:
     dependencies:
-      apollo-utilities: 1.3.3_graphql@14.6.0
+      apollo-utilities: 1.3.4_graphql@14.6.0
       graphql: 14.6.0
       ts-invariant: 0.4.4
       tslib: 1.11.1
@@ -4216,7 +4248,18 @@ packages:
       graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
     resolution:
       integrity: sha512-F14aX2R/fKNYMvhuP2t9GD9fggID7zp5I96MF5QeKYWDWTrkRdHRp4+SVfXUVN+cXOaB/IebfvRtzPf25CM0zw==
-  /apollo-utilities/1.3.3_graphql@14.6.0:
+  /apollo-utilities/1.3.4:
+    dependencies:
+      '@wry/equality': 0.1.11
+      fast-json-stable-stringify: 2.1.0
+      ts-invariant: 0.4.4
+      tslib: 1.11.1
+    dev: false
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-pk2hiWrCXMAy2fRPwEyhvka+mqwzeP60Jr1tRYi5xru+3ko94HI9o6lK0CT33/w4RDlxWchmdhDCrvdr+pHCig==
+  /apollo-utilities/1.3.4_graphql@14.6.0:
     dependencies:
       '@wry/equality': 0.1.11
       fast-json-stable-stringify: 2.1.0
@@ -4225,9 +4268,9 @@ packages:
       tslib: 1.11.1
     dev: false
     peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     resolution:
-      integrity: sha512-F14aX2R/fKNYMvhuP2t9GD9fggID7zp5I96MF5QeKYWDWTrkRdHRp4+SVfXUVN+cXOaB/IebfvRtzPf25CM0zw==
+      integrity: sha512-pk2hiWrCXMAy2fRPwEyhvka+mqwzeP60Jr1tRYi5xru+3ko94HI9o6lK0CT33/w4RDlxWchmdhDCrvdr+pHCig==
   /aproba/1.2.0:
     dev: false
     resolution:
