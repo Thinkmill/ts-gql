@@ -38,6 +38,7 @@ async function generateOperationTypes(
         "typescript-operations": {
           namespacedImportName: "SchemaTypes",
           immutableTypes: true,
+          avoidOptionals: true,
           noExport: true,
           nonOptionalTypename,
           namingConvention: "keep",
@@ -146,7 +147,7 @@ export async function cachedGenerateOperationTypes(
   nonOptionalTypename: boolean
 ) {
   let operationHash = hashString(
-    schemaHash + JSON.stringify(operation) + nonOptionalTypename + "v4"
+    schemaHash + JSON.stringify(operation) + nonOptionalTypename + "v5"
   );
   let types: string;
   try {
