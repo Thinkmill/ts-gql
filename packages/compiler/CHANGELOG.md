@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.8.0
+
+### Minor Changes
+
+- [`e97fd72`](https://github.com/Thinkmill/ts-gql/commit/e97fd72bc779c1804eddc34238aab57ffb63c9d7) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Stop using optional properties where they are actually null | T
+
 ## 0.7.2
 
 ### Patch Changes
