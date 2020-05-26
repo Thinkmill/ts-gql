@@ -35,7 +35,6 @@ export async function cachedGenerateIntrospectionResult(
   filename: string,
   schemaHash: string
 ) {
-  let operationHash = hashString(schemaHash + "v1");
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
@@ -47,7 +46,7 @@ export async function cachedGenerateIntrospectionResult(
   }
   if (
     !getDoesFileHaveIntegrity(types) ||
-    parseTsGqlMeta(types).hash !== operationHash
+    parseTsGqlMeta(types).hash !== schemaHash
   ) {
     return generateIntrospectionResult(schema, schemaHash, filename);
   }
