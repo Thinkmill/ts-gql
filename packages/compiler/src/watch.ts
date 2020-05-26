@@ -20,8 +20,8 @@ export const watch = async (cwd: string) => {
   while (true) {
     await getNext();
     let { fsOperations, errors } = await getGeneratedTypes({
+      ...rawConfig,
       schema: await readSchema(rawConfig.schema),
-      directory: rawConfig.directory,
     });
     await Promise.all(
       fsOperations.map(async (operation) => {
