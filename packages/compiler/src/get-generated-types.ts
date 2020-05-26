@@ -26,6 +26,7 @@ import { Config } from "@ts-gql/config";
 import { extractGraphQLDocumentsContentsFromFile } from "./extract-documents";
 import { CompilerError, FullSourceLocation } from "./types";
 import { codeFrameColumns } from "@babel/code-frame";
+import { cachedGenerateIntrospectionResult } from "./introspection-result";
 
 function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
   const cache: { [key: string]: V } = {};
@@ -199,7 +200,7 @@ export const getGeneratedTypes = async ({
 
   try {
     let generatedDirectoryFiles = (await fs.readdir(generatedDirectory))
-      .filter((x) => x !== "@schema.d.ts")
+      .filter((x) => !x.startsWith("@"))
       .map((x) => x.replace(/\.ts$/, ""));
 
     for (let name of generatedDirectoryFiles) {
@@ -223,6 +224,16 @@ export const getGeneratedTypes = async ({
 
   if (schemaOperation) {
     fsOperations.push(schemaOperation);
+  }
+
+  let operation = await cachedGenerateIntrospectionResult(
+    schema,
+    nodePath.join(generatedDirectory, "@introspection.ts"),
+    schemaHash
+  );
+
+  if (operation) {
+    fsOperations.push(operation);
   }
 
   let dependencies = Object.keys(uniqueDocumentsByName).reduce((obj, item) => {

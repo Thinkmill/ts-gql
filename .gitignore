@@ -2,3 +2,4 @@
 *.log
 .next
 dist
+__generated__

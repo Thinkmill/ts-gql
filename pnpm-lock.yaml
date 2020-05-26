@@ -52,6 +52,14 @@ importers:
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
       '@ts-gql/tag': ^0.5.0
+  packages/apollo__react-hooks:
+    dependencies:
+      '@ts-gql/tag': 'link:../tag'
+    devDependencies:
+      '@apollo/react-hooks': 3.1.5
+    specifiers:
+      '@apollo/react-hooks': ^3.1.5
+      '@ts-gql/tag': ^0.5.0
   packages/babel-plugin:
     dependencies:
       '@babel/helper-module-imports': 7.8.3
@@ -315,6 +323,34 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-gqeT810Ect9WIqsrgfUvr+ljSB5m1PyBae9HGdrRyQ3HjHjTcjVvxpsMYXlUk4rUHnrfUqyoGvLSy2yLlRGEOw==
+  /@apollo/react-common/3.1.4:
+    dependencies:
+      ts-invariant: 0.4.4
+      tslib: 1.11.1
+    dev: true
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      apollo-utilities: ^1.3.2
+      graphql: ^14.3.1
+      react: ^16.8.0
+    resolution:
+      integrity: sha512-X5Kyro73bthWSCBJUC5XYQqMnG0dLWuDZmVkzog9dynovhfiVCV4kPSdgSIkqnb++cwCzOVuQ4rDKVwo2XRzQA==
+  /@apollo/react-hooks/3.1.5:
+    dependencies:
+      '@apollo/react-common': 3.1.4
+      '@wry/equality': 0.1.11
+      ts-invariant: 0.4.4
+      tslib: 1.11.1
+    dev: true
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      graphql: ^14.3.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    resolution:
+      integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollographql/apollo-tools/0.4.5:
     dependencies:
       apollo-env: 0.6.2
