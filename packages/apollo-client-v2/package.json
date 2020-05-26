@@ -1,0 +1,19 @@
+{
+  "name": "@ts-gql/apollo-client-v2",
+  "version": "0.1.0",
+  "main": "dist/apollo-client-v2.cjs.js",
+  "module": "dist/apollo-client-v2.esm.js",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/react-common": "^3.1.4",
+    "@apollo/react-hooks": "^3.1.5"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/apollo-client-v2"
+}
