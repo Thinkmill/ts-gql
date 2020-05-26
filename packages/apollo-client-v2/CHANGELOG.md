@@ -1,5 +1,11 @@
 # @ts-gql/apollo-client-v2
 
+## 0.3.0
+
+### Minor Changes
+
+- [`dbcb8a5`](https://github.com/Thinkmill/ts-gql/commit/dbcb8a57437056cc9653ef1902ebaaf7c25fac14) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Only export what `@ts-gql/apollo` is using
+
 ## 0.2.1
 
 ### Patch Changes
