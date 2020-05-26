@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.7.1
+
+### Patch Changes
+
+- [`7b2788e`](https://github.com/Thinkmill/ts-gql/commit/7b2788e451f1db0a61b424fae2ab10b27af61d6e) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix bugs involving using `@ts-gql/apollo` and `@ts-gql/apollo-client-v2@0.2.0` together
+
 ## 0.7.0
 
 ### Minor Changes
