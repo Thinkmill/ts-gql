@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.8.1
+
+### Patch Changes
+
+- [`974772a`](https://github.com/Thinkmill/ts-gql/commit/974772ab602e6f2e835e56afbd0f3c68dc28ad31) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix watch mode having an incomplete config
+
 ## 0.8.0
 
 ### Minor Changes
