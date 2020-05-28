@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.9.2
+
+### Patch Changes
+
+- [`6ab36e4`](https://github.com/Thinkmill/ts-gql/commit/6ab36e40298c2fb408ef7c543a2486bc592aeb56) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Stop using gitignore: true in globby to make ts-gql work on Windows
+
 ## 0.9.1
 
 ### Patch Changes
