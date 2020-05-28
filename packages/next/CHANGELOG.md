@@ -1,5 +1,12 @@
 # @ts-gql/next
 
+## 11.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`fba7341`](https://github.com/Thinkmill/ts-gql/commit/fba7341a1418e0a9d555172dc5c6e86899fa6ed3)]:
+  - @ts-gql/compiler@0.11.0
+
 ## 10.0.0
 
 ### Patch Changes
