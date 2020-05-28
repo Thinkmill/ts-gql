@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.11.1
+
+### Patch Changes
+
+- [`95155b8`](https://github.com/Thinkmill/ts-gql/commit/95155b8f8a666b50b9842f9443c275502c061d8e) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix the directory that the schema types are generated in
+
 ## 0.11.0
 
 ### Minor Changes
