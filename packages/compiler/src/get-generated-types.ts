@@ -141,7 +141,6 @@ export const getGeneratedTypes = async ({
     await globby(["**/*.{ts,tsx}"], {
       cwd: directory,
       absolute: true,
-      gitignore: true,
       ignore: ["**/node_modules/**"],
     })
   ).map((x) => slash(x));
