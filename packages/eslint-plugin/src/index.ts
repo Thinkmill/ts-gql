@@ -12,7 +12,6 @@ import {
 import slash from "slash";
 import { handleTemplateTag } from "./parse";
 import { getNodes } from "./get-nodes";
-import { getParserServices } from "./get-parser-services";
 import { getConfigSync, Config } from "@ts-gql/config";
 
 const createRule = ESLintUtils.RuleCreator(
@@ -27,6 +26,8 @@ const messages = {
   mustUseAs: "You must cast gql tags with the generated type",
   operationOrSingleFragment:
     "GraphQL documents must either have a single operation or a single fragment",
+  mustBeNamedGql:
+    "`@ts-gql/tag`'s `gql` export must not be renamed when imported because other tags are not widely supported by tools like formatters and syntax highlighters",
 };
 
 function checkFragment(
@@ -162,18 +163,36 @@ export const rules = {
           let report: typeof context["report"] = (arg) => {
             return context.report(arg);
           };
-          const parserServices = getParserServices(context);
+          let hasTSGQLImport = false;
+          for (const node of programNode.body) {
+            if (
+              node.type === "ImportDeclaration" &&
+              node.source.value === "@ts-gql/tag"
+            ) {
+              let gqlImportSpecifier = node.specifiers.find(
+                (x): x is TSESTree.ImportSpecifier =>
+                  x.type === "ImportSpecifier" && x.imported.name === "gql"
+              );
+              if (
+                gqlImportSpecifier &&
+                gqlImportSpecifier.local.name !== "gql"
+              ) {
+                report({
+                  messageId: "mustBeNamedGql",
+                  node: gqlImportSpecifier,
+                });
+                return;
+              }
+              hasTSGQLImport = true;
+              break;
+            }
+          }
+
+          if (!hasTSGQLImport) return;
+
           for (const node of getNodes(context, programNode)) {
             if (node.type === "TaggedTemplateExpression") {
               if (node.tag.type === "Identifier" && node.tag.name === "gql") {
-                let typeChecker = parserServices.program.getTypeChecker();
-                let gqlTagNode = parserServices.esTreeNodeToTSNodeMap.get(
-                  node.tag
-                );
-                let type = typeChecker.getTypeAtLocation(gqlTagNode);
-                if (!type.getProperty("___isTsGqlTag")) {
-                  continue;
-                }
                 if (!config) {
                   config = getConfigSync(path.dirname(context.getFilename()));
                 }
