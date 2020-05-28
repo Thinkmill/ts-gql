@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@ts-gql/apollo";
 
 const query2 = gql`
   query MyQueryApollo {
+    __typename
     hello
     another
   }

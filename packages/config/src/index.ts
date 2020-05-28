@@ -14,14 +14,14 @@ export type Config = {
   directory: string;
   schema: GraphQLSchema;
   scalars: Record<string, string>;
-  nonOptionalTypename: boolean;
+  addTypename: boolean;
 };
 
 export type RawConfig = {
   directory: string;
   schema: string;
   scalars: Record<string, string>;
-  nonOptionalTypename: boolean;
+  addTypename: boolean;
 };
 
 function parseFieldToConfig({
@@ -41,7 +41,7 @@ function parseFieldToConfig({
       schema: path.resolve(directory, field.schema),
       directory,
       scalars: field.scalars || {},
-      nonOptionalTypename: field.nonOptionalTypename ?? true,
+      addTypename: field.addTypename ?? true,
     };
   }
   throw new ConfigNotFoundError("ts-gql config not found");

@@ -131,7 +131,7 @@ export const getGeneratedTypes = async ({
   schema,
   directory,
   scalars,
-  nonOptionalTypename,
+  addTypename,
 }: Config) => {
   let generatedDirectory = nodePath.join(
     nodePath.join(directory, "__generated__", "ts-gql")
@@ -310,7 +310,7 @@ export const getGeneratedTypes = async ({
             filename,
             schemaHash,
             nodes[0].name!.value,
-            nonOptionalTypename
+            addTypename
           );
       if (operation) fsOperations.push(operation);
     })

@@ -24,7 +24,7 @@ async function generateOperationTypes(
   filename: string,
   operationHash: string,
   operationName: string,
-  nonOptionalTypename: boolean
+  addTypename: boolean
 ): Promise<FsOperation> {
   let result = codegen({
     documents: [{ document: operation }],
@@ -40,7 +40,8 @@ async function generateOperationTypes(
           immutableTypes: true,
           avoidOptionals: true,
           noExport: true,
-          nonOptionalTypename,
+          nonOptionalTypename: addTypename,
+          skipTypename: !addTypename,
           namingConvention: "keep",
         },
       },
@@ -144,10 +145,10 @@ export async function cachedGenerateOperationTypes(
   filename: string,
   schemaHash: string,
   operationName: string,
-  nonOptionalTypename: boolean
+  addTypename: boolean
 ) {
   let operationHash = hashString(
-    schemaHash + JSON.stringify(operation) + nonOptionalTypename + "v5"
+    schemaHash + JSON.stringify(operation) + addTypename + "v6"
   );
   let types: string;
   try {
@@ -161,7 +162,7 @@ export async function cachedGenerateOperationTypes(
         filename,
         operationHash,
         operationName,
-        nonOptionalTypename
+        addTypename
       );
     }
     throw err;
@@ -177,7 +178,7 @@ export async function cachedGenerateOperationTypes(
       filename,
       operationHash,
       operationName,
-      nonOptionalTypename
+      addTypename
     );
   }
 }
