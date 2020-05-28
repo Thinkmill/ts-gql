@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import {
-  GraphQLSchema,
   DocumentNode,
   parse,
   printSchema,
@@ -16,20 +15,20 @@ import {
   wrapFileInIntegrityComment,
 } from "./integrity";
 import stripAnsi from "strip-ansi";
+import { Config } from "@ts-gql/config";
 
 async function generateOperationTypes(
-  schema: GraphQLSchema,
+  config: Config,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   operationHash: string,
-  operationName: string,
-  addTypename: boolean
+  operationName: string
 ): Promise<FsOperation> {
   let result = codegen({
     documents: [{ document: operation }],
-    schema: parse(printSchema(schema)),
-    schemaAst: schema,
+    schema: parse(printSchema(config.schema)),
+    schemaAst: config.schema,
     config: {},
     filename: "",
 
@@ -37,11 +36,11 @@ async function generateOperationTypes(
       {
         "typescript-operations": {
           namespacedImportName: "SchemaTypes",
-          immutableTypes: true,
+          immutableTypes: config.readonlyTypes,
           avoidOptionals: true,
           noExport: true,
-          nonOptionalTypename: addTypename,
-          skipTypename: !addTypename,
+          nonOptionalTypename: config.addTypename,
+          skipTypename: !config.addTypename,
           namingConvention: "keep",
         },
       },
@@ -139,16 +138,19 @@ export async function cachedGenerateErrorModuleFsOperation(
 }
 
 export async function cachedGenerateOperationTypes(
-  schema: GraphQLSchema,
+  config: Config,
   operation: DocumentNode,
   operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
   schemaHash: string,
-  operationName: string,
-  addTypename: boolean
+  operationName: string
 ) {
   let operationHash = hashString(
-    schemaHash + JSON.stringify(operation) + addTypename + "v6"
+    schemaHash +
+      JSON.stringify(operation) +
+      config.addTypename +
+      "v6" +
+      config.readonlyTypes
   );
   let types: string;
   try {
@@ -156,13 +158,12 @@ export async function cachedGenerateOperationTypes(
   } catch (err) {
     if (err.code === "ENOENT") {
       return generateOperationTypes(
-        schema,
+        config,
         operation,
         operationNode,
         filename,
         operationHash,
-        operationName,
-        addTypename
+        operationName
       );
     }
     throw err;
@@ -172,13 +173,12 @@ export async function cachedGenerateOperationTypes(
     parseTsGqlMeta(types).hash !== operationHash
   ) {
     return generateOperationTypes(
-      schema,
+      config,
       operation,
       operationNode,
       filename,
       operationHash,
-      operationName,
-      addTypename
+      operationName
     );
   }
 }

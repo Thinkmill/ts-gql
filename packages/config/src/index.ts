@@ -15,6 +15,7 @@ export type Config = {
   schema: GraphQLSchema;
   scalars: Record<string, string>;
   addTypename: boolean;
+  readonlyTypes: boolean;
 };
 
 export type RawConfig = {
@@ -22,6 +23,7 @@ export type RawConfig = {
   schema: string;
   scalars: Record<string, string>;
   addTypename: boolean;
+  readonlyTypes: boolean;
 };
 
 function parseFieldToConfig({
@@ -42,6 +44,7 @@ function parseFieldToConfig({
       directory,
       scalars: field.scalars || {},
       addTypename: field.addTypename ?? true,
+      readonlyTypes: field.readonlyTypes ?? true,
     };
   }
   throw new ConfigNotFoundError("ts-gql config not found");

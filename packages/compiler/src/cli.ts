@@ -1,5 +1,4 @@
 import { getGeneratedTypes } from "./get-generated-types";
-import { applyFsOperation } from "./fs-operations";
 import { getConfig } from "@ts-gql/config";
 import { watch } from "./watch";
 import { build } from "./build";

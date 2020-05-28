@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { printSchema, GraphQLSchema, parse } from "graphql";
+import { printSchema, parse } from "graphql";
 import path from "path";
 import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
@@ -9,26 +9,26 @@ import {
   wrapFileInIntegrityComment,
   getDoesFileHaveIntegrity,
 } from "./integrity";
+import { Config } from "@ts-gql/config";
 
 function generateSchemaTypes(
-  schema: GraphQLSchema,
+  config: Config,
   filename: string,
-  schemaHash: string,
-  scalars: Record<string, string>
+  schemaHash: string
 ): FsOperation {
   let result = codegen({
     documents: [],
-    schema: parse(printSchema(schema)),
-    schemaAst: schema,
+    schema: parse(printSchema(config.schema)),
+    schemaAst: config.schema,
     config: {},
     filename: "",
     plugins: [
       {
         typescript: {
           enumsAsTypes: true,
-          scalars,
+          scalars: config.scalars,
           avoidOptionals: true,
-          immutableTypes: true,
+          immutableTypes: config.readonlyTypes,
           nonOptionalTypename: true,
           namingConvention: "keep",
         },
@@ -50,22 +50,20 @@ function generateSchemaTypes(
   };
 }
 
-export async function cachedGenerateSchemaTypes(
-  schema: GraphQLSchema,
-  directory: string,
-  scalars: Record<string, string>
-) {
-  let printedSchema = printSchema(schema);
-  let schemaHash = hashString(printedSchema + JSON.stringify(scalars) + "v2");
+export async function cachedGenerateSchemaTypes(config: Config) {
+  let printedSchema = printSchema(config.schema);
+  let schemaHash = hashString(
+    printedSchema + JSON.stringify(config.scalars) + config.readonlyTypes + "v2"
+  );
   let types: string;
-  let filename = path.join(directory, "@schema.d.ts");
+  let filename = path.join(config.directory, "@schema.d.ts");
   try {
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
       return {
         hash: schemaHash,
-        operation: generateSchemaTypes(schema, filename, schemaHash, scalars),
+        operation: generateSchemaTypes(config, filename, schemaHash),
       };
     }
     throw err;
@@ -76,7 +74,7 @@ export async function cachedGenerateSchemaTypes(
   ) {
     return {
       hash: schemaHash,
-      operation: generateSchemaTypes(schema, filename, schemaHash, scalars),
+      operation: generateSchemaTypes(config, filename, schemaHash),
     };
   }
   return { hash: schemaHash };

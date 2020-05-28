@@ -127,19 +127,14 @@ async function getDocuments(files: string[]) {
   return { errors, documents: allDocuments };
 }
 
-export const getGeneratedTypes = async ({
-  schema,
-  directory,
-  scalars,
-  addTypename,
-}: Config) => {
+export const getGeneratedTypes = async (config: Config) => {
   let generatedDirectory = nodePath.join(
-    nodePath.join(directory, "__generated__", "ts-gql")
+    nodePath.join(config.directory, "__generated__", "ts-gql")
   );
 
   const files = (
     await globby(["**/*.{ts,tsx}"], {
-      cwd: directory,
+      cwd: config.directory,
       absolute: true,
       ignore: ["**/node_modules/**"],
     })
@@ -219,14 +214,14 @@ export const getGeneratedTypes = async ({
   let {
     hash: schemaHash,
     operation: schemaOperation,
-  } = await cachedGenerateSchemaTypes(schema, generatedDirectory, scalars);
+  } = await cachedGenerateSchemaTypes(config);
 
   if (schemaOperation) {
     fsOperations.push(schemaOperation);
   }
 
   let operation = await cachedGenerateIntrospectionResult(
-    schema,
+    config.schema,
     nodePath.join(generatedDirectory, "@introspection.ts"),
     schemaHash
   );
@@ -277,7 +272,7 @@ export const getGeneratedTypes = async ({
       } as const;
 
       let gqlErrors = validate(
-        schema,
+        config.schema,
         document,
         nodes[0].kind === "OperationDefinition"
           ? specifiedRules
@@ -304,13 +299,12 @@ export const getGeneratedTypes = async ({
             ).join("\n")}`
           )
         : await cachedGenerateOperationTypes(
-            schema,
+            config,
             document,
             nodes[0],
             filename,
             schemaHash,
-            nodes[0].name!.value,
-            addTypename
+            nodes[0].name!.value
           );
       if (operation) fsOperations.push(operation);
     })
