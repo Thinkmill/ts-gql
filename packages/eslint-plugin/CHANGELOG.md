@@ -1,5 +1,12 @@
 # @ts-gql/eslint-plugin
 
+## 0.4.4
+
+### Patch Changes
+
+- Updated dependencies [[`4be8faa`](https://github.com/Thinkmill/ts-gql/commit/4be8faafa0fba17efa491a0aec8ddbb472aa5572)]:
+  - @ts-gql/config@0.4.0
+
 ## 0.4.3
 
 ### Patch Changes
