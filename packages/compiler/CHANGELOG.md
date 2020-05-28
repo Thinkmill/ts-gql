@@ -1,5 +1,16 @@
 # @ts-gql/compiler
 
+## 0.11.0
+
+### Minor Changes
+
+- [`fba7341`](https://github.com/Thinkmill/ts-gql/commit/fba7341a1418e0a9d555172dc5c6e86899fa6ed3) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add `readonlyTypes` option
+
+### Patch Changes
+
+- Updated dependencies [[`fba7341`](https://github.com/Thinkmill/ts-gql/commit/fba7341a1418e0a9d555172dc5c6e86899fa6ed3)]:
+  - @ts-gql/config@0.5.0
+
 ## 0.10.0
 
 ### Minor Changes
