@@ -203,7 +203,7 @@ importers:
       '@ts-gql/apollo': ^0.7.0
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.11.0
-      '@ts-gql/eslint-plugin': ^0.4.5
+      '@ts-gql/eslint-plugin': ^0.5.0
       '@ts-gql/next': ^11.0.0
       '@ts-gql/tag': ^0.5.0
       '@ts-gql/urql': ^0.3.1
