@@ -56,7 +56,12 @@ export async function cachedGenerateSchemaTypes(config: Config) {
     printedSchema + JSON.stringify(config.scalars) + config.readonlyTypes + "v2"
   );
   let types: string;
-  let filename = path.join(config.directory, "@schema.d.ts");
+  let filename = path.join(
+    config.directory,
+    "__generated__",
+    "ts-gql",
+    "@schema.d.ts"
+  );
   try {
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
