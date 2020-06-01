@@ -2,6 +2,7 @@
   "name": "@ts-gql/repo",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "repository": "https://github.com/Thinkmill/ts-gql",
   "license": "MIT",
   "dependencies": {
