@@ -1,1 +1,1 @@
-export { useQuery, useMutation } from "@apollo/client";
+export { useQuery, useMutation, useApolloClient } from "@apollo/client";

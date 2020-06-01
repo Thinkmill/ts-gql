@@ -18,6 +18,7 @@ import {
   ErrorPolicy,
   MutationQueryReducersMap,
   ExecutionResult,
+  ApolloClient,
 } from "@apollo/client";
 
 type FetchResult<
@@ -170,13 +171,26 @@ export type MutationOptions<
   { variables?: OperationVariables<TTypedDocumentNode> }
 >;
 
-declare module "@apollo/client/ApolloClient" {
-  export interface ApolloClient<TCacheShape> {
-    // query<T = any, TVariables = OperationVariables>(
-    //   options: QueryHookOptions<TVariables>
-    // ): Promise<ApolloQueryResult<T>>;
-    mutate<TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>>(
-      options: MutationOptions<TTypedDocumentNode>
-    ): Promise<FetchResult<OperationData<TTypedDocumentNode>>>;
-  }
-}
+type QueryFnOptions<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+> = {
+  query: TTypedDocumentNode;
+  errorPolicy?: ErrorPolicy;
+  fetchPolicy?: FetchPolicy;
+} & HasRequiredVariables<
+  TTypedDocumentNode,
+  { variables: OperationVariables<TTypedDocumentNode> },
+  { variables?: OperationVariables<TTypedDocumentNode> }
+>;
+
+export function useApolloClient(): Omit<
+  ApolloClient<object>,
+  "mutate" | "query"
+> & {
+  query<TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>>(
+    options: QueryFnOptions<TTypedDocumentNode>
+  ): Promise<FetchResult<OperationData<TTypedDocumentNode>>>;
+  mutate<TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>>(
+    options: MutationOptions<TTypedDocumentNode>
+  ): Promise<FetchResult<OperationData<TTypedDocumentNode>>>;
+};

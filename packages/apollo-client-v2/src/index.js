@@ -1,1 +1,1 @@
-export { useQuery, useMutation } from "@apollo/react-hooks";
+export { useQuery, useMutation, useApolloClient } from "@apollo/react-hooks";
