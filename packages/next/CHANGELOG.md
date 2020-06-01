@@ -1,5 +1,14 @@
 # @ts-gql/next
 
+## 12.0.1
+
+### Patch Changes
+
+- Fix broken release
+
+- Updated dependencies []:
+  - @ts-gql/compiler@0.12.1
+
 ## 12.0.0
 
 ### Patch Changes

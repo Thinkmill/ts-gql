@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.12.1
+
+### Patch Changes
+
+- Fix broken release
+
 ## 0.12.0
 
 ### Minor Changes
