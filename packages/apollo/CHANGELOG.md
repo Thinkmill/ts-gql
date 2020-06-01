@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.8.0
+
+### Minor Changes
+
+- [`41ee599`](https://github.com/Thinkmill/ts-gql/commit/41ee5995cd05b189a58d9c2ec5f739bbbb0addc3) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add useApolloClient
+
 ## 0.7.1
 
 ### Patch Changes
