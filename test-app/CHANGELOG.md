@@ -1,5 +1,13 @@
 # @ts-gql/test-app
 
+## 0.1.19
+
+### Patch Changes
+
+- Updated dependencies [[`0b8679c`](https://github.com/Thinkmill/ts-gql/commit/0b8679cd9d7e3a47c63071559f344fa22d7aaa64)]:
+  - @ts-gql/compiler@0.12.0
+  - @ts-gql/next@12.0.0
+
 ## 0.1.18
 
 ### Patch Changes
