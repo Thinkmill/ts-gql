@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import { GraphQLSchema, introspectionFromSchema } from "graphql";
-import { hashString, parseTsGqlMeta } from "./utils";
+import { parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
   getDoesFileHaveIntegrity,

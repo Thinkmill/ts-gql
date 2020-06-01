@@ -37,7 +37,11 @@ async function generateOperationTypes(
         "typescript-operations": {
           namespacedImportName: "SchemaTypes",
           immutableTypes: config.readonlyTypes,
-          avoidOptionals: true,
+          avoidOptionals: {
+            object: true,
+            inputValue: false,
+            field: true,
+          },
           noExport: true,
           nonOptionalTypename: config.addTypename,
           skipTypename: !config.addTypename,
@@ -149,7 +153,7 @@ export async function cachedGenerateOperationTypes(
     schemaHash +
       JSON.stringify(operation) +
       config.addTypename +
-      "v6" +
+      "v7" +
       config.readonlyTypes
   );
   let types: string;

@@ -27,7 +27,11 @@ function generateSchemaTypes(
         typescript: {
           enumsAsTypes: true,
           scalars: config.scalars,
-          avoidOptionals: true,
+          avoidOptionals: {
+            object: true,
+            inputValue: false,
+            field: true,
+          },
           immutableTypes: config.readonlyTypes,
           nonOptionalTypename: true,
           namingConvention: "keep",
@@ -53,7 +57,7 @@ function generateSchemaTypes(
 export async function cachedGenerateSchemaTypes(config: Config) {
   let printedSchema = printSchema(config.schema);
   let schemaHash = hashString(
-    printedSchema + JSON.stringify(config.scalars) + config.readonlyTypes + "v2"
+    printedSchema + JSON.stringify(config.scalars) + config.readonlyTypes + "v3"
   );
   let types: string;
   let filename = path.join(
