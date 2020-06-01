@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.12.0
+
+### Minor Changes
+
+- [`0b8679c`](https://github.com/Thinkmill/ts-gql/commit/0b8679cd9d7e3a47c63071559f344fa22d7aaa64) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Make nullable fields on input types optional
+
 ## 0.11.1
 
 ### Patch Changes
