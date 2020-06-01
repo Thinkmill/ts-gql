@@ -27,7 +27,7 @@ jobs:
           restore-keys: pnpm-
 
       - name: Install pnpm
-        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+        run: npm i -g pnpm@4
 
       - name: Install Dependencies
         run: pnpm i
