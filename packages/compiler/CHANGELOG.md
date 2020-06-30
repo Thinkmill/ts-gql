@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.13.0
+
+### Minor Changes
+
+- [`2c04c58`](https://github.com/Thinkmill/ts-gql/commit/2c04c58c69c0f209ad6c5281e7093686984b6557) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Replace generated object literals with JSON.parse calls
+
 ## 0.12.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/next",
-  "version": "12.0.1",
+  "version": "13.0.0",
   "main": "dist/next.cjs.js",
   "module": "dist/next.esm.js",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "graphql": "^14.0.0",
-    "@ts-gql/compiler": "^0.12.1"
+    "@ts-gql/compiler": "^0.13.0"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/next"
 }
