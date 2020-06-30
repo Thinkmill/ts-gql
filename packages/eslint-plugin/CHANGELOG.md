@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.6.1
+
+### Patch Changes
+
+- [`94d642d`](https://github.com/Thinkmill/ts-gql/commit/94d642d514dac32c183881cfe75e6cc61851707d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Improve heuristic to determine when it is necessary to fetch an id
+
 ## 0.6.0
 
 ### Minor Changes
