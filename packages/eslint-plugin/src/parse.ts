@@ -135,7 +135,7 @@ export function handleTemplateTag(
   visit(
     ast,
     visitWithTypeInfo(typeInfo, {
-      SelectionSet(selectionSetNode) {
+      SelectionSet(selectionSetNode, key, parent) {
         let type = typeInfo.getType();
         if (!type) {
           throw new Error(
@@ -155,7 +155,6 @@ export function handleTemplateTag(
             type = type.ofType;
           }
         }
-
         if (
           !(
             type instanceof GraphQLInterfaceType ||
@@ -178,14 +177,36 @@ export function handleTemplateTag(
             "Location not found for selection. This is an internal error. If you see this, this is most likely a bug in ts-gql"
           );
         }
+        let selectionSetAlreadyHasId = selectionSetNode.selections.some(
+          (x) => x.kind === "Field" && x.name.value === "id"
+        );
+        if (selectionSetAlreadyHasId) {
+          return;
+        }
+        let isOnlyFragmentSpread = selectionSetNode.selections.every(
+          (x) => x.kind === "FragmentSpread"
+        );
+        if (isOnlyFragmentSpread) {
+          return;
+        }
 
         if (
-          type.getFields()["id"] &&
-          !selectionSetNode.selections.some(
-            (x) => x.kind === "Field" && x.name.value === "id"
-          ) &&
-          !selectionSetNode.selections.every((x) => x.kind !== "Field")
+          parent &&
+          !Array.isArray(parent) &&
+          (parent as any).kind === "InlineFragment"
         ) {
+          let parentType = (typeInfo as any)._parentTypeStack[
+            (typeInfo as any)._parentTypeStack.length - 2
+          ];
+          if (
+            parentType instanceof GraphQLInterfaceType &&
+            parentType.getFields().id
+          ) {
+            return;
+          }
+        }
+
+        if (type.getFields().id) {
           let fixPosition =
             selectionSetNode.loc?.start + node.quasi.range[0] + 2;
           let fixText =

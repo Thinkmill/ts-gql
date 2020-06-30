@@ -5,6 +5,7 @@ type Query {
   something: String
   someObj: OutputThing!
   arr: [OutputThing!]!
+  thing: Thing!
   optional(thing: String): String!
   oneMore(thing: String, other: Something!): String!
 }
@@ -16,6 +17,15 @@ type Mutation {
   something: String
   optional(thing: String): String!
   oneMore(thing: String, other: Something!): String!
+}
+
+interface Thing {
+  id: ID!
+}
+
+type ImplementationOfThing implements Thing {
+  id: ID!
+  something: String!
 }
 
 type OutputThing {

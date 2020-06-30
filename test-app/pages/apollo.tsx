@@ -20,6 +20,12 @@ const someFragment = gql`
       id
       other
     }
+    thing {
+      id
+      ... on ImplementationOfThing {
+        something
+      }
+    }
   }
 ` as import("../__generated__/ts-gql/Something2Apollo_x").type;
 
