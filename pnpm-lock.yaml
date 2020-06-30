@@ -161,7 +161,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.9.2
       '@ts-gql/babel-plugin': ^0.1.0
-      '@ts-gql/compiler': ^0.12.0
+      '@ts-gql/compiler': ^0.12.1
       graphql: ^14.0.0
   packages/tag:
     dependencies:
@@ -975,6 +975,7 @@ packages:
       integrity: sha512-tycmZxkGfZaxhMRbXlPXuVFpdWlXpir2W4AMhSJgRKzk/eDlIXOhb2LHWoLpDF7TEHylV5zNhykX6KAgHJmTNw==
   /@babel/plugin-syntax-async-generators/7.8.4_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1001,6 +1002,7 @@ packages:
       integrity: sha512-wnTnFlG+YxQm3vDxpGE57Pj0srRU4sHE/mDkt1qv2YJJSeUAec2ma4WLUnUPeKjyrfntVwe/N6dCXpU+zL3Npg==
   /@babel/plugin-syntax-bigint/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1081,6 +1083,7 @@ packages:
       integrity: sha512-lY6kdGpWHvjoe2vk4WrAapEuBR69EMxZl+RoGRhrFGNYVK8mOPAW8VfbT/ZgrFbXlDNiiaxQnAtgVCZ6jv30EA==
   /@babel/plugin-syntax-json-strings/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1125,6 +1128,7 @@ packages:
       integrity: sha512-WxdW9xyLgBdefoo0Ynn3MRSkhe5tFVxxKNVdnZSh318WrG2e2jH+E9wd/++JsqcLJZPfz87njQJ8j2Upjm0M0A==
   /@babel/plugin-syntax-logical-assignment-operators/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1151,6 +1155,7 @@ packages:
       integrity: sha512-aSff4zPII1u2QD7y+F8oDsz19ew4IGEJg9SVW+bqwpwtfFleiQDMdzA/R+UlWDzfnHFCxxleFT0PMIrR36XLNQ==
   /@babel/plugin-syntax-nullish-coalescing-operator/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1177,6 +1182,7 @@ packages:
       integrity: sha512-H7dCMAdN83PcCmqmkHB5dtp+Xa9a6LKSvA2hiFBC/5alSHxM5VgWZXFqDi0YFe8XNGT6iCa+z4V4zSt/PdZ7Dw==
   /@babel/plugin-syntax-numeric-separator/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1230,6 +1236,7 @@ packages:
       integrity: sha512-6VPD0Pc1lpTqw0aKoeRTMiB+kWhAoT24PA+ksWSBrFtl5SIRVpZlwN3NNPQjehA2E/91FV3RjLWoVTglWcSV3Q==
   /@babel/plugin-syntax-optional-catch-binding/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -1256,6 +1263,7 @@ packages:
       integrity: sha512-KoK9ErH1MBlCPxV0VANkXW2/dw4vlbGDrFgz8bmUsBGYkFRcbRwMh6cIJubdPrkxRwuGdtCk0v/wPTKbQgBjkg==
   /@babel/plugin-syntax-optional-chaining/7.8.3_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/helper-plugin-utils': 7.8.3
     dev: false
     peerDependencies:
@@ -4465,6 +4473,7 @@ packages:
       integrity: sha1-Y/1D99weO7fONZR9uP42mj9Yx0s=
   /babel-jest/25.4.0_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@jest/transform': 25.4.0
       '@jest/types': 25.4.0
       '@types/babel__core': 7.1.7
@@ -4545,6 +4554,7 @@ packages:
       integrity: sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
   /babel-preset-current-node-syntax/0.1.2_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       '@babel/plugin-syntax-async-generators': 7.8.4_@babel+core@7.9.0
       '@babel/plugin-syntax-bigint': 7.8.3_@babel+core@7.9.0
       '@babel/plugin-syntax-class-properties': 7.8.3_@babel+core@7.9.0
@@ -4615,6 +4625,7 @@ packages:
       integrity: sha512-7QTLTCd2gwB2qGoi5epSULMHugSVgpcVt5YAeiFO9ABLrutDQzKfGwzxgZHLpugq8qMdg/DhRZDZ5CLKxBkEbw==
   /babel-preset-jest/25.4.0_@babel+core@7.9.0:
     dependencies:
+      '@babel/core': 7.9.0
       babel-plugin-jest-hoist: 25.4.0
       babel-preset-current-node-syntax: 0.1.2_@babel+core@7.9.0
     dev: false

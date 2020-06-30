@@ -20,6 +20,8 @@ const createRule = ESLintUtils.RuleCreator(
 );
 
 const messages = {
+  mustFetchId:
+    "The id field on object and interface types must always be fetched if it exists so that caching works reliably",
   noInterpolation: "Interpolations are not allowed in gql tags",
   singleOperation: "GraphQL documents must have only one operation",
   mustBeNamed: "GraphQL operations must have a name",

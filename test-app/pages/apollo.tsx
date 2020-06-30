@@ -12,6 +12,14 @@ const query2 = gql`
 const someFragment = gql`
   fragment Something2Apollo_x on Query {
     hello
+    someObj {
+      id
+      other
+    }
+    arr {
+      id
+      other
+    }
   }
 ` as import("../__generated__/ts-gql/Something2Apollo_x").type;
 

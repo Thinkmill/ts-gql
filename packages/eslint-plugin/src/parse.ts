@@ -9,6 +9,15 @@ import {
   NoUnusedFragmentsRule,
   NoUnusedVariablesRule,
   KnownFragmentNamesRule,
+  visitWithTypeInfo,
+  visit,
+  TypeInfo,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+  GraphQLUnionType,
+  GraphQLNonNull,
+  GraphQLList,
+  ASTNode,
 } from "graphql";
 
 // loosely based on https://github.com/apollographql/eslint-plugin-graphql/blob/master/src/createRule.js
@@ -35,7 +44,10 @@ function replaceExpressions(
   return node.quasis[0].value.cooked;
 }
 
-function locFrom(node: TSESTree.TaggedTemplateExpression, error: any) {
+function locFromGraphQLError(
+  node: TSESTree.TaggedTemplateExpression,
+  error: any
+) {
   if (!error.locations || !error.locations.length) {
     return;
   }
@@ -56,6 +68,30 @@ function locFrom(node: TSESTree.TaggedTemplateExpression, error: any) {
     column,
   };
 }
+
+function locFromGraphQLNode(
+  node: TSESTree.TaggedTemplateExpression,
+  graphQLNode: ASTNode
+) {
+  return {
+    start: {
+      line: node.loc.start.line + graphQLNode.loc!.startToken.line - 1,
+      column:
+        graphQLNode.loc!.startToken.line === 1
+          ? node.loc.start.column + graphQLNode.loc!.startToken.column + 1
+          : graphQLNode.loc!.startToken.column,
+    },
+    end: {
+      line: node.loc.start.line + graphQLNode.loc!.endToken.line - 1,
+      column:
+        graphQLNode.loc!.endToken.line === 1
+          ? node.loc.start.column + graphQLNode.loc!.endToken.column + 1
+          : graphQLNode.loc!.endToken.column,
+    },
+  };
+}
+
+function checkRequestsId() {}
 
 export function handleTemplateTag(
   node: TSESTree.TaggedTemplateExpression,
@@ -81,20 +117,97 @@ export function handleTemplateTag(
       node,
       // @ts-ignore
       message: error.message.split("\n")[0],
-      loc: locFrom(node, error),
+      loc: locFromGraphQLError(node, error),
     });
     return;
   }
-
   const validationErrors = schema ? validate(schema, ast, rules) : [];
   if (validationErrors && validationErrors.length > 0) {
     report({
       node,
       // @ts-ignore
       message: validationErrors[0].message,
-      loc: locFrom(node, validationErrors[0]),
+      loc: locFromGraphQLError(node, validationErrors[0]),
     });
     return;
   }
+  let typeInfo = new TypeInfo(schema);
+  visit(
+    ast,
+    visitWithTypeInfo(typeInfo, {
+      SelectionSet(selectionSetNode) {
+        let type = typeInfo.getType();
+        if (!type) {
+          throw new Error(
+            "Type for SelectionSet not found. This is an internal error. If you see this, this is most likely a bug in ts-gql"
+          );
+        }
+        if (type instanceof GraphQLUnionType) {
+          return;
+        }
+        if (type instanceof GraphQLNonNull) {
+          type = type.ofType;
+        }
+
+        if (type instanceof GraphQLList) {
+          type = type.ofType;
+          if (type instanceof GraphQLNonNull) {
+            type = type.ofType;
+          }
+        }
+
+        if (
+          !(
+            type instanceof GraphQLInterfaceType ||
+            type instanceof GraphQLObjectType
+          )
+        ) {
+          throw new Error(
+            `Unexpected SelectionSet on type of ${
+              (type as any).constructor.name
+            }. This is an internal error. If you see this, this is most likely a bug in ts-gql`
+          );
+        }
+        if (!selectionSetNode.selections[0]) {
+          throw new Error(
+            "SelctionSet must have at least one selection. This is an internal error. If you see this, this is most likely a bug in ts-gql"
+          );
+        }
+        if (!selectionSetNode.selections[0].loc || !selectionSetNode.loc) {
+          throw new Error(
+            "Location not found for selection. This is an internal error. If you see this, this is most likely a bug in ts-gql"
+          );
+        }
+
+        if (
+          type.getFields()["id"] &&
+          !selectionSetNode.selections.some(
+            (x) => x.kind === "Field" && x.name.value === "id"
+          ) &&
+          !selectionSetNode.selections.every((x) => x.kind !== "Field")
+        ) {
+          let fixPosition =
+            selectionSetNode.loc?.start + node.quasi.range[0] + 2;
+          let fixText =
+            "\n" +
+            "".padStart(
+              selectionSetNode.selections[0].loc.startToken.column - 1
+            ) +
+            "id";
+          report({
+            messageId: "mustFetchId",
+            node,
+            loc: locFromGraphQLNode(node, selectionSetNode),
+            fix(fixer) {
+              return fixer.insertTextAfterRange(
+                [fixPosition, fixPosition],
+                fixText
+              );
+            },
+          });
+        }
+      },
+    })
+  );
   return { ast, document: text };
 }

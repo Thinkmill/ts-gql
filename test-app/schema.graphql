@@ -3,6 +3,8 @@ type Query {
   other: Boolean!
   another: String!
   something: String
+  someObj: OutputThing!
+  arr: [OutputThing!]!
   optional(thing: String): String!
   oneMore(thing: String, other: Something!): String!
 }
@@ -14,6 +16,11 @@ type Mutation {
   something: String
   optional(thing: String): String!
   oneMore(thing: String, other: Something!): String!
+}
+
+type OutputThing {
+  id: ID!
+  other: String!
 }
 
 input Something {
