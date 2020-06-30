@@ -91,8 +91,6 @@ function locFromGraphQLNode(
   };
 }
 
-function checkRequestsId() {}
-
 export function handleTemplateTag(
   node: TSESTree.TaggedTemplateExpression,
   report: TSESLint.RuleContext<MessageId, any>["report"],
