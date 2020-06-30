@@ -88,11 +88,11 @@ declare module "./@schema" {
   }
 }
 
-export const document = ${JSON.stringify(
-      operation,
-      (key, value) => (key === "loc" ? undefined : value),
-      2
-    )}
+export const document = JSON.parse(${JSON.stringify(
+      JSON.stringify(operation, (key, value) =>
+        key === "loc" ? undefined : value
+      )
+    )})
 `),
   };
 }
@@ -153,7 +153,7 @@ export async function cachedGenerateOperationTypes(
     schemaHash +
       JSON.stringify(operation) +
       config.addTypename +
-      "v7" +
+      "v8" +
       config.readonlyTypes
   );
   let types: string;

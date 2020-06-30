@@ -25,7 +25,9 @@ async function generateIntrospectionResult(
       null,
       2
     )}\nts-gql-meta-end\n*/\n
-export const result = ${JSON.stringify(introspection, null, 2)}
+export const result = JSON.parse(${JSON.stringify(
+      JSON.stringify(introspection)
+    )})
 `),
   };
 }
@@ -35,6 +37,7 @@ export async function cachedGenerateIntrospectionResult(
   filename: string,
   schemaHash: string
 ) {
+  schemaHash = schemaHash + "v1";
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
