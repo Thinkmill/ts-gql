@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.6.0
+
+### Minor Changes
+
+- [`63bbe54`](https://github.com/Thinkmill/ts-gql/commit/63bbe543b2ba34e14565ca3627187e37a9bbd619) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Throw a fixable error when ids aren't fetched for types that have them
+
 ## 0.5.0
 
 ### Minor Changes
