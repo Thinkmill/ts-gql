@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/eslint-plugin",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "main": "dist/eslint-plugin.cjs.js",
   "module": "dist/eslint-plugin.esm.js",
   "license": "MIT",
