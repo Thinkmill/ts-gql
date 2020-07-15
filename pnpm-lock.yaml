@@ -171,14 +171,6 @@ importers:
     specifiers:
       graphql: ^14.0.0
       graphql-tag: ^2.10.3
-  packages/urql:
-    dependencies:
-      '@ts-gql/tag': 'link:../tag'
-    devDependencies:
-      urql: 1.9.7
-    specifiers:
-      '@ts-gql/tag': ^0.5.0
-      urql: ^1.9.7
   test-app:
     dependencies:
       '@apollo/client': 3.0.0-beta.43_react@16.13.1
@@ -188,7 +180,6 @@ importers:
       '@ts-gql/eslint-plugin': 'link:../packages/eslint-plugin'
       '@ts-gql/next': 'link:../packages/next'
       '@ts-gql/tag': 'link:../packages/tag'
-      '@ts-gql/urql': 'link:../packages/urql'
       '@types/node': 13.13.2
       '@types/react': 16.9.34
       '@typescript-eslint/parser': 2.29.0
@@ -206,7 +197,6 @@ importers:
       '@ts-gql/eslint-plugin': ^0.6.1
       '@ts-gql/next': ^13.0.0
       '@ts-gql/tag': ^0.5.0
-      '@ts-gql/urql': ^0.3.1
       '@types/node': ^13.13.2
       '@types/react': ^16.9.34
       '@typescript-eslint/parser': ^2.29.0
@@ -3687,6 +3677,7 @@ packages:
   /@urql/core/1.11.5:
     dependencies:
       wonka: 4.0.9
+    dev: false
     peerDependencies:
       graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     resolution:
@@ -11944,16 +11935,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
-  /urql/1.9.7:
-    dependencies:
-      '@urql/core': 1.11.5
-      wonka: 4.0.9
-    dev: true
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-      react: '>= 16.8.0'
-    resolution:
-      integrity: sha512-zMLVeoAzY+C/RQGXjYYNC/XMqzMoyF1xjMNELTz4FNwXMEnk1wfCbgcQBbHyRVPql/9/CjY9Igq7AxUfY67Y5Q==
   /urql/1.9.7_react@16.13.1:
     dependencies:
       '@urql/core': 1.11.5
@@ -12206,6 +12187,7 @@ packages:
     resolution:
       integrity: sha512-Ba5m9/Fa4Xt9eb2ELXt77JxVDV8w7qQrH0zS/TWSJdLyAwQjWoOzpzj5lwVftDz6n/EOu3tNACS84v509qwnJA==
   /wonka/4.0.9:
+    dev: false
     resolution:
       integrity: sha512-he7Nn1254ToUN03zLbJok6QxKdRJd46/QHm8nUcJNViXQnCutCuUgAbZvzoxrX+VXzGb4sCFolC4XhkHsmvdaA==
   /word-wrap/1.2.3:
