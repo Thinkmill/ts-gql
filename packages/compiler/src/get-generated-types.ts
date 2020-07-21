@@ -301,10 +301,8 @@ export const getGeneratedTypes = async (config: Config) => {
         : await cachedGenerateOperationTypes(
             config,
             document,
-            nodes[0],
             filename,
-            schemaHash,
-            nodes[0].name!.value
+            schemaHash
           );
       if (operation) fsOperations.push(operation);
     })

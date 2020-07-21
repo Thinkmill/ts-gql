@@ -16,17 +16,16 @@ import {
 } from "./integrity";
 import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
+import { inlineIntoFirstOperationOrFragment } from "./inlineFragments";
 
 async function generateOperationTypes(
   config: Config,
   operation: DocumentNode,
-  operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
-  operationHash: string,
-  operationName: string
+  operationHash: string
 ): Promise<FsOperation> {
   let result = codegen({
-    documents: [{ document: operation }],
+    documents: [{ document: inlineIntoFirstOperationOrFragment(operation) }],
     schema: parse(printSchema(config.schema)),
     schemaAst: config.schema,
     config: {},
@@ -52,12 +51,25 @@ async function generateOperationTypes(
     pluginMap: { "typescript-operations": typescriptOperationsPlugin },
   });
 
+  const operationNode = operation.definitions[0];
+  if (
+    !operationNode ||
+    (operationNode.kind !== "FragmentDefinition" &&
+      operationNode.kind !== "OperationDefinition")
+  ) {
+    throw new Error(
+      "First node in document does not exist or is not a fragment or operation"
+    );
+  }
+  if (!operationNode.name) {
+    throw new Error("name not found on OperationDefinition");
+  }
   const operationType =
     operationNode.kind === "OperationDefinition"
       ? operationNode.operation
       : "fragment";
 
-  let upperCaseOperationName =
+  let upperCaseOperationType =
     operationType.charAt(0).toUpperCase() + operationType.slice(1);
   return {
     type: "output",
@@ -72,11 +84,11 @@ async function generateOperationTypes(
 
 export type type = TypedDocumentNode<{
   type: ${JSON.stringify(operationType)};
-  result: ${operationName + upperCaseOperationName};${
+  result: ${operationNode.name.value + upperCaseOperationType};${
       operationType === "fragment"
         ? ""
         : `\n  variables: ${
-            operationName + upperCaseOperationName + "Variables"
+            operationNode.name.value + upperCaseOperationType + "Variables"
           };`
     }
   documents: SchemaTypes.TSGQLDocuments;
@@ -84,7 +96,7 @@ export type type = TypedDocumentNode<{
 
 declare module "./@schema" {
   interface TSGQLDocuments {
-    ${operationName}: type;
+    ${operationNode.name.value}: type;
   }
 }
 
@@ -144,16 +156,14 @@ export async function cachedGenerateErrorModuleFsOperation(
 export async function cachedGenerateOperationTypes(
   config: Config,
   operation: DocumentNode,
-  operationNode: OperationDefinitionNode | FragmentDefinitionNode,
   filename: string,
-  schemaHash: string,
-  operationName: string
+  schemaHash: string
 ) {
   let operationHash = hashString(
     schemaHash +
       JSON.stringify(operation) +
       config.addTypename +
-      "v8" +
+      "v9" +
       config.readonlyTypes
   );
   let types: string;
@@ -161,14 +171,7 @@ export async function cachedGenerateOperationTypes(
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      return generateOperationTypes(
-        config,
-        operation,
-        operationNode,
-        filename,
-        operationHash,
-        operationName
-      );
+      return generateOperationTypes(config, operation, filename, operationHash);
     }
     throw err;
   }
@@ -176,13 +179,6 @@ export async function cachedGenerateOperationTypes(
     !getDoesFileHaveIntegrity(types) ||
     parseTsGqlMeta(types).hash !== operationHash
   ) {
-    return generateOperationTypes(
-      config,
-      operation,
-      operationNode,
-      filename,
-      operationHash,
-      operationName
-    );
+    return generateOperationTypes(config, operation, filename, operationHash);
   }
 }
