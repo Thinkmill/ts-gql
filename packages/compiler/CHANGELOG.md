@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.13.1
+
+### Patch Changes
+
+- [`b81322a`](https://github.com/Thinkmill/ts-gql/commit/b81322aaba12b48677f23cc4afd708143f3b48eb) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Inline fragments before generating types so that arrays are never intersected in the generated types because intersecting arrays doesn't do what you want in TypeScript.
+
 ## 0.13.0
 
 ### Minor Changes
