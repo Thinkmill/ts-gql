@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/compiler",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "main": "dist/compiler.cjs.js",
   "module": "dist/compiler.esm.js",
   "license": "MIT",
