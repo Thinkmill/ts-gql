@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.13.2
+
+### Patch Changes
+
+- [`0e9f5c3`](https://github.com/Thinkmill/ts-gql/commit/0e9f5c3b46a8239c099ff6498f24c3f5b95ffa16) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix edge case with fragment inlining
+
 ## 0.13.1
 
 ### Patch Changes
