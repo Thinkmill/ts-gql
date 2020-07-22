@@ -2,8 +2,9 @@ import fs from "fs-extra";
 import path from "path";
 import fixturez from "fixturez";
 import { parse } from "graphql";
-import { getGeneratedTypes } from "./get-generated-types";
+import { getGeneratedTypes } from "../get-generated-types";
 import { getConfig } from "@ts-gql/config";
+import { schema } from "./test-schema";
 
 let f = fixturez(__dirname);
 
@@ -11,51 +12,7 @@ async function build(cwd: string) {
   return getGeneratedTypes(await getConfig(cwd));
 }
 
-let gql = ([str]: TemplateStringsArray) => str;
-
-let schema = gql`
-  type Query {
-    hello: String!
-    other: Boolean!
-    another: String!
-    something: String
-    someObj: OutputThing!
-    arr: [OutputThing!]!
-    thing: Thing!
-    optional(thing: String): String!
-    oneMore(thing: String, other: Something!): String!
-  }
-
-  type Mutation {
-    hello: String!
-    other: Boolean!
-    another: String!
-    something: String
-    optional(thing: String): String!
-    oneMore(thing: String, other: Something!): String!
-  }
-
-  interface Thing {
-    id: ID!
-  }
-
-  type ImplementationOfThing implements Thing {
-    id: ID!
-    something: String!
-  }
-
-  type OutputThing {
-    id: ID!
-    other: String!
-  }
-
-  input Something {
-    yes: Boolean
-    no: String!
-  }
-`;
-
-async function setupEnv() {
+async function setupEnv(specificSchema: string = schema) {
   let tempdir = f.temp();
 
   let promises = [];
@@ -73,7 +30,9 @@ async function setupEnv() {
       )
     )
   );
-  promises.push(fs.writeFile(path.join(tempdir, "schema.graphql"), schema));
+  promises.push(
+    fs.writeFile(path.join(tempdir, "schema.graphql"), specificSchema)
+  );
   await Promise.all(promises);
   return tempdir;
 }
@@ -102,7 +61,7 @@ function graphql(strs: TemplateStringsArray) {
     throw new Error("First definition must have a name but it does not");
   }
 
-  return `gql\`${strs[0]}\` as import("./__generated__/ts-gql/${first.name.value}")`;
+  return `gql\`${strs[0]}\` as import("./__generated__/ts-gql/${first.name.value}");\n`;
 }
 
 function makeSourceFile(items: string[]) {
@@ -156,3 +115,71 @@ test("list with fragment works as expected", async () => {
 
   await buildAndSnapshot(dir);
 });
+
+test("something", async () => {
+  let dir = await setupEnv(schema);
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        fragment Frag_a on OutputThing {
+          other
+        }
+      `,
+      graphql`
+        fragment Frag_b on OutputThing {
+          arr {
+            id
+          }
+        }
+      `,
+      graphql`
+        query Thing {
+          someObj {
+            arr {
+              ...Frag_a
+            }
+            ...Frag_b
+          }
+        }
+      `,
+    ])
+  );
+  await buildAndSnapshot(dir);
+});
+
+// test("other", async () => {
+//   let dir = await setupEnv(payrollSchema);
+
+//   await fs.writeFile(
+//     path.join(dir, "index.tsx"),
+//     makeSourceFile([
+//       graphql`
+//         fragment SelectedPayrunEmployees_employee on EmployeePayrun {
+//           earnings {
+//             id
+//             amount
+//           }
+//         }
+//       `,
+//       graphql`
+//         fragment EditPayrunEmployees_payrun on Payrun {
+//           employees {
+//             employee {
+//               id
+//             }
+//           }
+//         }
+//       `,
+//       graphql`
+//         fragment SelectedPayrunEmployees_payrun on Payrun {
+//           employees {
+//             ...SelectedPayrunEmployees_employee
+//           }
+//           ...EditPayrunEmployees_payrun
+//         }
+//       `,
+//     ])
+//   );
+//   await buildAndSnapshot(dir);
+// });

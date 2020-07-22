@@ -1,11 +1,5 @@
 import fs from "fs-extra";
-import {
-  DocumentNode,
-  parse,
-  printSchema,
-  OperationDefinitionNode,
-  FragmentDefinitionNode,
-} from "graphql";
+import { DocumentNode, parse, printSchema } from "graphql";
 import { codegen } from "./codegen-core";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
@@ -16,7 +10,7 @@ import {
 } from "./integrity";
 import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
-import { inlineIntoFirstOperationOrFragment } from "./inlineFragments";
+import { inlineIntoFirstOperationOrFragment } from "./inline-fragments";
 
 async function generateOperationTypes(
   config: Config,
@@ -25,7 +19,11 @@ async function generateOperationTypes(
   operationHash: string
 ): Promise<FsOperation> {
   let result = codegen({
-    documents: [{ document: inlineIntoFirstOperationOrFragment(operation) }],
+    documents: [
+      {
+        document: inlineIntoFirstOperationOrFragment(operation, config.schema),
+      },
+    ],
     schema: parse(printSchema(config.schema)),
     schemaAst: config.schema,
     config: {},
