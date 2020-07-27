@@ -27,10 +27,13 @@ jobs:
           restore-keys: pnpm-v5-
 
       - name: Install pnpm
-        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+        run: npm i -g pnpm
 
       - name: Install Dependencies
         run: pnpm i
+
+      - name: Build types for test app
+        run: cd test-app && pnpx ts-gql build
 
       - name: Check Types
         run: pnpm run types
@@ -60,7 +63,7 @@ jobs:
           restore-keys: pnpm-v5-
 
       - name: Install pnpm
-        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+        run: npm i -g
 
       - name: Install Dependencies
         run: pnpm i
