@@ -32,7 +32,9 @@
     "postinstall": "preconstruct dev",
     "start": "cd test-app && pnpx next",
     "release": "preconstruct build && changeset publish",
-    "version": "changeset version && pnpm i --frozen-lockfile=false"
+    "version": "changeset version && pnpm i --frozen-lockfile=false",
+    "test": "jest",
+    "types": "tsc"
   },
   "preconstruct": {
     "packages": [

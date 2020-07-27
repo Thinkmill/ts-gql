@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  typescript:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Set Node.js 13.x
+        uses: actions/setup-node@main
+        with:
+          node-version: 13.x
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+          key: pnpm-v5-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-v5-
+
+      - name: Install pnpm
+        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Check Types
+        run: pnpm run types
+  tests:
+    name: "Tests on ${{matrix.platform}}"
+    strategy:
+      fail-fast: true
+      matrix:
+        platform:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{matrix.platform}}
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Set Node.js 13.x
+        uses: actions/setup-node@main
+        with:
+          node-version: 13.x
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+          key: pnpm-v5-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-v5-
+
+      - name: Install pnpm
+        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Run Tests
+        run: pnpm run test
