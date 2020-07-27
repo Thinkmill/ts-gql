@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.13.3
+
+### Patch Changes
+
+- [`bd25bf8`](https://github.com/Thinkmill/ts-gql/commit/bd25bf83e5a4c4f8fa32505cc1d6a7f4095708c6) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove unnecessary printing of the schema when generating types for every operation/fragment
+
 ## 0.13.2
 
 ### Patch Changes
