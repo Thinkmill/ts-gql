@@ -185,7 +185,7 @@ importers:
       '@ts-gql/next': 'link:../packages/next'
       '@ts-gql/tag': 'link:../packages/tag'
       '@types/node': 13.13.2
-      '@types/react': 16.9.34
+      '@types/react': 16.9.43
       '@types/react-dom': 16.9.8
       '@typescript-eslint/parser': 2.29.0
       apollo-server-micro: 2.12.0
@@ -203,7 +203,7 @@ importers:
       '@ts-gql/next': ^13.0.0
       '@ts-gql/tag': ^0.5.0
       '@types/node': ^13.13.2
-      '@types/react': ^16.9.34
+      '@types/react': ^16.9.43
       '@types/react-dom': ^16.9.8
       '@typescript-eslint/parser': ^2.29.0
       apollo-server-micro: ^2.12.0
@@ -3687,13 +3687,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ykkPQ+5nFknnlU6lDd947WbQ6TE3NNzbQAkInC2EKY1qeYdTKp7onFusmYZb+ityzx2YviqT6BXSu+LyWWJwcA==
-  /@types/react/16.9.34:
-    dependencies:
-      '@types/prop-types': 15.7.3
-      csstype: 2.6.10
-    dev: false
-    resolution:
-      integrity: sha512-8AJlYMOfPe1KGLKyHpflCg5z46n0b5DbRfqDksxBLBTUpB75ypDBAO9eCUcjNwE6LCUslwTz00yyG/X9gaVtow==
   /@types/react/16.9.43:
     dependencies:
       '@types/prop-types': 15.7.3
@@ -3772,6 +3765,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
+      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:
@@ -5855,10 +5849,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-sEb3XFPx3jNnCAMtqrXPDeSgQr+jojtCeNf8cvMNMh1cG970+lljssvQDzPq6lmmJu2Vhqood/gtEomBiHOGnA==
-  /csstype/2.6.10:
-    dev: false
-    resolution:
-      integrity: sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w==
   /csstype/2.6.11:
     dev: false
     resolution:
