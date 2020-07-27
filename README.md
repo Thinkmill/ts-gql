@@ -1,20 +1,16 @@
-The README below is currently out of date with the specifics of how ts-gql works and how to use it. It will be updated soon.
-
----
-
 # ts-gql
 
 > Write GraphQL queries in TypeScript and generate types effortlessly
 
 ## Why?
 
-There are lots of great tools(some of which ts-gql use internally!) for generating types from GraphQL Queries though a lot of the solutions have at least one of two problems
+There are lots of great tools(some of which ts-gql use internally!) for generating TypeScript types from GraphQL Queries though a lot of the solutions have at least one of two problems:
 
-- The writing of a query isn't connected to the type that it returns
+- The writing of a query isn't connected to the type that it results in
 - You're forced to write queries in `.graphql` files rather than inline
   - This also often means that you can't use fragments or that there's a new import syntax to learn
 
-## How does ts-gql solve these problems?
+### How does ts-gql solve these problems?
 
 When using ts-gql, you write GraphQL queries with a tagged template literal like normal.
 
@@ -37,139 +33,109 @@ let myQuery = gql`
   query MyQuery {
     hello
   }
-`("MyQuery");
-```
-
-It will also generate a file at `__generated__/ts-gql/MyQuery.d.ts`
-
-```tsx
-/*
-ts-gql-meta-begin
-{
-  "hash": "1b2c07ec819c249efde9717f714dcac4",
-  "filename": "../../pages/index.tsx",
-  "partial": "query MyQuery"
-}
-ts-gql-meta-end
-*/
-
-import * as SchemaTypes from "./@schema";
-
-type MyQueryQueryVariables = {};
-
-type MyQueryQuery = { readonly __typename: "Query" } & Pick<
-  SchemaTypes.Query,
-  "hello"
->;
-
-declare module "@ts-gql/tag" {
-  interface Documents {
-    MyQuery: {
-      document: "\n  query MyQuery {\n    hello\n  }\n\n";
-      type: "query";
-      result: MyQueryQuery;
-      variables: undefined;
-    };
-  }
-}
+` as import("../__generated__/ts-gql/MyQuery.ts").type;
 ```
 
 You'll have the best experience if you have ESLint auto fix on save enabled in your editor.
 
 <details>
 
-<summary>Why do we need to add `("MyQuery")`?</summary>
+<summary>Why do we need to add `as import("__generated__/ts-gql/MyQuery.ts").type`?</summary>
 
-TypeScript doesn't currently type tagged template literals with literal string types so we have to add `("MyQuery")` though there are [issues](https://github.com/microsoft/TypeScript/issues/16552) [discussing](https://github.com/microsoft/TypeScript/issues/31422) [it](https://github.com/microsoft/TypeScript/issues/33304) which would remove the need for this.
+TypeScript doesn't currently type tagged template literals with literal string types so there is no way to get the correct type based on the call so we have to add `as import("__generated__/ts-gql/MyQuery.ts").type` though there are [issues](https://github.com/microsoft/TypeScript/issues/16552) [discussing](https://github.com/microsoft/TypeScript/issues/31422) [it](https://github.com/microsoft/TypeScript/issues/33304) which would remove the need for this.
 
 </details>
 
-What this means is that behind the scenes `myQuery` will be typed as
+What this means is that `myQuery` will be typed as something like this
 
 ```tsx
 type MyQuery = {
   ___type: {
     type: "query";
-    document: "\n  query MyQuery {\n    hello\n  }\n";
-    result: { hello: string };
+    result: { readonly hello: string };
+    variables: {};
   };
 };
 ```
 
-You can then use `@ts-gql/apollo` or `@ts-gql/urql` to augment the types of GraphQL libraries so that they will type their results and query variables based on your query.
+You can then use `@ts-gql/apollo` instead of `@apollo/client` so that the result and query variables of your queries and mutations are typed based on the queries.
+
+> `@ts-gql/apollo` only exposes a subset of `@apollo/client`'s functionality. For example, it doesn't expose `useLazyQuery` because we recommend using `useApolloClient().query` instead. If you disagree with some of the decisions that `@ts-gql/apollo` makes, you can use ts-gql but write your own type definitions for Apollo or another GraphQL client.
 
 ## Getting Started
 
-When using ts-gql, you'll always need `@ts-gql/tag` and `@ts-gql/eslint-plugin`.
+When using ts-gql, you'll need `@ts-gql/tag`, `@ts-gql/eslint-plugin` and `@ts-gql/compiler`.
 
 ```bash
-yarn add graphql @ts-gql/tag @ts-gql/eslint-plugin
+npm install graphql @ts-gql/tag @ts-gql/eslint-plugin @ts-gql/compiler
 ```
 
-If you're not already using ESLint and `@typescript-eslint/parser`, you'll need those too.
+> If you're not already using [ESLint](https://eslint.org/) and [`@typescript-eslint/parser`](https://github.com/typescript-eslint/typescript-eslint), you'll need those too.
 
-You'll need to configure ESLint like this.
+You'll need to add the ESLint plugin to your config and enable the `@ts-gql/ts-gql` rule. Your config might look something like this:
 
-```js
-module.exports = {
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: "tsconfig.json",
-  },
-  plugins: ["@ts-gql"],
-  rules: {
-    "@ts-gql/ts-gql": [
-      "error",
-      {
-        schemaFilename: require("path").join(__dirname, "schema.graphql"),
-        generatedDirectory: require("path").join(
-          __dirname,
-          "__generated__",
-          "ts-gql"
-        ),
-      },
-    ],
-  },
-};
+```json
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@ts-gql"],
+  "rules": {
+    "@ts-gql/ts-gql": "error"
+  }
+}
 ```
 
-> Note: you should have your GraphQL schema written at `schema.graphql`. You can also have a `schema.json` with the result of an introspection query.
+You now need to tell ts-gql where your GraphQL SDL file or introspection query result is. To do this, add to your `package.json`. Replace `schema.graphql` with the path to your SDL or introspection query result.
+
+```json
+{
+  "ts-gql": {
+    "schema": "schema.graphql"
+  }
+}
+```
+
+TODO: explain using the compiler
 
 ## Using Apollo
 
-> Note: ts-gql only supports `@apollo/client` (Apollo client version 3)
+> Note: ts-gql works with `@apollo/client`(Apollo client v3)
 
 ```bash
-yarn add @ts-gql/apollo
+npm install @ts-gql/apollo
 ```
 
-Add an import of `@ts-gql/apollo` somewhere in your app.
+You can now use `useQuery` and etc. from `@ts-gql/apollo` with queries created with `@ts-gql/tag`.
 
-You can now use `useQuery` and etc. with queries created with `@ts-gql/tag`.
+TODO: examples
 
-## Using urql
+TODO: explain how to use with Apollo Client v2
 
-```bash
-yarn add @ts-gql/urql
-```
+## FAQ
 
-Add an import of `@ts-gql/urql` somewhere in your app.
+### Why not let people interpolate fragments so you don't have to have unique fragment/operation names?
 
-You can now use `useQuery` and etc. with queries created with `@ts-gql/tag`.
+This was the original plan! It's been abandoned though for a couple reasons:
 
-# TODOs
+- Build time performance
+  - Requiring type checking before you can generate types makes things _much_ slower
+    - This is compounded by the fact that you not only have to do type checking but you have to do type checking n times where n is the maximum fragment depth. Because we want to encourage the use of fragments, a tool that gets significantly slower as you use more fragments would make it impractical to use fragments
+- Having to either not have Prettier work for documents with fragment interpolations(because Prettier will not format interpolations in GraphQL documents unless they are outside of the content of the document so you couldn't interpolate a fragment where it's used) or still have to name it and there(unless you added a syntax for renaming fragments at which point, I would say that that's way more complexity)
+- Not allowing interpolation makes it very very clear what you can and can't do. Even if we allowed interpolations, they would be constrained which is a very difficult thing to explain.
+- Apollo already doesn't allow non-unique names anyway for their tooling anyway
+- TODO: there are more reasons
 
-- Offer the option to use hashes instead of document names so document names don't have to be unique
-- Autofix not specifying a variable in an operation
-- A Babel plugin/some kind of build time transform that performs optimisations like the Relay Compiler does
-  - This should be relatively easy since every operation must be entirely static since the only kind of interpolations allowed will be fragment interpolations and we'll know the contents of the fragment because it's encoded in the type.]
-- Fix types being out of date in editors so types can't be generated for operations with fragments
+### This seems a lot like Relay, why not just use Relay?
+
+You're right! There are a lot of similarities between Relay and ts-gql. There are some important differences though. Relay is an entire GraphQL client, it can do a lot of cool things because of that but that also means that if you want the things that the Relay compiler offers, you have to use Relay which may not appeal to everyone. If Relay does work well for you though, that's fine too, use it!
+
+ts-gql isn't trying to be a GraphQL client, it's only trying to type GraphQL queries. While we only ship `@ts-gql/apollo`, there's no reason you couldn't write type definitions for other GraphQL clients.
 
 ## Non-Goals
 
 - Improve the experience of creating GraphQL APIs, [Nexus](https://www.nexusjs.org/) does a really great job of this
 
-# Thanks
+## Thanks
 
 - [graphql-code-generator](https://github.com/dotansimha/graphql-code-generator) for the infrastructure to generate TypeScript types from GraphQL queries
 - [graphql-let](https://github.com/piglovesyou/graphql-let) for providing a really nice experience
+- [Relay](https://github.com/facebook/relay) for their approach with fragments
