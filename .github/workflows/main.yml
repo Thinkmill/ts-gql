@@ -63,7 +63,7 @@ jobs:
           restore-keys: pnpm-v5-
 
       - name: Install pnpm
-        run: npm i -g
+        run: npm i -g pnpm
 
       - name: Install Dependencies
         run: pnpm i
