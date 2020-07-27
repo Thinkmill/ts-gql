@@ -23,8 +23,8 @@ jobs:
           path: |
             ~/.pnpm-store
             node_modules
-          key: pnpm-v5-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-v5-
+          key: pnpm-v5-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-v5-ubuntu-latest-
 
       - name: Install pnpm
         run: npm i -g pnpm
@@ -59,8 +59,8 @@ jobs:
           path: |
             ~/.pnpm-store
             node_modules
-          key: pnpm-v5-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-v5-
+          key: pnpm-v5-${{ matrix.platform }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-v5-${{ matrix.platform }}-
 
       - name: Install pnpm
         run: npm i -g pnpm
