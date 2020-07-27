@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { printSchema, parse } from "graphql";
+import { printSchema } from "graphql";
 import path from "path";
 import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
@@ -18,7 +18,6 @@ function generateSchemaTypes(
 ): FsOperation {
   let result = codegen({
     documents: [],
-    schema: parse(printSchema(config.schema)),
     schemaAst: config.schema,
     config: {},
     filename: "",

@@ -5,14 +5,13 @@ import {
   Types,
   CodegenPlugin,
 } from "@graphql-codegen/plugin-helpers";
-import { DocumentNode, GraphQLSchema, buildASTSchema } from "graphql";
+import { GraphQLSchema } from "graphql";
 
 export interface ExecutePluginOptions {
   name: string;
   config: Types.PluginConfig;
   parentConfig: Types.PluginConfig;
-  schema: DocumentNode;
-  schemaAst?: GraphQLSchema;
+  schemaAst: GraphQLSchema;
   documents: Types.DocumentFile[];
   outputFilename: string;
   allPlugins: Types.ConfiguredPlugin[];
@@ -40,8 +39,7 @@ export function executePlugin(
     );
   }
 
-  const outputSchema: GraphQLSchema =
-    options.schemaAst || buildASTSchema(options.schema, options.config as any);
+  const outputSchema: GraphQLSchema = options.schemaAst;
   const documents = options.documents || [];
 
   if (plugin.validate && typeof plugin.validate === "function") {

@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { DocumentNode, parse, printSchema } from "graphql";
+import { DocumentNode } from "graphql";
 import { codegen } from "./codegen-core";
 import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
@@ -24,7 +24,6 @@ async function generateOperationTypes(
         document: inlineIntoFirstOperationOrFragment(operation, config.schema),
       },
     ],
-    schema: parse(printSchema(config.schema)),
     schemaAst: config.schema,
     config: {},
     filename: "",

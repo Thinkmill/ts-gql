@@ -5,13 +5,12 @@ import {
   isComplexPluginOutput,
   CodegenPlugin,
 } from "@graphql-codegen/plugin-helpers";
-import { DocumentNode, GraphQLSchema } from "graphql";
+import { GraphQLSchema } from "graphql";
 import { executePlugin } from "./execute-plugin";
 
 interface GenerateOptions {
   filename: string;
   plugins: Types.ConfiguredPlugin[];
-  schema: DocumentNode;
   schemaAst: GraphQLSchema;
   documents: Types.DocumentFile[];
   config: {
@@ -45,7 +44,6 @@ export function codegen(options: GenerateOptions): string {
         name,
         config: execConfig,
         parentConfig: options.config,
-        schema: options.schema,
         schemaAst: options.schemaAst,
         documents: options.documents,
         outputFilename: options.filename,
