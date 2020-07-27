@@ -56,7 +56,7 @@ export default () => {
   let [mutate] = useMutation(someMutation);
   mutate({
     variables: { arg: "" },
-    refetchQueries: ["MyQueryUrql", "SomeQueryApollo"],
+    refetchQueries: ["SomeQueryApollo"],
   });
   // data.hello;
   // data.other;
