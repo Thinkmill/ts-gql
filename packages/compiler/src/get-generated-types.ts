@@ -26,11 +26,12 @@ import { Config } from "@ts-gql/config";
 import { extractGraphQLDocumentsContentsFromFile } from "./extract-documents";
 import { CompilerError, FullSourceLocation } from "./types";
 import { codeFrameColumns } from "@babel/code-frame";
+import babelParserPkgJson from "@babel/parser/package.json";
 import { cachedGenerateIntrospectionResult } from "./introspection-result";
+import { integrity, hashString } from "./utils";
 
 function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
   const cache: { [key: string]: V } = {};
-
   return (arg: string) => {
     if (cache[arg] === undefined) cache[arg] = fn(arg);
     return cache[arg];
@@ -88,15 +89,80 @@ type Document = {
     | readonly [NamedOperationDefinitionNode, ...NamedFragmentDefinitionNode[]]
     | readonly [NamedFragmentDefinitionNode];
 };
-async function getDocuments(files: string[]) {
-  let errors: CompilerError[] = [];
+
+type DocumentExtractionCache = {
+  [filename: string]: {
+    hash: string;
+    errors: CompilerError[];
+    documents: {
+      loc: FullSourceLocation;
+      document: string;
+    }[];
+  };
+};
+
+let documentExtractionCacheVersion =
+  "ts-gql-document-extractor@v1," +
+  "@babel/parser@" +
+  babelParserPkgJson.version;
+async function readDocumentExtractionCache(cacheFilename: string) {
+  let cacheContents: string;
+  try {
+    cacheContents = await fs.readFile(cacheFilename, "utf8");
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      return {};
+    }
+    throw err;
+  }
+  if (!integrity.verify(cacheContents)) {
+    return {};
+  }
+  let parsed: {
+    version: string;
+    integrity: string;
+    cache: DocumentExtractionCache;
+  } = JSON.parse(cacheContents);
+  if (parsed.version !== documentExtractionCacheVersion) {
+    return {};
+  }
+  return parsed.cache;
+}
+function writeDocumentExtractionCache(
+  cacheFilename: string,
+  cache: DocumentExtractionCache
+) {
+  let stringified = JSON.stringify(
+    {
+      version: documentExtractionCacheVersion,
+      integrity: integrity.placeholder,
+      cache,
+    },
+    null,
+    2
+  );
+  let signed = integrity.sign(stringified);
+  return fs.outputFile(cacheFilename, signed);
+}
+
+async function getDocuments(files: string[], cacheFilename: string) {
+  let allErrors: CompilerError[] = [];
   let allDocuments: Document[] = [];
+  let cache = await readDocumentExtractionCache(cacheFilename);
+  let newCache: DocumentExtractionCache = {};
   await Promise.all(
     files.map(async (filename) => {
-      let { errors, documents } = await extractGraphQLDocumentsContentsFromFile(
-        filename
-      );
-      errors.push(...errors);
+      let contents = await fs.readFile(filename, "utf8");
+      let hash = hashString(contents);
+      if (cache[filename]?.hash !== hash) {
+        cache[filename] = {
+          hash,
+          ...extractGraphQLDocumentsContentsFromFile(filename, contents),
+        };
+      }
+      newCache[filename] = cache[filename];
+      const { documents, errors } = cache[filename];
+      allErrors.push(...errors);
 
       documents.forEach((document) => {
         try {
@@ -108,13 +174,13 @@ async function getDocuments(files: string[]) {
           });
         } catch (err) {
           if (err instanceof GraphQLError) {
-            errors.push({
+            allErrors.push({
               filename,
               message: err.message,
               loc: locFromSourceAndGraphQLError(document.loc, err),
             });
           } else {
-            errors.push({
+            allErrors.push({
               filename,
               message: err.message,
               loc: document.loc,
@@ -124,7 +190,8 @@ async function getDocuments(files: string[]) {
       });
     })
   );
-  return { errors, documents: allDocuments };
+  await writeDocumentExtractionCache(cacheFilename, newCache);
+  return { errors: allErrors, documents: allDocuments };
 }
 
 export const getGeneratedTypes = async (config: Config) => {
@@ -140,7 +207,10 @@ export const getGeneratedTypes = async (config: Config) => {
     })
   ).map((x) => slash(x));
 
-  let { errors, documents } = await getDocuments(files);
+  let { errors, documents } = await getDocuments(
+    files,
+    nodePath.join(generatedDirectory, "@document-cache.json")
+  );
 
   let allDocumentsByName: Record<string, Document[]> = {};
 
