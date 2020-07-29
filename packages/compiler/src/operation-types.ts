@@ -153,11 +153,10 @@ export async function cachedGenerateErrorModuleFsOperation(
 export async function cachedGenerateOperationTypes(
   config: Config,
   operation: DocumentNode,
-  filename: string,
-  schemaHash: string
+  filename: string
 ) {
   let operationHash = hashString(
-    schemaHash +
+    config.schemaHash +
       JSON.stringify(operation) +
       config.addTypename +
       "v9" +

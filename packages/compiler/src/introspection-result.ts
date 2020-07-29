@@ -6,6 +6,7 @@ import {
   getDoesFileHaveIntegrity,
   wrapFileInIntegrityComment,
 } from "./integrity";
+import { Config } from "@ts-gql/config";
 
 async function generateIntrospectionResult(
   schema: GraphQLSchema,
@@ -33,17 +34,16 @@ export const result = JSON.parse(${JSON.stringify(
 }
 
 export async function cachedGenerateIntrospectionResult(
-  schema: GraphQLSchema,
-  filename: string,
-  schemaHash: string
+  config: Config,
+  filename: string
 ) {
-  schemaHash = schemaHash + "v1";
+  let schemaHash = config.schemaHash + "v1";
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      return generateIntrospectionResult(schema, schemaHash, filename);
+      return generateIntrospectionResult(config.schema, schemaHash, filename);
     }
     throw err;
   }
@@ -51,6 +51,6 @@ export async function cachedGenerateIntrospectionResult(
     !getDoesFileHaveIntegrity(types) ||
     parseTsGqlMeta(types).hash !== schemaHash
   ) {
-    return generateIntrospectionResult(schema, schemaHash, filename);
+    return generateIntrospectionResult(config.schema, schemaHash, filename);
   }
 }

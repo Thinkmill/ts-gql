@@ -281,19 +281,15 @@ export const getGeneratedTypes = async (config: Config) => {
     }
   }
 
-  let {
-    hash: schemaHash,
-    operation: schemaOperation,
-  } = await cachedGenerateSchemaTypes(config);
+  let schemaOperation = await cachedGenerateSchemaTypes(config);
 
   if (schemaOperation) {
     fsOperations.push(schemaOperation);
   }
 
   let operation = await cachedGenerateIntrospectionResult(
-    config.schema,
-    nodePath.join(generatedDirectory, "@introspection.ts"),
-    schemaHash
+    config,
+    nodePath.join(generatedDirectory, "@introspection.ts")
   );
 
   if (operation) {
@@ -368,12 +364,7 @@ export const getGeneratedTypes = async (config: Config) => {
               await Promise.all(errors.map((x) => printCompilerError(x)))
             ).join("\n")}`
           )
-        : await cachedGenerateOperationTypes(
-            config,
-            document,
-            filename,
-            schemaHash
-          );
+        : await cachedGenerateOperationTypes(config, document, filename);
       if (operation) fsOperations.push(operation);
     })
   );

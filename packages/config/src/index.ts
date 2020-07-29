@@ -16,6 +16,7 @@ export type Config = {
   scalars: Record<string, string>;
   addTypename: boolean;
   readonlyTypes: boolean;
+  schemaHash: string;
 };
 
 export type RawConfig = {
@@ -62,7 +63,7 @@ export async function getConfig(cwd: string): Promise<Config> {
   let config = await getRawConfig(cwd);
   return {
     ...config,
-    schema: await readSchema(config.schema),
+    ...(await readSchema(config)),
   };
 }
 
@@ -70,6 +71,6 @@ export function getConfigSync(cwd: string): Config {
   let config = getRawConfigSync(cwd);
   return {
     ...config,
-    schema: readSchemaSync(config.schema),
+    ...readSchemaSync(config),
   };
 }

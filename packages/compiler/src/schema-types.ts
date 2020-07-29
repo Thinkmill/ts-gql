@@ -1,5 +1,4 @@
 import fs from "fs-extra";
-import { printSchema } from "graphql";
 import path from "path";
 import { codegen } from "./codegen-core";
 import * as typescriptPlugin from "@graphql-codegen/typescript";
@@ -54,9 +53,8 @@ function generateSchemaTypes(
 }
 
 export async function cachedGenerateSchemaTypes(config: Config) {
-  let printedSchema = printSchema(config.schema);
   let schemaHash = hashString(
-    printedSchema + JSON.stringify(config.scalars) + config.readonlyTypes + "v3"
+    config.schemaHash + JSON.stringify(config.scalars) + config.readonlyTypes
   );
   let types: string;
   let filename = path.join(
@@ -69,10 +67,7 @@ export async function cachedGenerateSchemaTypes(config: Config) {
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      return {
-        hash: schemaHash,
-        operation: generateSchemaTypes(config, filename, schemaHash),
-      };
+      return generateSchemaTypes(config, filename, schemaHash);
     }
     throw err;
   }
@@ -80,10 +75,6 @@ export async function cachedGenerateSchemaTypes(config: Config) {
     !getDoesFileHaveIntegrity(types) ||
     parseTsGqlMeta(types).hash !== schemaHash
   ) {
-    return {
-      hash: schemaHash,
-      operation: generateSchemaTypes(config, filename, schemaHash),
-    };
+    return generateSchemaTypes(config, filename, schemaHash);
   }
-  return { hash: schemaHash };
 }

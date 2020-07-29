@@ -21,7 +21,7 @@ export const watch = async (cwd: string) => {
     await getNext();
     let { fsOperations, errors } = await getGeneratedTypes({
       ...rawConfig,
-      schema: await readSchema(rawConfig.schema),
+      ...(await readSchema(rawConfig)),
     });
     await Promise.all(
       fsOperations.map(async (operation) => {
