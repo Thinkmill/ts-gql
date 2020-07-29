@@ -8,10 +8,6 @@ import { schema } from "./test-schema";
 
 let f = fixturez(__dirname);
 
-async function build(cwd: string) {
-  return getGeneratedTypes(await getConfig(cwd));
-}
-
 async function setupEnv(specificSchema: string = schema) {
   let tempdir = f.temp();
 
@@ -37,14 +33,16 @@ async function setupEnv(specificSchema: string = schema) {
   return tempdir;
 }
 
-async function buildAndSnapshot(tempdir: string) {
-  let result = await build(tempdir);
-  expect({
-    errors: result.errors,
+async function build(cwd: string) {
+  let result = await getGeneratedTypes(await getConfig(cwd));
+  return {
+    errors: result.errors.map((x) =>
+      x.replace(cwd, "CURRENT_WORKING_DIRECTORY")
+    ),
     fsOperations: result.fsOperations
       .filter((x) => !path.parse(x.filename).name.startsWith("@"))
-      .map((x) => ({ ...x, filename: path.relative(tempdir, x.filename) })),
-  }).toMatchSnapshot();
+      .map((x) => ({ ...x, filename: path.relative(cwd, x.filename) })),
+  };
 }
 
 function graphql(strs: TemplateStringsArray) {
@@ -81,7 +79,7 @@ test("basic", async () => {
       `,
     ])
   );
-  await buildAndSnapshot(dir);
+  expect(await build(dir)).toMatchSnapshot();
 });
 
 test("list with fragment works as expected", async () => {
@@ -113,7 +111,7 @@ test("list with fragment works as expected", async () => {
     ])
   );
 
-  await buildAndSnapshot(dir);
+  expect(await build(dir)).toMatchSnapshot();
 });
 
 test("something", async () => {
@@ -145,41 +143,5 @@ test("something", async () => {
       `,
     ])
   );
-  await buildAndSnapshot(dir);
+  expect(await build(dir)).toMatchSnapshot();
 });
-
-// test("other", async () => {
-//   let dir = await setupEnv(payrollSchema);
-
-//   await fs.writeFile(
-//     path.join(dir, "index.tsx"),
-//     makeSourceFile([
-//       graphql`
-//         fragment SelectedPayrunEmployees_employee on EmployeePayrun {
-//           earnings {
-//             id
-//             amount
-//           }
-//         }
-//       `,
-//       graphql`
-//         fragment EditPayrunEmployees_payrun on Payrun {
-//           employees {
-//             employee {
-//               id
-//             }
-//           }
-//         }
-//       `,
-//       graphql`
-//         fragment SelectedPayrunEmployees_payrun on Payrun {
-//           employees {
-//             ...SelectedPayrunEmployees_employee
-//           }
-//           ...EditPayrunEmployees_payrun
-//         }
-//       `,
-//     ])
-//   );
-//   await buildAndSnapshot(dir);
-// });
