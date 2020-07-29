@@ -1,4 +1,6 @@
 import crypto from "crypto";
+import { GraphQLError } from "graphql";
+import { FullSourceLocation } from "./types";
 
 export function hashString(input: string) {
   let md5sum = crypto.createHash("md5");
@@ -40,3 +42,31 @@ export const integrity = {
     return hashString(unsigned) === match[1];
   },
 };
+
+export function locFromSourceAndGraphQLError(
+  loc: FullSourceLocation,
+  error: GraphQLError
+) {
+  if (!error.locations || !error.locations.length) {
+    return;
+  }
+  const gqlLocation = error.locations[0];
+
+  // TODO: look at nodes instead of locations so we can get the start AND end
+  return {
+    start: {
+      line: loc.start.line + gqlLocation.line - 1,
+      column:
+        gqlLocation.line === 1
+          ? loc.start.column + gqlLocation.column + 1
+          : gqlLocation.column,
+    },
+    // end: {
+    //   line: loc.start.line + gqlLocation.endToken.line - 1,
+    //   column:
+    //     (gqlLocation.endToken.line === 1
+    //       ? loc.end.column + gqlLocation.endToken.column
+    //       : gqlLocation.endToken.column) - 1,
+    // },
+  };
+}
