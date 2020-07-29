@@ -4,6 +4,7 @@ import fixturez from "fixturez";
 import { parse } from "graphql";
 import { getGeneratedTypes } from "../get-generated-types";
 import { getConfig } from "@ts-gql/config";
+import stripAnsi from "strip-ansi";
 import { schema } from "./test-schema";
 
 let f = fixturez(__dirname);
@@ -19,7 +20,7 @@ async function setupEnv(specificSchema: string = schema) {
       JSON.stringify(
         {
           name: "something",
-          "ts-gql": { schema: "schema.graphql" },
+          "ts-gql": { schema: "schema.graphql" }
         },
         null,
         2
@@ -36,12 +37,12 @@ async function setupEnv(specificSchema: string = schema) {
 async function build(cwd: string) {
   let result = await getGeneratedTypes(await getConfig(cwd));
   return {
-    errors: result.errors.map((x) =>
-      x.replace(cwd, "CURRENT_WORKING_DIRECTORY")
+    errors: result.errors.map(x =>
+      stripAnsi(x.replace(cwd, "CURRENT_WORKING_DIRECTORY"))
     ),
     fsOperations: result.fsOperations
-      .filter((x) => !path.parse(x.filename).name.startsWith("@"))
-      .map((x) => ({ ...x, filename: path.relative(cwd, x.filename) })),
+      .filter(x => !path.parse(x.filename).name.startsWith("@"))
+      .map(x => ({ ...x, filename: path.relative(cwd, x.filename) }))
   };
 }
 
@@ -76,7 +77,7 @@ test("basic", async () => {
         query Thing {
           hello
         }
-      `,
+      `
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
@@ -107,7 +108,7 @@ test("list with fragment works as expected", async () => {
             other
           }
         }
-      `,
+      `
     ])
   );
 
@@ -140,8 +141,57 @@ test("something", async () => {
             ...Frag_b
           }
         }
-      `,
+      `
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
+});
+
+test("errors in fragments are not shown for usages", async () => {
+  let dir = await setupEnv(schema);
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing {
+          someObj {
+            ...Frag_a
+          }
+        }
+      `,
+      graphql`
+        fragment Frag_a on OutputThing {
+          othe
+          ...Frag_b
+        }
+      `,
+      graphql`
+        fragment Frag_b on OutputThing {
+          arr {
+            i
+          }
+        }
+      `
+    ])
+  );
+  expect((await build(dir)).errors).toMatchInlineSnapshot(`
+    Array [
+      "CURRENT_WORKING_DIRECTORY/index.tsx
+      10 | gql\`
+      11 |         fragment Frag_a on OutputThing {
+    > 12 |           othe
+         |           ^ Cannot query field \\"othe\\" on type \\"OutputThing\\". Did you mean \\"other\\"?
+      13 |           ...Frag_b
+      14 |         }
+      15 |       \` as import(\\"./__generated__/ts-gql/Frag_a\\");",
+      "CURRENT_WORKING_DIRECTORY/index.tsx
+      18 |         fragment Frag_b on OutputThing {
+      19 |           arr {
+    > 20 |             i
+         |             ^ Cannot query field \\"i\\" on type \\"OutputThing\\". Did you mean \\"id\\"?
+      21 |           }
+      22 |         }
+      23 |       \` as import(\\"./__generated__/ts-gql/Frag_b\\");",
+    ]
+  `);
 });

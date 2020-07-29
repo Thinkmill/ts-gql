@@ -9,6 +9,7 @@ import {
   GraphQLError,
   ValidationContext,
   ASTVisitor,
+  ValidationRule,
 } from "graphql";
 import slash from "slash";
 import globby from "globby";
@@ -50,24 +51,37 @@ function getPrintCompilerError() {
   };
 }
 
-let fragmentDocumentRules = specifiedRules
-  .filter((x) => x !== NoUnusedFragmentsRule)
-  .concat(function FragmentNameValidationRule(
-    context: ValidationContext
-  ): ASTVisitor {
-    return {
-      FragmentDefinition(node) {
-        let message =
-          "Fragment names must be in the format ComponentName_propName";
+const SkipNonFirstFragmentsRule: ValidationRule = () => {
+  return {
+    FragmentDefinition(node, key) {
+      if (key !== 0) {
+        return null;
+      }
+    },
+  };
+};
 
-        if (!node.name) {
-          context.reportError(new GraphQLError(message, [node]));
-        } else if (!/.+_.+/.test(node.name.value)) {
-          context.reportError(new GraphQLError(message, [node.name]));
-        }
-      },
-    };
-  });
+function FragmentNameValidationRule(context: ValidationContext): ASTVisitor {
+  return {
+    FragmentDefinition(node) {
+      let message =
+        "Fragment names must be in the format ComponentName_propName";
+
+      if (!node.name) {
+        context.reportError(new GraphQLError(message, [node]));
+      } else if (!/.+_.+/.test(node.name.value)) {
+        context.reportError(new GraphQLError(message, [node.name]));
+      }
+    },
+  };
+}
+
+let fragmentDocumentRules = [
+  SkipNonFirstFragmentsRule,
+  FragmentNameValidationRule,
+].concat(specifiedRules.filter((x) => x !== NoUnusedFragmentsRule));
+
+let operationDocumentRules = [SkipNonFirstFragmentsRule].concat(specifiedRules);
 
 export const getGeneratedTypes = async (config: Config) => {
   let generatedDirectory = nodePath.join(
@@ -217,7 +231,7 @@ export const getGeneratedTypes = async (config: Config) => {
         config.schema,
         document,
         nodes[0].kind === "OperationDefinition"
-          ? specifiedRules
+          ? operationDocumentRules
           : fragmentDocumentRules
       ).map((err) => ({
         filename: uniqueDocumentsByName[key].filename,
