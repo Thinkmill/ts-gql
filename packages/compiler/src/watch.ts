@@ -1,8 +1,10 @@
 import chokidar from "chokidar";
+import * as fs from "fs-extra";
+import { GraphQLSchema } from "graphql";
 import { getRawConfig } from "@ts-gql/config";
 import { createWatcher } from "./watcher";
 import { getGeneratedTypes } from "./get-generated-types";
-import { readSchema } from "@ts-gql/config";
+import { parseSchema, hashSchema } from "@ts-gql/config";
 import { applyFsOperation } from "./fs-operations";
 
 // TODO: handle changes incrementally
@@ -17,11 +19,21 @@ export const watch = async (cwd: string) => {
     })
   );
 
+  let lastSchema: { schemaHash: string; schema: GraphQLSchema } | undefined;
+
   while (true) {
     await getNext();
+    let schemaContents = await fs.readFile(rawConfig.schema, "utf8");
+    let schemaHash = hashSchema(schemaContents);
+    if (lastSchema?.schemaHash !== schemaHash) {
+      lastSchema = {
+        schemaHash,
+        schema: parseSchema(rawConfig.schema, schemaContents),
+      };
+    }
     let { fsOperations, errors } = await getGeneratedTypes({
       ...rawConfig,
-      ...(await readSchema(rawConfig)),
+      ...lastSchema,
     });
     await Promise.all(
       fsOperations.map(async (operation) => {

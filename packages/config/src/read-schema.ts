@@ -1,12 +1,7 @@
 import { buildClientSchema, buildSchema, version } from "graphql";
-import fs from "fs";
-import { promisify } from "util";
 import crypto from "crypto";
-import { RawConfig } from ".";
 
-let readFile = promisify(fs.readFile);
-
-function hashSchema(input: string) {
+export function hashSchema(input: string) {
   let md5sum = crypto.createHash("md5");
 
   md5sum.update(version);
@@ -14,7 +9,7 @@ function hashSchema(input: string) {
   return md5sum.digest("hex");
 }
 
-function parseSchema(filename: string, content: string) {
+export function parseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
     return buildSchema(content);
   }
@@ -26,20 +21,4 @@ function parseSchema(filename: string, content: string) {
     );
   }
   return buildClientSchema(unpackedSchemaJson);
-}
-
-export function readSchemaSync(rawConfig: RawConfig) {
-  let contents = fs.readFileSync(rawConfig.schema, "utf8");
-  return {
-    schemaHash: hashSchema(contents),
-    schema: parseSchema(rawConfig.schema, contents),
-  };
-}
-
-export async function readSchema(rawConfig: RawConfig) {
-  let contents = await readFile(rawConfig.schema, "utf8");
-  return {
-    schemaHash: hashSchema(contents),
-    schema: parseSchema(rawConfig.schema, contents),
-  };
 }

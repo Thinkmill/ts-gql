@@ -203,7 +203,8 @@ export const getGeneratedTypes = async (config: Config) => {
     await globby(["**/*.{ts,tsx}"], {
       cwd: config.directory,
       absolute: true,
-      ignore: ["**/node_modules/**"],
+      expandDirectories: false,
+      ignore: ["**/node_modules/**", "__generated__/ts-gql/*", "**/*.d.ts"],
     })
   ).map((x) => slash(x));
 

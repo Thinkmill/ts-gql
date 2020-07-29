@@ -4,9 +4,11 @@ import {
   findPkgJsonFieldUp,
   findPkgJsonFieldUpSync,
 } from "find-pkg-json-field-up";
-import { readSchema, readSchemaSync } from "./read-schema";
+import fs from "fs";
+import { promisify } from "util";
+import { parseSchema, hashSchema } from "./read-schema";
 
-export { readSchema, readSchemaSync };
+export { parseSchema, hashSchema };
 
 export class ConfigNotFoundError extends Error {}
 
@@ -59,18 +61,24 @@ export function getRawConfigSync(cwd: string) {
   return parseFieldToConfig(findPkgJsonFieldUpSync("ts-gql", cwd));
 }
 
+const readFile = promisify(fs.readFile);
+
 export async function getConfig(cwd: string): Promise<Config> {
   let config = await getRawConfig(cwd);
+  let schemaContents = await readFile(config.schema, "utf8");
   return {
     ...config,
-    ...(await readSchema(config)),
+    schemaHash: hashSchema(schemaContents),
+    schema: parseSchema(config.schema, schemaContents),
   };
 }
 
 export function getConfigSync(cwd: string): Config {
   let config = getRawConfigSync(cwd);
+  let schemaContents = fs.readFileSync(config.schema, "utf8");
   return {
     ...config,
-    ...readSchemaSync(config),
+    schemaHash: hashSchema(schemaContents),
+    schema: parseSchema(config.schema, schemaContents),
   };
 }
