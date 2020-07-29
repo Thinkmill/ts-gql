@@ -42,7 +42,5 @@ export type NamedFragmentDefinitionNode = Omit<
 export type TSGQLDocument = {
   filename: string;
   loc: FullSourceLocation;
-  nodes:
-    | readonly [NamedOperationDefinitionNode, ...NamedFragmentDefinitionNode[]]
-    | readonly [NamedFragmentDefinitionNode];
+  node: NamedOperationDefinitionNode | NamedFragmentDefinitionNode;
 };

@@ -1,10 +1,5 @@
 import fs from "fs-extra";
-import {
-  OperationDefinitionNode,
-  DocumentNode,
-  GraphQLError,
-  parse,
-} from "graphql";
+import { DocumentNode, GraphQLError, parse } from "graphql";
 import { extractGraphQLDocumentsContentsFromFile } from "./extract-documents";
 import {
   CompilerError,
@@ -94,7 +89,7 @@ export async function getDocuments(files: string[], cacheFilename: string) {
         try {
           let ast = parse(document.document);
           allDocuments.push({
-            nodes: getGqlNode(ast),
+            node: getGqlNode(ast),
             loc: document.loc,
             filename,
           });
@@ -121,48 +116,28 @@ export async function getDocuments(files: string[], cacheFilename: string) {
 }
 
 function getGqlNode(ast: DocumentNode) {
-  if (ast.definitions.some((x) => x.kind === "OperationDefinition")) {
-    if (
-      !ast.definitions.every(
-        (x) =>
-          x.kind === "OperationDefinition" || x.kind === "FragmentDefinition"
-      )
-    ) {
-      throw new ValidationError(
-        "This document has nodes that are not operations or fragments"
-      );
-    }
-    let operationNodes = ast.definitions.filter(
-      (x): x is OperationDefinitionNode => x.kind === "OperationDefinition"
+  if (ast.definitions.length !== 1) {
+    throw new GraphQLError(
+      "GraphQL documents must only have a single operation or fragment definition",
+      [ast.definitions[1]]
     );
-    if (operationNodes.length !== 1) {
-      throw new ValidationError(
-        "This document has more than one operation node"
-      );
-    }
-    let [operationNode] = operationNodes;
-
-    if (!operationNode.name) {
-      throw new ValidationError("Operations must have names");
-    }
-    return (ast.definitions as any) as [
-      NamedOperationDefinitionNode,
-      ...NamedFragmentDefinitionNode[]
-    ];
   }
+  let [firstNode] = ast.definitions;
+
   if (
-    ast.definitions.length !== 1 ||
-    ast.definitions[0].kind !== "FragmentDefinition"
+    firstNode.kind !== "FragmentDefinition" &&
+    firstNode.kind !== "OperationDefinition"
   ) {
-    throw new ValidationError(
-      "Documents that do not have an operation must have a single fragment"
+    throw new GraphQLError(
+      "Only fragments and operations are allowed",
+      firstNode
     );
   }
-  let [fragmentNode] = ast.definitions;
-  if (!fragmentNode.name) {
-    throw new ValidationError("Fragments must have names");
-  }
-  return ([fragmentNode] as any) as [NamedFragmentDefinitionNode];
-}
 
-class ValidationError extends Error {}
+  if (!firstNode.name) {
+    throw new GraphQLError("Operations must have names", firstNode);
+  }
+  return firstNode as
+    | NamedOperationDefinitionNode
+    | NamedFragmentDefinitionNode;
+}

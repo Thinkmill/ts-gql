@@ -1,8 +1,6 @@
 import fs from "fs-extra";
 import nodePath from "path";
 import {
-  DocumentNode,
-  OperationDefinitionNode,
   FragmentDefinitionNode,
   visit,
   validate,
@@ -93,7 +91,7 @@ export const getGeneratedTypes = async (config: Config) => {
   let allDocumentsByName: Record<string, TSGQLDocument[]> = {};
 
   for (let document of documents) {
-    let name = document.nodes[0].name.value;
+    let name = document.node.name.value;
     if (!allDocumentsByName[name]) {
       allDocumentsByName[name] = [];
     }
@@ -111,13 +109,13 @@ export const getGeneratedTypes = async (config: Config) => {
             filename: document.filename,
             loc: locFromSourceAndGraphQLError(
               document.loc,
-              new GraphQLError("", document.nodes[0].name)
+              new GraphQLError("", document.node.name)
             ),
             message: `Multiple ${
-              document.nodes[0].kind === "FragmentDefinition"
+              document.node.kind === "FragmentDefinition"
                 ? "fragments"
                 : "operations"
-            } exist with the name ${document.nodes[0].name.value}`,
+            } exist with the name ${document.node.name.value}`,
           };
         });
         errors.push(...nonUniqueNameErrors);
@@ -134,7 +132,7 @@ export const getGeneratedTypes = async (config: Config) => {
           fsOperations.push(operation);
         }
       } else {
-        uniqueDocumentsByName[allDocumentsByName[name][0].nodes[0].name.value] =
+        uniqueDocumentsByName[allDocumentsByName[name][0].node.name.value] =
           allDocumentsByName[name][0];
       }
     })
@@ -180,36 +178,36 @@ export const getGeneratedTypes = async (config: Config) => {
   }, {} as Record<string, string[]>);
 
   for (let key in uniqueDocumentsByName) {
-    for (let node of uniqueDocumentsByName[key].nodes) {
-      visit(node, {
-        FragmentSpread(node) {
-          let name = node.name.value;
-          if (
-            !uniqueDocumentsByName[name] ||
-            uniqueDocumentsByName[name].nodes[0].kind === "OperationDefinition"
-          ) {
-            errors.push({
-              message: `Fragment ${name} not found`,
-              filename: uniqueDocumentsByName[key].filename,
-              loc: locFromSourceAndGraphQLError(
-                uniqueDocumentsByName[key].loc,
-                new GraphQLError("Fragment", [node])
-              ),
-            });
-          } else {
-            dependencies[key].push(name);
-          }
-        },
-      });
-    }
+    let { node } = uniqueDocumentsByName[key];
+    visit(node, {
+      FragmentSpread(node) {
+        let name = node.name.value;
+        if (
+          !uniqueDocumentsByName[name] ||
+          uniqueDocumentsByName[name].node.kind === "OperationDefinition"
+        ) {
+          errors.push({
+            message: `Fragment ${name} not found`,
+            filename: uniqueDocumentsByName[key].filename,
+            loc: locFromSourceAndGraphQLError(
+              uniqueDocumentsByName[key].loc,
+              new GraphQLError("Fragment", [node])
+            ),
+          });
+        } else {
+          dependencies[key].push(name);
+        }
+      },
+    });
   }
   await Promise.all(
     Object.keys(uniqueDocumentsByName).map(async (key) => {
-      let nodes = uniqueDocumentsByName[key].nodes.concat(
-        getFlatDependenciesForItem(dependencies, key).map(
-          (x) => uniqueDocumentsByName[x].nodes[0] as FragmentDefinitionNode
-        )
+      let flatDependencies = getFlatDependenciesForItem(dependencies, key).map(
+        (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
       );
+
+      let nodes = [uniqueDocumentsByName[key].node];
+      nodes.push(...flatDependencies);
       let document = {
         kind: "Document",
         definitions: nodes,
