@@ -1,7 +1,6 @@
 import fs from "fs-extra";
 import { DocumentNode } from "graphql";
 import { codegen } from "./codegen-core";
-import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -45,7 +44,9 @@ async function generateOperationTypes(
         },
       },
     ],
-    pluginMap: { "typescript-operations": typescriptOperationsPlugin },
+    pluginMap: {
+      "typescript-operations": require("@graphql-codegen/typescript-operations"),
+    },
   });
 
   const operationNode = operation.definitions[0];

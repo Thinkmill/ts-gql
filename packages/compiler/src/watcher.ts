@@ -1,5 +1,5 @@
 // https://gist.github.com/petehunt/bee47e20701329792153453409b1922b
-import { FSWatcher } from "chokidar";
+import type { FSWatcher } from "chokidar";
 import invariant from "invariant";
 
 interface WatcherFsEvent {

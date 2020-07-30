@@ -1,4 +1,3 @@
-import chokidar from "chokidar";
 import * as fs from "fs-extra";
 import { GraphQLSchema } from "graphql";
 import { getRawConfig } from "@ts-gql/config";
@@ -9,8 +8,17 @@ import { applyFsOperation } from "./fs-operations";
 
 // TODO: handle changes incrementally
 export const watch = async (cwd: string) => {
+  // we're requiring these here because we lazily require them in the code that generates the types
+  // which is what we want so builds that don't have to regenerate files are fast
+  // but for watch, a slightly slower start up is better than a slightly slower first build which requires type generation
+  require("@graphql-codegen/typescript");
+  require("@graphql-codegen/typescript-operations");
+
   // not gonna respond to changes in the config because that would be a big peformance cost for practically no gain
   let rawConfig = await getRawConfig(cwd);
+
+  // we want to lazily require this so it doesn't add cost to doing a regular build
+  const chokidar: typeof import("chokidar") = require("chokidar");
 
   let getNext = createWatcher(
     chokidar.watch(["**/*.{ts,tsx}", rawConfig.schema], {

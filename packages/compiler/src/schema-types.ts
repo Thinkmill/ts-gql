@@ -1,7 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
 import { codegen } from "./codegen-core";
-import * as typescriptPlugin from "@graphql-codegen/typescript";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -36,7 +35,7 @@ function generateSchemaTypes(
         },
       },
     ],
-    pluginMap: { typescript: typescriptPlugin },
+    pluginMap: { typescript: require("@graphql-codegen/typescript") },
   });
 
   return {
