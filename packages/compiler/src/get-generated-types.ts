@@ -1,16 +1,6 @@
 import fs from "fs-extra";
 import nodePath from "path";
-import {
-  FragmentDefinitionNode,
-  visit,
-  validate,
-  specifiedRules,
-  NoUnusedFragmentsRule,
-  GraphQLError,
-  ValidationContext,
-  ASTVisitor,
-  ValidationRule,
-} from "graphql";
+import { FragmentDefinitionNode, visit, GraphQLError } from "graphql";
 import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
@@ -23,8 +13,14 @@ import { Config } from "@ts-gql/config";
 import { CompilerError, TSGQLDocument } from "./types";
 import { codeFrameColumns } from "@babel/code-frame";
 import { cachedGenerateIntrospectionResult } from "./introspection-result";
-import { locFromSourceAndGraphQLError } from "./utils";
+import { locFromSourceAndGraphQLError, hashString } from "./utils";
 import { getDocuments } from "./get-documents";
+import {
+  validateDocument,
+  readDocumentValidationCache,
+  writeDocumentValidationCache,
+  DocumentValidationCache,
+} from "./validate-documents";
 
 function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
   const cache: { [key: string]: V } = {};
@@ -51,41 +47,11 @@ function getPrintCompilerError() {
   };
 }
 
-const SkipNonFirstFragmentsRule: ValidationRule = () => {
-  return {
-    FragmentDefinition(node, key) {
-      if (key !== 0) {
-        return null;
-      }
-    },
-  };
-};
-
-function FragmentNameValidationRule(context: ValidationContext): ASTVisitor {
-  return {
-    FragmentDefinition(node) {
-      let message =
-        "Fragment names must be in the format ComponentName_propName";
-
-      if (!node.name) {
-        context.reportError(new GraphQLError(message, [node]));
-      } else if (!/.+_.+/.test(node.name.value)) {
-        context.reportError(new GraphQLError(message, [node.name]));
-      }
-    },
-  };
-}
-
-let fragmentDocumentRules = [
-  SkipNonFirstFragmentsRule,
-  FragmentNameValidationRule,
-].concat(specifiedRules.filter((x) => x !== NoUnusedFragmentsRule));
-
-let operationDocumentRules = [SkipNonFirstFragmentsRule].concat(specifiedRules);
-
 export const getGeneratedTypes = async (config: Config) => {
   let generatedDirectory = nodePath.join(
-    nodePath.join(config.directory, "__generated__", "ts-gql")
+    config.directory,
+    "__generated__",
+    "ts-gql"
   );
 
   const files = (
@@ -214,31 +180,42 @@ export const getGeneratedTypes = async (config: Config) => {
       },
     });
   }
+
+  const documentValidationCache = await readDocumentValidationCache(config);
+  const newDocumentValidationCache: DocumentValidationCache = {};
   await Promise.all(
     Object.keys(uniqueDocumentsByName).map(async (key) => {
-      let flatDependencies = getFlatDependenciesForItem(dependencies, key).map(
-        (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
-      );
+      const documentInfo = uniqueDocumentsByName[key];
+      let nodes = [
+        documentInfo.node,
+        ...getFlatDependenciesForItem(dependencies, key).map(
+          (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
+        ),
+      ];
 
-      let nodes = [uniqueDocumentsByName[key].node];
-      nodes.push(...flatDependencies);
       let document = {
         kind: "Document",
         definitions: nodes,
       } as const;
+      let operationHash = hashString(
+        config.schemaHash +
+          JSON.stringify(document) +
+          config.addTypename +
+          "v9" +
+          config.readonlyTypes
+      );
 
-      let gqlErrors = validate(
-        config.schema,
-        document,
-        nodes[0].kind === "OperationDefinition"
-          ? operationDocumentRules
-          : fragmentDocumentRules
-      ).map((err) => ({
-        filename: uniqueDocumentsByName[key].filename,
-        message: err.message,
-        loc: locFromSourceAndGraphQLError(uniqueDocumentsByName[key].loc, err),
-      }));
-
+      if (documentValidationCache[operationHash] === undefined) {
+        documentValidationCache[operationHash] = validateDocument(
+          document,
+          documentInfo.filename,
+          config,
+          documentInfo.loc
+        );
+      }
+      newDocumentValidationCache[operationHash] =
+        documentValidationCache[operationHash];
+      const gqlErrors = documentValidationCache[operationHash];
       errors.push(...gqlErrors);
 
       let filename = nodePath.join(
@@ -248,16 +225,22 @@ export const getGeneratedTypes = async (config: Config) => {
       let operation = gqlErrors.length
         ? await cachedGenerateErrorModuleFsOperation(
             filename,
-            `${uniqueDocumentsByName[key].filename}\nThere ${
+            `${documentInfo.filename}\nThere ${
               gqlErrors.length === 1 ? "is an error" : "are errors"
             } with ${nodes[0].name.value}\n${(
               await Promise.all(errors.map((x) => printCompilerError(x)))
             ).join("\n")}`
           )
-        : await cachedGenerateOperationTypes(config, document, filename);
+        : await cachedGenerateOperationTypes(
+            config,
+            document,
+            filename,
+            operationHash
+          );
       if (operation) fsOperations.push(operation);
     })
   );
+  await writeDocumentValidationCache(config, newDocumentValidationCache);
   return {
     fsOperations,
     errors: await Promise.all(errors.map((x) => printCompilerError(x))),

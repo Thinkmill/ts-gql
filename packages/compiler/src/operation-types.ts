@@ -153,15 +153,9 @@ export async function cachedGenerateErrorModuleFsOperation(
 export async function cachedGenerateOperationTypes(
   config: Config,
   operation: DocumentNode,
-  filename: string
+  filename: string,
+  operationHash: string
 ) {
-  let operationHash = hashString(
-    config.schemaHash +
-      JSON.stringify(operation) +
-      config.addTypename +
-      "v9" +
-      config.readonlyTypes
-  );
   let types: string;
   try {
     types = await fs.readFile(filename, "utf8");
