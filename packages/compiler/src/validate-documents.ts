@@ -110,7 +110,6 @@ export function validateDocument(
   config: Config,
   loc: FullSourceLocation
 ) {
-  console.log("validate");
   return validate(
     config.schema,
     document,
