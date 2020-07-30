@@ -18,7 +18,7 @@ export function inlineIntoFirstOperationOrFragment(
   schema: GraphQLSchema
 ): DocumentNode {
   // we don't want to modify the existing document
-  document = parse(print(document));
+  document = JSON.parse(JSON.stringify(document)) as DocumentNode;
 
   let firstNode = document.definitions[0];
   if (

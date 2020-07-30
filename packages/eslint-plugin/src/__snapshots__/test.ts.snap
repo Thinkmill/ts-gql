@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    something
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          76,
+          76,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    something
+~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`missing-id.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    someObj {
+      id
+      other
+    }
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 9,
+      "fix": Object {
+        "range": Array [
+          94,
+          94,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+    Object {
+      "column": 14,
+      "endColumn": 6,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          70,
+          70,
+        ],
+        "text": "
+      id",
+      },
+      "line": 5,
+      "message": "The id field on object and interface types must always be fetched if it exists so that caching works reliably",
+      "messageId": "mustFetchId",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    someObj {
+~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+             ~    [The id field on object and interface types must always be fetched if it exists so that caching works reliably]
+      other
+~~~~~~~~~~~    [You must cast gql tags with the generated type]
+~~~~~~~~~~~    [The id field on object and interface types must always be fetched if it exists so that caching works reliably]
+    }
+~~~~~    [You must cast gql tags with the generated type]
+~~~~~    [The id field on object and interface types must always be fetched if it exists so that caching works reliably]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`missing-variable.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 21,
+      "line": 5,
+      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    optional(thing: $thing)
+                    ~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+  }
+~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+\`;
+~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+
+~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]",
+}
+`;
+
+exports[`missing-variable-with-another-variable.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 21,
+      "line": 5,
+      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($other: String) {
+    optional(thing: $thing)
+                    ~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+    other: optional(thing: $other)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+  }
+~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+\`;
+~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+
+~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]",
+}
+`;
+
+exports[`no-name.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "line": 3,
+      "message": "GraphQL operations must have a name",
+      "messageId": "mustBeNamed",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [GraphQL operations must have a name]
+  query {
+~~~~~~~~~    [GraphQL operations must have a name]
+    something
+~~~~~~~~~~~~~    [GraphQL operations must have a name]
+  }
+~~~    [GraphQL operations must have a name]
+\`;
+~    [GraphQL operations must have a name]
+",
+}
+`;
+
+exports[`parse-error.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 3,
+      "line": 4,
+      "message": "Syntax Error: Unexpected Name \\"que\\"",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  que Thing {
+  ~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\"]
+    something
+~~~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\"]
+  }
+~~~    [Syntax Error: Unexpected Name \\"que\\"]
+\`;
+~~    [Syntax Error: Unexpected Name \\"que\\"]
+
+~    [Syntax Error: Unexpected Name \\"que\\"]",
+}
+`;
+
+exports[`unknown-variable-type.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 23,
+      "line": 4,
+      "message": "Unknown type \\"DoesNotExist\\".",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($thing: DoesNotExist) {
+                      ~~~~~~~~~~~~~~~    [Unknown type \\"DoesNotExist\\".]
+    optional(thing: $thing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Unknown type \\"DoesNotExist\\".]
+  }
+~~~    [Unknown type \\"DoesNotExist\\".]
+\`;
+~~    [Unknown type \\"DoesNotExist\\".]
+
+~    [Unknown type \\"DoesNotExist\\".]",
+}
+`;
+
+exports[`unused-variable.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($thing: String) {
+    optional
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          91,
+          91,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing($thing: String) {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    optional
+~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`wrong-variable-type.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 15,
+      "line": 4,
+      "message": "Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($thing: ID) {
+              ~~~~~~~~~~~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+    optional(thing: $thing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+  }
+~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+\`;
+~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+
+~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]",
+}
+`;

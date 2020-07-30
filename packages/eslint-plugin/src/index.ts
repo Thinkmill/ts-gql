@@ -161,7 +161,7 @@ export const rules = {
     create(context) {
       return {
         Program(programNode) {
-          let config: Config | undefined;
+          let config: Config | undefined = (context.options as any)[0];
           let report: typeof context["report"] = (arg) => {
             return context.report(arg);
           };

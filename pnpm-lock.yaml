@@ -142,7 +142,9 @@ importers:
       find-pkg-json-field-up: 1.0.1
       slash: 3.0.0
     devDependencies:
+      '@ts-gql/tag': 'link:../tag'
       '@typescript-eslint/parser': 2.29.0
+      eslint-snapshot-test: 3.0.0
       graphql: 14.6.0
     specifiers:
       '@babel/runtime': ^7.9.2
@@ -150,8 +152,10 @@ importers:
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
       '@ts-gql/config': ^0.5.0
+      '@ts-gql/tag': ^0.5.1
       '@typescript-eslint/experimental-utils': ^2.29.0
       '@typescript-eslint/parser': ^2.29.0
+      eslint-snapshot-test: ^3.0.0
       find-pkg-json-field-up: ^1.0.1
       graphql: ^14.0.0
       slash: ^3.0.0
@@ -3765,7 +3769,6 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
-      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:
@@ -6347,6 +6350,14 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-oYrhJW7S0bxAFDvWqzvMPRm6pcgcnWc4QnofCAqRTRfQC0JcwenzGglTtsLyIuuWFfkqDG9vz67cnttSd53djw==
+  /eslint-snapshot-test/3.0.0:
+    dependencies:
+      lodash.merge: 4.6.2
+    dev: true
+    peerDependencies:
+      eslint: '>5.0.0'
+    resolution:
+      integrity: sha512-rCMQDCX7ZVz+DLLFeVskPj7yFnFpzfCOQiTEkGgLWZjjvwbGK8Kfh+bjshrzDYyZC7WChp86mR1Y88KWdS9nQw==
   /eslint-utils/1.4.3:
     dependencies:
       eslint-visitor-keys: 1.1.0
@@ -8728,6 +8739,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
+  /lodash.merge/4.6.2:
+    dev: true
+    resolution:
+      integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
   /lodash.sortby/4.7.0:
     dev: false
     resolution:
