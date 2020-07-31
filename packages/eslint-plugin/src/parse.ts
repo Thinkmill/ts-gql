@@ -119,16 +119,17 @@ export function handleTemplateTag(
     });
     return;
   }
-  const validationErrors = schema ? validate(schema, ast, rules) : [];
-  if (validationErrors && validationErrors.length > 0) {
+  const validationErrors = validate(schema, ast, rules);
+
+  validationErrors.forEach((error) => {
     report({
       node,
       // @ts-ignore
-      message: validationErrors[0].message,
-      loc: locFromGraphQLError(node, validationErrors[0]),
+      message: error.message,
+      loc: locFromGraphQLError(node, error),
     });
-    return;
-  }
+  });
+  if (validationErrors.length) return;
   let typeInfo = new TypeInfo(schema);
   visit(
     ast,
@@ -206,7 +207,7 @@ export function handleTemplateTag(
 
         if (type.getFields().id) {
           let fixPosition =
-            selectionSetNode.loc?.start + node.quasi.range[0] + 2;
+            selectionSetNode.loc!.start + node.quasi.range[0] + 2;
           let fixText =
             "\n" +
             "".padStart(

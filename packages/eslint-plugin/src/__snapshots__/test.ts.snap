@@ -181,6 +181,14 @@ gql\`
 }
 `;
 
+exports[`multiple-validation-errors.ts 1`] = `
+Object {
+  "lintMessages": Array [],
+  "snapshot": "
+",
+}
+`;
+
 exports[`no-name.ts 1`] = `
 Object {
   "lintMessages": Array [
