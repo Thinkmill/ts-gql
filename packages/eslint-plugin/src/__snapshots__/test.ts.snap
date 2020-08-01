@@ -125,11 +125,222 @@ gql\`
 
 exports[`missing-variable.ts 1`] = `
 Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($thing: String) {
+    optional(thing: $thing)
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
   "lintMessages": Array [
     Object {
-      "column": 21,
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          90,
+          90,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+    Object {
+      "column": 22,
+      "endColumn": 23,
+      "endLine": 5,
+      "fix": Object {
+        "range": Array [
+          54,
+          54,
+        ],
+        "text": "($thing: String)",
+      },
       "line": 5,
       "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "nodeType": null,
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    optional(thing: $thing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`missing-variable-with-another-variable.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing($other: String, $thing: String) {
+    optional(thing: $thing)
+    other: optional(thing: $other)
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 8,
+      "fix": Object {
+        "range": Array [
+          141,
+          141,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+    Object {
+      "column": 22,
+      "endColumn": 23,
+      "endLine": 5,
+      "fix": Object {
+        "range": Array [
+          69,
+          69,
+        ],
+        "text": ", $thing: String",
+      },
+      "line": 5,
+      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "nodeType": null,
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing($other: String) {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    optional(thing: $thing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+    other: optional(thing: $other)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`missing-variable-with-another-variable-with-comma-after.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+// prettier-ignore
+gql\`
+  query Thing($other: String, $thing: String,,) {
+    optional(thing: $thing)
+    other: optional(thing: $other)
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 9,
+      "fix": Object {
+        "range": Array [
+          162,
+          162,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 4,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+    Object {
+      "column": 22,
+      "endColumn": 23,
+      "endLine": 6,
+      "fix": Object {
+        "range": Array [
+          88,
+          88,
+        ],
+        "text": ", $thing: String",
+      },
+      "line": 6,
+      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "nodeType": null,
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+// prettier-ignore
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing($other: String,,) {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    optional(thing: $thing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+    other: optional(thing: $other)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`multiple-validation-errors.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 5,
+      "line": 5,
+      "message": "Cannot query field \\"a\\" on type \\"Query\\".",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+    Object {
+      "column": 5,
+      "line": 6,
+      "message": "Cannot query field \\"b\\" on type \\"Query\\".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
@@ -140,52 +351,20 @@ import { gql } from \\"@ts-gql/tag\\";
 
 gql\`
   query Thing {
-    optional(thing: $thing)
-                    ~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+    a
+    ~    [Cannot query field \\"a\\" on type \\"Query\\".]
+    b
+~~~~~    [Cannot query field \\"a\\" on type \\"Query\\".]
+    ~    [Cannot query field \\"b\\" on type \\"Query\\".]
   }
-~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+~~~    [Cannot query field \\"a\\" on type \\"Query\\".]
+~~~    [Cannot query field \\"b\\" on type \\"Query\\".]
 \`;
-~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+~~    [Cannot query field \\"a\\" on type \\"Query\\".]
+~~    [Cannot query field \\"b\\" on type \\"Query\\".]
 
-~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]",
-}
-`;
-
-exports[`missing-variable-with-another-variable.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
-      "column": 21,
-      "line": 5,
-      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
-      "nodeType": "TaggedTemplateExpression",
-      "ruleId": "ts-gql",
-      "severity": 2,
-    },
-  ],
-  "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
-
-gql\`
-  query Thing($other: String) {
-    optional(thing: $thing)
-                    ~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
-    other: optional(thing: $other)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
-  }
-~~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
-\`;
-~~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
-
-~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]",
-}
-`;
-
-exports[`multiple-validation-errors.ts 1`] = `
-Object {
-  "lintMessages": Array [],
-  "snapshot": "
-",
+~    [Cannot query field \\"a\\" on type \\"Query\\".]
+~    [Cannot query field \\"b\\" on type \\"Query\\".]",
 }
 `;
 

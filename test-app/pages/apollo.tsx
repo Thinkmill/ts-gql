@@ -1,11 +1,10 @@
 import { gql } from "@ts-gql/tag";
-import { useQuery, useMutation } from "@ts-gql/apollo";
+import { useMutation } from "@ts-gql/apollo";
 
 const query2 = gql`
-  query MyQueryApollo {
-    __typename
-    hello
-    another
+  query MyQueryApollo($thng: String, $x: Something!) {
+    optional(thing: $thng)
+    oneMore(other: $x)
   }
 ` as import("../__generated__/ts-gql/MyQueryApollo").type;
 

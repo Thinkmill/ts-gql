@@ -18,7 +18,11 @@ import {
   GraphQLNonNull,
   GraphQLList,
   ASTNode,
+  NoUndefinedVariablesRule,
+  ValidationRule,
+  GraphQLError,
 } from "graphql";
+import { VariableUsage } from "graphql/validation/ValidationContext";
 
 // loosely based on https://github.com/apollographql/eslint-plugin-graphql/blob/master/src/createRule.js
 
@@ -27,7 +31,8 @@ let rules = specifiedRules.filter(
   (x) =>
     x !== NoUnusedFragmentsRule &&
     x !== NoUnusedVariablesRule &&
-    x !== KnownFragmentNamesRule
+    x !== KnownFragmentNamesRule &&
+    x !== NoUndefinedVariablesRule
 );
 
 function replaceExpressions(
@@ -119,8 +124,12 @@ export function handleTemplateTag(
     });
     return;
   }
-  const validationErrors = validate(schema, ast, rules);
 
+  const validationErrors = validate(
+    schema,
+    ast,
+    rules.concat(createNoUndefinedVariablesRule(node, report))
+  );
   validationErrors.forEach((error) => {
     report({
       node,
@@ -230,4 +239,66 @@ export function handleTemplateTag(
     })
   );
   return { ast, document: text };
+}
+
+function createNoUndefinedVariablesRule(
+  taggedTemplateNode: TSESTree.TaggedTemplateExpression,
+  report: TSESLint.RuleContext<MessageId, any>["report"]
+): ValidationRule {
+  return (context) => {
+    let variableNameDefined = Object.create(null);
+
+    return {
+      OperationDefinition: {
+        enter() {
+          variableNameDefined = Object.create(null);
+        },
+        leave(operation) {
+          const usages: VariableUsage[] = (context as any).getRecursiveVariableUsages(
+            operation
+          );
+
+          for (const { node, type } of usages) {
+            const varName = node.name.value;
+
+            if (variableNameDefined[varName] !== true) {
+              let message = operation.name
+                ? `Variable "$${varName}" is not defined by operation "${operation.name.value}".`
+                : `Variable "$${varName}" is not defined.`;
+              if (operation.name && type) {
+                let printedType = type.toString();
+                let add = taggedTemplateNode.quasi.range[0] + 1;
+                let fixPosition =
+                  (operation.variableDefinitions?.length
+                    ? operation.variableDefinitions[
+                        operation.variableDefinitions.length - 1
+                      ].loc!.end
+                    : operation.name.loc!.end) + add;
+                let fixString = operation.variableDefinitions?.length
+                  ? `, $${varName}: ${printedType}`
+                  : `($${varName}: ${printedType})`;
+                report({
+                  // @ts-ignore
+                  message,
+                  fix(fixer) {
+                    return fixer.insertTextAfterRange(
+                      [fixPosition, fixPosition],
+                      fixString
+                    );
+                  },
+                  loc: locFromGraphQLNode(taggedTemplateNode, node),
+                });
+              } else
+                context.reportError(
+                  new GraphQLError(message, [node, operation])
+                );
+            }
+          }
+        },
+      },
+      VariableDefinition(node) {
+        variableNameDefined[node.variable.name.value] = true;
+      },
+    };
+  };
 }
