@@ -6,9 +6,9 @@ import {
 } from "find-pkg-json-field-up";
 import fs from "fs";
 import { promisify } from "util";
-import { parseSchema, hashSchema } from "./read-schema";
+import { parseSchema } from "./parse-schema";
 
-export { parseSchema, hashSchema };
+export { parseSchema };
 
 export class ConfigNotFoundError extends Error {}
 
@@ -68,8 +68,7 @@ export async function getConfig(cwd: string): Promise<Config> {
   let schemaContents = await readFile(config.schema, "utf8");
   return {
     ...config,
-    schemaHash: hashSchema(schemaContents),
-    schema: parseSchema(config.schema, schemaContents),
+    ...parseSchema(config.schema, schemaContents),
   };
 }
 
@@ -78,7 +77,6 @@ export function getConfigSync(cwd: string): Config {
   let schemaContents = fs.readFileSync(config.schema, "utf8");
   return {
     ...config,
-    schemaHash: hashSchema(schemaContents),
-    schema: parseSchema(config.schema, schemaContents),
+    ...parseSchema(config.schema, schemaContents),
   };
 }

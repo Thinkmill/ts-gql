@@ -1,7 +1,12 @@
-import { buildClientSchema, buildSchema, version } from "graphql";
+import {
+  buildClientSchema,
+  buildSchema,
+  version,
+  GraphQLSchema,
+} from "graphql";
 import crypto from "crypto";
 
-export function hashSchema(input: string) {
+function hashSchema(input: string) {
   let md5sum = crypto.createHash("md5");
 
   md5sum.update(version);
@@ -9,7 +14,23 @@ export function hashSchema(input: string) {
   return md5sum.digest("hex");
 }
 
+let schemaCache: Record<
+  string,
+  { schemaHash: string; schema: GraphQLSchema }
+> = {};
+
 export function parseSchema(filename: string, content: string) {
+  let schemaHash = hashSchema(content);
+  if (schemaCache[filename]?.schemaHash !== schemaHash) {
+    schemaCache[filename] = {
+      schemaHash,
+      schema: uncachedParseSchema(filename, content),
+    };
+  }
+  return schemaCache[filename];
+}
+
+function uncachedParseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
     return buildSchema(content);
   }
