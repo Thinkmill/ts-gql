@@ -17,9 +17,9 @@ import {
   MutationUpdaterFn,
   ErrorPolicy,
   MutationQueryReducersMap,
-  ExecutionResult,
   ApolloClient,
 } from "@apollo/client";
+import { ExecutionResult } from "graphql";
 
 type FetchResult<
   TData = {
