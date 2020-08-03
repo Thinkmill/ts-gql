@@ -162,13 +162,11 @@ importers:
   packages/next:
     dependencies:
       '@babel/runtime': 7.9.2
-      '@ts-gql/babel-plugin': 'link:../babel-plugin'
     devDependencies:
       '@ts-gql/compiler': 'link:../compiler'
       graphql: 14.6.0
     specifiers:
       '@babel/runtime': ^7.9.2
-      '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.13.0
       graphql: ^14.0.0
   packages/tag:
@@ -3769,6 +3767,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
+      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@3.8.3:
