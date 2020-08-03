@@ -94,7 +94,21 @@ You now need to tell ts-gql where your GraphQL SDL file or introspection query r
 }
 ```
 
-TODO: explain using the compiler
+Add a script to your package.json and run it. You should run this in `postinstall` so that the types are generated when install happens.
+
+```json
+{
+  "scripts": {
+    "postinstall": "ts-gql build",
+    "ts-gql:build": "ts-gql build",
+    "ts-gql:watch": "ts-gql watch"
+  }
+}
+```
+
+You can run `npm run ts-gql:build` to do a single build or `npm run ts-gql:watch` to start watching.
+
+If you're using [Next.js](https://nextjs.org/), you can use `@ts-gql/next` to automatically start ts-gql's watcher when you start Next.js's dev server.
 
 ## Using Apollo
 

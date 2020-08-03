@@ -5,8 +5,7 @@
   "module": "dist/next.esm.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.9.2",
-    "@ts-gql/babel-plugin": "^0.1.0"
+    "@babel/runtime": "^7.9.2"
   },
   "peerDependencies": {
     "@ts-gql/compiler": "*",

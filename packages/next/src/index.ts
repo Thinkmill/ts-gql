@@ -18,18 +18,5 @@ export const withTsGql = (internalConfig: any = {}) => (
     typeof internalConfig === "function"
       ? internalConfig(phase, thing)
       : internalConfig;
-  return {
-    ...internalConfigObj,
-    webpack(webpackConfig: any, options: any) {
-      if (!options.defaultLoaders.babel.options.plugins) {
-        options.defaultLoaders.babel.options.plugins = [];
-      }
-      options.defaultLoaders.babel.options.plugins.unshift(
-        require.resolve("@ts-gql/babel-plugin")
-      );
-      return internalConfigObj.webpack
-        ? internalConfigObj.webpack(webpackConfig, options)
-        : webpackConfig;
-    },
-  };
+  return internalConfigObj;
 };
