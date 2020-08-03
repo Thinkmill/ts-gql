@@ -48,10 +48,12 @@ importers:
     dependencies:
       '@ts-gql/tag': 'link:../tag'
     devDependencies:
-      '@apollo/client': 3.0.0-beta.43
+      '@apollo/client': 3.0.0-beta.43_graphql@14.6.0
+      graphql: 14.6.0
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
       '@ts-gql/tag': ^0.5.0
+      graphql: ^14.0.0
   packages/apollo-client-v2:
     devDependencies:
       '@apollo/react-common': 3.1.4_ec303a3b04586d106f7661219db67e3b
@@ -265,12 +267,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-S10YIyOKettoRDWoyRymRyjzWZD4/qW7YfHNhHAS13QVneabRcU5MF7vEwkG6dHWx/UdufT5GbqYnvpQRMNt3Q==
-  /@apollo/client/3.0.0-beta.43:
+  /@apollo/client/3.0.0-beta.43_graphql@14.6.0:
     dependencies:
       '@types/zen-observable': 0.8.0
       '@wry/equality': 0.1.11
       fast-json-stable-stringify: 2.1.0
-      graphql-tag: 2.10.3
+      graphql: 14.6.0
+      graphql-tag: 2.10.3_graphql@14.6.0
       optimism: 0.11.5
       symbol-observable: 1.2.0
       ts-invariant: 0.4.4
@@ -7194,6 +7197,7 @@ packages:
     resolution:
       integrity: sha512-1bstq6YKaC579PTw9gchw2VlXqjPo3vn8NjRMaUqF2SxyYTjVSgXaCAbaeNa0B7xlLVigxi3DV1zh4A+ss+Lwg==
   /graphql-tag/2.10.3:
+    dev: false
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
     resolution:
@@ -7201,7 +7205,6 @@ packages:
   /graphql-tag/2.10.3_graphql@14.6.0:
     dependencies:
       graphql: 14.6.0
-    dev: false
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
     resolution:
