@@ -1,18 +1,16 @@
 {
   "name": "@ts-gql/eslint-plugin",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "main": "dist/eslint-plugin.cjs.js",
   "module": "dist/eslint-plugin.esm.js",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "@graphql-codegen/plugin-helpers": "^1.13.3",
     "@graphql-codegen/typescript": "^1.13.3",
     "@graphql-codegen/typescript-operations": "^1.13.3",
-    "@ts-gql/config": "^0.5.0",
+    "@ts-gql/config": "^0.6.0",
     "@typescript-eslint/experimental-utils": "^2.29.0",
     "find-pkg-json-field-up": "^1.0.1",
     "slash": "^3.0.0"
@@ -21,7 +19,7 @@
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
   },
   "devDependencies": {
-    "@ts-gql/tag": "^0.5.1",
+    "@ts-gql/tag": "^0.5.2",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint-snapshot-test": "^3.0.0",
     "graphql": "^14.0.0"

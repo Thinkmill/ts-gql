@@ -1,5 +1,16 @@
 # @ts-gql/next
 
+## 14.0.0
+
+### Major Changes
+
+- [`ab25d45`](https://github.com/Thinkmill/ts-gql/commit/ab25d45bd80dfe58f878a500c92e0bdb3eef5c86) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove automatic insertion of `@ts-gql/babel-plugin`, you should include it yourself. Automatically including the babel plugin caused confusion when the code would run with Next but would not run when using another tool like Jest or etc.
+
+### Patch Changes
+
+- Updated dependencies [[`90d1567`](https://github.com/Thinkmill/ts-gql/commit/90d15672f4737d8a1c15429f680790c9abdccf58), [`2df884a`](https://github.com/Thinkmill/ts-gql/commit/2df884a168c5e4285956f70ff10bb70f80704484), [`19fd7d9`](https://github.com/Thinkmill/ts-gql/commit/19fd7d98c4bb0a290f1cfe831608a5c13f498b22), [`d6d5594`](https://github.com/Thinkmill/ts-gql/commit/d6d55946c9dfc118d87ba34b79d48d48a3144e4d), [`ccf3770`](https://github.com/Thinkmill/ts-gql/commit/ccf37705e7f58a31906c9b96dbd27ded2447d817)]:
+  - @ts-gql/compiler@0.13.4
+
 ## 13.0.0
 
 ### Patch Changes

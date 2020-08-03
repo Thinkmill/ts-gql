@@ -1,5 +1,22 @@
 # @ts-gql/compiler
 
+## 0.13.4
+
+### Patch Changes
+
+- [`90d1567`](https://github.com/Thinkmill/ts-gql/commit/90d15672f4737d8a1c15429f680790c9abdccf58) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove unnecessary schema printing
+
+* [`2df884a`](https://github.com/Thinkmill/ts-gql/commit/2df884a168c5e4285956f70ff10bb70f80704484) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Cache document validation
+
+- [`19fd7d9`](https://github.com/Thinkmill/ts-gql/commit/19fd7d98c4bb0a290f1cfe831608a5c13f498b22) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Cache extraction of GraphQL documents
+
+* [`d6d5594`](https://github.com/Thinkmill/ts-gql/commit/d6d55946c9dfc118d87ba34b79d48d48a3144e4d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Avoid re-parsing the schema on every rebuild in watch mode
+
+- [`ccf3770`](https://github.com/Thinkmill/ts-gql/commit/ccf37705e7f58a31906c9b96dbd27ded2447d817) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove duplicated errors when there's a validation error in a fragment
+
+- Updated dependencies [[`d6d5594`](https://github.com/Thinkmill/ts-gql/commit/d6d55946c9dfc118d87ba34b79d48d48a3144e4d), [`7f10732`](https://github.com/Thinkmill/ts-gql/commit/7f10732c53b1b9541414b6c343ad7cd1e35e122c), [`90d1567`](https://github.com/Thinkmill/ts-gql/commit/90d15672f4737d8a1c15429f680790c9abdccf58)]:
+  - @ts-gql/config@0.6.0
+
 ## 0.13.3
 
 ### Patch Changes

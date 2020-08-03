@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.5.2
+
+### Patch Changes
+
+- [`ab25d45`](https://github.com/Thinkmill/ts-gql/commit/ab25d45bd80dfe58f878a500c92e0bdb3eef5c86) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Improve error message when `gql` is called at runtime
+
 ## 0.5.1
 
 ### Patch Changes
