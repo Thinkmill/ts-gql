@@ -5,6 +5,7 @@ import { parse } from "graphql";
 import { getGeneratedTypes } from "../get-generated-types";
 import { getConfig } from "@ts-gql/config";
 import stripAnsi from "strip-ansi";
+import slash from "slash";
 import { schema } from "./test-schema";
 
 let f = fixturez(__dirname);
@@ -20,7 +21,7 @@ async function setupEnv(specificSchema: string = schema) {
       JSON.stringify(
         {
           name: "something",
-          "ts-gql": { schema: "schema.graphql" }
+          "ts-gql": { schema: "schema.graphql" },
         },
         null,
         2
@@ -37,12 +38,12 @@ async function setupEnv(specificSchema: string = schema) {
 async function build(cwd: string) {
   let result = await getGeneratedTypes(await getConfig(cwd));
   return {
-    errors: result.errors.map(x =>
+    errors: result.errors.map((x) =>
       stripAnsi(x.replace(cwd, "CURRENT_WORKING_DIRECTORY"))
     ),
     fsOperations: result.fsOperations
-      .filter(x => !path.parse(x.filename).name.startsWith("@"))
-      .map(x => ({ ...x, filename: path.relative(cwd, x.filename) }))
+      .filter((x) => !path.parse(x.filename).name.startsWith("@"))
+      .map((x) => ({ ...x, filename: slash(path.relative(cwd, x.filename)) })),
   };
 }
 
@@ -77,7 +78,7 @@ test("basic", async () => {
         query Thing {
           hello
         }
-      `
+      `,
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
@@ -108,7 +109,7 @@ test("list with fragment works as expected", async () => {
             other
           }
         }
-      `
+      `,
     ])
   );
 
@@ -141,7 +142,7 @@ test("something", async () => {
             ...Frag_b
           }
         }
-      `
+      `,
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
@@ -171,7 +172,7 @@ test("errors in fragments are not shown for usages", async () => {
             i
           }
         }
-      `
+      `,
     ])
   );
   expect((await build(dir)).errors).toMatchInlineSnapshot(`
