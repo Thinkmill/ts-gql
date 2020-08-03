@@ -1,5 +1,15 @@
 # @ts-gql/config
 
+## 0.6.0
+
+### Minor Changes
+
+- [`d6d5594`](https://github.com/Thinkmill/ts-gql/commit/d6d55946c9dfc118d87ba34b79d48d48a3144e4d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Replace `readSchema` and `readSchemaSync` with `parseSchema` and `hashSchema`
+
+* [`7f10732`](https://github.com/Thinkmill/ts-gql/commit/7f10732c53b1b9541414b6c343ad7cd1e35e122c) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Cache schema parsing, remove `hashSchema`, make `parseSchema` return `schemaHash` and `schema`
+
+- [`90d1567`](https://github.com/Thinkmill/ts-gql/commit/90d15672f4737d8a1c15429f680790c9abdccf58) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add `schemaHash` to `Config`
+
 ## 0.5.0
 
 ### Minor Changes

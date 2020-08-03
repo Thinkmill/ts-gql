@@ -1,5 +1,16 @@
 # @ts-gql/eslint-plugin
 
+## 0.7.0
+
+### Minor Changes
+
+- [`d4a220a`](https://github.com/Thinkmill/ts-gql/commit/d4a220ad74a7e57bafcd2c3ec3b22cafabbfe744) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add autofix for undefined variables
+
+### Patch Changes
+
+- Updated dependencies [[`d6d5594`](https://github.com/Thinkmill/ts-gql/commit/d6d55946c9dfc118d87ba34b79d48d48a3144e4d), [`7f10732`](https://github.com/Thinkmill/ts-gql/commit/7f10732c53b1b9541414b6c343ad7cd1e35e122c), [`90d1567`](https://github.com/Thinkmill/ts-gql/commit/90d15672f4737d8a1c15429f680790c9abdccf58)]:
+  - @ts-gql/config@0.6.0
+
 ## 0.6.1
 
 ### Patch Changes
