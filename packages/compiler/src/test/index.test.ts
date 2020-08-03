@@ -39,7 +39,7 @@ async function build(cwd: string) {
   let result = await getGeneratedTypes(await getConfig(cwd));
   return {
     errors: result.errors.map((x) =>
-      stripAnsi(x.replace(cwd, "CURRENT_WORKING_DIRECTORY"))
+      stripAnsi(x.replace(slash(cwd), "CURRENT_WORKING_DIRECTORY"))
     ),
     fsOperations: result.fsOperations
       .filter((x) => !path.parse(x.filename).name.startsWith("@"))
