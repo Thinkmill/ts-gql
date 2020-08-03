@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.8.1
+
+### Patch Changes
+
+- [`2bae58f`](https://github.com/Thinkmill/ts-gql/commit/2bae58f9d9a2944e0e6b0575f96fc3569973e1ac) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Import `ExecutionResult` from `graphql` rather than `@apollo/client`
+
 ## 0.8.0
 
 ### Minor Changes
