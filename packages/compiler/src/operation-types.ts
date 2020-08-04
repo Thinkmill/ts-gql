@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { DocumentNode } from "graphql";
+import type { DocumentNode } from "graphql";
 import { codegen } from "./codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";

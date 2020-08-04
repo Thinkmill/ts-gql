@@ -1,6 +1,8 @@
 import fs from "fs-extra";
 import nodePath from "path";
-import { FragmentDefinitionNode, visit, GraphQLError } from "graphql";
+import type { FragmentDefinitionNode } from "graphql";
+import { GraphQLError } from "graphql/error/GraphQLError";
+import { visit } from "graphql/language/visitor";
 import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
@@ -11,7 +13,6 @@ import {
 import { FsOperation } from "./fs-operations";
 import { Config } from "@ts-gql/config";
 import { CompilerError, TSGQLDocument } from "./types";
-import { codeFrameColumns } from "@babel/code-frame";
 import { cachedGenerateIntrospectionResult } from "./introspection-result";
 import { locFromSourceAndGraphQLError, hashString } from "./utils";
 import { getDocuments } from "./get-documents";
@@ -33,6 +34,9 @@ function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
   return async (error: CompilerError) => {
+    const {
+      codeFrameColumns,
+    } = require("@babel/code-frame") as typeof import("@babel/code-frame");
     let content = await readFile(error.filename);
     return (
       error.filename +

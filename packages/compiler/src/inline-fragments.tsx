@@ -1,17 +1,14 @@
-import {
+import type {
   DocumentNode,
   FragmentDefinitionNode,
-  visit,
-  print,
-  parse,
   InlineFragmentNode,
-  visitWithTypeInfo,
-  TypeInfo,
   GraphQLSchema,
   SelectionSetNode,
   FieldNode,
-  GraphQLObjectType,
 } from "graphql";
+import { GraphQLObjectType } from "graphql/type/definition";
+import { visit, visitWithTypeInfo } from "graphql/language/visitor";
+import { TypeInfo } from "graphql/utilities/TypeInfo";
 
 export function inlineIntoFirstOperationOrFragment(
   document: DocumentNode,

@@ -12,6 +12,7 @@ export const watch = async (cwd: string) => {
   // but for watch, a slightly slower start up is better than a slightly slower first build which requires type generation
   require("@graphql-codegen/typescript");
   require("@graphql-codegen/typescript-operations");
+  require("@babel/code-frame");
 
   // not gonna respond to changes in the config because that would be a big peformance cost for practically no gain
   let rawConfig = await getRawConfig(cwd);

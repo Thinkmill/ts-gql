@@ -1,11 +1,10 @@
+import type { ValidationRule, DocumentNode } from "graphql";
 import {
   specifiedRules,
   NoUnusedFragmentsRule,
-  GraphQLError,
   validate,
-  ValidationRule,
-  DocumentNode,
-} from "graphql";
+} from "graphql/validation";
+import { GraphQLError } from "graphql/error/GraphQLError";
 import nodePath from "path";
 import * as fs from "fs-extra";
 import { Config } from "@ts-gql/config";

@@ -1,5 +1,7 @@
 import fs from "fs-extra";
-import { DocumentNode, GraphQLError, parse } from "graphql";
+import type { DocumentNode } from "graphql";
+import { GraphQLError } from "graphql/error/GraphQLError";
+import { parse } from "graphql/language/parser";
 import { extractGraphQLDocumentsContentsFromFile } from "./extract-documents";
 import {
   CompilerError,

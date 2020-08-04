@@ -1,9 +1,7 @@
-import {
-  buildClientSchema,
-  buildSchema,
-  version,
-  GraphQLSchema,
-} from "graphql";
+import { buildSchema } from "graphql/utilities/buildASTSchema";
+import { buildClientSchema } from "graphql/utilities/buildClientSchema";
+import { version } from "graphql/version";
+import { GraphQLSchema } from "graphql/type/schema";
 import crypto from "crypto";
 
 function hashSchema(input: string) {

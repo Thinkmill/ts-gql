@@ -1,5 +1,5 @@
 import path from "path";
-import { GraphQLSchema } from "graphql";
+import { GraphQLSchema } from "graphql/type/schema";
 import {
   findPkgJsonFieldUp,
   findPkgJsonFieldUpSync,

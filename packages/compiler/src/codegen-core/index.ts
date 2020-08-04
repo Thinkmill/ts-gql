@@ -1,12 +1,12 @@
 // https://github.com/dotansimha/graphql-code-generator/blob/master/packages/graphql-codegen-core/src/codegen.ts
 
-import {
-  Types,
-  isComplexPluginOutput,
-  CodegenPlugin,
-} from "@graphql-codegen/plugin-helpers";
-import { GraphQLSchema } from "graphql";
+import type { Types, CodegenPlugin } from "@graphql-codegen/plugin-helpers";
+import { GraphQLSchema } from "graphql/type";
 import { executePlugin } from "./execute-plugin";
+
+function isComplexPluginOutput(obj: Types.PluginOutput) {
+  return typeof obj === "object" && obj.hasOwnProperty("content");
+}
 
 interface GenerateOptions {
   filename: string;

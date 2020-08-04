@@ -2,7 +2,7 @@ import { gql } from "@ts-gql/tag";
 import { useMutation } from "@ts-gql/apollo";
 
 const query2 = gql`
-  query MyQueryApollo($thng: String, $x: Something!) {
+  query MyQueryApollo($x: Something!, $thng: String) {
     optional(thing: $thng)
     oneMore(other: $x)
   }

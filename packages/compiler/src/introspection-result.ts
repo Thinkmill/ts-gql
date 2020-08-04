@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { GraphQLSchema, introspectionFromSchema } from "graphql";
+import type { GraphQLSchema } from "graphql";
 import { parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -13,6 +13,9 @@ async function generateIntrospectionResult(
   schemaHash: string,
   filename: string
 ): Promise<FsOperation> {
+  const {
+    introspectionFromSchema,
+  } = require("graphql/utilities/introspectionFromSchema") as typeof import("graphql/utilities/introspectionFromSchema");
   const introspection = introspectionFromSchema(schema, {
     descriptions: false,
   });
