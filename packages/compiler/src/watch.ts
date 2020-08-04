@@ -13,6 +13,7 @@ export const watch = async (cwd: string) => {
   require("@graphql-codegen/typescript");
   require("@graphql-codegen/typescript-operations");
   require("@babel/code-frame");
+  require("graphql/validation");
 
   // not gonna respond to changes in the config because that would be a big peformance cost for practically no gain
   let rawConfig = await getRawConfig(cwd);
@@ -29,13 +30,17 @@ export const watch = async (cwd: string) => {
 
   while (true) {
     await getNext();
-    let { fsOperations, errors } = await getGeneratedTypes({
+    let config = {
       ...rawConfig,
       ...parseSchema(
         rawConfig.schema,
         await fs.readFile(rawConfig.schema, "utf8")
       ),
-    });
+    };
+    // we want to eagerly parse the schema so that the first change that someone makes
+    // to a fragment/operation happens quickly
+    config.schema();
+    let { fsOperations, errors } = await getGeneratedTypes(config);
     await Promise.all(
       fsOperations.map(async (operation) => {
         await applyFsOperation(operation);

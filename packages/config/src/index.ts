@@ -14,7 +14,7 @@ export class ConfigNotFoundError extends Error {}
 
 export type Config = {
   directory: string;
-  schema: GraphQLSchema;
+  schema: () => GraphQLSchema;
   scalars: Record<string, string>;
   addTypename: boolean;
   readonlyTypes: boolean;

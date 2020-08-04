@@ -46,7 +46,7 @@ export async function cachedGenerateIntrospectionResult(
     types = await fs.readFile(filename, "utf8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      return generateIntrospectionResult(config.schema, schemaHash, filename);
+      return generateIntrospectionResult(config.schema(), schemaHash, filename);
     }
     throw err;
   }
@@ -54,6 +54,6 @@ export async function cachedGenerateIntrospectionResult(
     !getDoesFileHaveIntegrity(types) ||
     parseTsGqlMeta(types).hash !== schemaHash
   ) {
-    return generateIntrospectionResult(config.schema, schemaHash, filename);
+    return generateIntrospectionResult(config.schema(), schemaHash, filename);
   }
 }

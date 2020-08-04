@@ -1,7 +1,5 @@
-import { buildSchema } from "graphql/utilities/buildASTSchema";
-import { buildClientSchema } from "graphql/utilities/buildClientSchema";
 import { version } from "graphql/version";
-import { GraphQLSchema } from "graphql/type/schema";
+import type { GraphQLSchema } from "graphql/type/schema";
 import crypto from "crypto";
 
 function hashSchema(input: string) {
@@ -14,15 +12,21 @@ function hashSchema(input: string) {
 
 let schemaCache: Record<
   string,
-  { schemaHash: string; schema: GraphQLSchema }
+  { schemaHash: string; schema: () => GraphQLSchema }
 > = {};
 
 export function parseSchema(filename: string, content: string) {
   let schemaHash = hashSchema(content);
   if (schemaCache[filename]?.schemaHash !== schemaHash) {
+    let schema: GraphQLSchema;
     schemaCache[filename] = {
       schemaHash,
-      schema: uncachedParseSchema(filename, content),
+      schema: () => {
+        if (!schema) {
+          schema = uncachedParseSchema(filename, content);
+        }
+        return schema;
+      },
     };
   }
   return schemaCache[filename];
@@ -30,8 +34,16 @@ export function parseSchema(filename: string, content: string) {
 
 function uncachedParseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
+    const {
+      buildSchema,
+    } = require("graphql/utilities/buildASTSchema") as typeof import("graphql/utilities/buildASTSchema");
+
     return buildSchema(content);
   }
+  const {
+    buildClientSchema,
+  } = require("graphql/utilities/buildClientSchema") as typeof import("graphql/utilities/buildClientSchema");
+
   let schema = JSON.parse(content);
   const unpackedSchemaJson = schema.data ? schema.data : schema;
   if (!unpackedSchemaJson.__schema) {

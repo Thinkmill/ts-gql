@@ -20,10 +20,13 @@ async function generateOperationTypes(
   let result = codegen({
     documents: [
       {
-        document: inlineIntoFirstOperationOrFragment(operation, config.schema),
+        document: inlineIntoFirstOperationOrFragment(
+          operation,
+          config.schema()
+        ),
       },
     ],
-    schemaAst: config.schema,
+    schemaAst: config.schema(),
     config: {},
     filename: "",
 

@@ -6,9 +6,6 @@ import type {
   SelectionSetNode,
   FieldNode,
 } from "graphql";
-import { GraphQLObjectType } from "graphql/type/definition";
-import { visit, visitWithTypeInfo } from "graphql/language/visitor";
-import { TypeInfo } from "graphql/utilities/TypeInfo";
 
 export function inlineIntoFirstOperationOrFragment(
   document: DocumentNode,
@@ -35,6 +32,9 @@ export function inlineIntoFirstOperationOrFragment(
     }
     fragmentsByName[x.name.value] = x;
   });
+  const {
+    visit,
+  } = require("graphql/language/visitor") as typeof import("graphql/language/visitor");
 
   visit(document, {
     FragmentSpread(node, key, parent) {
@@ -79,6 +79,15 @@ function removeUnnecessaryFragmentSpreads(
   document: DocumentNode,
   schema: GraphQLSchema
 ) {
+  const { TypeInfo } = require("graphql/utilities/TypeInfo") as typeof import("graphql/utilities/TypeInfo");
+  const {
+    visit,
+    visitWithTypeInfo,
+  } = require("graphql/language/visitor") as typeof import("graphql/language/visitor");
+  const {
+    GraphQLObjectType,
+  } = require("graphql/type/definition") as typeof import("graphql/type/definition");
+
   let typeInfo = new TypeInfo(schema);
 
   visit(

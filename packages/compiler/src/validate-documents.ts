@@ -1,9 +1,4 @@
 import type { ValidationRule, DocumentNode } from "graphql";
-import {
-  specifiedRules,
-  NoUnusedFragmentsRule,
-  validate,
-} from "graphql/validation";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import nodePath from "path";
 import * as fs from "fs-extra";
@@ -35,13 +30,6 @@ const FragmentNameValidationRule: ValidationRule = (context) => {
     },
   };
 };
-
-let fragmentDocumentRules = [
-  SkipNonFirstFragmentsRule,
-  FragmentNameValidationRule,
-].concat(specifiedRules.filter((x) => x !== NoUnusedFragmentsRule));
-
-let operationDocumentRules = [SkipNonFirstFragmentsRule].concat(specifiedRules);
 
 export type DocumentValidationCache = {
   [operationHash: string]: CompilerError[];
@@ -103,18 +91,35 @@ export function writeDocumentValidationCache(
   return fs.outputFile(cacheFilename, signed);
 }
 
+let rules: { operation: ValidationRule[]; fragment: ValidationRule[] };
+
 export function validateDocument(
   document: DocumentNode,
   filename: string,
   config: Config,
   loc: FullSourceLocation
 ) {
+  const {
+    specifiedRules,
+    NoUnusedFragmentsRule,
+    validate,
+  } = require("graphql/validation") as typeof import("graphql/validation");
+
+  if (!rules) {
+    rules = {
+      fragment: [SkipNonFirstFragmentsRule, FragmentNameValidationRule].concat(
+        specifiedRules.filter((x) => x !== NoUnusedFragmentsRule)
+      ),
+      operation: [SkipNonFirstFragmentsRule].concat(specifiedRules),
+    };
+  }
+
   return validate(
-    config.schema,
+    config.schema(),
     document,
     document.definitions[0].kind === "OperationDefinition"
-      ? operationDocumentRules
-      : fragmentDocumentRules
+      ? rules.operation
+      : rules.fragment
   ).map((err) => ({
     filename,
     message: err.message,

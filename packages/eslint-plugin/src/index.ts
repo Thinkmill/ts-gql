@@ -199,7 +199,11 @@ export const rules = {
                   config = getConfigSync(path.dirname(context.getFilename()));
                 }
 
-                const document = handleTemplateTag(node, report, config.schema);
+                const document = handleTemplateTag(
+                  node,
+                  report,
+                  config.schema()
+                );
                 if (document) {
                   checkDocument(
                     document,

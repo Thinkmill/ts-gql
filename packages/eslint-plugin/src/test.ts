@@ -17,13 +17,15 @@ let snapshotCreator = new SnapshotCreator({
   },
 });
 
+let builtSchema = buildSchema(schema);
+
 let testConfig: Config = {
   addTypename: true,
   directory: __dirname,
   readonlyTypes: true,
   scalars: {},
   schemaHash: "123",
-  schema: buildSchema(schema),
+  schema: () => builtSchema,
 };
 
 let fixturesPath = path.join(__dirname, "__fixtures__");

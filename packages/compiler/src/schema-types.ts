@@ -16,7 +16,7 @@ function generateSchemaTypes(
 ): FsOperation {
   let result = codegen({
     documents: [],
-    schemaAst: config.schema,
+    schemaAst: config.schema(),
     config: {},
     filename: "",
     plugins: [
