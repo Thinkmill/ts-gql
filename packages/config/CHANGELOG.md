@@ -1,5 +1,15 @@
 # @ts-gql/config
 
+## 0.7.0
+
+### Minor Changes
+
+- [`71f257e`](https://github.com/Thinkmill/ts-gql/commit/71f257e5ec9152b01bcb86aa06810a8d84e1441d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Change `schema` property of `Config` from having the `GraphQLSchema` to a function that returns the `GraphQLSchema`. This is so that the schema is not unnecessarily parsed when it doesn't need to be
+
+### Patch Changes
+
+- [`4e88d55`](https://github.com/Thinkmill/ts-gql/commit/4e88d551463c108fe30a609c24fa641e8f9ec88b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Only import necessary modules from `graphql`
+
 ## 0.6.0
 
 ### Minor Changes
