@@ -1,5 +1,14 @@
 # @ts-gql/compiler
 
+## 0.13.5
+
+### Patch Changes
+
+- [`4e88d55`](https://github.com/Thinkmill/ts-gql/commit/4e88d551463c108fe30a609c24fa641e8f9ec88b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Only import necessary modules from `graphql`
+
+- Updated dependencies [[`4e88d55`](https://github.com/Thinkmill/ts-gql/commit/4e88d551463c108fe30a609c24fa641e8f9ec88b), [`71f257e`](https://github.com/Thinkmill/ts-gql/commit/71f257e5ec9152b01bcb86aa06810a8d84e1441d)]:
+  - @ts-gql/config@0.7.0
+
 ## 0.13.4
 
 ### Patch Changes

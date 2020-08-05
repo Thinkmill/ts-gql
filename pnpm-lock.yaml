@@ -109,7 +109,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.6.0
+      '@ts-gql/config': ^0.7.0
       '@ts-gql/tag': ^0.5.2
       '@types/babel__code-frame': ^7.0.1
       '@types/fs-extra': ^8.1.0
@@ -153,7 +153,7 @@ importers:
       '@graphql-codegen/plugin-helpers': ^1.13.3
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
-      '@ts-gql/config': ^0.6.0
+      '@ts-gql/config': ^0.7.0
       '@ts-gql/tag': ^0.5.2
       '@typescript-eslint/experimental-utils': ^2.29.0
       '@typescript-eslint/parser': ^2.29.0
