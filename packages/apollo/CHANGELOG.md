@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.9.0
+
+### Minor Changes
+
+- [`636c08d`](https://github.com/Thinkmill/ts-gql/commit/636c08d8dac3d080343e6d80f6127bee79a97a1f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Type writeFragment, writeQuery, readQuery and readFragment correctly
+
 ## 0.8.1
 
 ### Patch Changes

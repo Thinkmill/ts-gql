@@ -48,7 +48,7 @@ importers:
     dependencies:
       '@ts-gql/tag': 'link:../tag'
     devDependencies:
-      '@apollo/client': 3.1.2
+      '@apollo/client': 3.1.2_graphql@14.6.0
       graphql: 14.6.0
     specifiers:
       '@apollo/client': ^3.1.2
@@ -200,7 +200,7 @@ importers:
       urql: 1.9.7_react@16.13.1
     specifiers:
       '@apollo/client': ^3.0.0-beta.43
-      '@ts-gql/apollo': ^0.8.0
+      '@ts-gql/apollo': ^0.9.0
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.13.4
       '@ts-gql/eslint-plugin': ^0.7.0
@@ -288,13 +288,14 @@ packages:
         optional: true
     resolution:
       integrity: sha512-ufE0QubCI6kP/BudcnV3AGZVgsN/ZJNWy70k6ZwcR8fnYWqPfjxW1aATTq8Ud54latHpO83UtKHVOHUQiClQOA==
-  /@apollo/client/3.1.2:
+  /@apollo/client/3.1.2_graphql@14.6.0:
     dependencies:
       '@types/zen-observable': 0.8.0
       '@wry/context': 0.5.2
       '@wry/equality': 0.2.0
       fast-json-stable-stringify: 2.1.0
-      graphql-tag: 2.11.0
+      graphql: 14.6.0
+      graphql-tag: 2.11.0_graphql@14.6.0
       hoist-non-react-statics: 3.3.2
       optimism: 0.12.1
       prop-types: 15.7.2
@@ -7231,7 +7232,9 @@ packages:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
     resolution:
       integrity: sha512-4FOv3ZKfA4WdOKJeHdz6B3F/vxBLSgmBcGeAFPf4n1F64ltJUvOOerNj0rsJxONQGdhUMynQIvd6LzB+1J5oKA==
-  /graphql-tag/2.11.0:
+  /graphql-tag/2.11.0_graphql@14.6.0:
+    dependencies:
+      graphql: 14.6.0
     dev: true
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
