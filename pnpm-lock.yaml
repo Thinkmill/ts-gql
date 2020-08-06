@@ -48,10 +48,10 @@ importers:
     dependencies:
       '@ts-gql/tag': 'link:../tag'
     devDependencies:
-      '@apollo/client': 3.0.0-beta.43_graphql@14.6.0
+      '@apollo/client': 3.1.2
       graphql: 14.6.0
     specifiers:
-      '@apollo/client': ^3.0.0-beta.43
+      '@apollo/client': ^3.1.2
       '@ts-gql/tag': ^0.5.0
       graphql: ^14.0.0
   packages/apollo-client-v2:
@@ -267,27 +267,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-S10YIyOKettoRDWoyRymRyjzWZD4/qW7YfHNhHAS13QVneabRcU5MF7vEwkG6dHWx/UdufT5GbqYnvpQRMNt3Q==
-  /@apollo/client/3.0.0-beta.43_graphql@14.6.0:
-    dependencies:
-      '@types/zen-observable': 0.8.0
-      '@wry/equality': 0.1.11
-      fast-json-stable-stringify: 2.1.0
-      graphql: 14.6.0
-      graphql-tag: 2.10.3_graphql@14.6.0
-      optimism: 0.11.5
-      symbol-observable: 1.2.0
-      ts-invariant: 0.4.4
-      tslib: 1.11.1
-      zen-observable: 0.8.15
-    dev: true
-    peerDependencies:
-      graphql: ^14.5.4
-      react: ^16.8.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-    resolution:
-      integrity: sha512-ufE0QubCI6kP/BudcnV3AGZVgsN/ZJNWy70k6ZwcR8fnYWqPfjxW1aATTq8Ud54latHpO83UtKHVOHUQiClQOA==
   /@apollo/client/3.0.0-beta.43_react@16.13.1:
     dependencies:
       '@types/zen-observable': 0.8.0
@@ -309,6 +288,30 @@ packages:
         optional: true
     resolution:
       integrity: sha512-ufE0QubCI6kP/BudcnV3AGZVgsN/ZJNWy70k6ZwcR8fnYWqPfjxW1aATTq8Ud54latHpO83UtKHVOHUQiClQOA==
+  /@apollo/client/3.1.2:
+    dependencies:
+      '@types/zen-observable': 0.8.0
+      '@wry/context': 0.5.2
+      '@wry/equality': 0.2.0
+      fast-json-stable-stringify: 2.1.0
+      graphql-tag: 2.11.0
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.12.1
+      prop-types: 15.7.2
+      symbol-observable: 1.2.0
+      ts-invariant: 0.4.4
+      tslib: 1.11.1
+      zen-observable: 0.8.15
+    dev: true
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0
+      react: ^16.8.0
+      subscriptions-transport-ws: ^0.9.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+    resolution:
+      integrity: sha512-GaA/J0CDSSNe0HVm1abeOIJA3M4fs9Ih7wF2z1AI2SLqv5TBLvwBxh0+0+jCSntPZ3gnDQvR7MHjmXota5V1LQ==
   /@apollo/protobufjs/1.0.3:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
@@ -4018,6 +4021,12 @@ packages:
       tslib: 1.11.1
     resolution:
       integrity: sha512-mwEVBDUVODlsQQ5dfuLUS5/Tf7jqUKyhKYHmVi4fPB6bDMOfWvUPJmKgS1Z7Za/sOI3vzWt4+O7yCiL/70MogA==
+  /@wry/equality/0.2.0:
+    dependencies:
+      tslib: 1.11.1
+    dev: true
+    resolution:
+      integrity: sha512-Y4d+WH6hs+KZJUC8YKLYGarjGekBrhslDbf/R20oV+AakHPINSitHfDRQz3EGcEWc1luXYNUvMhawWtZVWNGvQ==
   /@xtuc/ieee754/1.2.0:
     dev: false
     resolution:
@@ -7217,10 +7226,17 @@ packages:
   /graphql-tag/2.10.3_graphql@14.6.0:
     dependencies:
       graphql: 14.6.0
+    dev: false
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
     resolution:
       integrity: sha512-4FOv3ZKfA4WdOKJeHdz6B3F/vxBLSgmBcGeAFPf4n1F64ltJUvOOerNj0rsJxONQGdhUMynQIvd6LzB+1J5oKA==
+  /graphql-tag/2.11.0:
+    dev: true
+    peerDependencies:
+      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-VmsD5pJqWJnQZMUeRwrDhfgoyqcfwEkvtpANqcoUG8/tOLkwNgU9mzub/Mc78OJMhHjx7gfAMTxzdG43VGg3bA==
   /graphql-tools/4.0.8:
     dependencies:
       apollo-link: 1.2.14
@@ -7391,6 +7407,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YXXAAhmF9zpQbC7LEcREFtXfGq5K1fmd+4PHkBq8NUqmzW3G+Dq10bI/i0KucLRwss3YYFQ0fSfoxBZYiGUqtQ==
+  /hoist-non-react-statics/3.3.2:
+    dependencies:
+      react-is: 16.13.1
+    dev: true
+    resolution:
+      integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
   /hosted-git-info/2.8.8:
     dev: false
     resolution:
@@ -9490,8 +9512,15 @@ packages:
   /optimism/0.11.5:
     dependencies:
       '@wry/context': 0.5.2
+    dev: false
     resolution:
       integrity: sha512-twCHmBb64DYzEZ8A3O+TLCuF/RmZPBhXPQYv4agoiALRLlW9SidMzd7lwUP9mL0jOZhzhnBmb8ajqA00ECo/7g==
+  /optimism/0.12.1:
+    dependencies:
+      '@wry/context': 0.5.2
+    dev: true
+    resolution:
+      integrity: sha512-t8I7HM1dw0SECitBYAqFOVHoBAHEQBTeKjIL9y9ImHzAVkdyPK4ifTgM4VJRDtTUY4r/u5Eqxs4XcGPHaoPkeQ==
   /optionator/0.8.3:
     dependencies:
       deep-is: 0.1.3

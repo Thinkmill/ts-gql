@@ -7,6 +7,8 @@ import {
   BaseOperations,
   AllDocuments,
   BaseDocumentTypes,
+  BaseTypedFragment,
+  FragmentData,
 } from "@ts-gql/tag";
 import {
   QueryHookOptions as _QueryHookOptions,
@@ -14,10 +16,11 @@ import {
   MutationFunctionOptions,
   MutationResult,
   FetchPolicy,
-  MutationUpdaterFn,
   ErrorPolicy,
   MutationQueryReducersMap,
   ApolloClient,
+  Reference,
+  ApolloCache,
 } from "@apollo/client";
 import { ExecutionResult } from "graphql";
 
@@ -73,8 +76,11 @@ type MutationHookFuncOptions<
     OperationData<TTypedDocumentNode>,
     OperationVariables<TTypedDocumentNode>
   >,
-  "variables" | "refetchQueries"
-> & { refetchQueries?: RefetchQueryDescription<TTypedDocumentNode> };
+  "variables" | "refetchQueries" | "update"
+> & {
+  refetchQueries?: RefetchQueryDescription<TTypedDocumentNode>;
+  update?: MutationUpdaterFn<OperationData<TTypedDocumentNode>>;
+};
 
 type MutationTuple<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
@@ -185,7 +191,12 @@ type QueryFnOptions<
 
 export function useApolloClient(): Omit<
   ApolloClient<object>,
-  "mutate" | "query"
+  | "mutate"
+  | "query"
+  | "writeQuery"
+  | "readQuery"
+  | "writeFragment"
+  | "readFragment"
 > & {
   query<TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>>(
     options: QueryFnOptions<TTypedDocumentNode>
@@ -193,4 +204,65 @@ export function useApolloClient(): Omit<
   mutate<TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>>(
     options: MutationOptions<TTypedDocumentNode>
   ): Promise<FetchResult<OperationData<TTypedDocumentNode>>>;
+} & CacheReadersAndUpdaters;
+
+type FragmentCacheUpdateOptions<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedFragment>,
+  TVariables
+> = {
+  id?: string;
+  fragment: TTypedDocumentNode;
+  fragmentName?: string;
+  variables?: TVariables;
+};
+
+type QueryCacheUpdateOptions<
+  TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>
+> = {
+  query: TTypedDocumentNode;
+  id?: string;
+} & HasRequiredVariables<
+  TTypedDocumentNode,
+  { variables: OperationVariables<TTypedDocumentNode> },
+  { variables?: OperationVariables<TTypedDocumentNode> }
+>;
+
+type TSGQLApolloCache<TSerialized> = Omit<
+  ApolloCache<TSerialized>,
+  "writeQuery" | "readQuery" | "writeFragment" | "readFragment"
+> &
+  CacheReadersAndUpdaters;
+
+type MutationUpdaterFn<Result> = (
+  cache: TSGQLApolloCache<Result>,
+  mutationResult: FetchResult<Result>
+) => void;
+
+type CacheReadersAndUpdaters = {
+  readQuery<TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>>(
+    options: QueryCacheUpdateOptions<TTypedDocumentNode>,
+    optimistic?: boolean
+  ): OperationData<TTypedDocumentNode> | null;
+  readFragment<
+    TTypedDocumentNode extends TypedDocumentNode<BaseTypedFragment>,
+    TVariables = any
+  >(
+    options: FragmentCacheUpdateOptions<TTypedDocumentNode, TVariables>,
+    optimistic?: boolean
+  ): FragmentData<TTypedDocumentNode> | null;
+  writeQuery<TTypedDocumentNode extends TypedDocumentNode<BaseTypedQuery>>(
+    options: QueryCacheUpdateOptions<TTypedDocumentNode> & {
+      data: OperationData<TTypedDocumentNode>;
+      broadcast?: boolean;
+    }
+  ): Reference | undefined;
+  writeFragment<
+    TTypedDocumentNode extends TypedDocumentNode<BaseTypedFragment>,
+    TVariables = any
+  >(
+    options: FragmentCacheUpdateOptions<TTypedDocumentNode, TVariables> & {
+      data: FragmentData<TTypedDocumentNode>;
+      broadcast?: boolean;
+    }
+  ): Reference | undefined;
 };
