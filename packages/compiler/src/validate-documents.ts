@@ -3,6 +3,7 @@ import { GraphQLError } from "graphql/error/GraphQLError";
 import nodePath from "path";
 import * as fs from "fs-extra";
 import { Config } from "@ts-gql/config";
+import { lazyRequire } from "lazy-require.macro";
 import { locFromSourceAndGraphQLError, integrity } from "./utils";
 import { CompilerError, FullSourceLocation } from "./types";
 
@@ -99,11 +100,9 @@ export function validateDocument(
   config: Config,
   loc: FullSourceLocation
 ) {
-  const {
-    specifiedRules,
-    NoUnusedFragmentsRule,
-    validate,
-  } = require("graphql/validation") as typeof import("graphql/validation");
+  const { specifiedRules, NoUnusedFragmentsRule, validate } = lazyRequire<
+    typeof import("graphql/validation")
+  >();
 
   if (!rules) {
     rules = {

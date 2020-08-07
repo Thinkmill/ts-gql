@@ -3,6 +3,7 @@ import nodePath from "path";
 import type { FragmentDefinitionNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { visit } from "graphql/language/visitor";
+import { lazyRequire } from "lazy-require.macro";
 import slash from "slash";
 import globby from "globby";
 import { cachedGenerateSchemaTypes } from "./schema-types";
@@ -34,9 +35,9 @@ function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
   return async (error: CompilerError) => {
-    const {
-      codeFrameColumns,
-    } = require("@babel/code-frame") as typeof import("@babel/code-frame");
+    const { codeFrameColumns } = lazyRequire<
+      typeof import("@babel/code-frame")
+    >();
     let content = await readFile(error.filename);
     return (
       error.filename +

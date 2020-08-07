@@ -1,5 +1,6 @@
 import { version } from "graphql/version";
 import type { GraphQLSchema } from "graphql/type/schema";
+import { lazyRequire } from "lazy-require.macro";
 import crypto from "crypto";
 
 function hashSchema(input: string) {
@@ -34,15 +35,15 @@ export function parseSchema(filename: string, content: string) {
 
 function uncachedParseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
-    const {
-      buildSchema,
-    } = require("graphql/utilities/buildASTSchema") as typeof import("graphql/utilities/buildASTSchema");
+    const { buildSchema } = lazyRequire<
+      typeof import("graphql/utilities/buildASTSchema")
+    >();
 
     return buildSchema(content);
   }
-  const {
-    buildClientSchema,
-  } = require("graphql/utilities/buildClientSchema") as typeof import("graphql/utilities/buildClientSchema");
+  const { buildClientSchema } = lazyRequire<
+    typeof import("graphql/utilities/buildClientSchema")
+  >();
 
   let schema = JSON.parse(content);
   const unpackedSchemaJson = schema.data ? schema.data : schema;

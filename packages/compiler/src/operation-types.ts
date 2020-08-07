@@ -9,6 +9,7 @@ import {
 } from "./integrity";
 import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
+import { lazyRequire } from "lazy-require.macro";
 import { inlineIntoFirstOperationOrFragment } from "./inline-fragments";
 
 async function generateOperationTypes(
@@ -48,7 +49,9 @@ async function generateOperationTypes(
       },
     ],
     pluginMap: {
-      "typescript-operations": require("@graphql-codegen/typescript-operations"),
+      "typescript-operations": lazyRequire<
+        typeof import("@graphql-codegen/typescript-operations")
+      >(),
     },
   });
 

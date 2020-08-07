@@ -4,6 +4,7 @@ import { createWatcher } from "./watcher";
 import { getGeneratedTypes } from "./get-generated-types";
 import { parseSchema } from "@ts-gql/config";
 import { applyFsOperation } from "./fs-operations";
+import { lazyRequire } from "lazy-require.macro";
 
 // TODO: handle changes incrementally
 export const watch = async (cwd: string) => {
@@ -19,7 +20,7 @@ export const watch = async (cwd: string) => {
   let rawConfig = await getRawConfig(cwd);
 
   // we want to lazily require this so it doesn't add cost to doing a regular build
-  const chokidar: typeof import("chokidar") = require("chokidar");
+  const chokidar = lazyRequire<typeof import("chokidar")>();
 
   let getNext = createWatcher(
     chokidar.watch(["**/*.{ts,tsx}", rawConfig.schema], {

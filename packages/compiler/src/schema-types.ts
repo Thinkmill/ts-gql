@@ -8,6 +8,7 @@ import {
   getDoesFileHaveIntegrity,
 } from "./integrity";
 import { Config } from "@ts-gql/config";
+import { lazyRequire } from "lazy-require.macro";
 
 function generateSchemaTypes(
   config: Config,
@@ -35,7 +36,9 @@ function generateSchemaTypes(
         },
       },
     ],
-    pluginMap: { typescript: require("@graphql-codegen/typescript") },
+    pluginMap: {
+      typescript: lazyRequire<typeof import("@graphql-codegen/typescript")>(),
+    },
   });
 
   return {

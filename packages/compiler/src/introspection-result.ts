@@ -7,15 +7,16 @@ import {
   wrapFileInIntegrityComment,
 } from "./integrity";
 import { Config } from "@ts-gql/config";
+import { lazyRequire } from "lazy-require.macro";
 
 async function generateIntrospectionResult(
   schema: GraphQLSchema,
   schemaHash: string,
   filename: string
 ): Promise<FsOperation> {
-  const {
-    introspectionFromSchema,
-  } = require("graphql/utilities/introspectionFromSchema") as typeof import("graphql/utilities/introspectionFromSchema");
+  const { introspectionFromSchema } = lazyRequire<
+    typeof import("graphql/utilities/introspectionFromSchema")
+  >();
   const introspection = introspectionFromSchema(schema, {
     descriptions: false,
   });

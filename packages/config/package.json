@@ -6,7 +6,8 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "find-pkg-json-field-up": "^1.0.1"
+    "find-pkg-json-field-up": "^1.0.1",
+    "lazy-require.macro": "^0.1.0"
   },
   "peerDependencies": {
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
