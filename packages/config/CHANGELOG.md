@@ -1,5 +1,11 @@
 # @ts-gql/config
 
+## 0.7.1
+
+### Patch Changes
+
+- [`503d9c3`](https://github.com/Thinkmill/ts-gql/commit/503d9c361f32cb4855d017b7340c3b6db45d181b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Optimise lazy requires
+
 ## 0.7.0
 
 ### Minor Changes

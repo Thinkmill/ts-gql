@@ -114,7 +114,7 @@ importers:
       '@graphql-codegen/typescript': ^1.13.3
       '@graphql-codegen/typescript-operations': ^1.13.3
       '@nodelib/fs.walk': ^1.2.4
-      '@ts-gql/config': ^0.7.0
+      '@ts-gql/config': ^0.7.1
       '@ts-gql/tag': ^0.5.2
       '@types/babel__code-frame': ^7.0.1
       '@types/graceful-fs': ^4.1.3
