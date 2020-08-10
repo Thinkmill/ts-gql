@@ -9,7 +9,7 @@ importers:
       '@changesets/changelog-github': 0.2.5
       '@changesets/cli': 2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': 1.1.19
+      '@preconstruct/cli': 1.1.20
       '@ts-gql/eslint-plugin': 'link:packages/eslint-plugin'
       '@types/jest': 25.2.1
       '@typescript-eslint/eslint-plugin': 2.29.0_7859c92fd19b3421a32617b25b929851
@@ -32,7 +32,7 @@ importers:
       '@changesets/changelog-github': ^0.2.5
       '@changesets/cli': ^2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': ^1.1.19
+      '@preconstruct/cli': ^1.1.20
       '@ts-gql/eslint-plugin': '*'
       '@types/jest': ^25.2.1
       '@typescript-eslint/eslint-plugin': ^2.29.0
@@ -3319,11 +3319,11 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-1V9XOY4rDW0rehzbrcqAmHnz8e7SKvX27gh8Gt2WgB0+pdzdiLV83p72kZPU+jvMbS1qU5mauP2iOvO8rhmurQ==
-  /@preconstruct/cli/1.1.19:
+  /@preconstruct/cli/1.1.20:
     dependencies:
       '@babel/code-frame': 7.10.4
       '@babel/core': 7.9.6
-      '@babel/runtime': 7.9.2
+      '@babel/runtime': 7.11.2
       '@preconstruct/hook': 0.1.0
       '@rollup/plugin-alias': 3.1.0_rollup@1.32.1
       '@rollup/plugin-commonjs': 11.1.0_rollup@1.32.1
@@ -3348,7 +3348,7 @@ packages:
       npm-packlist: 2.1.1
       p-limit: 2.3.0
       parse-glob: 3.0.4
-      parse-json: 5.0.0
+      parse-json: 5.0.1
       quick-lru: 4.0.1
       resolve: 1.17.0
       resolve-from: 5.0.0
@@ -3359,7 +3359,7 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-ZFiTkjJr4hp2ZwlraRsB8IFbrDMfR/RLaZksE+7ftCeOJ/hY5BPSHoPJLbHv/cXvoMFSO4fMUZO0ZDDHBx2OMA==
+      integrity: sha512-KuP3TjFv0awIXCrLDqCTI5X5PhJLgGY+Hc8qdQKuElFpGWMaAWTFGsmyLcKKzc1CQ2lPYr8CH0i6gXItVjisKg==
   /@preconstruct/hook/0.1.0:
     dependencies:
       '@babel/core': 7.9.6
@@ -3623,7 +3623,7 @@ packages:
     dependencies:
       '@types/events': 3.0.0
       '@types/minimatch': 3.0.3
-      '@types/node': 13.13.2
+      '@types/node': 14.0.27
     dev: false
     resolution:
       integrity: sha512-1Bh06cbWJUHMC97acuD6UMG29nMt0Aqz1vF3guLfG+kHHJhy3AyohZFFxYk2f7Q1SQIrNwvncxAE0N/9s70F2w==
@@ -3776,7 +3776,7 @@ packages:
       integrity: sha512-PxshAFcnJqIWYpJbLPriClH53Z2WlJcVZE+NP2etUtWQs2s7yIMj3/LDKZT/5CHJ/F62iyjVCDu2H3jHEXIxSg==
   /@types/resolve/0.0.8:
     dependencies:
-      '@types/node': 13.13.2
+      '@types/node': 14.0.27
     dev: false
     resolution:
       integrity: sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
@@ -6760,19 +6760,6 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-g1KuQwHOZAmOZMuBtHdxDtju+T2RT8jgCC9aANsbpdiDDTSnjgfuVsIBNKbUeJI3oKMRExcfNDtJl4OhbffMsw==
-  /fast-glob/3.2.2:
-    dependencies:
-      '@nodelib/fs.stat': 2.0.3
-      '@nodelib/fs.walk': 1.2.4
-      glob-parent: 5.1.1
-      merge2: 1.3.0
-      micromatch: 4.0.2
-      picomatch: 2.2.2
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-UDV82o4uQyljznxwMxyVRJgZZt3O5wENYojjzbaGEGZgeOxkLFf+V4cnUD+krzb2F72E18RhamkMZ7AdeggF7A==
   /fast-glob/3.2.4:
     dependencies:
       '@nodelib/fs.stat': 2.0.3
@@ -7218,10 +7205,10 @@ packages:
       '@types/glob': 7.1.1
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.2
+      fast-glob: 3.2.4
       glob: 7.1.6
       ignore: 5.1.4
-      merge2: 1.3.0
+      merge2: 1.4.1
       slash: 3.0.0
     dev: false
     engines:
@@ -11036,7 +11023,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.44
-      '@types/node': 13.13.2
+      '@types/node': 14.0.27
       acorn: 7.1.1
     dev: false
     hasBin: true
