@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 
 export type FsOperation =
   | {
@@ -13,7 +13,7 @@ export type FsOperation =
 
 export async function applyFsOperation(operation: FsOperation) {
   if (operation.type === "remove") {
-    return fs.remove(operation.filename);
+    return fs.unlink(operation.filename);
   }
-  return fs.outputFile(operation.filename, operation.content);
+  return fs.writeFile(operation.filename, operation.content);
 }

@@ -1,5 +1,5 @@
-import { Node } from "@babel/types";
-import { parse as babelParse } from "@babel/parser";
+import type { Node } from "@babel/types";
+import { lazyRequire } from "lazy-require.macro";
 import { CompilerError, FullSourceLocation } from "./types";
 
 type BabelVisitors = {
@@ -43,7 +43,7 @@ export function extractGraphQLDocumentsContentsFromFile(
   }[] = [];
   if (/gql\s*`/.test(content)) {
     try {
-      let ast = babelParse(content, {
+      let ast = lazyRequire<typeof import("@babel/parser")>().parse(content, {
         allowImportExportEverywhere: true,
         allowReturnOutsideFunction: true,
         allowSuperOutsideMethod: true,

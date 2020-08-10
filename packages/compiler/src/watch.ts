@@ -1,8 +1,7 @@
-import * as fs from "fs-extra";
-import { getRawConfig } from "@ts-gql/config";
+import * as fs from "./fs";
+import { getRawConfig, parseSchema } from "@ts-gql/config";
 import { createWatcher } from "./watcher";
 import { getGeneratedTypes } from "./get-generated-types";
-import { parseSchema } from "@ts-gql/config";
 import { applyFsOperation } from "./fs-operations";
 import { lazyRequire } from "lazy-require.macro";
 

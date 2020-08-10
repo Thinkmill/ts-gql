@@ -1,11 +1,11 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 import nodePath from "path";
 import type { FragmentDefinitionNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { visit } from "graphql/language/visitor";
 import { lazyRequire } from "lazy-require.macro";
 import slash from "slash";
-import globby from "globby";
+import { walk as _walk, Settings } from "@nodelib/fs.walk";
 import { cachedGenerateSchemaTypes } from "./schema-types";
 import {
   cachedGenerateOperationTypes,
@@ -13,6 +13,7 @@ import {
 } from "./operation-types";
 import { FsOperation } from "./fs-operations";
 import { Config } from "@ts-gql/config";
+import { promisify } from "util";
 import { CompilerError, TSGQLDocument } from "./types";
 import { cachedGenerateIntrospectionResult } from "./introspection-result";
 import { locFromSourceAndGraphQLError, hashString } from "./utils";
@@ -31,6 +32,8 @@ function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
     return cache[arg];
   };
 }
+
+const walk = promisify(_walk);
 
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
@@ -52,6 +55,20 @@ function getPrintCompilerError() {
   };
 }
 
+type Dependencies = string | Dependencies[];
+
+let tsExtensionRegex = /\.tsx?$/;
+
+let dtsExtensionRegex = /\.d\.ts$/;
+
+const walkSettings = new Settings({
+  deepFilter: (entry) =>
+    !entry.path.includes("node_modules") &&
+    entry.path !== `__generated__${nodePath.sep}ts-gql`,
+  entryFilter: (entry) =>
+    tsExtensionRegex.test(entry.name) && !dtsExtensionRegex.test(entry.name),
+});
+
 export const getGeneratedTypes = async (config: Config) => {
   let generatedDirectory = nodePath.join(
     config.directory,
@@ -60,13 +77,11 @@ export const getGeneratedTypes = async (config: Config) => {
   );
 
   const files = (
-    await globby(["**/*.{ts,tsx}"], {
-      cwd: config.directory,
-      absolute: true,
-      expandDirectories: false,
-      ignore: ["**/node_modules/**", "__generated__/ts-gql/*", "**/*.d.ts"],
-    })
-  ).map((x) => slash(x));
+    await Promise.all([
+      walk(config.directory, walkSettings),
+      fs.mkdir(generatedDirectory, { recursive: true }),
+    ])
+  )[0].map((x) => slash(x.path));
 
   let { errors, documents } = await getDocuments(
     files,
@@ -156,47 +171,15 @@ export const getGeneratedTypes = async (config: Config) => {
   if (operation) {
     fsOperations.push(operation);
   }
-
-  let dependencies = Object.keys(uniqueDocumentsByName).reduce((obj, item) => {
-    obj[item] = [];
-    return obj;
-  }, {} as Record<string, string[]>);
-
-  for (let key in uniqueDocumentsByName) {
-    let { node } = uniqueDocumentsByName[key];
-    visit(node, {
-      FragmentSpread(node) {
-        let name = node.name.value;
-        if (
-          !uniqueDocumentsByName[name] ||
-          uniqueDocumentsByName[name].node.kind === "OperationDefinition"
-        ) {
-          errors.push({
-            message: `Fragment ${name} not found`,
-            filename: uniqueDocumentsByName[key].filename,
-            loc: locFromSourceAndGraphQLError(
-              uniqueDocumentsByName[key].loc,
-              new GraphQLError("Fragment", [node])
-            ),
-          });
-        } else {
-          dependencies[key].push(name);
-        }
-      },
-    });
-  }
-
+  const dependencies = getDependencies(uniqueDocumentsByName, errors);
   const documentValidationCache = await readDocumentValidationCache(config);
   const newDocumentValidationCache: DocumentValidationCache = {};
   await Promise.all(
     Object.keys(uniqueDocumentsByName).map(async (key) => {
       const documentInfo = uniqueDocumentsByName[key];
-      let nodes = [
-        documentInfo.node,
-        ...getFlatDependenciesForItem(dependencies, key).map(
-          (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
-        ),
-      ];
+      let nodes = [...new Set(dependencies[key].flat(Infinity))].map(
+        (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
+      );
 
       let document = {
         kind: "Document",
@@ -252,15 +235,37 @@ export const getGeneratedTypes = async (config: Config) => {
   };
 };
 
-function getFlatDependenciesForItem(
-  deps: Record<string, string[]>,
-  item: string
-): string[] {
-  return [
-    ...new Set<string>(
-      deps[item].concat(
-        ...deps[item].map((item) => getFlatDependenciesForItem(deps, item))
-      )
-    ),
-  ];
+function getDependencies(
+  uniqueDocumentsByName: Record<string, TSGQLDocument>,
+  errors: CompilerError[]
+) {
+  let dependencies: Record<string, Dependencies[]> = {};
+  Object.keys(uniqueDocumentsByName).forEach((item) => {
+    dependencies[item] = [item];
+  });
+
+  for (let key in uniqueDocumentsByName) {
+    let { node } = uniqueDocumentsByName[key];
+    visit(node, {
+      FragmentSpread(node) {
+        let name = node.name.value;
+        if (
+          !uniqueDocumentsByName[name] ||
+          uniqueDocumentsByName[name].node.kind === "OperationDefinition"
+        ) {
+          errors.push({
+            message: `Fragment ${name} not found`,
+            filename: uniqueDocumentsByName[key].filename,
+            loc: locFromSourceAndGraphQLError(
+              uniqueDocumentsByName[key].loc,
+              new GraphQLError("Fragment", [node])
+            ),
+          });
+        } else {
+          dependencies[key].push(dependencies[name]);
+        }
+      },
+    });
+  }
+  return dependencies;
 }

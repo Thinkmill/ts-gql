@@ -1,7 +1,7 @@
 import type { ValidationRule, DocumentNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import nodePath from "path";
-import * as fs from "fs-extra";
+import * as fs from "./fs";
 import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
 import { locFromSourceAndGraphQLError, integrity } from "./utils";
@@ -89,7 +89,7 @@ export function writeDocumentValidationCache(
     2
   );
   let signed = integrity.sign(stringified);
-  return fs.outputFile(cacheFilename, signed);
+  return fs.writeFile(cacheFilename, signed);
 }
 
 let rules: { operation: ValidationRule[]; fragment: ValidationRule[] };

@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 import path from "path";
 import { codegen } from "./codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";

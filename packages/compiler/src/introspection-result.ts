@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 import type { GraphQLSchema } from "graphql";
 import { parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";

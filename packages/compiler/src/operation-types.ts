@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 import type { DocumentNode } from "graphql";
 import { codegen } from "./codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";

@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import * as fs from "./fs";
 import type { DocumentNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { parse } from "graphql/language/parser";
@@ -65,7 +65,7 @@ function writeDocumentExtractionCache(
     2
   );
   let signed = integrity.sign(stringified);
-  return fs.outputFile(cacheFilename, signed);
+  return fs.writeFile(cacheFilename, signed);
 }
 
 export async function getDocuments(files: string[], cacheFilename: string) {
