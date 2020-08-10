@@ -20,9 +20,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: |
-            ~/.pnpm-store
-            node_modules
+          path: ~/.pnpm-store
           key: pnpm-v5-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: pnpm-v5-ubuntu-latest-
 
@@ -56,11 +54,9 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: pnpm-v5-${{ matrix.platform }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-v5-${{ matrix.platform }}-
+          path: ~/.pnpm-store
+          key: pnpm-${{ matrix.platform }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ matrix.platform }}-
 
       - name: Install pnpm
         run: npm i -g pnpm

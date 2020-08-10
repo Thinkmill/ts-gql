@@ -22,11 +22,9 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-
+          path: ~/.pnpm-store
+          key: pnpm-v5-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-v5-ubuntu-latest
 
       - name: Install pnpm
         run: npm i -g pnpm@4
@@ -38,7 +36,7 @@ jobs:
         uses: changesets/action@master
         with:
           publish: pnpm run release
-          version: npm run version
+          version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
