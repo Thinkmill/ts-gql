@@ -14,7 +14,7 @@
     "@changesets/changelog-github": "^0.2.5",
     "@changesets/cli": "^2.10.0",
     "@manypkg/cli": "0.12.0",
-    "@preconstruct/cli": "^1.1.20",
+    "@preconstruct/cli": "^1.1.21",
     "@ts-gql/eslint-plugin": "*",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",

@@ -9,7 +9,7 @@ importers:
       '@changesets/changelog-github': 0.2.5
       '@changesets/cli': 2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': 1.1.20
+      '@preconstruct/cli': 1.1.21
       '@ts-gql/eslint-plugin': 'link:packages/eslint-plugin'
       '@types/jest': 25.2.1
       '@typescript-eslint/eslint-plugin': 2.29.0_7859c92fd19b3421a32617b25b929851
@@ -32,7 +32,7 @@ importers:
       '@changesets/changelog-github': ^0.2.5
       '@changesets/cli': ^2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': ^1.1.20
+      '@preconstruct/cli': ^1.1.21
       '@ts-gql/eslint-plugin': '*'
       '@types/jest': ^25.2.1
       '@typescript-eslint/eslint-plugin': ^2.29.0
@@ -3319,12 +3319,12 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-1V9XOY4rDW0rehzbrcqAmHnz8e7SKvX27gh8Gt2WgB0+pdzdiLV83p72kZPU+jvMbS1qU5mauP2iOvO8rhmurQ==
-  /@preconstruct/cli/1.1.20:
+  /@preconstruct/cli/1.1.21:
     dependencies:
       '@babel/code-frame': 7.10.4
       '@babel/core': 7.9.6
       '@babel/runtime': 7.11.2
-      '@preconstruct/hook': 0.1.0
+      '@preconstruct/hook': 0.2.0
       '@rollup/plugin-alias': 3.1.0_rollup@1.32.1
       '@rollup/plugin-commonjs': 11.1.0_rollup@1.32.1
       '@rollup/plugin-json': 4.0.3_rollup@1.32.1
@@ -3359,8 +3359,8 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-KuP3TjFv0awIXCrLDqCTI5X5PhJLgGY+Hc8qdQKuElFpGWMaAWTFGsmyLcKKzc1CQ2lPYr8CH0i6gXItVjisKg==
-  /@preconstruct/hook/0.1.0:
+      integrity: sha512-+WEBAVQdKpMRTkVaRJBoA0XfkxymF+60K/logLNRnU03gl+b00iICAXNNTkdyp1kdsDVgdO5Pr7y3BQcHVrZ/w==
+  /@preconstruct/hook/0.2.0:
     dependencies:
       '@babel/core': 7.9.6
       '@babel/plugin-transform-modules-commonjs': 7.10.4_@babel+core@7.9.6
@@ -3368,7 +3368,7 @@ packages:
       source-map-support: 0.5.18
     dev: false
     resolution:
-      integrity: sha512-d9wGFZmxZF/SH9xFhUy9bYZxcg+JQamc0xQw6IFgbw6BMwqQNoB06mDoY/1o+s+GhDPuWLv+7jRyvWkbsib9fQ==
+      integrity: sha512-UCljUefuEEhGMZ/mnpB0YC4UIP5vGTRy7Xdm7urjIOLiKH4nd0bNkW0J1wT+zFyeeqm6ISChIQFcf/2JN50Yxg==
   /@protobufjs/aspromise/1.1.2:
     dev: false
     resolution:
