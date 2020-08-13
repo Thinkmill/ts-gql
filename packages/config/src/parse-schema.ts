@@ -1,6 +1,8 @@
 import { version } from "graphql/version";
 import type { GraphQLSchema } from "graphql/type/schema";
 import { lazyRequire } from "lazy-require.macro";
+import { parse } from "graphql/language/parser";
+import { GraphQLError } from "graphql/error/GraphQLError";
 import crypto from "crypto";
 
 function hashSchema(input: string) {
@@ -33,13 +35,31 @@ export function parseSchema(filename: string, content: string) {
   return schemaCache[filename];
 }
 
+export class BatchGraphQLError extends Error {
+  errors: GraphQLError[];
+  constructor(errors: GraphQLError[]) {
+    super(
+      "There are validation errors in your GraphQL schema. If you're seeing this, there's likely a bug in ts-gql's error printing."
+    );
+    this.errors = errors;
+  }
+}
+
 function uncachedParseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
-    const { buildSchema } = lazyRequire<
+    const ast = parse(content);
+    const { validateSDL } = lazyRequire<
+      typeof import("graphql/validation/validate")
+    >();
+    const validationErrors = validateSDL(ast);
+    if (validationErrors.length) {
+      throw new BatchGraphQLError(validationErrors);
+    }
+    const { buildASTSchema } = lazyRequire<
       typeof import("graphql/utilities/buildASTSchema")
     >();
 
-    return buildSchema(content);
+    return buildASTSchema(ast, { assumeValidSDL: true });
   }
   const { buildClientSchema } = lazyRequire<
     typeof import("graphql/utilities/buildClientSchema")

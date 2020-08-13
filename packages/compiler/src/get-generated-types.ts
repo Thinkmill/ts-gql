@@ -6,7 +6,10 @@ import { visit } from "graphql/language/visitor";
 import { lazyRequire } from "lazy-require.macro";
 import slash from "slash";
 import { walk as _walk, Settings } from "@nodelib/fs.walk";
-import { cachedGenerateSchemaTypes } from "./schema-types";
+import {
+  cachedGenerateSchemaTypes,
+  ThrowableCompilerErrorSet,
+} from "./schema-types";
 import {
   cachedGenerateOperationTypes,
   cachedGenerateErrorModuleFsOperation,
@@ -44,6 +47,9 @@ function getPrintCompilerError() {
     let content = await readFile(error.filename);
     return (
       error.filename +
+      (error.loc
+        ? ":" + error.loc.start.line + ":" + error.loc.start.column
+        : "") +
       "\n" +
       (error.loc
         ? codeFrameColumns(content, error.loc, {
@@ -157,10 +163,22 @@ export const getGeneratedTypes = async (config: Config) => {
     }
   }
 
-  let schemaOperation = await cachedGenerateSchemaTypes(config);
+  try {
+    let schemaOperation = await cachedGenerateSchemaTypes(config);
 
-  if (schemaOperation) {
-    fsOperations.push(schemaOperation);
+    if (schemaOperation) {
+      fsOperations.push(schemaOperation);
+    }
+  } catch (err) {
+    if (err instanceof ThrowableCompilerErrorSet) {
+      return {
+        fsOperations: [],
+        errors: await Promise.all(
+          err.compilerErrors.map((x) => printCompilerError(x))
+        ),
+      };
+    }
+    throw err;
   }
 
   let operation = await cachedGenerateIntrospectionResult(

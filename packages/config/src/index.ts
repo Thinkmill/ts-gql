@@ -6,24 +6,20 @@ import {
 } from "find-pkg-json-field-up";
 import fs from "fs";
 import { promisify } from "util";
-import { parseSchema } from "./parse-schema";
+import { parseSchema, BatchGraphQLError } from "./parse-schema";
 
-export { parseSchema };
+export { parseSchema, BatchGraphQLError };
 
 export class ConfigNotFoundError extends Error {}
 
 export type Config = {
-  directory: string;
-  schema: () => GraphQLSchema;
-  scalars: Record<string, string>;
-  addTypename: boolean;
-  readonlyTypes: boolean;
+  schema: () => GraphLSchema;
   schemaHash: string;
-};
+} & RawConfig;
 
 export type RawConfig = {
   directory: string;
-  schema: string;
+  schemaFilename: string;
   scalars: Record<string, string>;
   addTypename: boolean;
   readonlyTypes: boolean;
@@ -43,7 +39,7 @@ function parseFieldToConfig({
     typeof field.schema === "string"
   ) {
     return {
-      schema: path.resolve(directory, field.schema),
+      schemaFilename: path.resolve(directory, field.schema),
       directory,
       scalars: field.scalars || {},
       addTypename: field.addTypename ?? true,
@@ -65,18 +61,18 @@ const readFile = promisify(fs.readFile);
 
 export async function getConfig(cwd: string): Promise<Config> {
   let config = await getRawConfig(cwd);
-  let schemaContents = await readFile(config.schema, "utf8");
+  let schemaContents = await readFile(config.schemaFilename, "utf8");
   return {
     ...config,
-    ...parseSchema(config.schema, schemaContents),
+    ...parseSchema(config.schemaFilename, schemaContents),
   };
 }
 
 export function getConfigSync(cwd: string): Config {
   let config = getRawConfigSync(cwd);
-  let schemaContents = fs.readFileSync(config.schema, "utf8");
+  let schemaContents = fs.readFileSync(config.schemaFilename, "utf8");
   return {
     ...config,
-    ...parseSchema(config.schema, schemaContents),
+    ...parseSchema(config.schemaFilename, schemaContents),
   };
 }

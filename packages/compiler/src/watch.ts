@@ -22,7 +22,7 @@ export const watch = async (cwd: string) => {
   const chokidar = lazyRequire<typeof import("chokidar")>();
 
   let getNext = createWatcher(
-    chokidar.watch(["**/*.{ts,tsx}", rawConfig.schema], {
+    chokidar.watch(["**/*.{ts,tsx}", rawConfig.schemaFilename], {
       cwd: rawConfig.directory,
       ignored: ["**/node_modules/**"],
     })
@@ -33,13 +33,16 @@ export const watch = async (cwd: string) => {
     let config = {
       ...rawConfig,
       ...parseSchema(
-        rawConfig.schema,
-        await fs.readFile(rawConfig.schema, "utf8")
+        rawConfig.schemaFilename,
+        await fs.readFile(rawConfig.schemaFilename, "utf8")
       ),
     };
     // we want to eagerly parse the schema so that the first change that someone makes
     // to a fragment/operation happens quickly
-    config.schema();
+    // we're ignoring errors here though because they're handled in getGeneratedTypes
+    try {
+      config.schema();
+    } catch (err) {}
     let { fsOperations, errors } = await getGeneratedTypes(config);
     await Promise.all(
       fsOperations.map(async (operation) => {

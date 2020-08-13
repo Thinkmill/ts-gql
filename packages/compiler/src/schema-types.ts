@@ -9,12 +9,53 @@ import {
 } from "./integrity";
 import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
+import { GraphQLError } from "graphql/error/GraphQLError";
+import { CompilerError } from "./types";
+import { BatchGraphQLError } from "@ts-gql/config/src/parse-schema";
+
+export class ThrowableCompilerErrorSet extends Error {
+  compilerErrors: CompilerError[];
+  constructor(compilerErrors: CompilerError[]) {
+    super(
+      "A ts-gql compiler error occurred. If you're seeing this, there's likely a bug in ts-gql's error printing"
+    );
+    this.compilerErrors = compilerErrors;
+  }
+}
 
 function generateSchemaTypes(
   config: Config,
   filename: string,
   schemaHash: string
 ): FsOperation {
+  try {
+    config.schema();
+  } catch (err) {
+    if (err instanceof BatchGraphQLError) {
+      throw new ThrowableCompilerErrorSet(
+        err.errors.map((err) => ({
+          filename: config.schemaFilename,
+          message: err.message,
+          loc: err.locations?.[0] ? { start: err.locations[0] } : undefined,
+        }))
+      );
+    }
+    if (err instanceof GraphQLError) {
+      throw new ThrowableCompilerErrorSet([
+        {
+          filename: config.schemaFilename,
+          message: err.message,
+          loc: err.locations?.[0] ? { start: err.locations[0] } : undefined,
+        },
+      ]);
+    }
+    throw new ThrowableCompilerErrorSet([
+      {
+        filename: config.schemaFilename,
+        message: err.toString(),
+      },
+    ]);
+  }
   let result = codegen({
     documents: [],
     schemaAst: config.schema(),
