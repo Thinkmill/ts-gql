@@ -13,7 +13,7 @@ export { parseSchema, BatchGraphQLError };
 export class ConfigNotFoundError extends Error {}
 
 export type Config = {
-  schema: () => GraphLSchema;
+  schema: () => GraphQLSchema;
   schemaHash: string;
 } & RawConfig;
 
