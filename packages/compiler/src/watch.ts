@@ -28,8 +28,19 @@ export const watch = async (cwd: string) => {
     })
   );
 
+  let lastPrintedErrors: string[] | undefined;
+  let shouldPrintStartMessage = true;
   while (true) {
     await getNext();
+
+    if (shouldPrintStartMessage) {
+      console.log("Started ts-gql watch");
+      console.log(
+        "══════════════════════════════════════════════════════════════════════════"
+      );
+      shouldPrintStartMessage = false;
+    }
+
     let config = {
       ...rawConfig,
       ...parseSchema(
@@ -44,20 +55,29 @@ export const watch = async (cwd: string) => {
       config.schema();
     } catch (err) {}
     let { fsOperations, errors } = await getGeneratedTypes(config);
-    await Promise.all(
-      fsOperations.map(async (operation) => {
-        await applyFsOperation(operation);
-        if (operation.type === "output") {
-          console.log(`updated ${operation.filename}`);
-        } else {
-          console.log(`removed ${operation.filename}`);
-        }
-      })
-    );
-    if (errors.length) {
+    await Promise.all(fsOperations.map(applyFsOperation));
+    let willPrintErrors =
+      errors.length &&
+      (lastPrintedErrors === undefined ||
+        lastPrintedErrors.length !== errors.length ||
+        errors.some((x, i) => lastPrintedErrors![i] !== x));
+    if (fsOperations.length) {
+      console.error(
+        `Updated ${fsOperations.length} file${
+          fsOperations.length === 1 ? "" : "s"
+        }`
+      );
+    }
+
+    if (willPrintErrors) {
       for (let error of errors) {
         console.error(error);
       }
     }
+    lastPrintedErrors = errors;
+    if (willPrintErrors || fsOperations.length)
+      console.log(
+        "══════════════════════════════════════════════════════════════════════════"
+      );
   }
 };
