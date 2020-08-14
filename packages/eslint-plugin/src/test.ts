@@ -25,6 +25,7 @@ let testConfig: Config = {
   readonlyTypes: true,
   scalars: {},
   schemaHash: "123",
+  schemaFilename: "schema.graphql",
   schema: () => builtSchema,
 };
 
