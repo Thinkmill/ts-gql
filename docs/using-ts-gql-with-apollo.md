@@ -69,7 +69,7 @@ Before we continue, make sure that you have your dev server running(assuming tha
 
 Now we can use `useQuery` from `@ts-gql/apollo` to do the actual data fetching.
 
-```tsx
+```jsx
 import { gql } from "@ts-gql/tag";
 import { useQuery } from "@ts-gql/apollo";
 
@@ -101,7 +101,7 @@ We're also checking `error` _before_ we check `data`. If we did it in the opposi
 
 Now we can actually use the data
 
-```tsx
+```jsx
 import { gql } from "@ts-gql/tag";
 import { useQuery } from "@ts-gql/apollo";
 
@@ -142,7 +142,7 @@ const PostListPage = () => {
 
 Now let's imagine our post list does a bit more and we want to reuse it around our app. We're going to build a component for it and define it's data dependency with a fragment.
 
-```tsx
+```jsx
 import { gql } from "@ts-gql/tag";
 
 const fragment = gql`
@@ -161,7 +161,7 @@ Note that we're calling the fragment `PostList_posts` because it will be for a c
 
 Next, we'll want to define the props that our component accepts
 
-```tsx
+```jsx
 import { gql, FragmentData } from "@ts-gql/tag";
 
 const fragment = gql`
@@ -186,7 +186,7 @@ There's quite a few TypeScript things going on here so let's go through them:
 
 Now that we've got our prop types, we can define our actual component.
 
-```tsx
+```jsx
 import { gql, FragmentData } from "@ts-gql/tag";
 
 const fragment = gql`
@@ -221,7 +221,7 @@ export const PostList = (props: PostListProps) => {
 
 Now let's go back to our page component, and use our new component. We need to spread the fragment and then use our component and pass in the posts.
 
-```tsx
+```jsx
 import { gql } from "@ts-gql/tag";
 import { useQuery } from "@ts-gql/apollo";
 import { PostList } from "./PostList";
