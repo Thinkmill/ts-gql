@@ -133,7 +133,7 @@ This was the original plan! It's been abandoned though for a couple reasons:
 - Build time performance
   - Requiring type checking before you can generate types makes things _much_ slower
     - This is compounded by the fact that you not only have to do type checking but you have to do type checking n times where n is the maximum fragment depth. Because we want to encourage the use of fragments, a tool that gets significantly slower as you use more fragments would make it impractical to use fragments
-- Having to either not have Prettier work for documents with fragment interpolations(because Prettier will not format interpolations in GraphQL documents unless they are outside of the content of the document so you couldn't interpolate a fragment where it's used) or still have to name it and there(unless you added a syntax for renaming fragments at which point, I would say that that's way more complexity)
+- Having to either not have Prettier work for documents with fragment interpolations(because Prettier will not format interpolations in GraphQL documents unless they are outside of the content of the document so you couldn't interpolate a fragment where it's used) or still have to name it and then you'd still have the potential for name conflicts(unless you added a syntax for renaming fragments at which point, I would say that that's way more complexity without a substantial gain)
 - Not allowing interpolation makes it very very clear what you can and can't do. Even if we allowed interpolations, they would be constrained which is a very difficult thing to explain.
 - Apollo already doesn't allow non-unique names anyway for their tooling anyway
 - TODO: there are more reasons
