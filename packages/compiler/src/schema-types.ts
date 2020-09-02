@@ -11,7 +11,7 @@ import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { CompilerError } from "./types";
-import { BatchGraphQLError } from "@ts-gql/config/src/parse-schema";
+import { BatchGraphQLError } from "@ts-gql/config";
 
 export class ThrowableCompilerErrorSet extends Error {
   compilerErrors: CompilerError[];
