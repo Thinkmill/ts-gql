@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.5.3
+
+### Patch Changes
+
+- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@^15.0.0`
+
 ## 0.5.2
 
 ### Patch Changes

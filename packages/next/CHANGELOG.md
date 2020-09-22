@@ -1,5 +1,14 @@
 # @ts-gql/next
 
+## 15.0.0
+
+### Patch Changes
+
+- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@^15.0.0`
+
+- Updated dependencies [[`3b426f3`](https://github.com/Thinkmill/ts-gql/commit/3b426f3ca4124ffc63f25cb79dab639d5b7db7a1), [`b7e2775`](https://github.com/Thinkmill/ts-gql/commit/b7e2775618dc8ffbf320a02c01706a97933c7458), [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8)]:
+  - @ts-gql/compiler@0.14.0
+
 ## 14.0.0
 
 ### Major Changes

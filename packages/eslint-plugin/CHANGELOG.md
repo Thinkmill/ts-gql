@@ -1,5 +1,14 @@
 # @ts-gql/eslint-plugin
 
+## 0.7.2
+
+### Patch Changes
+
+- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@^15.0.0`
+
+- Updated dependencies [[`603c9ed`](https://github.com/Thinkmill/ts-gql/commit/603c9ed186377c8de4517a8371aec08b45a3a425), [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8)]:
+  - @ts-gql/config@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes

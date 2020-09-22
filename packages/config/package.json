@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/config",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "main": "dist/config.cjs.js",
   "module": "dist/config.esm.js",
   "license": "MIT",
