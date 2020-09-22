@@ -134,6 +134,7 @@ importers:
       '@babel/runtime': 7.9.2
       find-pkg-json-field-up: 1.0.1
       lazy-require.macro: 0.1.0
+      superstruct: 0.10.12
     devDependencies:
       graphql: 14.6.0
     specifiers:
@@ -141,6 +142,7 @@ importers:
       find-pkg-json-field-up: ^1.0.1
       graphql: ^14.0.0
       lazy-require.macro: ^0.1.0
+      superstruct: ^0.10.12
   packages/eslint-plugin:
     dependencies:
       '@babel/runtime': 7.9.2
@@ -11764,6 +11766,10 @@ packages:
       graphql: ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.1 || ^14.0.2
     resolution:
       integrity: sha512-pQdoU7nC+EpStXnCfh/+ho0zE0Z+ma+i7xvj7bkXKb1dvYHSZxgRPaU6spRP+Bjzow67c/rRDoix5RT0uU9omw==
+  /superstruct/0.10.12:
+    dev: false
+    resolution:
+      integrity: sha512-FiNhfegyytDI0QxrrEoeGknFM28SnoHqCBpkWewUm8jRNj74NVxLpiiePvkOo41Ze/aKMSHa/twWjNF81mKaQQ==
   /supports-color/2.0.0:
     dev: false
     engines:

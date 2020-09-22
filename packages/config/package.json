@@ -7,10 +7,11 @@
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "find-pkg-json-field-up": "^1.0.1",
-    "lazy-require.macro": "^0.1.0"
+    "lazy-require.macro": "^0.1.0",
+    "superstruct": "^0.10.12"
   },
   "peerDependencies": {
-    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
   },
   "devDependencies": {
     "graphql": "^14.0.0"
