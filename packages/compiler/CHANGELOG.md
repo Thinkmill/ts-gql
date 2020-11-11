@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.14.1
+
+### Patch Changes
+
+- [`3c0b9c4`](https://github.com/Thinkmill/ts-gql/commit/3c0b9c42a7293fdd2bb80c88761de22324cabeb1) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix watcher crashing on a syntax error
+
 ## 0.14.0
 
 ### Minor Changes
