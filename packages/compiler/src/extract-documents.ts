@@ -88,7 +88,18 @@ export function extractGraphQLDocumentsContentsFromFile(
         },
       });
     } catch (err) {
-      errors.push({ message: err.message, loc: err.loc, filename });
+      if (typeof err.loc?.line === "number") {
+        errors.push({
+          filename,
+          message: err.message.replace(
+            ` (${err.loc.line}:${err.loc.column})`,
+            ""
+          ),
+          loc: { start: err.loc },
+        });
+      } else {
+        errors.push({ filename, message: err.message });
+      }
     }
   }
   return { errors, documents };
