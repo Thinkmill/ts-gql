@@ -145,15 +145,15 @@ export const getGeneratedTypes = async (config: Config) => {
   );
 
   try {
-    let generatedDirectoryFiles = (await fs.readdir(generatedDirectory))
-      .filter((x) => !x.startsWith("@"))
-      .map((x) => x.replace(/\.ts$/, ""));
+    let generatedDirectoryFiles = (await fs.readdir(generatedDirectory)).filter(
+      (x) => !x.startsWith("@")
+    );
 
     for (let name of generatedDirectoryFiles) {
-      if (allDocumentsByName[name] === undefined) {
+      if (allDocumentsByName[name.replace(/\.ts$/, "")] === undefined) {
         fsOperations.push({
           type: "remove",
-          filename: nodePath.join(generatedDirectory, name + ".ts"),
+          filename: nodePath.join(generatedDirectory, name),
         });
       }
     }
