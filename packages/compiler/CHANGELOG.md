@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.14.2
+
+### Patch Changes
+
+- [`361dc86`](https://github.com/Thinkmill/ts-gql/commit/361dc8689ac035d0d14c8cd6a47f0c1d15c889e8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix removing of files in `__generated__/ts-gql` for files that don't end in `.ts`
+
 ## 0.14.1
 
 ### Patch Changes
