@@ -30,23 +30,31 @@ type InferValueFromInputTypeWithoutAddingNull<
 > = Type extends ScalarType<infer Value>
   ? Value
   : Type extends List<infer Value>
-  ? readonly InferValueFromInputType<Value>[]
+  ? // TODO: remove the need for this conditional
+    Value extends InputType
+    ? readonly InferValueFromInputType<Value>[]
+    : never
   : Type extends InputObject<infer Fields>
   ? {
-      readonly [Key in keyof Fields]:
-        | InferValueFromInputType<Fields[Key]["type"]>
-        | ("non-null" extends Fields[Key]["type"]["kind"]
-            ? never
-            : undefined extends Fields[Key]["defaultValue"]
-            ? undefined
-            : never);
+      readonly [Key in keyof Fields]: InferValueFromArg<Fields[Key]>;
     }
   : never;
+
+export type InferValueFromArg<TArg extends Arg<any>> =
+  | InferValueFromInputType<TArg["type"]>
+  | ("non-null" extends TArg["type"]["kind"]
+      ? never
+      : undefined extends TArg["defaultValue"]
+      ? undefined
+      : never);
 
 export type InferValueFromInputType<
   Type extends InputType
 > = Type extends NonNull<infer Value>
-  ? InferValueFromInputTypeWithoutAddingNull<Value>
+  ? // TODO: remove the need for this conditional
+    Value extends InputType
+    ? InferValueFromInputTypeWithoutAddingNull<Value>
+    : never
   : InferValueFromInputTypeWithoutAddingNull<Type> | null;
 
 export type InputObject<
@@ -59,9 +67,9 @@ export type InputObject<
   graphQLType: GraphQLInputObjectType;
 };
 
-type Arg<
+export type Arg<
   Type extends InputType,
-  DefaultValue extends InferValueFromInputType<Type> | undefined
+  DefaultValue extends InferValueFromInputType<Type> | undefined = undefined
 > = {
   type: Type;
   description?: string;
