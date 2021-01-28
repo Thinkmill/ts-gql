@@ -1,5 +1,5 @@
 import { expectType } from "tsd";
-import { types } from ".";
+import { types } from "./packages/schema/src";
 
 const Something = types.inputObject({
   name: "Something",

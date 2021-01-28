@@ -6,8 +6,7 @@
   "module": "dist/schema.esm.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.9.2",
-    "tsd": "^0.14.0"
+    "@babel/runtime": "^7.9.2"
   },
   "peerDependencies": {
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
