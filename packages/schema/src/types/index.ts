@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLNonNull, GraphQLNullableType } from "graphql";
 import { InputObject } from "./input";
-import { ObjectType } from "./output";
+import { ObjectType, Union } from "./output";
 import { ScalarType } from "./scalars";
 export * as scalars from "./scalars";
 export * from "./input";
@@ -36,7 +36,8 @@ export type TypesExcludingNonNull =
   | ScalarType<any>
   | List<any>
   | InputObject<any>
-  | ObjectType<any>;
+  | ObjectType<any, string>
+  | Union<ObjectType<any, string>>;
 
 export type Types =
   | TypesExcludingNonNull
