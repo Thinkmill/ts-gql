@@ -10,7 +10,7 @@ importers:
       '@changesets/cli': 2.10.0
       '@manypkg/cli': 0.12.0
       '@preconstruct/cli': 1.1.21
-      '@ts-gql/eslint-plugin': link:packages/eslint-plugin
+      '@ts-gql/eslint-plugin': 'link:packages/eslint-plugin'
       '@types/jest': 25.2.1
       '@typescript-eslint/eslint-plugin': 2.29.0_78255b7712354089e01ad17142af0dcc
       '@typescript-eslint/parser': 2.29.0_eslint@6.8.0+typescript@4.1.3
@@ -50,7 +50,7 @@ importers:
       typescript: ^4.1.3
   packages/apollo:
     dependencies:
-      '@ts-gql/tag': link:../tag
+      '@ts-gql/tag': 'link:../tag'
     devDependencies:
       '@apollo/client': 3.1.2_graphql@14.6.0
       graphql: 14.6.0
@@ -91,7 +91,7 @@ importers:
       '@graphql-codegen/typescript': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript-operations': 1.13.3_graphql@14.6.0
       '@nodelib/fs.walk': 1.2.4
-      '@ts-gql/config': link:../config
+      '@ts-gql/config': 'link:../config'
       '@types/babel__code-frame': 7.0.1
       '@types/graceful-fs': 4.1.3
       '@types/invariant': 2.2.32
@@ -103,7 +103,7 @@ importers:
       slash: 3.0.0
       strip-ansi: 6.0.0
     devDependencies:
-      '@ts-gql/tag': link:../tag
+      '@ts-gql/tag': 'link:../tag'
       fixturez: 1.1.0
       graphql: 14.6.0
       lazy-require.macro: 0.1.0
@@ -151,12 +151,12 @@ importers:
       '@graphql-codegen/plugin-helpers': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript': 1.13.3_graphql@14.6.0
       '@graphql-codegen/typescript-operations': 1.13.3_graphql@14.6.0
-      '@ts-gql/config': link:../config
+      '@ts-gql/config': 'link:../config'
       '@typescript-eslint/experimental-utils': 2.29.0
       find-pkg-json-field-up: 1.0.1
       slash: 3.0.0
     devDependencies:
-      '@ts-gql/tag': link:../tag
+      '@ts-gql/tag': 'link:../tag'
       '@typescript-eslint/parser': 2.29.0
       eslint-snapshot-test: 3.0.0
       graphql: 14.6.0
@@ -177,7 +177,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.9.2
     devDependencies:
-      '@ts-gql/compiler': link:../compiler
+      '@ts-gql/compiler': 'link:../compiler'
       graphql: 14.6.0
     specifiers:
       '@babel/runtime': ^7.9.2
@@ -202,12 +202,12 @@ importers:
   test-app:
     dependencies:
       '@apollo/client': 3.1.2_react@16.13.1
-      '@ts-gql/apollo': link:../packages/apollo
-      '@ts-gql/babel-plugin': link:../packages/babel-plugin
-      '@ts-gql/compiler': link:../packages/compiler
-      '@ts-gql/eslint-plugin': link:../packages/eslint-plugin
-      '@ts-gql/next': link:../packages/next
-      '@ts-gql/tag': link:../packages/tag
+      '@ts-gql/apollo': 'link:../packages/apollo'
+      '@ts-gql/babel-plugin': 'link:../packages/babel-plugin'
+      '@ts-gql/compiler': 'link:../packages/compiler'
+      '@ts-gql/eslint-plugin': 'link:../packages/eslint-plugin'
+      '@ts-gql/next': 'link:../packages/next'
+      '@ts-gql/tag': 'link:../packages/tag'
       '@types/node': 13.13.2
       '@types/react': 16.9.43
       '@types/react-dom': 16.9.8
@@ -236,7 +236,7 @@ importers:
       react: ^16.13.1
       react-dom: ^16.13.1
       urql: ^1.9.7
-lockfileVersion: 5.2
+lockfileVersion: 5.1
 packages:
   /@ampproject/toolbox-core/2.3.0:
     dependencies:
@@ -3126,7 +3126,7 @@ packages:
       jest-haste-map: 25.4.0
       jest-message-util: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       jest-resolve-dependencies: 25.4.0
       jest-runner: 25.4.0
       jest-runtime: 25.4.0
@@ -3184,7 +3184,7 @@ packages:
       istanbul-lib-source-maps: 4.0.0
       istanbul-reports: 3.0.2
       jest-haste-map: 25.4.0
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       jest-util: 25.4.0
       jest-worker: 25.4.0
       slash: 3.0.0
@@ -3912,6 +3912,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     peerDependencies:
       eslint: '*'
+      typescript: '*'
     resolution:
       integrity: sha512-H/6VJr6eWYstyqjWXBP2Nn1hQJyvJoFdDtsHxGiD+lEP7piGnGpb/ZQd+z1ZSB1F7dN+WsxUDh8+S4LwI+f3jw==
   /@typescript-eslint/experimental-utils/2.29.0_eslint@6.8.0+typescript@4.1.3:
@@ -5793,7 +5794,7 @@ packages:
     resolution:
       integrity: sha512-7ItTKOhOZbznhXAQ2g/slGg1PJV5zDO/WdkTwi7UEOJmkvsE32PWvx6mKtDjiMpjnR2CNf6BAD6sSxIlv7ptng==
   /core-js/2.6.11:
-    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+    deprecated: 'core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.'
     dev: false
     requiresBuild: true
     resolution:
@@ -5949,7 +5950,7 @@ packages:
       postcss-modules-values: 3.0.0
       postcss-value-parser: 4.0.3
       schema-utils: 2.6.6
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -8558,7 +8559,7 @@ packages:
       jest-get-type: 25.2.6
       jest-jasmine2: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       jest-util: 25.4.0
       jest-validate: 25.4.0
       micromatch: 4.0.2
@@ -8720,7 +8721,7 @@ packages:
       integrity: sha512-MdazSfcYAUjJjuVTTnusLPzE0pE4VXpOUzWdj8sbM+q6abUjm3bATVPXFqTXrxSieR8ocpvQ9v/QaQCftioQFg==
   /jest-pnp-resolver/1.2.1_jest-resolve@25.4.0:
     dependencies:
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
     dev: false
     engines:
       node: '>=6'
@@ -8747,7 +8748,7 @@ packages:
       node: '>= 8.3'
     resolution:
       integrity: sha512-A0eoZXx6kLiuG1Ui7wITQPl04HwjLErKIJTt8GR3c7UoDAtzW84JtCrgrJ6Tkw6c6MwHEyAaLk7dEPml5pf48A==
-  /jest-resolve/25.4.0:
+  /jest-resolve/25.4.0_jest-resolve@25.4.0:
     dependencies:
       '@jest/types': 25.4.0
       browser-resolve: 1.11.3
@@ -8760,6 +8761,8 @@ packages:
     dev: false
     engines:
       node: '>= 8.3'
+    peerDependencies:
+      jest-resolve: '*'
     resolution:
       integrity: sha512-wOsKqVDFWUiv8BtLMCC6uAJ/pHZkfFgoBTgPtmYlsprAjkxrr2U++ZnB3l5ykBMd2O24lXvf30SMAjJIW6k2aA==
   /jest-runner/25.4.0:
@@ -8777,7 +8780,7 @@ packages:
       jest-jasmine2: 25.4.0
       jest-leak-detector: 25.4.0
       jest-message-util: 25.4.0
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       jest-runtime: 25.4.0
       jest-util: 25.4.0
       jest-worker: 25.4.0
@@ -8807,7 +8810,7 @@ packages:
       jest-message-util: 25.4.0
       jest-mock: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       jest-snapshot: 25.4.0
       jest-util: 25.4.0
       jest-validate: 25.4.0
@@ -8838,7 +8841,7 @@ packages:
       jest-get-type: 25.2.6
       jest-matcher-utils: 25.4.0
       jest-message-util: 25.4.0
-      jest-resolve: 25.4.0
+      jest-resolve: 25.4.0_jest-resolve@25.4.0
       make-dir: 3.0.2
       natural-compare: 1.4.0
       pretty-format: 25.4.0
@@ -9548,7 +9551,7 @@ packages:
       loader-utils: 1.4.0
       normalize-url: 1.9.1
       schema-utils: 1.0.0
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
       webpack-sources: 1.4.3
     dev: false
     engines:
@@ -9747,7 +9750,7 @@ packages:
       styled-jsx: 3.2.5_react@16.13.1
       use-subscription: 1.1.1_react@16.13.1
       watchpack: 2.0.0-beta.13
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
       webpack-sources: 1.4.3
     dev: false
     engines:
@@ -11390,7 +11393,7 @@ packages:
       tough-cookie: 2.5.0
       tunnel-agent: 0.6.0
       uuid: 3.4.0
-    deprecated: request has been deprecated, see https://github.com/request/request/issues/3142
+    deprecated: 'request has been deprecated, see https://github.com/request/request/issues/3142'
     dev: false
     engines:
       node: '>= 6'
@@ -11449,7 +11452,7 @@ packages:
     resolution:
       integrity: sha512-K1N5xUjj7v0l2j/3Sgs5b8CjrrgtC70SmdCuZiJ8tSyb5J+uk3FoeZ4b7yTnH6j7ngI+Bc5bldHJIa8hYdu2gQ==
   /resolve-url/0.2.1:
-    deprecated: https://github.com/lydell/resolve-url#deprecated
+    deprecated: 'https://github.com/lydell/resolve-url#deprecated'
     dev: false
     resolution:
       integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
@@ -11643,7 +11646,7 @@ packages:
       neo-async: 2.6.1
       schema-utils: 2.6.6
       semver: 6.3.0
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -12268,7 +12271,7 @@ packages:
     dependencies:
       loader-utils: 1.4.0
       schema-utils: 2.6.6
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -12476,7 +12479,7 @@ packages:
       serialize-javascript: 2.1.2
       source-map: 0.6.1
       terser: 4.6.11
-      webpack: 4.42.1
+      webpack: 4.42.1_webpack@4.42.1
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
     dev: false
@@ -12950,7 +12953,7 @@ packages:
     resolution:
       integrity: sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
   /urix/0.1.0:
-    deprecated: Please see https://github.com/lydell/urix#deprecated
+    deprecated: 'Please see https://github.com/lydell/urix#deprecated'
     dev: false
     resolution:
       integrity: sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
@@ -13128,7 +13131,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==
-  /webpack/4.42.1:
+  /webpack/4.42.1_webpack@4.42.1:
     dependencies:
       '@webassemblyjs/ast': 1.9.0
       '@webassemblyjs/helper-module-context': 1.9.0
@@ -13157,6 +13160,8 @@ packages:
     engines:
       node: '>=6.11.5'
     hasBin: true
+    peerDependencies:
+      webpack: '*'
     resolution:
       integrity: sha512-SGfYMigqEfdGchGhFFJ9KyRpQKnipvEvjc1TwrXEPCM6H5Wywu10ka8o3KGrMzSMxMQKt8aCHUFh5DaQ9UmyRg==
   /whatwg-encoding/1.0.5:
