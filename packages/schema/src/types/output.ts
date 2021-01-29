@@ -93,7 +93,7 @@ type OutputField<
   deprecationReason?: string;
   description?: string;
 };
-function field<
+export function field<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
   OutputType extends OutputTypes,

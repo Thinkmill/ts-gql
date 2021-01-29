@@ -4,6 +4,8 @@ import { ObjectType, Union } from "./output";
 import { ScalarType } from "./scalars";
 export * as scalars from "./scalars";
 export * from "./input";
+export * from "./output";
+
 export type List<Of extends Types> = {
   kind: "list";
   of: Of;
