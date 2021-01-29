@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.0.3
+
+### Patch Changes
+
+- [`f4c55aa`](https://github.com/Thinkmill/ts-gql/commit/f4c55aaaf0272f9e77e7f185dfc3b6d7d8f2c0e7) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add `GraphQLBoolean`
+
 ## 0.0.2
 
 ### Patch Changes
