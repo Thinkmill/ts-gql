@@ -7,8 +7,8 @@ import {
   GraphQLType,
   GraphQLUnionType,
 } from "graphql";
-import { List, NonNull, scalars } from ".";
-import { arg, Arg, InferValueFromArg, InputType } from "./input";
+import { List, NonNull } from ".";
+import { Arg, InferValueFromArg, InputType } from "./input";
 import { ScalarType } from "./scalars";
 
 // TODO: once interfaces and unions are implemented, the requiring/not requiring of isTypeOf/resolveType:
@@ -124,21 +124,6 @@ function field<
 ): OutputField<RootVal, Args, OutputType, Key> {
   return field as any;
 }
-
-object<{ thing: true }>()({
-  name: "",
-  fields: {
-    thing: field({
-      type: scalars.String,
-      args: { asdasd: arg({ type: scalars.String }) },
-      resolve(rootVal, args) {
-        rootVal;
-        args;
-        return null;
-      },
-    }),
-  },
-});
 
 export function object<RootVal>() {
   return function objectInner<
