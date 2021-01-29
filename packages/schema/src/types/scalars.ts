@@ -4,6 +4,7 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLInt,
+  GraphQLBoolean,
 } from "graphql";
 
 export type ScalarType<Type> = {
@@ -12,26 +13,6 @@ export type ScalarType<Type> = {
   graphQLType: GraphQLScalarType;
 };
 
-export const ID: ScalarType<string> = {
-  kind: "scalar",
-  __type: undefined as any,
-  graphQLType: GraphQLID,
-};
-export const String: ScalarType<string> = {
-  kind: "scalar",
-  __type: undefined as any,
-  graphQLType: GraphQLString,
-};
-export const Float: ScalarType<number> = {
-  kind: "scalar",
-  __type: undefined as any,
-  graphQLType: GraphQLFloat,
-};
-export const Int: ScalarType<number> = {
-  kind: "scalar",
-  __type: undefined as any,
-  graphQLType: GraphQLInt,
-};
 export function custom<Type>(scalar: GraphQLScalarType): ScalarType<Type> {
   return {
     kind: "scalar",
@@ -39,3 +20,9 @@ export function custom<Type>(scalar: GraphQLScalarType): ScalarType<Type> {
     graphQLType: scalar,
   };
 }
+
+export const ID: ScalarType<string> = custom<string>(GraphQLID);
+export const String: ScalarType<string> = custom<string>(GraphQLString);
+export const Float: ScalarType<number> = custom<number>(GraphQLFloat);
+export const Int: ScalarType<number> = custom<number>(GraphQLInt);
+export const Boolean: ScalarType<boolean> = custom<boolean>(GraphQLBoolean);
