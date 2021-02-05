@@ -4,19 +4,19 @@ import {
   GraphQLNullableType,
   GraphQLType,
 } from "graphql";
-import { Enum, List, NonNull } from ".";
+import { EnumType, ListType, NonNullType } from "..";
 import { ScalarType } from "./scalars";
 
 // note that list and non-null are written directly here because of circular reference things
 export type InputTypeExcludingNonNull =
   | ScalarType<any>
-  | InputObject<any>
+  | InputObjectType<any>
   | {
       kind: "list";
       of: InputType;
       graphQLType: GraphQLType;
     }
-  | Enum<any>;
+  | EnumType<any>;
 
 export type InputType =
   | InputTypeExcludingNonNull
@@ -30,14 +30,14 @@ type InferValueFromInputTypeWithoutAddingNull<
   Type extends InputType
 > = Type extends ScalarType<infer Value>
   ? Value
-  : Type extends Enum<infer Values>
+  : Type extends EnumType<infer Values>
   ? Values[string]["value"]
-  : Type extends List<infer Value>
+  : Type extends ListType<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends InputType
     ? InferValueFromInputType<Value>[]
     : never
-  : Type extends InputObject<infer Fields>
+  : Type extends InputObjectType<infer Fields>
   ? {
       readonly [Key in keyof Fields]: InferValueFromArg<Fields[Key]>;
     }
@@ -57,14 +57,14 @@ export type InferValueFromArg<TArg extends Arg<any, any>> =
 
 export type InferValueFromInputType<
   Type extends InputType
-> = Type extends NonNull<infer Value>
+> = Type extends NonNullType<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends InputType
     ? InferValueFromInputTypeWithoutAddingNull<Value>
     : never
   : InferValueFromInputTypeWithoutAddingNull<Type> | null;
 
-export type InputObject<
+export type InputObjectType<
   Fields extends {
     [Key in keyof any]: Arg<InputType, InferValueFromInputType<InputType>>;
   }
@@ -98,7 +98,7 @@ export function inputObject<
   name: string;
   description?: string;
   fields: (() => Fields) | Fields;
-}): InputObject<Fields> {
+}): InputObjectType<Fields> {
   const fields = config.fields;
   const graphQLType = new GraphQLInputObjectType({
     name: config.name,

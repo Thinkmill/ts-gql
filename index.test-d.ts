@@ -30,8 +30,8 @@ expectType<{
   readonly nonNullableStringWithDefaultValue: string;
 } | null>(valOfSomethingType);
 
-type RecursiveInput = types.InputObject<{
-  nullableString: types.Arg<typeof types.String>;
+type RecursiveInput = types.InputObjectType<{
+  nullableString: types.Arg<types.String>;
   recursive: types.Arg<RecursiveInput>;
 }>;
 
@@ -56,7 +56,7 @@ expectType<RecursiveTypeExpect>(valOfRecursiveInputType);
 
 // TODO: if possible, this should error. not really a massive deal if it doesn't though tbh
 // since if people forget to add something here, they will see an error when they try to read a field that doesn't exist
-export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: types.InputObject<{
+export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: types.InputObjectType<{
   nullableString: types.Arg<typeof types.String>;
 }> = types.inputObject({
   name: "ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls",

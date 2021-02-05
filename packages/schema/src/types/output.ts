@@ -8,9 +8,14 @@ import {
   GraphQLType,
   GraphQLUnionType,
 } from "graphql";
-import { Enum, List, NonNull } from ".";
-import { Arg, InferValueFromArgs, InputType } from "./input";
-import { ScalarType } from "./scalars";
+import { ListType, NonNullType } from ".";
+import {
+  Arg,
+  InferValueFromArgs,
+  InputType,
+  ScalarType,
+  EnumType,
+} from "./types-that-do-not-use-context";
 
 // TODO: once interfaces and unions are implemented, the requiring/not requiring of isTypeOf/resolveType:
 // if resolveType is implemented on every interface that an object implements, the object type does not need to implement isTypeOf
@@ -20,8 +25,8 @@ import { ScalarType } from "./scalars";
 export type OutputTypeExcludingNonNull =
   | ScalarType<any>
   | ObjectType<any, string>
-  | Union<ObjectType<any, string>>
-  | Enum<any>
+  | UnionType<ObjectType<any, string>>
+  | EnumType<any>
   | {
       kind: "list";
       of: OutputTypes;
@@ -40,22 +45,22 @@ type InferValueFromOutputTypeWithoutAddingNull<
   Type extends OutputTypes
 > = Type extends ScalarType<infer Value>
   ? Value
-  : Type extends Enum<infer Values>
+  : Type extends EnumType<infer Values>
   ? Values[string]["value"]
-  : Type extends List<infer Value>
+  : Type extends ListType<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends OutputTypes
     ? InferValueFromOutputType<Value>[]
     : never
   : Type extends ObjectType<infer RootVal, string>
   ? RootVal
-  : Type extends Union<ObjectType<infer RootVal, string>>
+  : Type extends UnionType<ObjectType<infer RootVal, string>>
   ? RootVal
   : never;
 
 export type InferValueFromOutputType<
   Type extends OutputTypes
-> = Type extends NonNull<infer Value>
+> = Type extends NonNullType<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends OutputTypes
     ? InferValueFromOutputTypeWithoutAddingNull<Value>
@@ -199,7 +204,7 @@ export function object<RootVal>() {
   };
 }
 
-export type Union<TObjectType extends ObjectType<any, string>> = {
+export type UnionType<TObjectType extends ObjectType<any, string>> = {
   kind: "union";
   __rootVal: TObjectType["__rootVal"];
   graphQLType: GraphQLUnionType;
@@ -215,7 +220,7 @@ export function union<TObjectType extends ObjectType<any, string>>(config: {
     info: GraphQLResolveInfo,
     abstractType: GraphQLUnionType
   ) => TObjectType["name"];
-}): Union<TObjectType> {
+}): UnionType<TObjectType> {
   return {
     kind: "union",
     graphQLType: new GraphQLUnionType({
