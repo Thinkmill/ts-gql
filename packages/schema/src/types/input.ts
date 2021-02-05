@@ -4,7 +4,7 @@ import {
   GraphQLNullableType,
   GraphQLType,
 } from "graphql";
-import { List, NonNull } from ".";
+import { Enum, List, NonNull } from ".";
 import { ScalarType } from "./scalars";
 
 // note that list and non-null are written directly here because of circular reference things
@@ -15,7 +15,8 @@ export type InputTypeExcludingNonNull =
       kind: "list";
       of: InputType;
       graphQLType: GraphQLType;
-    };
+    }
+  | Enum<any>;
 
 export type InputType =
   | InputTypeExcludingNonNull
@@ -29,10 +30,12 @@ type InferValueFromInputTypeWithoutAddingNull<
   Type extends InputType
 > = Type extends ScalarType<infer Value>
   ? Value
+  : Type extends Enum<infer Values>
+  ? Values[string]["value"]
   : Type extends List<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends InputType
-    ? readonly InferValueFromInputType<Value>[]
+    ? InferValueFromInputType<Value>[]
     : never
   : Type extends InputObject<infer Fields>
   ? {
@@ -40,7 +43,11 @@ type InferValueFromInputTypeWithoutAddingNull<
     }
   : never;
 
-export type InferValueFromArg<TArg extends Arg<any>> =
+export type InferValueFromArgs<Args extends Record<string, Arg<any, any>>> = {
+  readonly [Key in keyof Args]: InferValueFromArg<Args[Key]>;
+};
+
+export type InferValueFromArg<TArg extends Arg<any, any>> =
   | InferValueFromInputType<TArg["type"]>
   | ("non-null" extends TArg["type"]["kind"]
       ? never
@@ -99,14 +106,15 @@ export function inputObject<
     fields: () => {
       return Object.fromEntries(
         Object.entries(typeof fields === "function" ? fields() : fields).map(
-          ([key, value]) => [
-            key,
-            {
-              description: value.description,
-              type: value.type.graphQLType as GraphQLInputType,
-              defaultValue: value.defaultValue,
-            },
-          ]
+          ([key, value]) =>
+            [
+              key,
+              {
+                description: value.description,
+                type: value.type.graphQLType as GraphQLInputType,
+                defaultValue: value.defaultValue,
+              },
+            ] as const
         )
       );
     },

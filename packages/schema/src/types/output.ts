@@ -1,4 +1,5 @@
 import {
+  GraphQLFieldExtensions,
   GraphQLInputType,
   GraphQLNullableType,
   GraphQLObjectType,
@@ -7,8 +8,8 @@ import {
   GraphQLType,
   GraphQLUnionType,
 } from "graphql";
-import { List, NonNull } from ".";
-import { Arg, InferValueFromArg, InputType } from "./input";
+import { Enum, List, NonNull } from ".";
+import { Arg, InferValueFromArgs, InputType } from "./input";
 import { ScalarType } from "./scalars";
 
 // TODO: once interfaces and unions are implemented, the requiring/not requiring of isTypeOf/resolveType:
@@ -20,6 +21,7 @@ export type OutputTypeExcludingNonNull =
   | ScalarType<any>
   | ObjectType<any, string>
   | Union<ObjectType<any, string>>
+  | Enum<any>
   | {
       kind: "list";
       of: OutputTypes;
@@ -38,10 +40,12 @@ type InferValueFromOutputTypeWithoutAddingNull<
   Type extends OutputTypes
 > = Type extends ScalarType<infer Value>
   ? Value
+  : Type extends Enum<infer Values>
+  ? Values[string]["value"]
   : Type extends List<infer Value>
   ? // TODO: remove the need for this conditional
     Value extends OutputTypes
-    ? readonly InferValueFromOutputTypeWithoutAddingNull<Value>[]
+    ? InferValueFromOutputType<Value>[]
     : never
   : Type extends ObjectType<infer RootVal, string>
   ? RootVal
@@ -67,19 +71,20 @@ export type ObjectType<RootVal, Name extends string> = {
 
 type MaybePromise<T> = Promise<T> | T;
 
-type OutputFieldResolver<
+export type OutputFieldResolver<
   Args extends Record<string, Arg<any>>,
   OutputType extends OutputTypes,
   RootVal
 > = (
   rootVal: RootVal,
-  args: { readonly [Key in keyof Args]: InferValueFromArg<Args[Key]> },
-  context: unknown
+  args: InferValueFromArgs<Args>,
+  context: unknown,
+  info: GraphQLResolveInfo
 ) => MaybePromise<InferValueFromOutputType<OutputType>>;
 
 type SomeTypeThatIsntARecordOfArgs = string;
 
-type OutputField<
+export type OutputField<
   RootVal,
   Args extends Record<string, Arg<any>>,
   OutputType extends OutputTypes,
@@ -92,6 +97,7 @@ type OutputField<
   resolve?: OutputFieldResolver<Args, OutputType, RootVal>;
   deprecationReason?: string;
   description?: string;
+  extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
 };
 export function field<
   RootVal,
@@ -104,6 +110,7 @@ export function field<
     type: OutputType;
     deprecationReason?: string;
     description?: string;
+    extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
   } & (RootVal extends {
     [K in Key]: InferValueFromOutputType<OutputType>;
   }
@@ -181,6 +188,7 @@ export function object<RootVal>() {
                     },
                   ])
                 ),
+                extensions: val.extensions,
               },
             ])
           );

@@ -1,6 +1,6 @@
 import { GraphQLEnumType } from "graphql";
 
-type EnumValue<Value> = {
+export type EnumValue<Value> = {
   description?: string;
   deprecationReason?: string;
   value: Value;
@@ -8,7 +8,7 @@ type EnumValue<Value> = {
 
 export type Enum<Values extends Record<string, EnumValue<any>>> = {
   kind: "enum";
-  __value: Values[keyof Values]["value"];
+  values: Values;
   graphQLType: GraphQLEnumType;
 };
 
@@ -32,7 +32,7 @@ export function enumType<
   });
   return {
     kind: "enum",
-    __value: undefined as any,
+    values: config.values,
     graphQLType,
   };
 }

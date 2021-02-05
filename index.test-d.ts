@@ -4,16 +4,16 @@ import { types } from "./packages/schema/src";
 const Something = types.inputObject({
   name: "Something",
   fields: {
-    nullableString: types.arg({ type: types.scalars.String }),
+    nullableString: types.arg({ type: types.String }),
     nullableStringWithDefaultValue: types.arg({
-      type: types.scalars.String,
+      type: types.String,
       defaultValue: "something",
     }),
     nonNullableString: types.arg({
-      type: types.nonNullable(types.scalars.String),
+      type: types.nonNull(types.String),
     }),
     nonNullableStringWithDefaultValue: types.arg({
-      type: types.nonNullable(types.scalars.String),
+      type: types.nonNull(types.String),
       defaultValue: "something",
     }),
   },
@@ -31,14 +31,14 @@ expectType<{
 } | null>(valOfSomethingType);
 
 type RecursiveInput = types.InputObject<{
-  nullableString: types.Arg<typeof types.scalars.String>;
+  nullableString: types.Arg<typeof types.String>;
   recursive: types.Arg<RecursiveInput>;
 }>;
 
 const Recursive: RecursiveInput = types.inputObject({
   name: "Recursive",
   fields: () => ({
-    nullableString: types.arg({ type: types.scalars.String }),
+    nullableString: types.arg({ type: types.String }),
     recursive: types.arg({ type: Recursive }),
   }),
 });
@@ -57,11 +57,11 @@ expectType<RecursiveTypeExpect>(valOfRecursiveInputType);
 // TODO: if possible, this should error. not really a massive deal if it doesn't though tbh
 // since if people forget to add something here, they will see an error when they try to read a field that doesn't exist
 export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: types.InputObject<{
-  nullableString: types.Arg<typeof types.scalars.String>;
+  nullableString: types.Arg<typeof types.String>;
 }> = types.inputObject({
   name: "ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls",
   fields: () => ({
-    nullableString: types.arg({ type: types.scalars.String }),
-    another: types.arg({ type: types.scalars.String }),
+    nullableString: types.arg({ type: types.String }),
+    another: types.arg({ type: types.String }),
   }),
 });

@@ -1,10 +1,12 @@
 import { GraphQLList, GraphQLNonNull, GraphQLNullableType } from "graphql";
+import { Enum } from "./enum";
 import { InputObject } from "./input";
 import { ObjectType, Union } from "./output";
 import { ScalarType } from "./scalars";
-export * as scalars from "./scalars";
+export * from "./scalars";
 export * from "./input";
 export * from "./output";
+export * from "./enum";
 
 export type List<Of extends Types> = {
   kind: "list";
@@ -22,9 +24,7 @@ export type NonNull<Of extends TypesExcludingNonNull> = {
   graphQLType: GraphQLNonNull<Of["graphQLType"]>;
 };
 
-export function nonNullable<Of extends TypesExcludingNonNull>(
-  of: Of
-): NonNull<Of> {
+export function nonNull<Of extends TypesExcludingNonNull>(of: Of): NonNull<Of> {
   return {
     kind: "non-null",
     of,
@@ -39,7 +39,8 @@ export type TypesExcludingNonNull =
   | List<any>
   | InputObject<any>
   | ObjectType<any, string>
-  | Union<ObjectType<any, string>>;
+  | Union<ObjectType<any, string>>
+  | Enum<any>;
 
 export type Types =
   | TypesExcludingNonNull
