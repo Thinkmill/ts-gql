@@ -1,30 +1,26 @@
-import {
-  GraphQLInputObjectType,
-  GraphQLInputType,
-  GraphQLNullableType,
-  GraphQLType,
-} from "graphql";
-import { EnumType, ListType, NonNullType } from "..";
+import { GraphQLInputObjectType, GraphQLInputType, GraphQLList } from "graphql";
+import { EnumType } from "..";
 import { ScalarType } from "./scalars";
 
-// note that list and non-null are written directly here because of circular reference things
+type InputListType<Of extends InputTypeExcludingNonNull> = {
+  kind: "list";
+  of: Of;
+  graphQLType: GraphQLList<Of["graphQLType"]>;
+};
+
+type InputNonNullType<Of extends InputType> = {
+  kind: "non-null";
+  of: Of;
+  graphQLType: GraphQLList<Of["graphQLType"]>;
+};
+
 export type InputTypeExcludingNonNull =
   | ScalarType<any>
   | InputObjectType<any>
-  | {
-      kind: "list";
-      of: InputType;
-      graphQLType: GraphQLType;
-    }
+  | InputListType<any>
   | EnumType<any>;
 
-export type InputType =
-  | InputTypeExcludingNonNull
-  | {
-      kind: "non-null";
-      of: InputTypeExcludingNonNull;
-      graphQLType: GraphQLNullableType;
-    };
+export type InputType = InputTypeExcludingNonNull | InputNonNullType<any>;
 
 type InferValueFromInputTypeWithoutAddingNull<
   Type extends InputType
@@ -32,11 +28,8 @@ type InferValueFromInputTypeWithoutAddingNull<
   ? Value
   : Type extends EnumType<infer Values>
   ? Values[string]["value"]
-  : Type extends ListType<infer Value>
-  ? // TODO: remove the need for this conditional
-    Value extends InputType
-    ? InferValueFromInputType<Value>[]
-    : never
+  : Type extends InputListType<infer Value>
+  ? InferValueFromInputType<Value>[]
   : Type extends InputObjectType<infer Fields>
   ? {
       readonly [Key in keyof Fields]: InferValueFromArg<Fields[Key]>;
@@ -57,11 +50,8 @@ export type InferValueFromArg<TArg extends Arg<any, any>> =
 
 export type InferValueFromInputType<
   Type extends InputType
-> = Type extends NonNullType<infer Value>
-  ? // TODO: remove the need for this conditional
-    Value extends InputType
-    ? InferValueFromInputTypeWithoutAddingNull<Value>
-    : never
+> = Type extends InputNonNullType<infer Value>
+  ? InferValueFromInputTypeWithoutAddingNull<Value>
   : InferValueFromInputTypeWithoutAddingNull<Type> | null;
 
 export type InputObjectType<

@@ -1,14 +1,12 @@
 import {
   GraphQLFieldExtensions,
   GraphQLInputType,
-  GraphQLNullableType,
+  GraphQLList,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLResolveInfo,
-  GraphQLType,
   GraphQLUnionType,
 } from "graphql";
-import { ListType, NonNullType } from ".";
 import {
   Arg,
   InferValueFromArgs,
@@ -21,25 +19,26 @@ import {
 // if resolveType is implemented on every interface that an object implements, the object type does not need to implement isTypeOf
 // if isTypeOf is implemented on every member of a union, the union does not need to implement resolveType
 
-// note that list and non-null are written directly here because of circular reference things
+type OutputListType<Of extends OutputTypes> = {
+  kind: "list";
+  of: Of;
+  graphQLType: GraphQLList<Of["graphQLType"]>;
+};
+
+type OutputNonNullType<Of extends OutputTypeExcludingNonNull> = {
+  kind: "non-null";
+  of: Of;
+  graphQLType: GraphQLList<Of["graphQLType"]>;
+};
+
 export type OutputTypeExcludingNonNull =
   | ScalarType<any>
   | ObjectType<any, string>
   | UnionType<ObjectType<any, string>>
   | EnumType<any>
-  | {
-      kind: "list";
-      of: OutputTypes;
-      graphQLType: GraphQLType;
-    };
+  | OutputListType<any>;
 
-export type OutputTypes =
-  | OutputTypeExcludingNonNull
-  | {
-      kind: "non-null";
-      of: OutputTypeExcludingNonNull;
-      graphQLType: GraphQLNullableType;
-    };
+export type OutputTypes = OutputTypeExcludingNonNull | OutputNonNullType<any>;
 
 type InferValueFromOutputTypeWithoutAddingNull<
   Type extends OutputTypes
@@ -47,11 +46,8 @@ type InferValueFromOutputTypeWithoutAddingNull<
   ? Value
   : Type extends EnumType<infer Values>
   ? Values[string]["value"]
-  : Type extends ListType<infer Value>
-  ? // TODO: remove the need for this conditional
-    Value extends OutputTypes
-    ? InferValueFromOutputType<Value>[]
-    : never
+  : Type extends OutputListType<infer Value>
+  ? InferValueFromOutputType<Value>[]
   : Type extends ObjectType<infer RootVal, string>
   ? RootVal
   : Type extends UnionType<ObjectType<infer RootVal, string>>
@@ -60,11 +56,8 @@ type InferValueFromOutputTypeWithoutAddingNull<
 
 export type InferValueFromOutputType<
   Type extends OutputTypes
-> = Type extends NonNullType<infer Value>
-  ? // TODO: remove the need for this conditional
-    Value extends OutputTypes
-    ? InferValueFromOutputTypeWithoutAddingNull<Value>
-    : never
+> = Type extends OutputNonNullType<infer Value>
+  ? InferValueFromOutputTypeWithoutAddingNull<Value>
   : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
 
 export type ObjectType<RootVal, Name extends string> = {
