@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.2.0
+
+### Minor Changes
+
+- [`2a7f889`](https://github.com/Thinkmill/ts-gql/commit/2a7f88954915834440a3e6c6178dba622435806a) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Replace `bindObjectTypeToContext` with `bindTypesToContext` and rename `types.custom` to `types.scalar`
+
 ## 0.1.0
 
 ### Minor Changes
