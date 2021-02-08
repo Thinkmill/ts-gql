@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.3.0
+
+### Minor Changes
+
+- [`d57bee5`](https://github.com/Thinkmill/ts-gql/commit/d57bee5a9c94c9937cc8308caa6e39a7a40f17eb) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Export `bindTypesToContext` directly rather than in `types`
+
 ## 0.2.0
 
 ### Minor Changes
