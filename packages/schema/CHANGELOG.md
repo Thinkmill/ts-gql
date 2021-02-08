@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.1.0
+
+### Minor Changes
+
+- [`7425f01`](https://github.com/Thinkmill/ts-gql/commit/7425f013822d5b302f8398a7b23008ae9f387df3) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Various fixes
+
 ## 0.0.3
 
 ### Patch Changes
