@@ -1,10 +1,14 @@
-import { GraphQLList, GraphQLNonNull, GraphQLNullableType } from "graphql";
-import { ObjectType, UnionType } from "./output";
+import {
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLNullableType,
+} from "graphql/type/definition";
+import { ObjectType, UnionType } from "../output";
 import {
   EnumType as EnumType,
   InputObjectType as InputObjectType,
   ScalarType,
-} from "./types-that-do-not-use-context";
+} from ".";
 
 export type ListType<Of extends Types, Context = unknown> = {
   kind: "list";

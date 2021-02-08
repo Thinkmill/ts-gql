@@ -1,4 +1,8 @@
-import { GraphQLInputObjectType, GraphQLInputType, GraphQLList } from "graphql";
+import {
+  GraphQLInputObjectType,
+  GraphQLInputType,
+  GraphQLList,
+} from "graphql/type/definition";
 import { EnumType } from "..";
 import { ScalarType } from "./scalars";
 

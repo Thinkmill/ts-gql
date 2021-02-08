@@ -1,4 +1,4 @@
-import { GraphQLEnumType } from "graphql";
+import { GraphQLEnumType } from "graphql/type/definition";
 
 export type EnumValue<Value> = {
   description?: string;
@@ -33,6 +33,7 @@ function enumType<Values extends Record<string, EnumValue<any>>>(config: {
     kind: "enum",
     values: config.values,
     graphQLType,
+    __context: undefined as any,
   };
 }
 
