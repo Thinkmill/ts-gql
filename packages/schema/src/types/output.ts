@@ -105,70 +105,74 @@ export type OutputField<
 
 export const field = bindFieldToContext<unknown>();
 
-function bindFieldToContext<OuterContext>() {
-  return function field<
-    RootVal,
-    Args extends { [Key in keyof Args]: Arg<any, any> },
-    OutputType extends OutputTypes,
-    Key extends string,
-    Context extends OuterContext
-  >(
-    field: {
-      args?: Args;
-      type: OutputType;
-      deprecationReason?: string;
-      description?: string;
-      extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
-    } & (RootVal extends {
-      [K in Key]: InferValueFromOutputType<OutputType>;
-    }
-      ? {
-          resolve?: OutputFieldResolver<
-            SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-            OutputType,
-            RootVal,
-            Context
-          >;
-        }
-      : {
-          resolve: OutputFieldResolver<
-            SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-            OutputType,
-            RootVal,
-            Context
-          >;
-        })
-  ): OutputField<RootVal, Args, OutputType, Key, Context> {
+type FieldFunc<OuterContext> = <
+  RootVal,
+  Args extends { [Key in keyof Args]: Arg<any, any> },
+  OutputType extends OutputTypes,
+  Key extends string,
+  Context extends OuterContext
+>(
+  field: {
+    args?: Args;
+    type: OutputType;
+    deprecationReason?: string;
+    description?: string;
+    extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
+  } & (RootVal extends {
+    [K in Key]: InferValueFromOutputType<OutputType>;
+  }
+    ? {
+        resolve?: OutputFieldResolver<
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          OutputType,
+          RootVal,
+          Context
+        >;
+      }
+    : {
+        resolve: OutputFieldResolver<
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          OutputType,
+          RootVal,
+          Context
+        >;
+      })
+) => OutputField<RootVal, Args, OutputType, Key, Context>;
+
+function bindFieldToContext<OuterContext>(): FieldFunc<OuterContext> {
+  return function field(field) {
     return field as any;
   };
 }
 
 export const object = bindObjectTypeToContext<unknown>();
 
-function bindObjectTypeToContext<Context>() {
-  return function object<RootVal>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
-      youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
-    }
-  ) {
-    return function objectInner<
-      Name extends string,
-      Fields extends {
-        [Key in keyof Fields]: OutputField<
-          RootVal,
-          any,
-          any,
-          Extract<Key, string>,
-          Context
-        >;
-      }
-    >(config: {
-      name: Name;
-      description?: string;
-      deprecationReason?: string;
-      fields: Fields | (() => Fields);
-    }): ObjectType<RootVal, Name, Context> {
+type ObjectTypeFunc<Context> = <RootVal>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
+    youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
+  }
+) => <
+  Name extends string,
+  Fields extends {
+    [Key in keyof Fields]: OutputField<
+      RootVal,
+      any,
+      any,
+      Extract<Key, string>,
+      Context
+    >;
+  }
+>(config: {
+  name: Name;
+  description?: string;
+  deprecationReason?: string;
+  fields: Fields | (() => Fields);
+}) => ObjectType<RootVal, Name, Context>;
+
+function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
+  return function object() {
+    return function objectInner(config) {
       return {
         kind: "object",
         name: config.name,
@@ -235,20 +239,22 @@ export type UnionType<TObjectType extends ObjectType<any, string, any>> = {
 
 export const union = bindUnionTypeToContext<unknown>();
 
-function bindUnionTypeToContext<Context>() {
-  return function union<
-    TObjectType extends ObjectType<any, string, Context>
-  >(config: {
-    name: string;
-    description?: string;
-    types: TObjectType[];
-    resolveType: (
-      type: TObjectType["__rootVal"],
-      context: TObjectType["__context"],
-      info: GraphQLResolveInfo,
-      abstractType: GraphQLUnionType
-    ) => TObjectType["name"];
-  }): UnionType<TObjectType> {
+type UnionTypeFunc<Context> = <
+  TObjectType extends ObjectType<any, string, Context>
+>(config: {
+  name: string;
+  description?: string;
+  types: TObjectType[];
+  resolveType: (
+    type: TObjectType["__rootVal"],
+    context: TObjectType["__context"],
+    info: GraphQLResolveInfo,
+    abstractType: GraphQLUnionType
+  ) => TObjectType["name"];
+}) => UnionType<TObjectType>;
+
+function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
+  return function union(config) {
     return {
       kind: "union",
       graphQLType: new GraphQLUnionType({
@@ -334,7 +340,13 @@ function bindUnionTypeToContext<Context>() {
 
 import * as typesThatDoNotUseContext from "./types-that-do-not-use-context";
 
-export function bindTypesToContext<Context>() {
+export function bindTypesToContext<
+  Context
+>(): typeof import("./types-that-do-not-use-context") & {
+  object: ObjectTypeFunc<Context>;
+  union: UnionTypeFunc<Context>;
+  field: FieldFunc<Context>;
+} {
   return {
     ...typesThatDoNotUseContext,
     object: bindObjectTypeToContext<Context>(),

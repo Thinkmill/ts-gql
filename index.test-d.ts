@@ -1,5 +1,11 @@
 import { expectType } from "tsd";
-import { types } from "./packages/schema/src";
+import { types, bindTypesToContext } from "./packages/schema";
+
+const typesWithContext = bindTypesToContext();
+
+typesWithContext.arg({
+  type: typesWithContext.Boolean,
+});
 
 const Something = types.inputObject({
   name: "Something",
