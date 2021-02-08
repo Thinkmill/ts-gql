@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.3.1
+
+### Patch Changes
+
+- [`8d19a88`](https://github.com/Thinkmill/ts-gql/commit/8d19a886de62bfb9d5a6d9302d9f43500502b263) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix types.arg returned from bindTypesToContext requiring a defaultValue
+
 ## 0.3.0
 
 ### Minor Changes
