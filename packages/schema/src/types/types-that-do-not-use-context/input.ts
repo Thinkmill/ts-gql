@@ -6,12 +6,14 @@ type InputListType<Of extends InputTypeExcludingNonNull> = {
   kind: "list";
   of: Of;
   graphQLType: GraphQLList<Of["graphQLType"]>;
+  __context: unknown;
 };
 
 type InputNonNullType<Of extends InputType> = {
   kind: "non-null";
   of: Of;
   graphQLType: GraphQLList<Of["graphQLType"]>;
+  __context: unknown;
 };
 
 export type InputTypeExcludingNonNull =
@@ -61,6 +63,7 @@ export type InputObjectType<
 > = {
   kind: "input";
   __fields: Fields;
+  __context: unknown;
   graphQLType: GraphQLInputObjectType;
 };
 
@@ -109,5 +112,10 @@ export function inputObject<
       );
     },
   });
-  return { kind: "input", __fields: undefined as any, graphQLType };
+  return {
+    kind: "input",
+    __fields: undefined as any,
+    __context: undefined,
+    graphQLType,
+  };
 }

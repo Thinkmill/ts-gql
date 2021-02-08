@@ -10,6 +10,7 @@ export type EnumType<Values extends Record<string, EnumValue<any>>> = {
   kind: "enum";
   values: Values;
   graphQLType: GraphQLEnumType;
+  __context: unknown;
 };
 
 export function enumValues<Values extends readonly string[]>(

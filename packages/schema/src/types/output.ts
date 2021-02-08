@@ -33,8 +33,8 @@ type OutputNonNullType<Of extends OutputTypeExcludingNonNull> = {
 
 export type OutputTypeExcludingNonNull =
   | ScalarType<any>
-  | ObjectType<any, string>
-  | UnionType<ObjectType<any, string>>
+  | ObjectType<any, string, any>
+  | UnionType<ObjectType<any, string, any>>
   | EnumType<any>
   | OutputListType<any>;
 
@@ -48,9 +48,9 @@ type InferValueFromOutputTypeWithoutAddingNull<
   ? Values[string]["value"]
   : Type extends OutputListType<infer Value>
   ? InferValueFromOutputType<Value>[]
-  : Type extends ObjectType<infer RootVal, string>
+  : Type extends ObjectType<infer RootVal, string, any>
   ? RootVal
-  : Type extends UnionType<ObjectType<infer RootVal, string>>
+  : Type extends UnionType<ObjectType<infer RootVal, string, any>>
   ? RootVal
   : never;
 
@@ -60,10 +60,11 @@ export type InferValueFromOutputType<
   ? InferValueFromOutputTypeWithoutAddingNull<Value>
   : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
 
-export type ObjectType<RootVal, Name extends string> = {
+export type ObjectType<RootVal, Name extends string, Context> = {
   kind: "object";
   name: Name;
   graphQLType: GraphQLObjectType;
+  __context: Context;
   __rootVal: RootVal;
 };
 
@@ -72,11 +73,12 @@ type MaybePromise<T> = Promise<T> | T;
 export type OutputFieldResolver<
   Args extends Record<string, Arg<any>>,
   OutputType extends OutputTypes,
-  RootVal
+  RootVal,
+  Context
 > = (
   rootVal: RootVal,
   args: InferValueFromArgs<Args>,
-  context: unknown,
+  context: Context,
   info: GraphQLResolveInfo
 ) => MaybePromise<InferValueFromOutputType<OutputType>>;
 
@@ -86,13 +88,15 @@ export type OutputField<
   RootVal,
   Args extends Record<string, Arg<any>>,
   OutputType extends OutputTypes,
-  Key extends string
+  Key extends string,
+  Context
 > = {
   args?: Args;
   type: OutputType;
   __key: Key;
   __rootVal: RootVal;
-  resolve?: OutputFieldResolver<Args, OutputType, RootVal>;
+  __context: Context;
+  resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
   deprecationReason?: string;
   description?: string;
   extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
@@ -101,7 +105,8 @@ export function field<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
   OutputType extends OutputTypes,
-  Key extends string
+  Key extends string,
+  Context
 >(
   field: {
     args?: Args;
@@ -116,100 +121,116 @@ export function field<
         resolve?: OutputFieldResolver<
           SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
           OutputType,
-          RootVal
+          RootVal,
+          Context
         >;
       }
     : {
         resolve: OutputFieldResolver<
           SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
           OutputType,
-          RootVal
+          RootVal,
+          Context
         >;
       })
-): OutputField<RootVal, Args, OutputType, Key> {
+): OutputField<RootVal, Args, OutputType, Key, Context> {
   return field as any;
 }
 
-export function object<RootVal>() {
-  return function objectInner<
-    Name extends string,
-    Fields extends {
-      [Key in keyof Fields]: OutputField<
-        RootVal,
-        any,
-        any,
-        Extract<Key, string>
-      >;
-    }
-  >(config: {
-    name: Name;
-    description?: string;
-    deprecationReason?: string;
-    fields: Fields | (() => Fields);
-  }): ObjectType<RootVal, Name> {
-    return {
-      kind: "object",
-      name: config.name,
-      graphQLType: new GraphQLObjectType({
+export const object = bindObjectTypeToContext<unknown>();
+
+export function bindObjectTypeToContext<Context>() {
+  return function object<
+    RootVal
+  >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
+    youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
+  }) {
+    return function objectInner<
+      Name extends string,
+      Fields extends {
+        [Key in keyof Fields]: OutputField<
+          RootVal,
+          any,
+          any,
+          Extract<Key, string>,
+          Context
+        >;
+      }
+    >(config: {
+      name: Name;
+      description?: string;
+      deprecationReason?: string;
+      fields: Fields | (() => Fields);
+    }): ObjectType<RootVal, Name, Context> {
+      return {
+        kind: "object",
         name: config.name,
-        description: config.description,
-        fields: () => {
-          const fields =
-            typeof config.fields === "function"
-              ? config.fields()
-              : config.fields;
-          return Object.fromEntries(
-            Object.entries(
-              fields as Record<
-                string,
-                OutputField<
-                  any,
-                  Record<string, Arg<InputType, any>>,
-                  OutputTypes,
-                  string
+        graphQLType: new GraphQLObjectType({
+          name: config.name,
+          description: config.description,
+          fields: () => {
+            const fields =
+              typeof config.fields === "function"
+                ? config.fields()
+                : config.fields;
+            return Object.fromEntries(
+              Object.entries(
+                fields as Record<
+                  string,
+                  OutputField<
+                    any,
+                    Record<string, Arg<InputType, any>>,
+                    OutputTypes,
+                    string,
+                    Context
+                  >
                 >
-              >
-            ).map(([key, val]) => [
-              key,
-              {
-                type: val.type.graphQLType as GraphQLOutputType,
-                resolve: val.resolve,
-                deprecationReason: val.deprecationReason,
-                description: val.description,
-                args: Object.fromEntries(
-                  Object.entries(val.args || {}).map(([key, val]) => [
-                    key,
-                    {
-                      type: val.type.graphQLType as GraphQLInputType,
-                      description: val.description,
-                      defaultValue: val.defaultValue,
-                    },
-                  ])
-                ),
-                extensions: val.extensions,
-              },
-            ])
-          );
-        },
-      }),
-      __rootVal: undefined as any,
+              ).map(([key, val]) => [
+                key,
+                {
+                  type: val.type.graphQLType as GraphQLOutputType,
+                  resolve: val.resolve,
+                  deprecationReason: val.deprecationReason,
+                  description: val.description,
+                  args: Object.fromEntries(
+                    Object.entries(val.args || {}).map(([key, val]) => [
+                      key,
+                      {
+                        type: val.type.graphQLType as GraphQLInputType,
+                        description: val.description,
+                        defaultValue: val.defaultValue,
+                      },
+                    ])
+                  ),
+                  extensions: val.extensions,
+                },
+              ])
+            );
+          },
+        }),
+        __rootVal: undefined as any,
+        __context: undefined as any,
+      };
     };
   };
 }
 
-export type UnionType<TObjectType extends ObjectType<any, string>> = {
+export type UnionType<TObjectType extends ObjectType<any, string, any>> = {
   kind: "union";
   __rootVal: TObjectType["__rootVal"];
+  __context: TObjectType["__context"];
   graphQLType: GraphQLUnionType;
 };
 
-export function union<TObjectType extends ObjectType<any, string>>(config: {
+export function union<
+  TObjectType extends ObjectType<any, string, any>
+>(config: {
   name: string;
   description?: string;
   types: TObjectType[];
   resolveType: (
     type: TObjectType["__rootVal"],
-    context: unknown,
+    context: TObjectType["__context"],
     info: GraphQLResolveInfo,
     abstractType: GraphQLUnionType
   ) => TObjectType["name"];
@@ -223,5 +244,6 @@ export function union<TObjectType extends ObjectType<any, string>>(config: {
       resolveType: config.resolveType as any,
     }),
     __rootVal: undefined as any,
+    __context: undefined as any,
   };
 }
