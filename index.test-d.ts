@@ -71,3 +71,28 @@ export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: types.Input
     another: types.arg({ type: types.String }),
   }),
 });
+
+// types.object<{ kind: "one"; id: boolean } | { kind: "two"; id: string }>()({
+//   name: "Node",
+//   fields: {
+//     id: types.field({
+//       type: types.nonNull(types.ID),
+//       resolve(rootVal) {
+//         return rootVal.kind === "one" ? "one" : rootVal.id;
+//       },
+//     }),
+//   },
+// });
+
+// types.interface<{ kind: "one"; id: string } | { kind: "two"; id: boolean }>()({
+//   name: "Node",
+//   fields: {
+//     id: types.field({
+//       type: types.nonNull(types.ID),
+//       // args: {},
+//       resolve({}, {}) {
+//         return true;
+//       },
+//     }),
+//   },
+// });

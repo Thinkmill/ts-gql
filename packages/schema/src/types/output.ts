@@ -147,12 +147,11 @@ function bindFieldToContext<OuterContext>(): FieldFunc<OuterContext> {
 
 export const object = bindObjectTypeToContext<unknown>();
 
-type ObjectTypeFunc<Context> = <RootVal>(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
-    youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
-  }
-) => <
+type ObjectTypeFunc<Context> = <
+  RootVal
+>(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
+  youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
+}) => <
   Name extends string,
   Fields extends {
     [Key in keyof Fields]: OutputField<
@@ -272,7 +271,6 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 // export type InterfaceType<
 //   RootVal,
 //   Context,
-//   Interfaces extends InterfaceType<any, any, any, any>[],
 //   Fields extends {
 //     [Key in keyof Fields]: OutputField<
 //       RootVal,
@@ -281,14 +279,22 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //       Extract<Key, string>,
 //       Context
 //     >;
-//   } &
-//     Interfaces[number]["fields"]
+//   },
+//   Interfaces extends InterfaceType<
+//     any,
+//     Context,
+//     Record<string, OutputField<RootVal, any, any, string, Context>>,
+//     any[]
+//   >[]
 // > = {
 //   kind: "interface";
 //   __rootVal: RootVal;
 //   __context: Context;
 //   graphQLType: GraphQLInterfaceType;
-//   fields: () => Fields;
+//   fields: () => Fields &
+//     (never extends Interfaces[number]["fields"]
+//       ? {}
+//       : Interfaces[number]["fields"]);
 // };
 
 // const interfaceType = bindInterfaceTypeToContext<unknown>();
@@ -302,7 +308,6 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //     }
 //   ) {
 //     return function interfaceInner<
-//       Name extends string,
 //       Fields extends {
 //         [Key in keyof Fields]: OutputField<
 //           RootVal,
@@ -313,11 +318,11 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //         >;
 //       }
 //     >(config: {
-//       name: Name;
+//       name: string;
 //       description?: string;
 //       deprecationReason?: string;
 //       fields: Fields | (() => Fields);
-//     }): InterfaceType<RootVal, Context, Fields> {
+//     }): InterfaceType<RootVal, Context, Fields, []> {
 //       return {
 //         kind: "interface",
 //         graphQLType: new GraphQLInterfaceType({
@@ -333,6 +338,8 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //         }),
 //         __rootVal: undefined as any,
 //         __context: undefined as any,
+//         fields: () =>
+//           typeof config.fields === "function" ? config.fields() : config.fields,
 //       };
 //     };
 //   };
@@ -340,13 +347,7 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 
 import * as typesThatDoNotUseContext from "./types-that-do-not-use-context";
 
-export function bindTypesToContext<
-  Context
->(): typeof import("./types-that-do-not-use-context") & {
-  object: ObjectTypeFunc<Context>;
-  union: UnionTypeFunc<Context>;
-  field: FieldFunc<Context>;
-} {
+export function bindTypesToContext<Context>() {
   return {
     ...typesThatDoNotUseContext,
     object: bindObjectTypeToContext<Context>(),
