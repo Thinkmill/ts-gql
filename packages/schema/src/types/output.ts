@@ -105,22 +105,30 @@ export type OutputField<
 
 export const field = bindFieldToContext<unknown>();
 
-type FieldFunc<OuterContext> = <
+type FieldFuncResolve<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
   OutputType extends OutputTypes,
   Key extends string,
-  Context extends OuterContext
->(
-  field: {
-    args?: Args;
-    type: OutputType;
-    deprecationReason?: string;
-    description?: string;
-    extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
-  } & (RootVal extends {
-    [K in Key]: InferValueFromOutputType<OutputType>;
-  }
+  Context
+> =
+  // the tuple is here because we _don't_ want this to be distributive
+  // if this was distributive then it would optional when it should be required e.g.
+  // types.object<{ id: string } | { id: boolean }>()({
+  //   name: "Node",
+  //   fields: {
+  //     id: types.field({
+  //       type: types.nonNull(types.ID),
+  //     }),
+  //   },
+  // });
+  // TODO: this check is incomplete, there are some more cases which graphql-js will handle like promises and functions
+  // though tbh, maybe it's fine to be a little more explicit like that
+  [RootVal] extends [
+    {
+      [K in Key]: InferValueFromOutputType<OutputType>;
+    }
+  ]
     ? {
         resolve?: OutputFieldResolver<
           SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
@@ -136,7 +144,30 @@ type FieldFunc<OuterContext> = <
           RootVal,
           Context
         >;
-      })
+      };
+
+type FieldFuncArgs<
+  RootVal,
+  Args extends { [Key in keyof Args]: Arg<any, any> },
+  OutputType extends OutputTypes,
+  Key extends string,
+  Context
+> = {
+  args?: Args;
+  type: OutputType;
+  deprecationReason?: string;
+  description?: string;
+  extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
+} & FieldFuncResolve<RootVal, Args, OutputType, Key, Context>;
+
+type FieldFunc<OuterContext> = <
+  RootVal,
+  Args extends { [Key in keyof Args]: Arg<any, any> },
+  OutputType extends OutputTypes,
+  Key extends string,
+  Context extends OuterContext
+>(
+  field: FieldFuncArgs<RootVal, Args, OutputType, Key, Context>
 ) => OutputField<RootVal, Args, OutputType, Key, Context>;
 
 function bindFieldToContext<OuterContext>(): FieldFunc<OuterContext> {
