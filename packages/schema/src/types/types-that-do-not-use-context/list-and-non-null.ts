@@ -10,10 +10,10 @@ import {
   ScalarType,
 } from ".";
 
-export type ListType<Of extends Types, Context = unknown> = {
+export type ListType<Of extends Types> = {
   kind: "list";
   of: Of;
-  __context: Context;
+  __context: Of["__context"];
   graphQLType: GraphQLList<Of["graphQLType"]>;
 };
 

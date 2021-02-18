@@ -2,22 +2,23 @@ import {
   GraphQLInputObjectType,
   GraphQLInputType,
   GraphQLList,
+  GraphQLNonNull,
 } from "graphql/type/definition";
 import { EnumType } from "..";
 import { ScalarType } from "./scalars";
 
-type InputListType<Of extends InputTypeExcludingNonNull> = {
+type InputListType<Of extends InputType> = {
   kind: "list";
   of: Of;
-  graphQLType: GraphQLList<Of["graphQLType"]>;
-  __context: unknown;
+  graphQLType: GraphQLList<any>;
+  __context: any;
 };
 
-type InputNonNullType<Of extends InputType> = {
+type InputNonNullType<Of extends InputTypeExcludingNonNull> = {
   kind: "non-null";
   of: Of;
-  graphQLType: GraphQLList<Of["graphQLType"]>;
-  __context: unknown;
+  graphQLType: GraphQLNonNull<any>;
+  __context: any;
 };
 
 export type InputTypeExcludingNonNull =
@@ -59,6 +60,10 @@ export type InferValueFromInputType<
 > = Type extends InputNonNullType<infer Value>
   ? InferValueFromInputTypeWithoutAddingNull<Value>
   : InferValueFromInputTypeWithoutAddingNull<Type> | null;
+
+// export type InferValueFromInputType<Type extends InputType> =
+//   | InferValueFromInputTypeWithoutAddingNull<Type>
+//   | ("non-null" extends Type["kind"] ? never : null);
 
 export type InputObjectType<
   Fields extends {
