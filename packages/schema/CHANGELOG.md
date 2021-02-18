@@ -1,5 +1,15 @@
 # @ts-gql/schema
 
+## 0.4.0
+
+### Minor Changes
+
+- [`b2a88cf`](https://github.com/Thinkmill/ts-gql/commit/b2a88cf7a0e9e9875c54c40695f8a9ce324b4c0c) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Removed `Context` type parameter to `ListType` type to be consistent with `NonNullType`.
+
+### Patch Changes
+
+- [`b2a88cf`](https://github.com/Thinkmill/ts-gql/commit/b2a88cf7a0e9e9875c54c40695f8a9ce324b4c0c) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed inference of input lists with non null inside them
+
 ## 0.3.1
 
 ### Patch Changes
