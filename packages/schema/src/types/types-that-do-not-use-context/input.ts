@@ -4,7 +4,7 @@ import {
   GraphQLList,
   GraphQLNonNull,
 } from "graphql/type/definition";
-import { EnumType } from "..";
+import { EnumType } from "./enum";
 import { ScalarType } from "./scalars";
 
 type InputListType<Of extends InputType> = {

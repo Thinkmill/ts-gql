@@ -1,5 +1,12 @@
 import { expectType } from "tsd";
-import { types, bindTypesToContext } from "./packages/schema";
+import {
+  types,
+  bindTypesToContext,
+  Arg,
+  InferValueFromInputType,
+  InputObjectType,
+  ScalarType,
+} from "./packages/schema";
 
 const typesWithContext = bindTypesToContext();
 
@@ -25,7 +32,7 @@ const Something = types.inputObject({
   },
 });
 
-type SomethingType = types.InferValueFromInputType<typeof Something>;
+type SomethingType = InferValueFromInputType<typeof Something>;
 
 declare const valOfSomethingType: SomethingType;
 
@@ -36,9 +43,9 @@ expectType<{
   readonly nonNullableStringWithDefaultValue: string;
 } | null>(valOfSomethingType);
 
-type RecursiveInput = types.InputObjectType<{
-  nullableString: types.Arg<types.String>;
-  recursive: types.Arg<RecursiveInput>;
+type RecursiveInput = InputObjectType<{
+  nullableString: Arg<ScalarType<string>, any>;
+  recursive: Arg<RecursiveInput, any>;
 }>;
 
 const Recursive: RecursiveInput = types.inputObject({
@@ -49,7 +56,7 @@ const Recursive: RecursiveInput = types.inputObject({
   }),
 });
 
-type RecursiveInputType = types.InferValueFromInputType<typeof Recursive>;
+type RecursiveInputType = InferValueFromInputType<typeof Recursive>;
 
 declare const valOfRecursiveInputType: RecursiveInputType;
 
@@ -62,8 +69,8 @@ expectType<RecursiveTypeExpect>(valOfRecursiveInputType);
 
 // TODO: if possible, this should error. not really a massive deal if it doesn't though tbh
 // since if people forget to add something here, they will see an error when they try to read a field that doesn't exist
-export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: types.InputObjectType<{
-  nullableString: types.Arg<typeof types.String>;
+export const ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls: InputObjectType<{
+  nullableString: Arg<typeof types.String>;
 }> = types.inputObject({
   name: "ExplicitDefinitionMissingFieldsThatAreSpecifiedInCalls",
   fields: () => ({
