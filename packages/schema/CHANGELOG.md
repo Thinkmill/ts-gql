@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.5.0
+
+### Minor Changes
+
+- [`3c07b55`](https://github.com/Thinkmill/ts-gql/commit/3c07b552a250c23e3fdb56aa3587306a8189b25f) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved exported TypeScript types from the `types` export to top-level exports create consistency with using the `types` export and `bindTypesToContext`.
+
 ## 0.4.0
 
 ### Minor Changes
