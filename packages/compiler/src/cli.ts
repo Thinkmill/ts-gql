@@ -8,7 +8,8 @@ let arg = process.argv[2];
 let commands: Record<string, () => Promise<any>> = {
   async check() {
     let { fsOperations, errors } = await getGeneratedTypes(
-      await getConfig(process.cwd())
+      await getConfig(process.cwd()),
+      true
     );
     for (let error of errors) {
       console.error(error);

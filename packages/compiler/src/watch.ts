@@ -54,7 +54,7 @@ export const watch = async (cwd: string) => {
     try {
       config.schema();
     } catch (err) {}
-    let { fsOperations, errors } = await getGeneratedTypes(config);
+    let { fsOperations, errors } = await getGeneratedTypes(config, false);
     await Promise.all(fsOperations.map(applyFsOperation));
     let willPrintErrors =
       errors.length &&

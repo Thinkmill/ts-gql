@@ -75,7 +75,10 @@ const walkSettings = new Settings({
     tsExtensionRegex.test(entry.name) && !dtsExtensionRegex.test(entry.name),
 });
 
-export const getGeneratedTypes = async (config: Config) => {
+export const getGeneratedTypes = async (
+  config: Config,
+  deleteInvalidFiles: boolean
+) => {
   let generatedDirectory = nodePath.join(
     config.directory,
     "__generated__",
@@ -144,22 +147,24 @@ export const getGeneratedTypes = async (config: Config) => {
     })
   );
 
-  try {
-    let generatedDirectoryFiles = (await fs.readdir(generatedDirectory)).filter(
-      (x) => !x.startsWith("@")
-    );
+  if (deleteInvalidFiles) {
+    try {
+      let generatedDirectoryFiles = (
+        await fs.readdir(generatedDirectory)
+      ).filter((x) => !x.startsWith("@"));
 
-    for (let name of generatedDirectoryFiles) {
-      if (allDocumentsByName[name.replace(/\.ts$/, "")] === undefined) {
-        fsOperations.push({
-          type: "remove",
-          filename: nodePath.join(generatedDirectory, name),
-        });
+      for (let name of generatedDirectoryFiles) {
+        if (allDocumentsByName[name.replace(/\.ts$/, "")] === undefined) {
+          fsOperations.push({
+            type: "remove",
+            filename: nodePath.join(generatedDirectory, name),
+          });
+        }
       }
-    }
-  } catch (err) {
-    if (err.code !== "ENOENT") {
-      throw err;
+    } catch (err) {
+      if (err.code !== "ENOENT") {
+        throw err;
+      }
     }
   }
 

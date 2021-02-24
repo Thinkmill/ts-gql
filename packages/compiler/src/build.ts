@@ -3,7 +3,10 @@ import { getConfig } from "@ts-gql/config";
 import { applyFsOperation } from "./fs-operations";
 
 export async function build(cwd: string) {
-  let { fsOperations, errors } = await getGeneratedTypes(await getConfig(cwd));
+  let { fsOperations, errors } = await getGeneratedTypes(
+    await getConfig(cwd),
+    true
+  );
   await Promise.all(
     fsOperations.map(async (operation) => {
       await applyFsOperation(operation);
