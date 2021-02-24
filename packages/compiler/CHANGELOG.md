@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.14.3
+
+### Patch Changes
+
+- [`17abf8d`](https://github.com/Thinkmill/ts-gql/commit/17abf8d650c98a3ced408bcd4bf9c83e006233d2) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Stopped removing invalid files when running the watcher. This isn't really solving an issue with ts-gql but attempting to fix https://github.com/Thinkmill/ts-gql/issues/52 where files are deleted and tools don't expect them to be deleted and then the process exits.
+
 ## 0.14.2
 
 ### Patch Changes
