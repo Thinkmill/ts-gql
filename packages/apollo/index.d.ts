@@ -21,6 +21,7 @@ import {
   ApolloClient,
   Reference,
   ApolloCache,
+  BaseMutationOptions,
 } from "@apollo/client";
 import { ExecutionResult } from "graphql";
 
@@ -129,7 +130,16 @@ export function useQuery<
 >;
 export function useMutation<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
->(mutation: TTypedDocumentNode): MutationTuple<TTypedDocumentNode>;
+>(
+  mutation: TTypedDocumentNode,
+  options?: Omit<
+    BaseMutationOptions<
+      OperationData<TTypedDocumentNode>,
+      OperationVariables<TTypedDocumentNode>
+    >,
+    "variables"
+  >
+): MutationTuple<TTypedDocumentNode>;
 
 type KnownKeysWhichAreQueries<
   T extends Record<string, TypedDocumentNode<BaseDocumentTypes>>
