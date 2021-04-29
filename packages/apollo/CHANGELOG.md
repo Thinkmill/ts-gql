@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.9.1
+
+### Patch Changes
+
+- [`69d2f4b`](https://github.com/Thinkmill/ts-gql/commit/69d2f4b77725bce7febc5ff3015a8678366ea98d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Allow passing options to useMutation
+
 ## 0.9.0
 
 ### Minor Changes
