@@ -29,19 +29,18 @@ export type InputTypeExcludingNonNull =
 
 export type InputType = InputTypeExcludingNonNull | InputNonNullType<any>;
 
-type InferValueFromInputTypeWithoutAddingNull<
-  Type extends InputType
-> = Type extends ScalarType<infer Value>
-  ? Value
-  : Type extends EnumType<infer Values>
-  ? Values[string]["value"]
-  : Type extends InputListType<infer Value>
-  ? InferValueFromInputType<Value>[]
-  : Type extends InputObjectType<infer Fields>
-  ? {
-      readonly [Key in keyof Fields]: InferValueFromArg<Fields[Key]>;
-    }
-  : never;
+type InferValueFromInputTypeWithoutAddingNull<Type extends InputType> =
+  Type extends ScalarType<infer Value>
+    ? Value
+    : Type extends EnumType<infer Values>
+    ? Values[keyof Values]["value"]
+    : Type extends InputListType<infer Value>
+    ? InferValueFromInputType<Value>[]
+    : Type extends InputObjectType<infer Fields>
+    ? {
+        readonly [Key in keyof Fields]: InferValueFromArg<Fields[Key]>;
+      }
+    : never;
 
 export type InferValueFromArgs<Args extends Record<string, Arg<any, any>>> = {
   readonly [Key in keyof Args]: InferValueFromArg<Args[Key]>;
@@ -55,11 +54,10 @@ export type InferValueFromArg<TArg extends Arg<any, any>> =
       ? undefined
       : never);
 
-export type InferValueFromInputType<
-  Type extends InputType
-> = Type extends InputNonNullType<infer Value>
-  ? InferValueFromInputTypeWithoutAddingNull<Value>
-  : InferValueFromInputTypeWithoutAddingNull<Type> | null;
+export type InferValueFromInputType<Type extends InputType> =
+  Type extends InputNonNullType<infer Value>
+    ? InferValueFromInputTypeWithoutAddingNull<Value>
+    : InferValueFromInputTypeWithoutAddingNull<Type> | null;
 
 // export type InferValueFromInputType<Type extends InputType> =
 //   | InferValueFromInputTypeWithoutAddingNull<Type>

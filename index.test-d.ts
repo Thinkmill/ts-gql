@@ -14,6 +14,15 @@ typesWithContext.arg({
   type: typesWithContext.Boolean,
 });
 
+const someEnum = types.enum({
+  name: "SomeEnum",
+  values: types.enumValues(["a", "b"]),
+});
+
+const enumArg = types.arg({
+  type: someEnum,
+});
+
 const Something = types.inputObject({
   name: "Something",
   fields: {
@@ -29,6 +38,7 @@ const Something = types.inputObject({
       type: types.nonNull(types.String),
       defaultValue: "something",
     }),
+    enum: enumArg,
   },
 });
 
@@ -41,6 +51,7 @@ expectType<{
   readonly nullableStringWithDefaultValue: string | null;
   readonly nonNullableString: string;
   readonly nonNullableStringWithDefaultValue: string;
+  readonly enum: "a" | "b" | null | undefined;
 } | null>(valOfSomethingType);
 
 type RecursiveInput = InputObjectType<{

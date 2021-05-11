@@ -41,25 +41,23 @@ export type OutputTypeExcludingNonNull =
 
 export type OutputTypes = OutputTypeExcludingNonNull | OutputNonNullType<any>;
 
-type InferValueFromOutputTypeWithoutAddingNull<
-  Type extends OutputTypes
-> = Type extends ScalarType<infer Value>
-  ? Value
-  : Type extends EnumType<infer Values>
-  ? Values[string]["value"]
-  : Type extends OutputListType<infer Value>
-  ? InferValueFromOutputType<Value>[]
-  : Type extends ObjectType<infer RootVal, string, any>
-  ? RootVal
-  : Type extends UnionType<ObjectType<infer RootVal, string, any>>
-  ? RootVal
-  : never;
+type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes> =
+  Type extends ScalarType<infer Value>
+    ? Value
+    : Type extends EnumType<infer Values>
+    ? Values[keyof Values]["value"]
+    : Type extends OutputListType<infer Value>
+    ? InferValueFromOutputType<Value>[]
+    : Type extends ObjectType<infer RootVal, string, any>
+    ? RootVal
+    : Type extends UnionType<ObjectType<infer RootVal, string, any>>
+    ? RootVal
+    : never;
 
-export type InferValueFromOutputType<
-  Type extends OutputTypes
-> = Type extends OutputNonNullType<infer Value>
-  ? InferValueFromOutputTypeWithoutAddingNull<Value>
-  : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
+export type InferValueFromOutputType<Type extends OutputTypes> =
+  Type extends OutputNonNullType<infer Value>
+    ? InferValueFromOutputTypeWithoutAddingNull<Value>
+    : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
 
 export type ObjectType<RootVal, Name extends string, Context> = {
   kind: "object";
