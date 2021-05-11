@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.5.1
+
+### Patch Changes
+
+- [`f39352d`](https://github.com/Thinkmill/ts-gql/commit/f39352dd0cc5324edabb722e717d3c7f027662d0) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed the value of enums being inferred to unknown rather than the actual values
+
 ## 0.5.0
 
 ### Minor Changes
