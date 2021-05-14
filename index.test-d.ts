@@ -121,3 +121,14 @@ types.object<{ id: string } | { id: boolean }>()({
 //     }),
 //   },
 // });
+
+const sharedFields = types.fields<{ something: string }>()({
+  something: types.field({
+    type: types.nonNull(types.String),
+  }),
+});
+
+types.object<{ something: string; other: string }>()({
+  name: "",
+  fields: sharedFields,
+});

@@ -93,13 +93,34 @@ export type OutputField<
   args?: Args;
   type: OutputType;
   __key: Key;
-  __rootVal: RootVal;
+  __rootVal: (rootVal: RootVal) => void;
   __context: Context;
   resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
   deprecationReason?: string;
   description?: string;
-  extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
+  extensions?: Readonly<
+    GraphQLFieldExtensions<RootVal, Context, InferValueFromArgs<Args>>
+  >;
 };
+
+// export type InterfaceOutputField<
+//   RootVal,
+//   Args extends Record<string, Arg<any>>,
+//   OutputType extends OutputTypes,
+//   Key extends string,
+//   Context
+// > = {
+//   args?: Args;
+//   type: OutputType;
+//   __key: Key;
+//   __rootVal: RootVal;
+//   __context: Context;
+//   deprecationReason?: string;
+//   description?: string;
+//   extensions?: Readonly<
+//     GraphQLFieldExtensions<RootVal, Context, InferValueFromArgs<Args>>
+//   >;
+// };
 
 export const field = bindFieldToContext<unknown>();
 
@@ -297,6 +318,34 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
   };
 }
 
+type FieldsTypeFunc<Context> = <
+  RootVal
+>(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
+  youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
+}) => <
+  Fields extends {
+    [Key in keyof Fields]: OutputField<
+      RootVal,
+      any,
+      any,
+      Extract<Key, string>,
+      Context
+    >;
+  }
+>(
+  fields: Fields
+) => Fields;
+
+function bindFieldsToContext<Context>(): FieldsTypeFunc<Context> {
+  return function fields() {
+    return function fieldsInner(fields) {
+      return fields;
+    };
+  };
+}
+
+export const fields = bindFieldsToContext<unknown>();
+
 // export type InterfaceType<
 //   RootVal,
 //   Context,
@@ -328,6 +377,8 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 
 // const interfaceType = bindInterfaceTypeToContext<unknown>();
 
+// type MaybeThunk<T> = T | (() => T);
+
 // export { interfaceType as interface };
 // function bindInterfaceTypeToContext<Context>() {
 //   return function interfaceType<RootVal>(
@@ -337,6 +388,7 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //     }
 //   ) {
 //     return function interfaceInner<
+//       Interfaces extends InterfaceType<RootVal, Context, any, any>[],
 //       Fields extends {
 //         [Key in keyof Fields]: OutputField<
 //           RootVal,
@@ -350,7 +402,13 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
 //       name: string;
 //       description?: string;
 //       deprecationReason?: string;
-//       fields: Fields | (() => Fields);
+//       interfaces?: Interfaces;
+//       fields: MaybeThunk<
+//         Fields &
+//           (never extends Interfaces[number]["fields"]
+//             ? {}
+//             : Interfaces[number]["fields"])
+//       >;
 //     }): InterfaceType<RootVal, Context, Fields, []> {
 //       return {
 //         kind: "interface",
@@ -382,5 +440,6 @@ export function bindTypesToContext<Context>() {
     object: bindObjectTypeToContext<Context>(),
     union: bindUnionTypeToContext<Context>(),
     field: bindFieldToContext<Context>(),
+    fields: bindFieldsToContext<Context>(),
   };
 }
