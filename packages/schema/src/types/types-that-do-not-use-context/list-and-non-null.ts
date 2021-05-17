@@ -4,11 +4,7 @@ import {
   GraphQLNullableType,
 } from "graphql/type/definition";
 import { ObjectType, UnionType } from "../output";
-import {
-  EnumType as EnumType,
-  InputObjectType as InputObjectType,
-  ScalarType,
-} from ".";
+import { EnumType, InputObjectType, ScalarType } from ".";
 
 export type ListType<Of extends Types> = {
   kind: "list";

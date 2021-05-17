@@ -70,7 +70,7 @@ export type InputObjectType<
 > = {
   kind: "input";
   __fields: Fields;
-  __context: unknown;
+  __context: (context: unknown) => void;
   graphQLType: GraphQLInputObjectType;
 };
 
@@ -122,7 +122,7 @@ export function inputObject<
   return {
     kind: "input",
     __fields: undefined as any,
-    __context: undefined,
+    __context: undefined as any,
     graphQLType,
   };
 }

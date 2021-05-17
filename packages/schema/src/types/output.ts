@@ -3,6 +3,7 @@ import {
   GraphQLFieldExtensions,
   GraphQLInputType,
   GraphQLList,
+  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLResolveInfo,
@@ -29,17 +30,33 @@ type OutputListType<Of extends OutputTypes> = {
 type OutputNonNullType<Of extends OutputTypeExcludingNonNull> = {
   kind: "non-null";
   of: Of;
-  graphQLType: GraphQLList<Of["graphQLType"]>;
+  graphQLType: GraphQLNonNull<Of["graphQLType"]>;
 };
 
-export type OutputTypeExcludingNonNull =
-  | ScalarType<any>
-  | ObjectType<any, string, any>
-  | UnionType<ObjectType<any, string, any>>
-  | EnumType<any>
-  | OutputListType<any>;
+type OutputListTypeWithContext<Context> = {
+  kind: "list";
+  of: OutputTypes<Context>;
+  graphQLType: GraphQLList<any>;
+};
 
-export type OutputTypes = OutputTypeExcludingNonNull | OutputNonNullType<any>;
+type OutputNonNullTypeWithContext<Context> = {
+  kind: "non-null";
+  of: OutputTypeExcludingNonNull<Context>;
+  graphQLType: GraphQLNonNull<
+    OutputTypeExcludingNonNull<Context>["graphQLType"]
+  >;
+};
+
+export type OutputTypeExcludingNonNull<Context = unknown> =
+  | ScalarType<any>
+  | ObjectType<any, string, Context>
+  | UnionType<ObjectType<any, string, Context>>
+  | EnumType<any>
+  | OutputListTypeWithContext<Context>;
+
+export type OutputTypes<Context = unknown> =
+  | OutputTypeExcludingNonNull<Context>
+  | OutputNonNullTypeWithContext<Context>;
 
 type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes> =
   Type extends ScalarType<infer Value>
@@ -54,7 +71,7 @@ type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes> =
     ? RootVal
     : never;
 
-export type InferValueFromOutputType<Type extends OutputTypes> =
+export type InferValueFromOutputType<Type extends OutputTypes<any>> =
   Type extends OutputNonNullType<infer Value>
     ? InferValueFromOutputTypeWithoutAddingNull<Value>
     : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
@@ -63,7 +80,7 @@ export type ObjectType<RootVal, Name extends string, Context> = {
   kind: "object";
   name: Name;
   graphQLType: GraphQLObjectType;
-  __context: Context;
+  __context: (context: Context) => void;
   __rootVal: RootVal;
 };
 
@@ -71,7 +88,7 @@ type MaybePromise<T> = Promise<T> | T;
 
 export type OutputFieldResolver<
   Args extends Record<string, Arg<any>>,
-  OutputType extends OutputTypes,
+  OutputType extends OutputTypes<Context>,
   RootVal,
   Context
 > = (
@@ -86,7 +103,7 @@ type SomeTypeThatIsntARecordOfArgs = string;
 export type OutputField<
   RootVal,
   Args extends Record<string, Arg<any>>,
-  OutputType extends OutputTypes,
+  OutputType extends OutputTypes<Context>,
   Key extends string,
   Context
 > = {
@@ -94,7 +111,7 @@ export type OutputField<
   type: OutputType;
   __key: Key;
   __rootVal: (rootVal: RootVal) => void;
-  __context: Context;
+  __context: (context: Context) => void;
   resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
   deprecationReason?: string;
   description?: string;
@@ -127,7 +144,7 @@ export const field = bindFieldToContext<unknown>();
 type FieldFuncResolve<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes,
+  OutputType extends OutputTypes<Context>,
   Key extends string,
   Context
 > =
@@ -168,7 +185,7 @@ type FieldFuncResolve<
 type FieldFuncArgs<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes,
+  OutputType extends OutputTypes<Context>,
   Key extends string,
   Context
 > = {
@@ -182,7 +199,7 @@ type FieldFuncArgs<
 type FieldFunc<OuterContext> = <
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes,
+  OutputType extends OutputTypes<Context>,
   Key extends string,
   Context extends OuterContext
 >(
@@ -296,7 +313,7 @@ type UnionTypeFunc<Context> = <
   types: TObjectType[];
   resolveType: (
     type: TObjectType["__rootVal"],
-    context: TObjectType["__context"],
+    context: Parameters<TObjectType["__context"]>[0],
     info: GraphQLResolveInfo,
     abstractType: GraphQLUnionType
   ) => TObjectType["name"];
