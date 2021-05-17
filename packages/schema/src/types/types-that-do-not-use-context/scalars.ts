@@ -10,7 +10,7 @@ import {
 export type ScalarType<Type> = {
   kind: "scalar";
   __type: Type;
-  __context: unknown;
+  __context: (context: unknown) => void;
   graphQLType: GraphQLScalarType;
 };
 
@@ -18,7 +18,7 @@ export function scalar<Type>(scalar: GraphQLScalarType): ScalarType<Type> {
   return {
     kind: "scalar",
     __type: undefined as any,
-    __context: undefined,
+    __context: undefined as any,
     graphQLType: scalar,
   };
 }

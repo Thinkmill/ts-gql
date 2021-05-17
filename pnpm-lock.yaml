@@ -9,7 +9,7 @@ importers:
       '@changesets/changelog-github': 0.2.5
       '@changesets/cli': 2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': 2.0.3
+      '@preconstruct/cli': 2.1.0
       '@ts-gql/eslint-plugin': 'link:packages/eslint-plugin'
       '@types/jest': 25.2.1
       '@typescript-eslint/eslint-plugin': 4.14.2_b65beeca17489e92307749ddc65aecde
@@ -33,7 +33,7 @@ importers:
       '@changesets/changelog-github': ^0.2.5
       '@changesets/cli': ^2.10.0
       '@manypkg/cli': 0.12.0
-      '@preconstruct/cli': ^2.0.3
+      '@preconstruct/cli': ^2.1.0
       '@ts-gql/eslint-plugin': '*'
       '@types/jest': ^25.2.1
       '@typescript-eslint/eslint-plugin': ^4.14.2
@@ -236,7 +236,7 @@ importers:
       react: ^16.13.1
       react-dom: ^16.13.1
       urql: ^1.9.7
-lockfileVersion: 5.1
+lockfileVersion: 5.2
 packages:
   /@ampproject/toolbox-core/2.3.0:
     dependencies:
@@ -3126,7 +3126,7 @@ packages:
       jest-haste-map: 25.4.0
       jest-message-util: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       jest-resolve-dependencies: 25.4.0
       jest-runner: 25.4.0
       jest-runtime: 25.4.0
@@ -3184,7 +3184,7 @@ packages:
       istanbul-lib-source-maps: 4.0.0
       istanbul-reports: 3.0.2
       jest-haste-map: 25.4.0
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       jest-util: 25.4.0
       jest-worker: 25.4.0
       slash: 3.0.0
@@ -3368,7 +3368,7 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-8Broas6vTtW4GIXTAHDoE32hnN2M5ykgCpWGbuXHQ15vEMqr23pB76e/GZcYsZCHALv50ktd24qhEyKr6wBtow==
-  /@preconstruct/cli/2.0.3:
+  /@preconstruct/cli/2.1.0:
     dependencies:
       '@babel/code-frame': 7.12.11
       '@babel/core': 7.9.6
@@ -3379,7 +3379,7 @@ packages:
       '@rollup/plugin-commonjs': 15.1.0_rollup@2.38.5
       '@rollup/plugin-json': 4.1.0_rollup@2.38.5
       '@rollup/plugin-node-resolve': 9.0.0_rollup@2.38.5
-      '@rollup/plugin-replace': 2.3.4_rollup@2.38.5
+      '@rollup/plugin-replace': 2.4.2_rollup@2.38.5
       builtin-modules: 3.1.0
       chalk: 4.1.0
       dataloader: 2.0.0
@@ -3410,13 +3410,13 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-nDw+cx4TIcu/v9CXFtJkL2LaUSdwvZt/Du766ePLK+RqCnzOiYVY6AXo7p/pEgej7LZMY9gh7PmGsPIKTeWhSw==
+      integrity: sha512-FfyWlZbinuv3be7yss8p9Yq87V88XKa6XUskeRSFDKgcgH1FwtTg9xYrEJm7j5QV4KThiQfPqoUN4m7hLxWlHg==
   /@preconstruct/hook/0.4.0:
     dependencies:
       '@babel/core': 7.9.6
       '@babel/plugin-transform-modules-commonjs': 7.10.4_@babel+core@7.9.6
       pirates: 4.0.1
-      source-map-support: 0.5.18
+      source-map-support: 0.5.19
     dev: false
     resolution:
       integrity: sha512-a7mrlPTM3tAFJyz43qb4pPVpUx8j8TzZBFsNFqcKcE/sEakNXRlQAuCT4RGZRf9dQiiUnBahzSIWawU4rENl+Q==
@@ -3493,7 +3493,7 @@ packages:
       integrity: sha512-xCQqz4z/o0h2syQ7d9LskIMvBSH4PX5PjYdpSSvgS+pQik3WahkQVNWg3D8XJeYjZoVWnIUQYDghuEMRGrmQYQ==
   /@rollup/plugin-json/4.1.0_rollup@2.38.5:
     dependencies:
-      '@rollup/pluginutils': 3.0.9_rollup@2.38.5
+      '@rollup/pluginutils': 3.1.0_rollup@2.38.5
       rollup: 2.38.5
     dev: false
     peerDependencies:
@@ -3516,7 +3516,7 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-gPz+utFHLRrd41WMP13Jq5mqqzHL3OXrfj3/MkSyB6UBIcuNt9j60GCbarzMzdf1VHFpOxfQh/ez7wyadLMqkg==
-  /@rollup/plugin-replace/2.3.4_rollup@2.38.5:
+  /@rollup/plugin-replace/2.4.2_rollup@2.38.5:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.38.5
       magic-string: 0.25.7
@@ -3525,20 +3525,7 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
-      integrity: sha512-waBhMzyAtjCL1GwZes2jaE9MjuQ/DQF2BatH3fRivUF3z0JBFrU0U6iBNC/4WR+2rLKhaAhPWDNPYp4mI6RqdQ==
-  /@rollup/pluginutils/3.0.9_rollup@2.38.5:
-    dependencies:
-      '@types/estree': 0.0.39
-      estree-walker: 1.0.1
-      micromatch: 4.0.2
-      rollup: 2.38.5
-    dev: false
-    engines:
-      node: '>= 8.0.0'
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    resolution:
-      integrity: sha512-TLZavlfPAZYI7v33wQh4mTP6zojne14yok3DNSLcjoG/Hirxfkonn6icP5rrNWRn8nZsirJBFFpijVOJzkUHDg==
+      integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==
   /@rollup/pluginutils/3.1.0_rollup@2.38.5:
     dependencies:
       '@types/estree': 0.0.39
@@ -6008,7 +5995,7 @@ packages:
       postcss-modules-values: 3.0.0
       postcss-value-parser: 4.0.3
       schema-utils: 2.6.6
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -8650,7 +8637,7 @@ packages:
       jest-get-type: 25.2.6
       jest-jasmine2: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       jest-util: 25.4.0
       jest-validate: 25.4.0
       micromatch: 4.0.2
@@ -8812,7 +8799,7 @@ packages:
       integrity: sha512-MdazSfcYAUjJjuVTTnusLPzE0pE4VXpOUzWdj8sbM+q6abUjm3bATVPXFqTXrxSieR8ocpvQ9v/QaQCftioQFg==
   /jest-pnp-resolver/1.2.1_jest-resolve@25.4.0:
     dependencies:
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
     dev: false
     engines:
       node: '>=6'
@@ -8839,7 +8826,7 @@ packages:
       node: '>= 8.3'
     resolution:
       integrity: sha512-A0eoZXx6kLiuG1Ui7wITQPl04HwjLErKIJTt8GR3c7UoDAtzW84JtCrgrJ6Tkw6c6MwHEyAaLk7dEPml5pf48A==
-  /jest-resolve/25.4.0_jest-resolve@25.4.0:
+  /jest-resolve/25.4.0:
     dependencies:
       '@jest/types': 25.4.0
       browser-resolve: 1.11.3
@@ -8852,8 +8839,6 @@ packages:
     dev: false
     engines:
       node: '>= 8.3'
-    peerDependencies:
-      jest-resolve: '*'
     resolution:
       integrity: sha512-wOsKqVDFWUiv8BtLMCC6uAJ/pHZkfFgoBTgPtmYlsprAjkxrr2U++ZnB3l5ykBMd2O24lXvf30SMAjJIW6k2aA==
   /jest-runner/25.4.0:
@@ -8871,7 +8856,7 @@ packages:
       jest-jasmine2: 25.4.0
       jest-leak-detector: 25.4.0
       jest-message-util: 25.4.0
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       jest-runtime: 25.4.0
       jest-util: 25.4.0
       jest-worker: 25.4.0
@@ -8901,7 +8886,7 @@ packages:
       jest-message-util: 25.4.0
       jest-mock: 25.4.0
       jest-regex-util: 25.2.6
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       jest-snapshot: 25.4.0
       jest-util: 25.4.0
       jest-validate: 25.4.0
@@ -8932,7 +8917,7 @@ packages:
       jest-get-type: 25.2.6
       jest-matcher-utils: 25.4.0
       jest-message-util: 25.4.0
-      jest-resolve: 25.4.0_jest-resolve@25.4.0
+      jest-resolve: 25.4.0
       make-dir: 3.0.2
       natural-compare: 1.4.0
       pretty-format: 25.4.0
@@ -9668,7 +9653,7 @@ packages:
       loader-utils: 1.4.0
       normalize-url: 1.9.1
       schema-utils: 1.0.0
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
       webpack-sources: 1.4.3
     dev: false
     engines:
@@ -9867,7 +9852,7 @@ packages:
       styled-jsx: 3.2.5_react@16.13.1
       use-subscription: 1.1.1_react@16.13.1
       watchpack: 2.0.0-beta.13
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
       webpack-sources: 1.4.3
     dev: false
     engines:
@@ -11777,7 +11762,7 @@ packages:
       neo-async: 2.6.1
       schema-utils: 2.6.6
       semver: 6.3.0
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -12418,7 +12403,7 @@ packages:
     dependencies:
       loader-utils: 1.4.0
       schema-utils: 2.6.6
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -12626,7 +12611,7 @@ packages:
       serialize-javascript: 2.1.2
       source-map: 0.6.1
       terser: 4.6.11
-      webpack: 4.42.1_webpack@4.42.1
+      webpack: 4.42.1
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
     dev: false
@@ -13299,7 +13284,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==
-  /webpack/4.42.1_webpack@4.42.1:
+  /webpack/4.42.1:
     dependencies:
       '@webassemblyjs/ast': 1.9.0
       '@webassemblyjs/helper-module-context': 1.9.0
@@ -13328,8 +13313,6 @@ packages:
     engines:
       node: '>=6.11.5'
     hasBin: true
-    peerDependencies:
-      webpack: '*'
     resolution:
       integrity: sha512-SGfYMigqEfdGchGhFFJ9KyRpQKnipvEvjc1TwrXEPCM6H5Wywu10ka8o3KGrMzSMxMQKt8aCHUFh5DaQ9UmyRg==
   /whatwg-encoding/1.0.5:

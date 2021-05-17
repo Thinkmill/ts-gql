@@ -3,6 +3,9 @@
   "version": "0.5.1",
   "main": "dist/schema.cjs.js",
   "module": "dist/schema.esm.js",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2"
