@@ -314,3 +314,25 @@ types.object<{ id: string } | { id: boolean }>()({
     nonNullThing
   );
 }
+
+// function doTheThing<
+//   Fields extends { [Key in keyof Fields]: Key } &
+//     (Other extends readonly Record<string, any>[]
+//       ? { [Key in keyof Other[number]]: Key }
+//       : unknown),
+//   Other extends readonly Record<string, any>[] | undefined = undefined
+// >(
+//   things: { fields: Fields } & (Other extends readonly Record<string, any>[]
+//     ? { other: [...Other] }
+//     : {})
+// ) {
+//   console.log(things);
+// }
+
+// doTheThing({
+//   fields: {
+//     thing: "thing",
+//     wow: "wow",
+//   },
+//   other: [{ wow: true }],
+// });

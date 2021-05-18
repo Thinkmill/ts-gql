@@ -98,8 +98,6 @@ export type OutputFieldResolver<
   info: GraphQLResolveInfo
 ) => MaybePromise<InferValueFromOutputType<OutputType>>;
 
-type SomeTypeThatIsntARecordOfArgs = string;
-
 export type OutputField<
   RootVal,
   Args extends Record<string, Arg<any>>,
@@ -121,21 +119,15 @@ export type OutputField<
 };
 
 // export type InterfaceOutputField<
-//   RootVal,
 //   Args extends Record<string, Arg<any>>,
-//   OutputType extends OutputTypes,
-//   Key extends string,
-//   Context
+//   OutputType extends OutputTypes
 // > = {
 //   args?: Args;
 //   type: OutputType;
-//   __key: Key;
-//   __rootVal: RootVal;
-//   __context: Context;
 //   deprecationReason?: string;
 //   description?: string;
 //   extensions?: Readonly<
-//     GraphQLFieldExtensions<RootVal, Context, InferValueFromArgs<Args>>
+//     GraphQLFieldExtensions<any, any, InferValueFromArgs<Args>>
 //   >;
 // };
 
@@ -166,20 +158,10 @@ type FieldFuncResolve<
     }
   ]
     ? {
-        resolve?: OutputFieldResolver<
-          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-          OutputType,
-          RootVal,
-          Context
-        >;
+        resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
       }
     : {
-        resolve: OutputFieldResolver<
-          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-          OutputType,
-          RootVal,
-          Context
-        >;
+        resolve: OutputFieldResolver<Args, OutputType, RootVal, Context>;
       };
 
 type FieldFuncArgs<
@@ -196,12 +178,11 @@ type FieldFuncArgs<
   extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
 } & FieldFuncResolve<RootVal, Args, OutputType, Key, Context>;
 
-type FieldFunc<OuterContext> = <
+type FieldFunc<Context> = <
   RootVal,
-  Args extends { [Key in keyof Args]: Arg<any, any> },
   OutputType extends OutputTypes<Context>,
   Key extends string,
-  Context extends OuterContext
+  Args extends { [Key in keyof Args]: Arg<any, any> } = {}
 >(
   field: FieldFuncArgs<RootVal, Args, OutputType, Key, Context>
 ) => OutputField<RootVal, Args, OutputType, Key, Context>;
@@ -374,22 +355,19 @@ export const fields = bindFieldsToContext<unknown>();
 //       Extract<Key, string>,
 //       Context
 //     >;
-//   },
-//   Interfaces extends InterfaceType<
-//     any,
-//     Context,
-//     Record<string, OutputField<RootVal, any, any, string, Context>>,
-//     any[]
-//   >[]
+//   }
+//   // Interfaces extends InterfaceType<
+//   //   any,
+//   //   Context,
+//   //   Record<string, OutputField<RootVal, any, any, string, Context>>,
+//   //   any[]
+//   // >[]
 // > = {
 //   kind: "interface";
 //   __rootVal: RootVal;
 //   __context: Context;
 //   graphQLType: GraphQLInterfaceType;
-//   fields: () => Fields &
-//     (never extends Interfaces[number]["fields"]
-//       ? {}
-//       : Interfaces[number]["fields"]);
+//   fields: () => Fields;
 // };
 
 // const interfaceType = bindInterfaceTypeToContext<unknown>();
@@ -405,7 +383,7 @@ export const fields = bindFieldsToContext<unknown>();
 //     }
 //   ) {
 //     return function interfaceInner<
-//       Interfaces extends InterfaceType<RootVal, Context, any, any>[],
+//       // Interfaces extends InterfaceType<RootVal, Context, any>[],
 //       Fields extends {
 //         [Key in keyof Fields]: OutputField<
 //           RootVal,
@@ -419,14 +397,12 @@ export const fields = bindFieldsToContext<unknown>();
 //       name: string;
 //       description?: string;
 //       deprecationReason?: string;
-//       interfaces?: Interfaces;
-//       fields: MaybeThunk<
-//         Fields &
-//           (never extends Interfaces[number]["fields"]
-//             ? {}
-//             : Interfaces[number]["fields"])
-//       >;
-//     }): InterfaceType<RootVal, Context, Fields, []> {
+//       // interfaces?: Interfaces;
+//       fields: MaybeThunk<Fields>; //&
+//       // (never extends Interfaces[number]["fields"]
+//       //   ? {}
+//       //   : Interfaces[number]["fields"])
+//     }): InterfaceType<RootVal, Context, Fields> {
 //       return {
 //         kind: "interface",
 //         graphQLType: new GraphQLInterfaceType({
