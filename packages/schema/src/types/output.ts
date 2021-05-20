@@ -271,7 +271,7 @@ type ObjectTypeFunc<Context> = <
   description?: string;
   deprecationReason?: string;
   interfaces?: [...Interfaces];
-  fields: Fields | (() => Fields);
+  fields: MaybeFunc<Fields>;
 }) => ObjectType<RootVal, Name, Context>;
 
 function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
@@ -452,7 +452,7 @@ export type InterfaceType<
 
 const interfaceType = bindInterfaceTypeToContext<unknown>();
 
-type MaybeFunc<T> = T | (() => T);
+export type MaybeFunc<T> = T | (() => T);
 
 export { interfaceType as interface };
 function bindInterfaceTypeToContext<Context>() {
