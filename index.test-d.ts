@@ -413,6 +413,13 @@ types.object<{ id: string } | { id: boolean }>()({
 types.object()({
   name: "Something",
   fields: {
-    id: types.field({ type: types.ID }),
+    id: types.field({
+      type: types.ID,
+      resolve(rootVal, args) {
+        // @ts-expect-error
+        args.something;
+        return "";
+      },
+    }),
   },
 });
