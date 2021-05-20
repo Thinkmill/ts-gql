@@ -409,3 +409,10 @@ types.object<{ id: string } | { id: boolean }>()({
     });
   }
 }
+
+types.object()({
+  name: "Something",
+  fields: {
+    id: types.field({ type: types.ID }),
+  },
+});

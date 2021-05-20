@@ -101,6 +101,8 @@ export type OutputFieldResolver<
   info: GraphQLResolveInfo
 ) => MaybePromise<InferValueFromOutputType<OutputType>>;
 
+type SomeTypeThatIsntARecordOfArgs = string;
+
 export type OutputField<
   RootVal,
   Args extends Record<string, Arg<any>>,
@@ -164,10 +166,20 @@ type FieldFuncResolve<
     }
   ]
     ? {
-        resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
+        resolve?: OutputFieldResolver<
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          OutputType,
+          RootVal,
+          Context
+        >;
       }
     : {
-        resolve: OutputFieldResolver<Args, OutputType, RootVal, Context>;
+        resolve: OutputFieldResolver<
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          OutputType,
+          RootVal,
+          Context
+        >;
       };
 
 type FieldFuncArgs<
