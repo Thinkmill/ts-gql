@@ -1,11 +1,9 @@
 {
   "name": "@ts-gql/schema",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "main": "dist/schema.cjs.js",
   "module": "dist/schema.esm.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2"

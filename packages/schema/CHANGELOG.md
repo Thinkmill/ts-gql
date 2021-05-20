@@ -1,5 +1,15 @@
 # @ts-gql/schema
 
+## 0.6.0
+
+### Minor Changes
+
+- [`1404564`](https://github.com/Thinkmill/ts-gql/commit/14045646b88dcd8e50ca1c21b43c0230d79b4726) [#70](https://github.com/Thinkmill/ts-gql/pull/70) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added `fields` function to share fields between multiple object types while inferring the `Key` of the fields correctly
+
+* [`1404564`](https://github.com/Thinkmill/ts-gql/commit/14045646b88dcd8e50ca1c21b43c0230d79b4726) [#70](https://github.com/Thinkmill/ts-gql/pull/70) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Various correctness fixes around the typing of RootVal and Context
+
+- [`0b598b3`](https://github.com/Thinkmill/ts-gql/commit/0b598b3f489041f1d8e177b327d21c68b83bfe7b) [#72](https://github.com/Thinkmill/ts-gql/pull/72) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - First pass at an implementation of GraphQL interfaces. The API is quite likely to change.
+
 ## 0.5.1
 
 ### Patch Changes
