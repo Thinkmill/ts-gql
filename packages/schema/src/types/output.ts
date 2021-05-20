@@ -4,9 +4,11 @@ import {
   GraphQLInputType,
   GraphQLInterfaceType,
   GraphQLInterfaceTypeExtensions,
+  GraphQLIsTypeOfFn,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
+  GraphQLObjectTypeExtensions,
   GraphQLOutputType,
   GraphQLResolveInfo,
   GraphQLTypeResolver,
@@ -268,10 +270,12 @@ type ObjectTypeFunc<Context> = <
   Interfaces extends readonly InterfaceType<RootVal, Context, any>[] = []
 >(config: {
   name: Name;
+  fields: MaybeFunc<Fields>;
   description?: string;
   deprecationReason?: string;
   interfaces?: [...Interfaces];
-  fields: MaybeFunc<Fields>;
+  isTypeOf?: GraphQLIsTypeOfFn<unknown, Context>;
+  extensions?: Readonly<GraphQLObjectTypeExtensions<RootVal, Context>>;
 }) => ObjectType<RootVal, Name, Context>;
 
 function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
@@ -283,6 +287,8 @@ function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
         graphQLType: new GraphQLObjectType({
           name: config.name,
           description: config.description,
+          isTypeOf: config.isTypeOf,
+          interfaces: config.interfaces?.map((x) => x.graphQLType),
           fields: () => {
             const fields =
               typeof config.fields === "function"
@@ -290,6 +296,7 @@ function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
                 : config.fields;
             return buildFields(fields);
           },
+          extensions: config.extensions,
         }),
         __rootVal: undefined as any,
         __context: undefined as any,
