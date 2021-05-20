@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.7.0
+
+### Minor Changes
+
+- [`af755ec`](https://github.com/Thinkmill/ts-gql/commit/af755ecb0e25f7c3e1f6c9f27f1104aa48fc9df9) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed various bugs with interfaces and bindTypesToContext
+
 ## 0.6.0
 
 ### Minor Changes
