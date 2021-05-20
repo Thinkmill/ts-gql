@@ -315,24 +315,97 @@ types.object<{ id: string } | { id: boolean }>()({
   );
 }
 
-// function doTheThing<
-//   Fields extends { [Key in keyof Fields]: Key } &
-//     (Other extends readonly Record<string, any>[]
-//       ? { [Key in keyof Other[number]]: Key }
-//       : unknown),
-//   Other extends readonly Record<string, any>[] | undefined = undefined
-// >(
-//   things: { fields: Fields } & (Other extends readonly Record<string, any>[]
-//     ? { other: [...Other] }
-//     : {})
-// ) {
-//   console.log(things);
-// }
+{
+  const Node = types.interface()({
+    name: "Node",
+    fields: {
+      id: types.interfaceField({ type: types.ID }),
+    },
+  });
 
-// doTheThing({
-//   fields: {
-//     thing: "thing",
-//     wow: "wow",
-//   },
-//   other: [{ wow: true }],
-// });
+  types.object<{ id: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: { id: types.field({ type: types.ID }) },
+  });
+
+  types.object<{ thing: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {},
+  });
+
+  types.object<{ thing: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {
+      thing: types.field({ type: types.ID }),
+    },
+  });
+  types.object<{ id: number }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: {
+      // @ts-expect-error
+      id: types.field({ type: types.Int }),
+    },
+  });
+  types.object<{ id: number }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: {
+      // @ts-expect-error
+      id: types.field({ type: types.ID }),
+    },
+  });
+
+  {
+    const NodeAnother = types.interface()({
+      name: "Node",
+      fields: {
+        id: types.interfaceField({ type: types.Int }),
+      },
+    });
+
+    types.object<{ id: string }>()({
+      name: "NodeImpl",
+      interfaces: [Node, NodeAnother],
+      fields: {
+        // @ts-expect-error
+        id: types.field({ type: types.ID }),
+      },
+    });
+  }
+
+  types.interface()({
+    name: "Node",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {},
+  });
+
+  {
+    const Other = types.interface()({
+      name: "Node",
+      fields: { something: types.interfaceField({ type: types.Int }) },
+    });
+    types.object<{ id: string; something: number }>()({
+      name: "NodeImpl",
+      interfaces: [Node, Other],
+      fields: {
+        id: types.field({ type: types.ID }),
+        something: types.field({ type: types.Int }),
+      },
+    });
+    types.object<{ id: string }>()({
+      name: "NodeImpl",
+      interfaces: [Node, Other],
+      // @ts-expect-error
+      fields: {
+        id: types.field({ type: types.ID }),
+      },
+    });
+  }
+}
