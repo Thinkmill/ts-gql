@@ -314,3 +314,112 @@ types.object<{ id: string } | { id: boolean }>()({
     nonNullThing
   );
 }
+
+{
+  const Node = types.interface()({
+    name: "Node",
+    fields: {
+      id: types.interfaceField({ type: types.ID }),
+    },
+  });
+
+  types.object<{ id: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: { id: types.field({ type: types.ID }) },
+  });
+
+  types.object<{ thing: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {},
+  });
+
+  types.object<{ thing: string }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {
+      thing: types.field({ type: types.ID }),
+    },
+  });
+  types.object<{ id: number }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: {
+      // @ts-expect-error
+      id: types.field({ type: types.Int }),
+    },
+  });
+  types.object<{ id: number }>()({
+    name: "NodeImpl",
+    interfaces: [Node],
+    fields: {
+      // @ts-expect-error
+      id: types.field({ type: types.ID }),
+    },
+  });
+
+  {
+    const NodeAnother = types.interface()({
+      name: "Node",
+      fields: {
+        id: types.interfaceField({ type: types.Int }),
+      },
+    });
+
+    types.object<{ id: string }>()({
+      name: "NodeImpl",
+      interfaces: [Node, NodeAnother],
+      fields: {
+        // @ts-expect-error
+        id: types.field({ type: types.ID }),
+      },
+    });
+  }
+
+  types.interface()({
+    name: "Node",
+    interfaces: [Node],
+    // @ts-expect-error
+    fields: {},
+  });
+
+  {
+    const Other = types.interface()({
+      name: "Node",
+      fields: { something: types.interfaceField({ type: types.Int }) },
+    });
+    types.object<{ id: string; something: number }>()({
+      name: "NodeImpl",
+      interfaces: [Node, Other],
+      fields: {
+        id: types.field({ type: types.ID }),
+        something: types.field({ type: types.Int }),
+      },
+    });
+    types.object<{ id: string }>()({
+      name: "NodeImpl",
+      interfaces: [Node, Other],
+      // @ts-expect-error
+      fields: {
+        id: types.field({ type: types.ID }),
+      },
+    });
+  }
+}
+
+types.object()({
+  name: "Something",
+  fields: {
+    id: types.field({
+      type: types.ID,
+      resolve(rootVal, args) {
+        // @ts-expect-error
+        args.something;
+        return "";
+      },
+    }),
+  },
+});

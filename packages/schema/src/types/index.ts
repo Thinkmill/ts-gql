@@ -12,4 +12,11 @@ export {
   nonNull,
   scalar,
 } from "./types-that-do-not-use-context";
-export { field, object, union, fields } from "./output";
+export {
+  field,
+  object,
+  union,
+  fields,
+  interface,
+  interfaceField,
+} from "./output";
