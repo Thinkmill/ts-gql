@@ -22,17 +22,13 @@ import {
   EnumType,
 } from "./types-that-do-not-use-context";
 
-// TODO: once interfaces and unions are implemented, the requiring/not requiring of isTypeOf/resolveType:
-// if resolveType is implemented on every interface that an object implements, the object type does not need to implement isTypeOf
-// if isTypeOf is implemented on every member of a union, the union does not need to implement resolveType
-
-type OutputListType<Of extends OutputTypes> = {
+type OutputListType<Of extends OutputTypes<any>> = {
   kind: "list";
   of: Of;
   graphQLType: GraphQLList<Of["graphQLType"]>;
 };
 
-type OutputNonNullType<Of extends OutputTypeExcludingNonNull> = {
+type OutputNonNullType<Of extends OutputTypeExcludingNonNull<any>> = {
   kind: "non-null";
   of: Of;
   graphQLType: GraphQLNonNull<Of["graphQLType"]>;
@@ -52,18 +48,19 @@ type OutputNonNullTypeWithContext<Context> = {
   >;
 };
 
-export type OutputTypeExcludingNonNull<Context = unknown> =
+export type OutputTypeExcludingNonNull<Context> =
   | ScalarType<any>
   | ObjectType<any, string, Context>
   | UnionType<ObjectType<any, string, Context>>
+  | InterfaceType<any, Context, any>
   | EnumType<any>
   | OutputListTypeWithContext<Context>;
 
-export type OutputTypes<Context = unknown> =
+export type OutputTypes<Context> =
   | OutputTypeExcludingNonNull<Context>
   | OutputNonNullTypeWithContext<Context>;
 
-type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes> =
+type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes<any>> =
   Type extends ScalarType<infer Value>
     ? Value
     : Type extends EnumType<infer Values>
@@ -73,6 +70,8 @@ type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes> =
     : Type extends ObjectType<infer RootVal, string, any>
     ? RootVal
     : Type extends UnionType<ObjectType<infer RootVal, string, any>>
+    ? RootVal
+    : Type extends InterfaceType<infer RootVal, any, any>
     ? RootVal
     : never;
 
@@ -213,21 +212,29 @@ function bindFieldToContext<Context>(): FieldFunc<Context> {
   };
 }
 
-type InterfaceToInterfaceFields<
+export type InterfaceToInterfaceFields<
   Interface extends InterfaceType<any, any, any>
 > = Interface extends InterfaceType<any, any, infer Fields> ? Fields : never;
+
+type InterfaceFieldToOutputField<
+  RootVal,
+  Context,
+  Field extends InterfaceField<any, any, Context>,
+  Key extends string
+> = Field extends InterfaceField<infer Args, infer OutputType, Context>
+  ? OutputField<RootVal, Args, OutputType, Key, Context>
+  : never;
 
 type InterfaceFieldsToOutputFields<
   RootVal,
   Context,
   Fields extends { [Key in keyof Fields]: InterfaceField<any, any, Context> }
 > = {
-  [Key in keyof Fields]: OutputField<
+  [Key in keyof Fields]: InterfaceFieldToOutputField<
     RootVal,
-    Fields[Key]["args"],
-    Fields[Key]["type"],
-    Extract<Key, string>,
-    Context
+    Context,
+    Fields[Key],
+    Extract<Key, string>
   >;
 };
 
@@ -237,7 +244,7 @@ type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (
   ? R
   : never;
 
-type InterfacesToOutputFields<
+export type InterfacesToOutputFields<
   RootVal,
   Context,
   Interfaces extends readonly InterfaceType<RootVal, Context, any>[]
@@ -311,7 +318,7 @@ function buildFields(
     OutputField<
       any,
       Record<string, Arg<InputType, any>>,
-      OutputTypes,
+      OutputTypes<any>,
       string,
       any
     >
@@ -380,7 +387,7 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
   };
 }
 
-type FieldsTypeFunc<Context> = <
+type FieldsFunc<Context> = <
   RootVal
 >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
   youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
@@ -398,7 +405,7 @@ type FieldsTypeFunc<Context> = <
   fields: Fields
 ) => Fields;
 
-function bindFieldsToContext<Context>(): FieldsTypeFunc<Context> {
+function bindFieldsToContext<Context>(): FieldsFunc<Context> {
   return function fields() {
     return function fieldsInner(fields) {
       return fields;
@@ -461,33 +468,31 @@ const interfaceType = bindInterfaceTypeToContext<unknown>();
 
 export type MaybeFunc<T> = T | (() => T);
 
+type InterfaceTypeFunc<Context> = <
+  RootVal
+>(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
+}) => <
+  Fields extends {
+    [Key in keyof Fields]: InterfaceField<any, OutputTypes<Context>, Context>;
+  } &
+    UnionToIntersection<InterfaceToInterfaceFields<Interfaces[number]>>,
+  Interfaces extends readonly InterfaceType<RootVal, Context, any>[] = []
+>(config: {
+  name: string;
+  description?: string;
+  deprecationReason?: string;
+  interfaces?: [...Interfaces];
+  resolveType?: GraphQLTypeResolver<RootVal, Context>;
+  fields: MaybeFunc<Fields>;
+  extensions?: Readonly<GraphQLInterfaceTypeExtensions>;
+}) => InterfaceType<RootVal, Context, Fields>;
+
 export { interfaceType as interface };
-function bindInterfaceTypeToContext<Context>() {
-  return function interfaceType<RootVal>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
-      youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
-    }
-  ) {
-    return function interfaceInner<
-      Fields extends {
-        [Key in keyof Fields]: InterfaceField<
-          any,
-          OutputTypes<Context>,
-          Context
-        >;
-      } &
-        UnionToIntersection<InterfaceToInterfaceFields<Interfaces[number]>>,
-      Interfaces extends readonly InterfaceType<RootVal, Context, any>[] = []
-    >(config: {
-      name: string;
-      description?: string;
-      deprecationReason?: string;
-      interfaces?: [...Interfaces];
-      resolveType?: GraphQLTypeResolver<RootVal, Context>;
-      fields: MaybeFunc<Fields>;
-      extensions?: Readonly<GraphQLInterfaceTypeExtensions>;
-    }): InterfaceType<RootVal, Context, Fields> {
+function bindInterfaceTypeToContext<Context>(): InterfaceTypeFunc<Context> {
+  return function interfaceType() {
+    return function interfaceInner(config) {
       return {
         kind: "interface",
         graphQLType: new GraphQLInterfaceType({
@@ -515,7 +520,16 @@ function bindInterfaceTypeToContext<Context>() {
 
 import * as typesThatDoNotUseContext from "./types-that-do-not-use-context";
 
-export function bindTypesToContext<Context>() {
+type TypesWithContext<Context> = typeof typesThatDoNotUseContext & {
+  object: ObjectTypeFunc<Context>;
+  union: UnionTypeFunc<Context>;
+  field: FieldFunc<Context>;
+  fields: FieldsFunc<Context>;
+  interfaceField: InterfaceFieldFunc<Context>;
+  interface: InterfaceTypeFunc<Context>;
+};
+
+export function bindTypesToContext<Context>(): TypesWithContext<Context> {
   return {
     ...typesThatDoNotUseContext,
     object: bindObjectTypeToContext<Context>(),

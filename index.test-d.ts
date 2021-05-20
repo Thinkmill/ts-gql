@@ -6,7 +6,9 @@ import {
   InferValueFromInputType,
   InputObjectType,
   ScalarType,
+  InferValueFromOutputType,
 } from "./packages/schema";
+import { InterfacesToOutputFields } from "./packages/schema/src/types/output";
 
 const typesWithContext = bindTypesToContext();
 
@@ -143,6 +145,75 @@ types.object<{ id: string } | { id: boolean }>()({
     }),
   },
 });
+
+{
+  const types = bindTypesToContext<{ isAdminUIBuildProcess: true }>();
+
+  const SomeOutput = types.object<{ thing: boolean }>()({
+    name: "Something",
+    fields: {
+      thing: types.field({ type: types.nonNull(types.Boolean) }),
+    },
+  });
+
+  const nonNullSomeOutput = types.nonNull(SomeOutput);
+
+  type OutputTypeWithNull = InferValueFromOutputType<typeof SomeOutput>;
+
+  expectType<OutputTypeWithNull>({ thing: true });
+  expectType<OutputTypeWithNull>(null);
+
+  type OutputTypeWithoutNull = InferValueFromOutputType<
+    typeof nonNullSomeOutput
+  >;
+
+  expectType<OutputTypeWithoutNull>({ thing: true });
+
+  types.field({
+    type: SomeOutput,
+    resolve() {
+      if (Math.random() > 0.5) {
+        return null;
+      }
+      return { thing: false };
+    },
+  });
+
+  types.field({
+    type: types.nonNull(types.list(nonNullSomeOutput)),
+    resolve() {
+      return [{ thing: false }];
+    },
+  });
+
+  type FieldIdentifier = { listKey: string; fieldPath: string };
+
+  types.fields<{ path: string; listKey: string }>()({
+    thing: types.field({
+      resolve(rootVal) {
+        return { fieldPath: rootVal.path, listKey: rootVal.listKey };
+      },
+      type: types.nonNull(
+        types.object<FieldIdentifier>()({
+          name: "KeystoneAdminUIFieldMetaListView",
+          fields: {
+            fieldMode: types.field({
+              type: types.nonNull(
+                types.enum({
+                  name: "KeystoneAdminUIFieldMetaListViewFieldMode",
+                  values: types.enumValues(["read", "hidden"]),
+                })
+              ),
+              async resolve(rootVal, args, context) {
+                return "read" as const;
+              },
+            }),
+          },
+        })
+      ),
+    }),
+  });
+}
 
 // types.interface<{ kind: "one"; id: string } | { kind: "two"; id: boolean }>()({
 //   name: "Node",
@@ -423,3 +494,74 @@ types.object()({
     }),
   },
 });
+
+{
+  type ImageMode = "local";
+
+  type ImageExtension = "jpg" | "png" | "webp" | "gif";
+
+  const SUPPORTED_IMAGE_EXTENSIONS = ["jpg", "png", "webp", "gif"] as const;
+
+  const ImageExtensionEnum = types.enum({
+    name: "ImageExtension",
+    values: types.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
+  });
+
+  type ImageData = {
+    mode: ImageMode;
+    id: string;
+    extension: ImageExtension;
+    filesize: number;
+    width: number;
+    height: number;
+  };
+  const imageOutputFields = types.fields<ImageData>()({
+    id: types.field({ type: types.nonNull(types.ID) }),
+    filesize: types.field({ type: types.nonNull(types.Int) }),
+    height: types.field({ type: types.nonNull(types.Int) }),
+    width: types.field({ type: types.nonNull(types.Int) }),
+    extension: types.field({ type: types.nonNull(ImageExtensionEnum) }),
+    ref: types.field({
+      type: types.nonNull(types.String),
+      resolve(data) {
+        return "";
+      },
+    }),
+    src: types.field({
+      type: types.nonNull(types.String),
+      args: {},
+      resolve(data, {}, context) {
+        return "";
+      },
+    }),
+  });
+
+  const ImageFieldOutput = types.interface()({
+    name: "ImageFieldOutput",
+    fields: imageOutputFields,
+  });
+
+  const LocalImageFieldOutput = types.object<ImageData>()({
+    name: "LocalImageFieldOutput",
+    interfaces: [ImageFieldOutput],
+    fields: {
+      id: types.field({ type: types.nonNull(types.ID) }),
+      filesize: types.field({ type: types.nonNull(types.Int) }),
+      height: types.field({ type: types.nonNull(types.Int) }),
+      width: types.field({ type: types.nonNull(types.Int) }),
+      extension: types.field({ type: types.nonNull(ImageExtensionEnum) }),
+      ref: types.field({
+        type: types.nonNull(types.String),
+        resolve(data) {
+          return "";
+        },
+      }),
+      src: types.field({
+        type: types.nonNull(types.String),
+        resolve(data, args, context) {
+          return "";
+        },
+      }),
+    },
+  });
+}
