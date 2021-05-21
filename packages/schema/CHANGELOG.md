@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.7.1
+
+### Patch Changes
+
+- [`45e1a24`](https://github.com/Thinkmill/ts-gql/commit/45e1a24511b810cd492a363c4ca85371944fb49e) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added checks to types.field and types.arg which throw if a type isn't passed so that it's easier to see why a type wasn't passed rather than getting an error when mapping the fields to graphql-js arguments
+
 ## 0.7.0
 
 ### Minor Changes
