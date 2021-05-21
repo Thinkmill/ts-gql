@@ -87,6 +87,9 @@ export function arg<
   Type extends InputType,
   DefaultValue extends InferValueFromInputType<Type> | undefined
 >(arg: Arg<Type, DefaultValue>): Arg<Type, DefaultValue> {
+  if (!arg.type) {
+    throw new Error("A type must be passed to types.arg()");
+  }
   return arg;
 }
 

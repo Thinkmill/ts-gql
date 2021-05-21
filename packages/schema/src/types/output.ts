@@ -208,6 +208,9 @@ type FieldFunc<Context> = <
 
 function bindFieldToContext<Context>(): FieldFunc<Context> {
   return function field(field) {
+    if (!field.type) {
+      throw new Error("A type must be passed to types.field()");
+    }
     return field as any;
   };
 }
