@@ -565,3 +565,24 @@ types.object()({
     },
   });
 }
+
+types.fields<{ thing: Promise<string>[] }>()({
+  thing: types.field({
+    type: types.list(types.String),
+  }),
+});
+
+types.fields()({
+  thing: types.field({
+    type: types.list(types.String),
+    resolve() {
+      return [Promise.resolve("")];
+    },
+  }),
+});
+
+types.fields<{ thing: Promise<string> }>()({
+  thing: types.field({
+    type: types.String,
+  }),
+});

@@ -76,9 +76,11 @@ type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes<any>> =
     : never;
 
 export type InferValueFromOutputType<Type extends OutputTypes<any>> =
-  Type extends OutputNonNullType<infer Value>
-    ? InferValueFromOutputTypeWithoutAddingNull<Value>
-    : InferValueFromOutputTypeWithoutAddingNull<Type> | null;
+  MaybePromise<
+    Type extends OutputNonNullType<infer Value>
+      ? InferValueFromOutputTypeWithoutAddingNull<Value>
+      : InferValueFromOutputTypeWithoutAddingNull<Type> | null
+  >;
 
 export type ObjectType<RootVal, Name extends string, Context> = {
   kind: "object";
@@ -100,7 +102,7 @@ export type OutputFieldResolver<
   args: InferValueFromArgs<Args>,
   context: Context,
   info: GraphQLResolveInfo
-) => MaybePromise<InferValueFromOutputType<OutputType>>;
+) => InferValueFromOutputType<OutputType>;
 
 type SomeTypeThatIsntARecordOfArgs = string;
 
