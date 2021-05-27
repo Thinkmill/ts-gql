@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.7.3
+
+### Patch Changes
+
+- [`0b9c783`](https://github.com/Thinkmill/ts-gql/commit/0b9c7838568b6837ad0c9cb43bac476f17e18f53) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - The types for resolvers now allow returning an array of promises for list types.
+
 ## 0.7.2
 
 ### Patch Changes
