@@ -80,6 +80,7 @@ export type Arg<
 > = {
   type: Type;
   description?: string;
+  deprecationReason?: string;
   defaultValue?: DefaultValue;
 } & (undefined extends DefaultValue ? {} : { defaultValue: DefaultValue });
 
@@ -116,6 +117,7 @@ export function inputObject<
                 description: value.description,
                 type: value.type.graphQLType as GraphQLInputType,
                 defaultValue: value.defaultValue,
+                deprecationReason: value.deprecationReason,
               },
             ] as const
         )

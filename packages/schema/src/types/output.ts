@@ -342,6 +342,7 @@ function buildFields(
               type: val.type.graphQLType as GraphQLInputType,
               description: val.description,
               defaultValue: val.defaultValue,
+              deprecationReason: val.deprecationReason,
             },
           ])
         ),
