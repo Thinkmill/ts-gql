@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.7.2
+
+### Patch Changes
+
+- [`4c2a7d1`](https://github.com/Thinkmill/ts-gql/commit/4c2a7d117cb9773d48f829a8562dc300c37cfd83) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added support for `deprecationReason` on GraphQL arguments/input fields
+
 ## 0.7.1
 
 ### Patch Changes
