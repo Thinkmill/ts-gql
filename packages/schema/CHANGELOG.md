@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.9.0
+
+### Minor Changes
+
+- [`80138fe`](https://github.com/Thinkmill/ts-gql/commit/80138fe1b12bab45017eb76b019579647b558f16) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added `types-with-context` entrypoint to allow for a different strategy of binding the `TypesWithContext` functions to a context type that will preserve JSDoc comments on the `TypesWithContext` functions
+
 ## 0.8.0
 
 ### Minor Changes
