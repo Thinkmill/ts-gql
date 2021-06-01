@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.8.0
+
+### Minor Changes
+
+- [`5b10893`](https://github.com/Thinkmill/ts-gql/commit/5b108934c0aeccb4947b8d89798dab6ec9820d08) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Lots of type renaming, type parameter adding re-ordering and the addition of TypeScript types available on the exported `types` object that are bound to the specific context type(which for the exported `types` object is `unknown`) and the removal of all non-context bound functions from `bindTypesToContext`
+
 ## 0.7.3
 
 ### Patch Changes
