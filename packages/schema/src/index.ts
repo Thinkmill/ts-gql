@@ -1,14 +1,17 @@
+export { bindTypesToContext } from "./output";
 export * as types from "./types";
-export { bindTypesToContext } from "./types/output";
 export type {
   InferValueFromOutputType,
   ObjectType,
-  OutputField,
-  OutputFieldResolver,
-  OutputTypeExcludingNonNull,
-  OutputTypes,
+  Field,
+  FieldResolver,
+  NullableOutputType,
+  OutputType,
   UnionType,
-} from "./types/output";
+  TypesWithContext,
+  InterfaceField,
+  InterfaceType,
+} from "./output";
 export type {
   Arg,
   EnumType,
@@ -18,10 +21,9 @@ export type {
   InferValueFromInputType,
   InputObjectType,
   InputType,
-  InputTypeExcludingNonNull,
+  NullableInputType,
   ListType,
   NonNullType,
   ScalarType,
-  Types,
-  TypesExcludingNonNull,
-} from "./types/types-that-do-not-use-context";
+} from "./types-without-context";
+export type { Type, NullableType } from "./type";

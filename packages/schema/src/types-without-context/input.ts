@@ -14,20 +14,20 @@ type InputListType<Of extends InputType> = {
   __context: any;
 };
 
-type InputNonNullType<Of extends InputTypeExcludingNonNull> = {
+type InputNonNullType<Of extends NullableInputType> = {
   kind: "non-null";
   of: Of;
   graphQLType: GraphQLNonNull<any>;
   __context: any;
 };
 
-export type InputTypeExcludingNonNull =
+export type NullableInputType =
   | ScalarType<any>
   | InputObjectType<any>
   | InputListType<any>
   | EnumType<any>;
 
-export type InputType = InputTypeExcludingNonNull | InputNonNullType<any>;
+export type InputType = NullableInputType | InputNonNullType<any>;
 
 type InferValueFromInputTypeWithoutAddingNull<Type extends InputType> =
   Type extends ScalarType<infer Value>
@@ -58,10 +58,6 @@ export type InferValueFromInputType<Type extends InputType> =
   Type extends InputNonNullType<infer Value>
     ? InferValueFromInputTypeWithoutAddingNull<Value>
     : InferValueFromInputTypeWithoutAddingNull<Type> | null;
-
-// export type InferValueFromInputType<Type extends InputType> =
-//   | InferValueFromInputTypeWithoutAddingNull<Type>
-//   | ("non-null" extends Type["kind"] ? never : null);
 
 export type InputObjectType<
   Fields extends {

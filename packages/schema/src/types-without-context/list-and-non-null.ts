@@ -1,12 +1,7 @@
-import {
-  GraphQLList,
-  GraphQLNonNull,
-  GraphQLNullableType,
-} from "graphql/type/definition";
-import { ObjectType, UnionType } from "../output";
-import { EnumType, InputObjectType, ScalarType } from ".";
+import { GraphQLList, GraphQLNonNull } from "graphql/type/definition";
+import { NullableType, Type } from "../type";
 
-export type ListType<Of extends Types> = {
+export type ListType<Of extends Type<any>> = {
   kind: "list";
   of: Of;
   __context: Of["__context"];
@@ -22,7 +17,7 @@ export type ListType<Of extends Types> = {
  * graphql`[String]`;
  * ```
  */
-export function list<Of extends Types>(of: Of): ListType<Of> {
+export function list<Of extends Type<any>>(of: Of): ListType<Of> {
   return {
     kind: "list",
     of,
@@ -37,7 +32,7 @@ export function list<Of extends Types>(of: Of): ListType<Of> {
  *
  * See the documentation for `types.nonNull` for more information.
  */
-export type NonNullType<Of extends TypesExcludingNonNull> = {
+export type NonNullType<Of extends NullableType<any>> = {
   kind: "non-null";
   of: Of;
   __context: Of["__context"];
@@ -124,9 +119,7 @@ export type NonNullType<Of extends TypesExcludingNonNull> = {
  * types.nonNull(types.nonNull(types.String));
  * ```
  */
-export function nonNull<Of extends TypesExcludingNonNull>(
-  of: Of
-): NonNullType<Of> {
+export function nonNull<Of extends NullableType<any>>(of: Of): NonNullType<Of> {
   return {
     kind: "non-null",
     of,
@@ -136,20 +129,3 @@ export function nonNull<Of extends TypesExcludingNonNull>(
     >,
   };
 }
-
-export type TypesExcludingNonNull =
-  | ScalarType<any>
-  | ListType<any>
-  | InputObjectType<any>
-  | ObjectType<any, string, any>
-  | UnionType<ObjectType<any, string, any>>
-  | EnumType<any>;
-
-export type Types =
-  | TypesExcludingNonNull
-  | {
-      kind: "non-null";
-      of: TypesExcludingNonNull;
-      graphQLType: GraphQLNullableType;
-      __context: unknown;
-    };

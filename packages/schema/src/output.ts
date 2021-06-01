@@ -20,15 +20,15 @@ import {
   InputType,
   ScalarType,
   EnumType,
-} from "./types-that-do-not-use-context";
+} from "./types-without-context";
 
-type OutputListType<Of extends OutputTypes<any>> = {
+type OutputListType<Of extends OutputType<any>> = {
   kind: "list";
   of: Of;
   graphQLType: GraphQLList<Of["graphQLType"]>;
 };
 
-type OutputNonNullType<Of extends OutputTypeExcludingNonNull<any>> = {
+type OutputNonNullType<Of extends NullableOutputType<any>> = {
   kind: "non-null";
   of: Of;
   graphQLType: GraphQLNonNull<Of["graphQLType"]>;
@@ -36,55 +36,52 @@ type OutputNonNullType<Of extends OutputTypeExcludingNonNull<any>> = {
 
 type OutputListTypeWithContext<Context> = {
   kind: "list";
-  of: OutputTypes<Context>;
+  of: OutputType<Context>;
   graphQLType: GraphQLList<any>;
 };
 
 type OutputNonNullTypeWithContext<Context> = {
   kind: "non-null";
-  of: OutputTypeExcludingNonNull<Context>;
-  graphQLType: GraphQLNonNull<
-    OutputTypeExcludingNonNull<Context>["graphQLType"]
-  >;
+  of: NullableOutputType<Context>;
+  graphQLType: GraphQLNonNull<NullableOutputType<Context>["graphQLType"]>;
 };
 
-export type OutputTypeExcludingNonNull<Context> =
+export type NullableOutputType<Context> =
   | ScalarType<any>
-  | ObjectType<any, string, Context>
-  | UnionType<ObjectType<any, string, Context>>
-  | InterfaceType<any, Context, any>
+  | ObjectType<any, Context>
+  | UnionType<any, Context>
+  | InterfaceType<any, any, Context>
   | EnumType<any>
   | OutputListTypeWithContext<Context>;
 
-export type OutputTypes<Context> =
-  | OutputTypeExcludingNonNull<Context>
+export type OutputType<Context> =
+  | NullableOutputType<Context>
   | OutputNonNullTypeWithContext<Context>;
 
-type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputTypes<any>> =
+type InferValueFromOutputTypeWithoutAddingNull<Type extends OutputType<any>> =
   Type extends ScalarType<infer Value>
     ? Value
     : Type extends EnumType<infer Values>
     ? Values[keyof Values]["value"]
     : Type extends OutputListType<infer Value>
     ? InferValueFromOutputType<Value>[]
-    : Type extends ObjectType<infer RootVal, string, any>
+    : Type extends ObjectType<infer RootVal, any>
     ? RootVal
-    : Type extends UnionType<ObjectType<infer RootVal, string, any>>
+    : Type extends UnionType<infer RootVal, any>
     ? RootVal
     : Type extends InterfaceType<infer RootVal, any, any>
     ? RootVal
     : never;
 
-export type InferValueFromOutputType<Type extends OutputTypes<any>> =
+export type InferValueFromOutputType<Type extends OutputType<any>> =
   MaybePromise<
     Type extends OutputNonNullType<infer Value>
       ? InferValueFromOutputTypeWithoutAddingNull<Value>
       : InferValueFromOutputTypeWithoutAddingNull<Type> | null
   >;
 
-export type ObjectType<RootVal, Name extends string, Context> = {
+export type ObjectType<RootVal, Context> = {
   kind: "object";
-  name: Name;
   graphQLType: GraphQLObjectType;
   __context: (context: Context) => void;
   __rootVal: RootVal;
@@ -92,33 +89,33 @@ export type ObjectType<RootVal, Name extends string, Context> = {
 
 type MaybePromise<T> = Promise<T> | T;
 
-export type OutputFieldResolver<
-  Args extends Record<string, Arg<any>>,
-  OutputType extends OutputTypes<Context>,
+export type FieldResolver<
   RootVal,
+  Args extends Record<string, Arg<any>>,
+  TType extends OutputType<Context>,
   Context
 > = (
   rootVal: RootVal,
   args: InferValueFromArgs<Args>,
   context: Context,
   info: GraphQLResolveInfo
-) => InferValueFromOutputType<OutputType>;
+) => InferValueFromOutputType<TType>;
 
 type SomeTypeThatIsntARecordOfArgs = string;
 
-export type OutputField<
+export type Field<
   RootVal,
   Args extends Record<string, Arg<any>>,
-  OutputType extends OutputTypes<Context>,
+  TType extends OutputType<Context>,
   Key extends string,
   Context
 > = {
   args?: Args;
-  type: OutputType;
+  type: TType;
   __key: Key;
   __rootVal: (rootVal: RootVal) => void;
   __context: (context: Context) => void;
-  resolve?: OutputFieldResolver<Args, OutputType, RootVal, Context>;
+  resolve?: FieldResolver<RootVal, Args, TType, Context>;
   deprecationReason?: string;
   description?: string;
   extensions?: Readonly<
@@ -128,11 +125,11 @@ export type OutputField<
 
 export type InterfaceField<
   Args extends Record<string, Arg<any>>,
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Context
 > = {
   args?: Args;
-  type: OutputType;
+  type: Type;
   deprecationReason?: string;
   description?: string;
   extensions?: Readonly<
@@ -145,7 +142,7 @@ export const field = bindFieldToContext<unknown>();
 type FieldFuncResolve<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Key extends string,
   Context
 > =
@@ -165,22 +162,22 @@ type FieldFuncResolve<
   // though tbh, maybe it's fine to be a little more explicit like that
   [RootVal] extends [
     {
-      [K in Key]: InferValueFromOutputType<OutputType>;
+      [K in Key]: InferValueFromOutputType<Type>;
     }
   ]
     ? {
-        resolve?: OutputFieldResolver<
-          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-          OutputType,
+        resolve?: FieldResolver<
           RootVal,
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          Type,
           Context
         >;
       }
     : {
-        resolve: OutputFieldResolver<
-          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
-          OutputType,
+        resolve: FieldResolver<
           RootVal,
+          SomeTypeThatIsntARecordOfArgs extends Args ? {} : Args,
+          Type,
           Context
         >;
       };
@@ -188,25 +185,25 @@ type FieldFuncResolve<
 type FieldFuncArgs<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Key extends string,
   Context
 > = {
   args?: Args;
-  type: OutputType;
+  type: Type;
   deprecationReason?: string;
   description?: string;
   extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
-} & FieldFuncResolve<RootVal, Args, OutputType, Key, Context>;
+} & FieldFuncResolve<RootVal, Args, Type, Key, Context>;
 
-type FieldFunc<Context> = <
+export type FieldFunc<Context> = <
   RootVal,
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Key extends string,
   Args extends { [Key in keyof Args]: Arg<any, any> } = {}
 >(
-  field: FieldFuncArgs<RootVal, Args, OutputType, Key, Context>
-) => OutputField<RootVal, Args, OutputType, Key, Context>;
+  field: FieldFuncArgs<RootVal, Args, Type, Key, Context>
+) => Field<RootVal, Args, Type, Key, Context>;
 
 function bindFieldToContext<Context>(): FieldFunc<Context> {
   return function field(field) {
@@ -219,15 +216,15 @@ function bindFieldToContext<Context>(): FieldFunc<Context> {
 
 export type InterfaceToInterfaceFields<
   Interface extends InterfaceType<any, any, any>
-> = Interface extends InterfaceType<any, any, infer Fields> ? Fields : never;
+> = Interface extends InterfaceType<any, infer Fields, any> ? Fields : never;
 
 type InterfaceFieldToOutputField<
   RootVal,
   Context,
-  Field extends InterfaceField<any, any, Context>,
+  TField extends InterfaceField<any, any, Context>,
   Key extends string
-> = Field extends InterfaceField<infer Args, infer OutputType, Context>
-  ? OutputField<RootVal, Args, OutputType, Key, Context>
+> = TField extends InterfaceField<infer Args, infer OutputType, Context>
+  ? Field<RootVal, Args, OutputType, Key, Context>
   : never;
 
 type InterfaceFieldsToOutputFields<
@@ -252,7 +249,7 @@ type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (
 export type InterfacesToOutputFields<
   RootVal,
   Context,
-  Interfaces extends readonly InterfaceType<RootVal, Context, any>[]
+  Interfaces extends readonly InterfaceType<RootVal, any, Context>[]
 > = UnionToIntersection<
   InterfaceFieldsToOutputFields<
     RootVal,
@@ -263,14 +260,13 @@ export type InterfacesToOutputFields<
 
 export const object = bindObjectTypeToContext<unknown>();
 
-type ObjectTypeFunc<Context> = <
+export type ObjectTypeFunc<Context> = <
   RootVal
 >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
   youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
 }) => <
-  Name extends string,
   Fields extends {
-    [Key in keyof Fields]: OutputField<
+    [Key in keyof Fields]: Field<
       RootVal,
       any,
       any,
@@ -279,16 +275,16 @@ type ObjectTypeFunc<Context> = <
     >;
   } &
     InterfacesToOutputFields<RootVal, Context, Interfaces>,
-  Interfaces extends readonly InterfaceType<RootVal, Context, any>[] = []
+  Interfaces extends readonly InterfaceType<RootVal, any, Context>[] = []
 >(config: {
-  name: Name;
+  name: string;
   fields: MaybeFunc<Fields>;
   description?: string;
   deprecationReason?: string;
   interfaces?: [...Interfaces];
   isTypeOf?: GraphQLIsTypeOfFn<unknown, Context>;
   extensions?: Readonly<GraphQLObjectTypeExtensions<RootVal, Context>>;
-}) => ObjectType<RootVal, Name, Context>;
+}) => ObjectType<RootVal, Context>;
 
 function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
   return function object() {
@@ -320,10 +316,10 @@ function bindObjectTypeToContext<Context>(): ObjectTypeFunc<Context> {
 function buildFields(
   fields: Record<
     string,
-    OutputField<
+    Field<
       any,
       Record<string, Arg<InputType, any>>,
-      OutputTypes<any>,
+      OutputType<any>,
       string,
       any
     >
@@ -354,17 +350,17 @@ function buildFields(
   );
 }
 
-export type UnionType<TObjectType extends ObjectType<any, string, any>> = {
+export type UnionType<RootVal, Context> = {
   kind: "union";
-  __rootVal: TObjectType["__rootVal"];
-  __context: TObjectType["__context"];
+  __rootVal: RootVal;
+  __context: (context: Context) => void;
   graphQLType: GraphQLUnionType;
 };
 
 export const union = bindUnionTypeToContext<unknown>();
 
-type UnionTypeFunc<Context> = <
-  TObjectType extends ObjectType<any, string, Context>
+export type UnionTypeFunc<Context> = <
+  TObjectType extends ObjectType<any, Context>
 >(config: {
   name: string;
   description?: string;
@@ -374,8 +370,11 @@ type UnionTypeFunc<Context> = <
     context: Parameters<TObjectType["__context"]>[0],
     info: GraphQLResolveInfo,
     abstractType: GraphQLUnionType
-  ) => TObjectType["name"];
-}) => UnionType<TObjectType>;
+  ) => string;
+}) => UnionType<
+  TObjectType["__rootVal"],
+  Parameters<TObjectType["__context"]>[0]
+>;
 
 function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
   return function union(config) {
@@ -393,13 +392,13 @@ function bindUnionTypeToContext<Context>(): UnionTypeFunc<Context> {
   };
 }
 
-type FieldsFunc<Context> = <
+export type FieldsFunc<Context> = <
   RootVal
 >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
   youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
 }) => <
   Fields extends {
-    [Key in keyof Fields]: OutputField<
+    [Key in keyof Fields]: Field<
       RootVal,
       any,
       any,
@@ -424,23 +423,23 @@ export const fields = bindFieldsToContext<unknown>();
 type InterfaceFieldFuncArgs<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Context
 > = {
   args?: Args;
-  type: OutputType;
+  type: Type;
   deprecationReason?: string;
   description?: string;
   extensions?: Readonly<GraphQLFieldExtensions<RootVal, unknown>>;
 };
 
-type InterfaceFieldFunc<Context> = <
+export type InterfaceFieldFunc<Context> = <
   RootVal,
-  OutputType extends OutputTypes<Context>,
+  Type extends OutputType<Context>,
   Args extends { [Key in keyof Args]: Arg<any, any> } = {}
 >(
-  field: InterfaceFieldFuncArgs<RootVal, Args, OutputType, Context>
-) => InterfaceField<Args, OutputType, Context>;
+  field: InterfaceFieldFuncArgs<RootVal, Args, Type, Context>
+) => InterfaceField<Args, Type, Context>;
 
 function bindInterfaceFieldToContext<Context>(): InterfaceFieldFunc<Context> {
   return function interfaceField(field) {
@@ -452,16 +451,11 @@ export const interfaceField = bindInterfaceFieldToContext<unknown>();
 
 export type InterfaceType<
   RootVal,
-  Context,
-  Fields extends {
-    [Key in keyof Fields]: InterfaceField<any, any, Context>;
-  }
-  // Interfaces extends InterfaceType<
-  //   any,
-  //   Context,
-  //   Record<string, OutputField<RootVal, any, any, string, Context>>,
-  //   any[]
-  // >[]
+  Fields extends Record<
+    string,
+    InterfaceField<any, OutputType<Context>, Context>
+  >,
+  Context
 > = {
   kind: "interface";
   __rootVal: (rootVal: RootVal) => void;
@@ -474,17 +468,17 @@ const interfaceType = bindInterfaceTypeToContext<unknown>();
 
 export type MaybeFunc<T> = T | (() => T);
 
-type InterfaceTypeFunc<Context> = <
+export type InterfaceTypeFunc<Context> = <
   RootVal
 >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction: true;
 }) => <
   Fields extends {
-    [Key in keyof Fields]: InterfaceField<any, OutputTypes<Context>, Context>;
+    [Key in keyof Fields]: InterfaceField<any, OutputType<Context>, Context>;
   } &
     UnionToIntersection<InterfaceToInterfaceFields<Interfaces[number]>>,
-  Interfaces extends readonly InterfaceType<RootVal, Context, any>[] = []
+  Interfaces extends readonly InterfaceType<RootVal, any, Context>[] = []
 >(config: {
   name: string;
   description?: string;
@@ -493,7 +487,7 @@ type InterfaceTypeFunc<Context> = <
   resolveType?: GraphQLTypeResolver<RootVal, Context>;
   fields: MaybeFunc<Fields>;
   extensions?: Readonly<GraphQLInterfaceTypeExtensions>;
-}) => InterfaceType<RootVal, Context, Fields>;
+}) => InterfaceType<RootVal, Fields, Context>;
 
 export { interfaceType as interface };
 function bindInterfaceTypeToContext<Context>(): InterfaceTypeFunc<Context> {
@@ -524,9 +518,7 @@ function bindInterfaceTypeToContext<Context>(): InterfaceTypeFunc<Context> {
   };
 }
 
-import * as typesThatDoNotUseContext from "./types-that-do-not-use-context";
-
-type TypesWithContext<Context> = typeof typesThatDoNotUseContext & {
+export type TypesWithContext<Context> = {
   object: ObjectTypeFunc<Context>;
   union: UnionTypeFunc<Context>;
   field: FieldFunc<Context>;
@@ -537,7 +529,6 @@ type TypesWithContext<Context> = typeof typesThatDoNotUseContext & {
 
 export function bindTypesToContext<Context>(): TypesWithContext<Context> {
   return {
-    ...typesThatDoNotUseContext,
     object: bindObjectTypeToContext<Context>(),
     union: bindUnionTypeToContext<Context>(),
     field: bindFieldToContext<Context>(),

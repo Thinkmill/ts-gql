@@ -3,7 +3,10 @@
   "version": "0.7.3",
   "main": "dist/schema.cjs.js",
   "module": "dist/schema.esm.js",
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "types-without-context"
+  ],
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2"
@@ -14,5 +17,11 @@
   "devDependencies": {
     "graphql": "^15.0.0"
   },
-  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/schema"
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/schema",
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "types-without-context/index.ts"
+    ]
+  }
 }

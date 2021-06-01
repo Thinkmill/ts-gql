@@ -8,9 +8,7 @@ import {
   ScalarType,
   InferValueFromOutputType,
 } from "./packages/schema";
-import { InterfacesToOutputFields } from "./packages/schema/src/types/output";
-
-const typesWithContext = bindTypesToContext();
+import * as typesWithContext from "./test-types-with-context";
 
 typesWithContext.arg({
   type: typesWithContext.Boolean,
@@ -147,7 +145,10 @@ types.object<{ id: string } | { id: boolean }>()({
 });
 
 {
-  const types = bindTypesToContext<{ isAdminUIBuildProcess: true }>();
+  const types = {
+    ...typesWithContext,
+    ...bindTypesToContext<{ isAdminUIBuildProcess: true }>(),
+  };
 
   const SomeOutput = types.object<{ thing: boolean }>()({
     name: "Something",
