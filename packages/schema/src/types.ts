@@ -1,14 +1,15 @@
 import * as tsgqlSchema from ".";
 export * from "./types-without-context";
+export {
+  field,
+  fields,
+  interface,
+  interfaceField,
+  object,
+  union,
+} from "./types-with-context";
 
 export type Context = unknown;
-
-const types = tsgqlSchema.bindTypesToContext<Context>();
-
-export const { fields, interfaceField, object, union, field } = types;
-
-const interfaceType = types.interface;
-export { interfaceType as interface };
 
 export type NullableType = tsgqlSchema.NullableType<Context>;
 export type Type = tsgqlSchema.Type<Context>;

@@ -5,7 +5,8 @@
   "module": "dist/schema.esm.js",
   "files": [
     "dist",
-    "types-without-context"
+    "types-without-context",
+    "types-with-context"
   ],
   "license": "MIT",
   "dependencies": {
@@ -21,7 +22,8 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "types-without-context/index.ts"
+      "types-without-context/index.ts",
+      "types-with-context/index.ts"
     ]
   }
 }

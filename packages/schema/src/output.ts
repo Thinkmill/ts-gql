@@ -137,8 +137,6 @@ export type InterfaceField<
   >;
 };
 
-export const field = bindFieldToContext<unknown>();
-
 type FieldFuncResolve<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
@@ -258,8 +256,6 @@ export type InterfacesToOutputFields<
   >
 >;
 
-export const object = bindObjectTypeToContext<unknown>();
-
 export type ObjectTypeFunc<Context> = <
   RootVal
 >(youOnlyNeedToPassATypeParameterToThisFunctionYouPassTheActualRuntimeArgsOnTheResultOfThisFunction?: {
@@ -357,8 +353,6 @@ export type UnionType<RootVal, Context> = {
   graphQLType: GraphQLUnionType;
 };
 
-export const union = bindUnionTypeToContext<unknown>();
-
 export type UnionTypeFunc<Context> = <
   TObjectType extends ObjectType<any, Context>
 >(config: {
@@ -418,8 +412,6 @@ function bindFieldsToContext<Context>(): FieldsFunc<Context> {
   };
 }
 
-export const fields = bindFieldsToContext<unknown>();
-
 type InterfaceFieldFuncArgs<
   RootVal,
   Args extends { [Key in keyof Args]: Arg<any, any> },
@@ -447,8 +439,6 @@ function bindInterfaceFieldToContext<Context>(): InterfaceFieldFunc<Context> {
   };
 }
 
-export const interfaceField = bindInterfaceFieldToContext<unknown>();
-
 export type InterfaceType<
   RootVal,
   Fields extends Record<
@@ -463,8 +453,6 @@ export type InterfaceType<
   graphQLType: GraphQLInterfaceType;
   fields: () => Fields;
 };
-
-const interfaceType = bindInterfaceTypeToContext<unknown>();
 
 export type MaybeFunc<T> = T | (() => T);
 
@@ -489,7 +477,6 @@ export type InterfaceTypeFunc<Context> = <
   extensions?: Readonly<GraphQLInterfaceTypeExtensions>;
 }) => InterfaceType<RootVal, Fields, Context>;
 
-export { interfaceType as interface };
 function bindInterfaceTypeToContext<Context>(): InterfaceTypeFunc<Context> {
   return function interfaceType() {
     return function interfaceInner(config) {
