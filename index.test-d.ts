@@ -660,3 +660,17 @@ types.fields<{ thing: Promise<string> }>()({
 
   const _assert: types.Arg<typeof types.String, string | undefined> = arg;
 }
+
+{
+  const thing: {} | { defaultValue: string } =
+    Math.random() > 0.5 ? {} : { defaultValue: "" };
+  const arg = types.arg({
+    type: types.String,
+    ...thing,
+  });
+
+  const _assert: (
+    x: types.Arg<typeof types.String, string | undefined>
+  ) => void = (x: typeof arg) => {};
+  const assert2: types.Arg<typeof types.String, string | undefined> = arg;
+}
