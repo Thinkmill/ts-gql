@@ -84,16 +84,29 @@ export type Arg<
 
 export function arg<
   Type extends InputType,
-  DefaultValueConfig extends {
-    defaultValue?: InferValueFromInputType<Type> | undefined;
-  }
+  DefaultValueConfig extends
+    | {
+        defaultValue?: InferValueFromInputType<Type> | undefined;
+      }
+    | {}
 >(
   arg: {
     type: Type;
     description?: string;
     deprecationReason?: string;
   } & DefaultValueConfig
-): Arg<Type, DefaultValueConfig["defaultValue"]> {
+): Arg<
+  Type,
+  DefaultValueConfig extends {
+    defaultValue: InferValueFromInputType<Type> | undefined;
+  }
+    ? DefaultValueConfig["defaultValue"]
+    : DefaultValueConfig extends {
+        defaultValue?: InferValueFromInputType<Type> | undefined;
+      }
+    ? DefaultValueConfig["defaultValue"] | undefined
+    : undefined
+> {
   if (!arg.type) {
     throw new Error("A type must be passed to types.arg()");
   }

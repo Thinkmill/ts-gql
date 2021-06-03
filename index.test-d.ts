@@ -596,7 +596,16 @@ types.fields<{ thing: Promise<string> }>()({
     type: types.String,
   });
 
-  const _assert: types.Arg<typeof types.String> = arg;
+  const _assert: types.Arg<typeof types.String, undefined> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    defaultValue: undefined,
+  });
+
+  const _assert: types.Arg<typeof types.String, undefined> = arg;
 }
 
 {
@@ -637,4 +646,17 @@ types.fields<{ thing: Promise<string> }>()({
   const _assert1: types.Arg<typeof types.String, null> = arg;
   // @ts-expect-error
   const _assert2: types.Arg<typeof types.String, string> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    ...(Math.random() > 0.5
+      ? {
+          defaultValue: "",
+        }
+      : {}),
+  });
+
+  const _assert: types.Arg<typeof types.String, string | undefined> = arg;
 }
