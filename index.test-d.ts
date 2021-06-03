@@ -587,3 +587,54 @@ types.fields<{ thing: Promise<string> }>()({
     type: types.String,
   }),
 });
+
+// note it's important that the type annotation is on another variable declaration
+// since the type annotation can influence the return type and we don't want that here
+
+{
+  const arg = types.arg({
+    type: types.String,
+  });
+
+  const _assert: types.Arg<typeof types.String> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    defaultValue: "",
+  });
+
+  const _assert: types.Arg<typeof types.String, string> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    defaultValue: null,
+  });
+
+  const _assert: types.Arg<typeof types.String, null> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    defaultValue: null,
+  });
+
+  const _assert: types.Arg<typeof types.String, null> = arg;
+}
+
+{
+  const arg = types.arg({
+    type: types.String,
+    defaultValue: Math.random() > 0.5 ? "" : null,
+  });
+
+  const _assert: types.Arg<typeof types.String, string | null> = arg;
+  // @ts-expect-error
+  const _assert1: types.Arg<typeof types.String, null> = arg;
+  // @ts-expect-error
+  const _assert2: types.Arg<typeof types.String, string> = arg;
+}
