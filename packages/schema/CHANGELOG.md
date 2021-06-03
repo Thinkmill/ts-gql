@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.10.0
+
+### Minor Changes
+
+- [`c664466`](https://github.com/Thinkmill/ts-gql/commit/c6644660d1a8de194872a9153e8e7d37a8bcfa41) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed `defaultValue` with `types.arg` being inferred incorrectly.
+
 ## 0.9.0
 
 ### Minor Changes
