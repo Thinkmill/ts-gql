@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.11.1
+
+### Patch Changes
+
+- [`1d9e5e5`](https://github.com/Thinkmill/ts-gql/commit/1d9e5e5f52d45c2a9d6eb8423f3a31ad58935d13) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed excess properties/default values that don't match the type being allowed to be passed to `types.arg()`
+
 ## 0.11.0
 
 ### Minor Changes
