@@ -84,29 +84,16 @@ export type Arg<
 
 export function arg<
   Type extends InputType,
-  DefaultValueConfig extends
-    | {
-        defaultValue?: InferValueFromInputType<Type> | undefined;
-      }
-    | {}
+  DefaultValue extends InferValueFromInputType<Type> | undefined = undefined
 >(
   arg: {
     type: Type;
     description?: string;
     deprecationReason?: string;
-  } & DefaultValueConfig
-): Arg<
-  Type,
-  DefaultValueConfig extends {
-    defaultValue: InferValueFromInputType<Type> | undefined;
-  }
-    ? DefaultValueConfig["defaultValue"]
-    : DefaultValueConfig extends {
-        defaultValue?: InferValueFromInputType<Type> | undefined;
-      }
-    ? DefaultValueConfig["defaultValue"] | undefined
-    : undefined
-> {
+  } & (DefaultValue extends undefined
+    ? { defaultValue?: DefaultValue }
+    : { defaultValue: DefaultValue })
+): Arg<Type, DefaultValue> {
   if (!arg.type) {
     throw new Error("A type must be passed to types.arg()");
   }
@@ -150,3 +137,22 @@ export function inputObject<
     graphQLType,
   };
 }
+
+// type Thing<T extends string | undefined> = {
+//   something?: string;
+//   theThing: T;
+// };
+
+// function thing<B extends string | undefined = undefined>(
+//   arg: { something: string,a: } & (T extends undefined
+//     ? { defaultValue?: undefined }
+//     : { defaultValue: B })
+// ): Thing<B> {
+//   return undefined as any;
+// }
+
+// const x = thing({
+//   something: "",
+//   defaultValue: Math.random() > 0.5 ? "" : undefined,
+//   ...(Math.random() > 0.5 ? {} : { defaultValue: "" }),
+// });

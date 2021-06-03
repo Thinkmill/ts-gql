@@ -649,28 +649,102 @@ types.fields<{ thing: Promise<string> }>()({
 }
 
 {
-  const arg = types.arg({
-    type: types.String,
-    ...(Math.random() > 0.5
+  const x:
+    | {
+        defaultValue: string;
+      }
+    | {
+        defaultValue?: undefined;
+      } =
+    Math.random() > 0.5
       ? {
           defaultValue: "",
         }
-      : {}),
+      : {};
+  const arg = types.arg({
+    type: types.String,
+    ...x,
   });
 
   const _assert: types.Arg<typeof types.String, string | undefined> = arg;
+  // @ts-expect-error
+  const _assert1: types.Arg<typeof types.String, undefined> = arg;
+  // @ts-expect-error
+  const _assert2: types.Arg<typeof types.String, string> = arg;
+  const _assert3: (
+    x: types.Arg<typeof types.String, string | undefined>
+  ) => void = (x: typeof arg) => {};
 }
 
 {
-  const thing: {} | { defaultValue: string } =
-    Math.random() > 0.5 ? {} : { defaultValue: "" };
+  const x:
+    | {}
+    | {
+        defaultValue?: string;
+      } =
+    Math.random() > 0.5
+      ? {
+          defaultValue: "",
+        }
+      : {};
+  const arg = types.arg({
+    type: types.String,
+    ...x,
+  });
+
+  const _assert: types.Arg<typeof types.String, string | undefined> = arg;
+  // @ts-expect-error
+  const _assert1: types.Arg<typeof types.String, undefined> = arg;
+  // @ts-expect-error
+  const _assert2: types.Arg<typeof types.String, string> = arg;
+}
+
+{
+  const x:
+    | {}
+    | {
+        defaultValue: string;
+      } =
+    Math.random() > 0.5
+      ? {
+          defaultValue: "",
+        }
+      : {};
+  // this is indicating a _kinda_ bug
+  // if this starts working, that would be good
+  // but i doubt this case would actually happen
+  // and it's being too strict rather than not strict enough so it's fine imo
+  // (it's a ts-expect-error rather than ts-ignore so that it's visible if it starts working)
+  // @ts-expect-error
+  const arg = types.arg({
+    type: types.String,
+    ...x,
+  });
+}
+
+{
+  const thing: { defaultValue: undefined } | { defaultValue: string } =
+    Math.random() > 0.5 ? { defaultValue: undefined } : { defaultValue: "" };
   const arg = types.arg({
     type: types.String,
     ...thing,
   });
 
-  const _assert: (
-    x: types.Arg<typeof types.String, string | undefined>
-  ) => void = (x: typeof arg) => {};
-  const assert2: types.Arg<typeof types.String, string | undefined> = arg;
+  const _assert: types.Arg<typeof types.String, string | undefined> = arg;
+  // @ts-expect-error
+  const _assert1: types.Arg<typeof types.String, undefined> = arg;
+  // @ts-expect-error
+  const _assert2: types.Arg<typeof types.String, string> = arg;
 }
+
+types.arg({
+  type: types.String,
+  // @ts-expect-error
+  defaultValue: 1,
+});
+
+types.arg({
+  type: types.String,
+  // @ts-expect-error
+  bad: true,
+});

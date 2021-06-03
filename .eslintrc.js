@@ -15,4 +15,12 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/ban-ts-comment": 0,
   },
+  overrides: [
+    {
+      files: ["index.test-d.ts"],
+      rules: {
+        "@typescript-eslint/no-unused-vars": 0,
+      },
+    },
+  ],
 };
