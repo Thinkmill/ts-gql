@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.11.0
+
+### Minor Changes
+
+- [`64a74d3`](https://github.com/Thinkmill/ts-gql/commit/64a74d3fde71d3c214007546acc0686423c58af2) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed inference of `defaultValue` in `types.arg` to infer the `DefaultValue` to be `undefined` when `defaultValue` is not passed
+
 ## 0.10.0
 
 ### Minor Changes
