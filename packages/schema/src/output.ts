@@ -359,7 +359,7 @@ export type UnionTypeFunc<Context> = <
   name: string;
   description?: string;
   types: TObjectType[];
-  resolveType: (
+  resolveType?: (
     type: TObjectType["__rootVal"],
     context: Parameters<TObjectType["__context"]>[0],
     info: GraphQLResolveInfo,
