@@ -1,5 +1,11 @@
 # @ts-gql/schema
 
+## 0.11.2
+
+### Patch Changes
+
+- [`d687c4a`](https://github.com/Thinkmill/ts-gql/commit/d687c4ab02f04926d507733a90974a300285699d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - `resolveType` in the arguments to `types.union` is now optional.
+
 ## 0.11.1
 
 ### Patch Changes
