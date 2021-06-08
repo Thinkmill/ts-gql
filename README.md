@@ -146,7 +146,7 @@ ts-gql isn't trying to be a GraphQL client, it's only trying to type GraphQL que
 
 ## Non-Goals
 
-- ~~Improve the experience of creating GraphQL APIs, [Nexus](https://www.nexusjs.org/) does a really great job of this~~ (This may change! I'm experimenting with an API, it will be disconnected from the rest of ts-gql but will likely live in the same repo because it serves a similar goal of making GraphQL type-safe)
+- Improve the experience of creating GraphQL APIs
 
 ## Thanks
 

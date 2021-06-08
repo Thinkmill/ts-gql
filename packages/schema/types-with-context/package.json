@@ -1,4 +1,0 @@
-{
-  "main": "dist/schema.cjs.js",
-  "module": "dist/schema.esm.js"
-}
