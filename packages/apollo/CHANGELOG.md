@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.9.2
+
+### Patch Changes
+
+- [`7535729`](https://github.com/Thinkmill/ts-gql/commit/7535729362bbf04472b2e410286876eef0bd0e22) [#86](https://github.com/Thinkmill/ts-gql/pull/86) Thanks [@jesstelford](https://github.com/jesstelford)! - Support `query`'s `context` parameter, and tightens up `mutate`'s existing `context` parameter to be [more in line with Apollo's](https://github.com/apollographql/apollo-client/blob/main/src/core/types.ts#L16).
+
 ## 0.9.1
 
 ### Patch Changes
