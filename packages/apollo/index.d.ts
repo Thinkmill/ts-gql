@@ -165,7 +165,7 @@ export type MutationOptions<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
 > = {
   mutation: TTypedDocumentNode;
-  context?: any;
+  context?: Record<string, any>;
   fetchPolicy?: FetchPolicy;
   optimisticResponse?:
     | OperationData<TTypedDocumentNode>
@@ -193,6 +193,7 @@ type QueryFnOptions<
   query: TTypedDocumentNode;
   errorPolicy?: ErrorPolicy;
   fetchPolicy?: FetchPolicy;
+  context?: Record<string, any>;
 } & HasRequiredVariables<
   TTypedDocumentNode,
   { variables: OperationVariables<TTypedDocumentNode> },
