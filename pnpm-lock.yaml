@@ -186,7 +186,7 @@ importers:
   packages/next:
     specifiers:
       '@babel/runtime': ^7.9.2
-      '@ts-gql/compiler': ^0.14.0
+      '@ts-gql/compiler': ^0.14.4
       graphql: ^14.0.0
     dependencies:
       '@babel/runtime': 7.9.2
