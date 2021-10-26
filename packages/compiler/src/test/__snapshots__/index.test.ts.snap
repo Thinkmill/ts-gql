@@ -48,54 +48,6 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
 }
 `;
 
-exports[`basic with  1`] = `
-Object {
-  "errors": Array [],
-  "fsOperations": Array [
-    Object {
-      "content": "// ts-gql-integrity:4eb35d4812c8886680efbce5422b30a8
-/*
-ts-gql-meta-begin
-{
-  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
-}
-ts-gql-meta-end
-*/
-
-import * as SchemaTypes from \\"./@schema\\";
-import { TypedDocumentNode } from \\"@ts-gql/tag\\";
-
-type ThingQueryVariables = {};
-
-
-type ThingQuery = (
-  { readonly __typename: 'Query' }
-  & Pick<SchemaTypes.Query, 'hello'>
-);
-
-
-export type type = TypedDocumentNode<{
-  type: \\"query\\";
-  result: ThingQuery;
-  variables: ThingQueryVariables;
-  documents: SchemaTypes.TSGQLDocuments;
-}>
-
-declare module \\"./@schema\\" {
-  interface TSGQLDocuments {
-    Thing: type;
-  }
-}
-
-export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"hello\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[]}]}}]}\\")
-",
-      "filename": "__generated__/ts-gql/Thing.ts",
-      "type": "output",
-    },
-  ],
-}
-`;
-
 exports[`list with fragment works as expected 1`] = `
 Object {
   "errors": Array [],
@@ -346,6 +298,54 @@ declare module \\"./@schema\\" {
 }
 
 export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"someObj\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"arr\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"FragmentSpread\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Frag_a\\\\\\"},\\\\\\"directives\\\\\\":[]}]}},{\\\\\\"kind\\\\\\":\\\\\\"FragmentSpread\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Frag_b\\\\\\"},\\\\\\"directives\\\\\\":[]}]}}]}},{\\\\\\"kind\\\\\\":\\\\\\"FragmentDefinition\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Frag_a\\\\\\"},\\\\\\"typeCondition\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"OutputThing\\\\\\"}},\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"other\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[]}]}},{\\\\\\"kind\\\\\\":\\\\\\"FragmentDefinition\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Frag_b\\\\\\"},\\\\\\"typeCondition\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"OutputThing\\\\\\"}},\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"arr\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"id\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[]}]}}]}}]}\\")
+",
+      "filename": "__generated__/ts-gql/Thing.ts",
+      "type": "output",
+    },
+  ],
+}
+`;
+
+exports[`with directory that ends with .ts 1`] = `
+Object {
+  "errors": Array [],
+  "fsOperations": Array [
+    Object {
+      "content": "// ts-gql-integrity:4eb35d4812c8886680efbce5422b30a8
+/*
+ts-gql-meta-begin
+{
+  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
+}
+ts-gql-meta-end
+*/
+
+import * as SchemaTypes from \\"./@schema\\";
+import { TypedDocumentNode } from \\"@ts-gql/tag\\";
+
+type ThingQueryVariables = {};
+
+
+type ThingQuery = (
+  { readonly __typename: 'Query' }
+  & Pick<SchemaTypes.Query, 'hello'>
+);
+
+
+export type type = TypedDocumentNode<{
+  type: \\"query\\";
+  result: ThingQuery;
+  variables: ThingQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments;
+}>
+
+declare module \\"./@schema\\" {
+  interface TSGQLDocuments {
+    Thing: type;
+  }
+}
+
+export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"hello\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[]}]}}]}\\")
 ",
       "filename": "__generated__/ts-gql/Thing.ts",
       "type": "output",
