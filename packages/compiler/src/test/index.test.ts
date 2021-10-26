@@ -196,3 +196,24 @@ test("errors in fragments are not shown for usages", async () => {
     ]
   `);
 });
+
+test("with directory that ends with .ts", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing {
+          hello
+        }
+      `,
+    ])
+  );
+  const dirEndsWithTs = path.join(dir, "thing.ts");
+  await fs.mkdir(dirEndsWithTs);
+
+  await fs.writeFile(path.join(dirEndsWithTs, "thing.mp4"), ``);
+
+  expect(await build(dir)).toMatchSnapshot();
+});

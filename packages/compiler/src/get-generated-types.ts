@@ -41,9 +41,8 @@ const walk = promisify(_walk);
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
   return async (error: CompilerError) => {
-    const { codeFrameColumns } = lazyRequire<
-      typeof import("@babel/code-frame")
-    >();
+    const { codeFrameColumns } =
+      lazyRequire<typeof import("@babel/code-frame")>();
     let content = await readFile(error.filename);
     return (
       error.filename +
@@ -72,7 +71,9 @@ const walkSettings = new Settings({
     !entry.path.includes("node_modules") &&
     entry.path !== `__generated__${nodePath.sep}ts-gql`,
   entryFilter: (entry) =>
-    tsExtensionRegex.test(entry.name) && !dtsExtensionRegex.test(entry.name),
+    entry.dirent.isFile() &&
+    tsExtensionRegex.test(entry.name) &&
+    !dtsExtensionRegex.test(entry.name),
 });
 
 export const getGeneratedTypes = async (

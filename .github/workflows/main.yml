@@ -25,7 +25,7 @@ jobs:
           restore-keys: pnpm-v5-ubuntu-latest-
 
       - name: Install pnpm
-        run: npm i -g pnpm
+        run: npm i -g pnpm@6.19.0
 
       - name: Install Dependencies
         run: pnpm i
@@ -59,7 +59,7 @@ jobs:
           restore-keys: pnpm-${{ matrix.platform }}-
 
       - name: Install pnpm
-        run: npm i -g pnpm
+        run: npm i -g pnpm@6.19.0
 
       - name: Install Dependencies
         run: pnpm i
