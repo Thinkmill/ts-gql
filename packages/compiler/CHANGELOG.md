@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.14.4
+
+### Patch Changes
+
+- [`0e9f8b4`](https://github.com/Thinkmill/ts-gql/commit/0e9f8b4295b0cdfc4c8f679c79ca9264273d0b5b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed erroring with `EISDIR` when a directory that ends with `.ts`/`.tsx` exists
+
 ## 0.14.3
 
 ### Patch Changes
