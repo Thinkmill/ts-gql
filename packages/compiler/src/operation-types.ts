@@ -1,5 +1,5 @@
 import * as fs from "./fs";
-import type { DocumentNode } from "graphql";
+import { DocumentNode, ExecutableDefinitionNode } from "graphql";
 import { codegen } from "./codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
@@ -11,6 +11,17 @@ import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
 import { inlineIntoFirstOperationOrFragment } from "./inline-fragments";
+
+function getUsedFragments(node: ExecutableDefinitionNode) {
+  const visit = lazyRequire<typeof import("graphql/language/visitor")>().visit;
+  const usedFragments = new Set<string>();
+  visit(node, {
+    FragmentSpread(node) {
+      usedFragments.add(node.name.value);
+    },
+  });
+  return [...usedFragments];
+}
 
 async function generateOperationTypes(
   config: Config,
@@ -49,9 +60,8 @@ async function generateOperationTypes(
       },
     ],
     pluginMap: {
-      "typescript-operations": lazyRequire<
-        typeof import("@graphql-codegen/typescript-operations")
-      >(),
+      "typescript-operations":
+        lazyRequire<typeof import("@graphql-codegen/typescript-operations")>(),
     },
   });
 
@@ -75,27 +85,35 @@ async function generateOperationTypes(
 
   let upperCaseOperationType =
     operationType.charAt(0).toUpperCase() + operationType.slice(1);
+  const usedFragments = getUsedFragments(operationNode);
   return {
     type: "output",
     filename,
-    content: wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
-      {
-        hash: operationHash,
-      },
-      null,
-      2
-    )}\nts-gql-meta-end\n*/\n\nimport * as SchemaTypes from "./@schema";\nimport { TypedDocumentNode } from "@ts-gql/tag";\n\n${result}
+    content:
+      wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
+        {
+          hash: operationHash,
+        },
+        null,
+        2
+      )}\nts-gql-meta-end\n*/\n\nimport * as SchemaTypes from "./@schema";\nimport { TypedDocumentNode } from "@ts-gql/tag";\n\n${result}
 
+      
 export type type = TypedDocumentNode<{
   type: ${JSON.stringify(operationType)};
   result: ${operationNode.name.value + upperCaseOperationType};${
-      operationType === "fragment"
-        ? ""
-        : `\n  variables: ${
-            operationNode.name.value + upperCaseOperationType + "Variables"
-          };`
-    }
+        operationType === "fragment"
+          ? `\n  name: ${JSON.stringify(operationNode.name.value)};`
+          : `\n  variables: ${
+              operationNode.name.value + upperCaseOperationType + "Variables"
+            };`
+      }
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<${JSON.stringify(
+    usedFragments.length === 0
+      ? "none"
+      : Object.fromEntries(usedFragments.map((x) => [x, true]))
+  )}>
 }>
 
 declare module "./@schema" {
@@ -105,10 +123,10 @@ declare module "./@schema" {
 }
 
 export const document = JSON.parse(${JSON.stringify(
-      JSON.stringify(operation, (key, value) =>
-        key === "loc" ? undefined : value
-      )
-    )})
+        JSON.stringify(operation, (key, value) =>
+          key === "loc" ? undefined : value
+        )
+      )})
 `),
   };
 }
@@ -121,19 +139,20 @@ function generateErrorModuleFsOperation(
   return {
     type: "output" as const,
     filename,
-    content: wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
-      {
-        hash,
-      },
-      null,
-      2
-    )}\nts-gql-meta-end\n*/
+    content:
+      wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
+        {
+          hash,
+        },
+        null,
+        2
+      )}\nts-gql-meta-end\n*/
 
 export type type = never;
 
 throw new Error(typeof window === 'undefined' ? ${JSON.stringify(
-      stripAnsi(error)
-    )} : ${JSON.stringify(error)});
+        stripAnsi(error)
+      )} : ${JSON.stringify(error)});
 `),
   };
 }

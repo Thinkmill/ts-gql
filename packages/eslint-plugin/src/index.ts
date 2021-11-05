@@ -29,7 +29,9 @@ const messages = {
   operationOrSingleFragment:
     "GraphQL documents must either have a single operation or a single fragment",
   mustBeNamedGql:
-    "`@ts-gql/tag`'s `gql` export must not be renamed when imported because other tags are not widely supported by tools like formatters and syntax highlighters",
+    '"@ts-gql/tag"\'s `gql` export must not be renamed when imported because other tags are not widely supported by tools like formatters and syntax highlighters',
+  mustImportMainEntrypoint: `Importing "@ts-gql/tag/no-babel" is not allowed when the "mode" is set to "babel"(the default), either switch to using "@ts-gql/tag" or set the "mode" to "no-babel" or "babel-allow-no-babel" in your ts-gql config.`,
+  mustImportNoBabelEntrypoint: `Importing "@ts-gql/tag" is not allowed when the "mode" is set to "no-babel", either switch to using "@ts-gql/tag/no-babel" or set the "mode" to "babel" or "babel-allow-no-babel" in your ts-gql config.`,
 };
 
 function checkFragment(

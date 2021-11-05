@@ -32,12 +32,7 @@ export type NamedOperationDefinitionNode = Omit<
   readonly name: NameNode;
 };
 
-export type NamedFragmentDefinitionNode = Omit<
-  FragmentDefinitionNode,
-  "name"
-> & {
-  readonly name: NameNode;
-};
+export type NamedFragmentDefinitionNode = FragmentDefinitionNode;
 
 export type TSGQLDocument = {
   filename: string;

@@ -90,7 +90,7 @@ function generateSchemaTypes(
         { hash: schemaHash },
         null,
         2
-      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}`
+      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}\n\nexport type TSGQLRequiredFragments<T> = (providedFragments: T) => T;`
     ),
   };
 }

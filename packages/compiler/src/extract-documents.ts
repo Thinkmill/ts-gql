@@ -75,10 +75,11 @@ export function extractGraphQLDocumentsContentsFromFile(
             let isGqlTag =
               node.expression.tag.type === "Identifier" &&
               node.expression.tag.name === "gql";
-            let hasNoInterpolations =
-              node.expression.quasi.quasis.length === 1 &&
-              node.expression.quasi.expressions.length === 0;
-            if (isGqlTag && hasNoInterpolations) {
+            let hasOnlyWhitespaceAfterFirstInterpolation =
+              node.expression.quasi.quasis
+                .slice(1)
+                .every((x) => x.value.cooked!.trim() === "");
+            if (isGqlTag && hasOnlyWhitespaceAfterFirstInterpolation) {
               documents.push({
                 loc: node.expression.quasi.loc!,
                 document: node.expression.quasi.quasis[0].value.cooked!,
