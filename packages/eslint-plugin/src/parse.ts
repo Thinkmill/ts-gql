@@ -150,6 +150,29 @@ export function handleTemplateTag(
     });
   });
   if (validationErrors.length) return;
+
+  if (kind === "no-transform") {
+    const usedFragments = new Set<string>();
+    visit(ast, {
+      FragmentSpread(node) {
+        usedFragments.add(node.name.value);
+      },
+    });
+    if (usedFragments.size !== node.quasi.expressions.length) {
+      report({
+        // @ts-ignore
+        message: `When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, ${
+          usedFragments.size
+        } fragment${usedFragments.size === 1 ? " is" : "s are"} used but ${
+          node.quasi.expressions.length
+        } fragment${
+          node.quasi.expressions.length === 1 ? " is" : "s are"
+        } interpolated`,
+        node,
+      });
+    }
+  }
+
   let typeInfo = new TypeInfo(schema);
   visit(
     ast,

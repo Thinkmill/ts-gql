@@ -181,10 +181,9 @@ export const rules = {
                 (x): x is TSESTree.ImportSpecifier =>
                   x.type === "ImportSpecifier" && x.imported.name === "gql"
               );
-              if (
-                gqlImportSpecifier &&
-                gqlImportSpecifier.local.name !== "gql"
-              ) {
+
+              if (!gqlImportSpecifier) continue;
+              if (gqlImportSpecifier.local.name !== "gql") {
                 report({
                   messageId: "mustBeNamedGql",
                   node: gqlImportSpecifier,

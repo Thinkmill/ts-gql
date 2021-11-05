@@ -307,6 +307,46 @@ gql\`
 }
 `;
 
+exports[`incorrect-fragment-interpolate-num.no-transform.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 12,
+      "line": 5,
+      "message": "When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag/no-transform\\";
+
+const x: any = undefined;
+
+gql\`
+~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  query Thing {
+~~~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    something
+~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    ...Blah_x
+~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    ...Other_x
+~~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  }
+~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  \${x}
+~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+\` as import(// @ts-ignore
+~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+\\"../__generated__/ts-gql/Thing\\").type;
+",
+}
+`;
+
 exports[`missing-id.ts 1`] = `
 Object {
   "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
