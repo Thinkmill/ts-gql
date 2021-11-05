@@ -43,18 +43,13 @@ export type FragmentData<Node extends TypedDocumentNode<BaseTypedFragment>> =
 export type AllDocuments<Node extends TypedDocumentNode<BaseDocumentTypes>> =
   Node["___type"]["documents"];
 
-type GqlTag = {
-  (
-    strings: readonly string[],
-    ...interpolations: TypedDocumentNode<BaseTypedFragment>[]
-  ): never;
+interface GqlTag {
+  (strings: TemplateStringsArray): never;
   ___isTsGqlTag: true;
-};
+}
 
 export declare const gql: GqlTag;
 
 export function getDocumentNode(
   node: TypedDocumentNode<BaseDocumentTypes>
 ): DocumentNode;
-
-export interface Documents {}

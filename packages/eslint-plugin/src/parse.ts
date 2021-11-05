@@ -37,14 +37,28 @@ let rules = specifiedRules.filter(
 
 function replaceExpressions(
   node: TSESTree.TemplateLiteral,
-  report: TSESLint.RuleContext<MessageId, any>["report"]
+  report: TSESLint.RuleContext<MessageId, any>["report"],
+  kind: "transform" | "no-transform"
 ) {
   if (node.expressions.length) {
-    report({
-      node: node.expressions[0],
-      messageId: "noInterpolation",
-    });
-    throw new Error("Invalid interpolation");
+    if (kind === "transform") {
+      report({
+        node: node.expressions[0],
+        messageId: "noInterpolation",
+      });
+      return undefined;
+    }
+    if (kind === "no-transform") {
+      for (const templateElement of node.quasis.slice(1)) {
+        if (templateElement.value.cooked.trim().length) {
+          report({
+            node: templateElement,
+            messageId: "onlyInterpolationsAtEnd",
+          });
+          return undefined;
+        }
+      }
+    }
   }
   return node.quasis[0].value.cooked;
 }
@@ -99,15 +113,12 @@ function locFromGraphQLNode(
 export function handleTemplateTag(
   node: TSESTree.TaggedTemplateExpression,
   report: TSESLint.RuleContext<MessageId, any>["report"],
-  schema: GraphQLSchema
+  schema: GraphQLSchema,
+  kind: "transform" | "no-transform"
 ) {
-  let text;
-  try {
-    text = replaceExpressions(node.quasi, report);
-  } catch (e) {
-    if (e.message !== "Invalid interpolation") {
-      console.log(e); // eslint-disable-line no-console
-    }
+  let text = replaceExpressions(node.quasi, report, kind);
+
+  if (text === undefined) {
     return;
   }
 
@@ -254,9 +265,9 @@ function createNoUndefinedVariablesRule(
           variableNameDefined = Object.create(null);
         },
         leave(operation) {
-          const usages: VariableUsage[] = (context as any).getRecursiveVariableUsages(
-            operation
-          );
+          const usages: VariableUsage[] = (
+            context as any
+          ).getRecursiveVariableUsages(operation);
 
           for (const { node, type } of usages) {
             const varName = node.name.value;

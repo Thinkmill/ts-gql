@@ -6,7 +6,6 @@ export type {
   BaseTypedFragment,
   BaseTypedMutation,
   BaseTypedQuery,
-  Documents,
   FragmentData,
   OperationData,
   OperationVariables,
