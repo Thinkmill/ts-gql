@@ -23,7 +23,8 @@
     "urql": "^1.9.7"
   },
   "ts-gql": {
-    "schema": "schema.graphql"
+    "schema": "schema.graphql",
+    "mode": "no-transform"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/master/test-app"
 }

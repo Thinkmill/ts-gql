@@ -1,4 +1,4 @@
-import { gql } from "@ts-gql/tag/no-babel";
+import { gql } from "@ts-gql/tag/no-transform";
 import { useMutation } from "@ts-gql/apollo";
 
 const query2 = gql`
@@ -48,13 +48,14 @@ const otherFragment = gql`
   }
 ` as import("../__generated__/ts-gql/OtherFragment_x").type;
 
-gql`
+const query = gql`
   query SomeQueryApollo($arg: String!) {
     optional(thing: $arg)
     ye: something
 
     ...Something2Apollo_x
   }
+  ${someFragment}
 ` as import("../__generated__/ts-gql/SomeQueryApollo").type;
 
 let someMutation = gql`
