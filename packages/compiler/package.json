@@ -16,9 +16,9 @@
     "@babel/parser": "^7.9.6",
     "@babel/runtime": "^7.9.2",
     "@babel/types": "^7.9.6",
-    "@graphql-codegen/plugin-helpers": "^1.13.3",
-    "@graphql-codegen/typescript": "^1.13.3",
-    "@graphql-codegen/typescript-operations": "^1.13.3",
+    "@graphql-codegen/plugin-helpers": "^1.18.8",
+    "@graphql-codegen/typescript": "^1.23.0",
+    "@graphql-codegen/typescript-operations": "^1.18.4",
     "@nodelib/fs.walk": "^1.2.4",
     "@ts-gql/config": "^0.8.0",
     "@types/babel__code-frame": "^7.0.1",
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@ts-gql/tag": "^0.5.3",
     "fixturez": "^1.1.0",
-    "graphql": "^14.0.0",
+    "graphql": "^15.7.2",
     "lazy-require.macro": "^0.1.0"
   },
   "preconstruct": {

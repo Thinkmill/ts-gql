@@ -4,7 +4,9 @@
   "main": "dist/eslint-plugin.cjs.js",
   "module": "dist/eslint-plugin.esm.js",
   "license": "MIT",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "@graphql-codegen/plugin-helpers": "^1.13.3",
@@ -22,7 +24,7 @@
     "@ts-gql/tag": "^0.5.3",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint-snapshot-test": "^3.0.0",
-    "graphql": "^14.0.0"
+    "graphql": "^15.7.2"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/eslint-plugin"
 }

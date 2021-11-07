@@ -7,7 +7,7 @@ type Query {
   arr: [OutputThing!]!
   thing: Thing!
   optional(thing: String): String!
-  oneMore(thing: String, other: Something!): String!
+  oneMore(thing: String, other: Something!): String! @deprecated(reason: "Blah")
 }
 
 type Mutation {
