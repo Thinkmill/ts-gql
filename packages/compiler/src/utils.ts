@@ -18,7 +18,7 @@ export function parseTsGqlMeta(content: string) {
   return JSON.parse(result[1]);
 }
 
-// based on https://github.com/facebook/fbjs/blob/master/packages/signedsource/index.js
+// based on https://github.com/facebook/fbjs/blob/main/packages/signedsource/index.js
 
 let integrityPlaceholder = "__TS_GQL_INTEGRITY_PLACEHOLDER__";
 

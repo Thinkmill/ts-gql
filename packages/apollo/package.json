@@ -14,7 +14,8 @@
   },
   "devDependencies": {
     "@apollo/client": "^3.1.2",
-    "graphql": "^15.7.2"
+    "graphql": "^15.7.2",
+    "react": "^16.13.1"
   },
-  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/apollo"
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/apollo"
 }
