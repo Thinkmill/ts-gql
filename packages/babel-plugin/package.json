@@ -15,5 +15,5 @@
   "devDependencies": {
     "@types/babel__core": "^7.1.9"
   },
-  "repository": "https://github.com/Thinkmill/ts-gql/tree/master/packages/babel-plugin"
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/babel-plugin"
 }
