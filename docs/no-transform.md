@@ -1,6 +1,6 @@
 # Using ts-gql without the Babel plugin
 
-If you want to use ts-gql without the Babel plugin, it is largely the same as using ts-gql with the Babel plugin with the one exception that when you use a fragment, you need to interpolate fragments. Note the same constraints as using ts-gql normally still apply like fragments/operations having unique names.
+If you want to use ts-gql without the Babel plugin, it is largely the same as using ts-gql with the Babel plugin except that when you use a fragment, you need to interpolate the fragment as well. Note that the same constraints as using ts-gql normally still apply like fragments/operations having unique names.
 
 First, you need to set the `mode` in your `ts-gql` config to `"no-transform"`.
 
@@ -199,7 +199,7 @@ const query = gql`
 
 ## Migrating
 
-To ease with migrating, you can set the mode to `"mixed"` instead of `"no-transform"`, this will allow importing from both `@ts-gql/tag` and `@ts-gql/tag/no-transform` and therefore allow migrating. Note when using `"mixed"`, you still need to use the Babel plugin. When you're done migrating, you can change the mode to`"no-transform"` and you won't need to use the Babel plugin.
+To ease with migrating, you can set the mode to `"mixed"` instead of `"no-transform"`, this will allow importing from both `@ts-gql/tag` and `@ts-gql/tag/no-transform`. Note when using `"mixed"`, you still need to use the Babel plugin. When you're done migrating, you can change the mode to`"no-transform"` and you won't need to use the Babel plugin.
 
 ```json
 "ts-gql": {
