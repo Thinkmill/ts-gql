@@ -204,39 +204,16 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
-      "column": 1,
-      "endColumn": 2,
-      "endLine": 7,
-      "fix": Object {
-        "range": Array [
-          89,
-          89,
-        ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
-      },
-      "line": 3,
-      "message": "You must cast gql tags with the generated type",
-      "messageId": "mustUseAs",
-      "nodeType": "TaggedTemplateExpression",
-      "ruleId": "ts-gql",
-      "severity": 2,
-    },
   ],
   "snapshot": "
 import { gql } from \\"@ts-gql/tag/no-transform\\";
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag/no-transform\\" is not allowed when the \\"mode\\" is set to \\"transform\\"(the default), either switch to using \\"@ts-gql/tag\\" or set the \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config.]
 
 gql\`
-~~~~    [You must cast gql tags with the generated type]
   query Thing {
-~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
     something
-~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
   }
-~~~    [You must cast gql tags with the generated type]
 \`;
-~    [You must cast gql tags with the generated type]
 ",
 }
 `;
@@ -270,39 +247,16 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
-      "column": 1,
-      "endColumn": 2,
-      "endLine": 7,
-      "fix": Object {
-        "range": Array [
-          76,
-          76,
-        ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
-      },
-      "line": 3,
-      "message": "You must cast gql tags with the generated type",
-      "messageId": "mustUseAs",
-      "nodeType": "TaggedTemplateExpression",
-      "ruleId": "ts-gql",
-      "severity": 2,
-    },
   ],
   "snapshot": "
 import { gql } from \\"@ts-gql/tag\\";
                     ~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag\\" is not allowed when the \\"mode\\" is set to \\"no-transform\\", either switch to using \\"@ts-gql/tag/no-transform\\" or set the \\"mode\\" to \\"transform\\" or \\"mixed\\" in your ts-gql config.]
 
 gql\`
-~~~~    [You must cast gql tags with the generated type]
   query Thing {
-~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
     something
-~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
   }
-~~~    [You must cast gql tags with the generated type]
 \`;
-~    [You must cast gql tags with the generated type]
 ",
 }
 `;
