@@ -112,7 +112,7 @@ const query = gql`
 ` as import("../../__generated__/ts-gql/PostListPage").type;
 ```
 
-You can pretty much ignore that TypeScript error in general and just look at the ESLint rule error to see what to do, there is an exception though. If you interpolate the _wrong fragment_ but the _right number of fragments_ then you'll only get that TypeScript error because the ESLint rule doesn't know what you've actually interpolated but TypeScript does.
+You can pretty much ignore that TypeScript error in general and just look at the ESLint rule error to see what to do. If you interpolate the _wrong fragment_ but the _right number of fragments_ though then you'll only get that TypeScript error because the ESLint rule doesn't know what you've actually interpolated but TypeScript does.
 
 <details><summary>Doesn't typescript-eslint allow ESLint rules to use type information?</summary>
 
