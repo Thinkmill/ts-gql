@@ -207,6 +207,7 @@ export const rules = {
                     );
                   },
                 });
+                return;
               }
               if (
                 config.mode === "no-transform" &&
@@ -222,6 +223,7 @@ export const rules = {
                     );
                   },
                 });
+                return;
               }
               tsGQLImport =
                 node.source.value === "@ts-gql/tag"
