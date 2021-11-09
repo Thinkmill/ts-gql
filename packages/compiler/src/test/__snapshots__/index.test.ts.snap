@@ -5,11 +5,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:fe78c67664e038d971c88cc094e9a3fd
+      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
+  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
 }
 ts-gql-meta-end
 */
@@ -17,7 +17,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -55,11 +55,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:02cd0b88cc65a27b7829b0ba31ab83af
+      "content": "// ts-gql-integrity:2db42dcf41fb035aa1a7ac5783e61bbd
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ac4e3776a32bc060738e894c69ca7478\\"
+  \\"hash\\": \\"39c5f3b542f9bd5e91aa18ac2a573935\\"
 }
 ts-gql-meta-end
 */
@@ -67,7 +67,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -100,11 +100,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:9746c8d5847310ec9e7c3c9664073438
+      "content": "// ts-gql-integrity:8ce38c9a3b3a650a3ef852275f30c278
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"6422edc9d5e521feca600e68c8e75e8b\\"
+  \\"hash\\": \\"e0239ed20557b402c7d9ed14db256b25\\"
 }
 ts-gql-meta-end
 */
@@ -142,11 +142,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:aea6e2320558318fdaa6eb7a9c66cc6b
+      "content": "// ts-gql-integrity:5acca266965eec698c2aacf80e89badd
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"0ad88a45985e9ec0f04e586c1cb90704\\"
+  \\"hash\\": \\"d5b6672c86692d673f2b817476dd2f5a\\"
 }
 ts-gql-meta-end
 */
@@ -192,11 +192,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:1db6e35dd1422b98654942bc22865cac
+      "content": "// ts-gql-integrity:66217251aa448b43a1ea2aab2d20ea65
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"5dc8286a0a23cefafe23a15ed9ee6b71\\"
+  \\"hash\\": \\"c2bafcf7c3c6f41deedcdbbd94fbbade\\"
 }
 ts-gql-meta-end
 */
@@ -231,11 +231,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:efa9295a509fd507b41932ccf8f15069
+      "content": "// ts-gql-integrity:823954861d205b46006dd9445eaf760c
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"fde55726bf215260642a5ff0d64fc2f3\\"
+  \\"hash\\": \\"23962528a45d70ea2189a23e219c20c9\\"
 }
 ts-gql-meta-end
 */
@@ -273,11 +273,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:4bc1588bbb4fee26da9e71c1cd7b6d52
+      "content": "// ts-gql-integrity:1bcb7977463a6fd460ee7775128d6f82
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"c2cb0eb5ad5ac044bc65649df273afc4\\"
+  \\"hash\\": \\"9662fdff478d796c081e13a09b7f7739\\"
 }
 ts-gql-meta-end
 */
@@ -285,7 +285,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -329,11 +329,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:fe78c67664e038d971c88cc094e9a3fd
+      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
+  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
 }
 ts-gql-meta-end
 */
@@ -341,7 +341,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
