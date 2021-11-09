@@ -5,6 +5,7 @@ import typeDefs from "raw-loader!../../schema.graphql";
 const resolvers = {
   Query: {
     hello: () => "Hello!",
+    posts: () => [{ title: "blah", author: { name: "blah" } }],
   },
 };
 
