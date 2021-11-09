@@ -9,6 +9,7 @@ function hashSchema(input: string) {
   let md5sum = crypto.createHash("md5");
 
   md5sum.update(version);
+  md5sum.update("v2");
   md5sum.update(input);
   return md5sum.digest("hex");
 }
@@ -48,22 +49,19 @@ export class BatchGraphQLError extends Error {
 function uncachedParseSchema(filename: string, content: string) {
   if (!filename.endsWith(".json")) {
     const ast = parse(content);
-    const { validateSDL } = lazyRequire<
-      typeof import("graphql/validation/validate")
-    >();
+    const { validateSDL } =
+      lazyRequire<typeof import("graphql/validation/validate")>();
     const validationErrors = validateSDL(ast);
     if (validationErrors.length) {
       throw new BatchGraphQLError(validationErrors);
     }
-    const { buildASTSchema } = lazyRequire<
-      typeof import("graphql/utilities/buildASTSchema")
-    >();
+    const { buildASTSchema } =
+      lazyRequire<typeof import("graphql/utilities/buildASTSchema")>();
 
     return buildASTSchema(ast, { assumeValidSDL: true });
   }
-  const { buildClientSchema } = lazyRequire<
-    typeof import("graphql/utilities/buildClientSchema")
-  >();
+  const { buildClientSchema } =
+    lazyRequire<typeof import("graphql/utilities/buildClientSchema")>();
 
   let schema = JSON.parse(content);
   const unpackedSchemaJson = schema.data ? schema.data : schema;

@@ -7,7 +7,8 @@ type Query {
   arr: [OutputThing!]!
   thing: Thing!
   optional(thing: String): String!
-  oneMore(thing: String, other: Something!): String!
+  oneMore(thing: String, other: Something!): String! @deprecated(reason: "Blah")
+  posts: [Post!]!
 }
 
 type Mutation {
@@ -36,4 +37,13 @@ type OutputThing {
 input Something {
   yes: Boolean
   no: String!
+}
+
+type Post {
+  title: String!
+  author: Author!
+}
+
+type Author {
+  name: String!
 }

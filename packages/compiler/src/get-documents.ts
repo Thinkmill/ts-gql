@@ -25,7 +25,7 @@ type DocumentExtractionCache = {
 };
 
 let documentExtractionCacheVersion =
-  "ts-gql-document-extractor@v2," +
+  "ts-gql-document-extractor@v3," +
   "@babel/parser@" +
   babelParserPkgJson.version;
 async function readDocumentExtractionCache(cacheFilename: string) {

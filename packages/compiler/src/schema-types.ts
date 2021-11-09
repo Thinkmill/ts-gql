@@ -90,14 +90,18 @@ function generateSchemaTypes(
         { hash: schemaHash },
         null,
         2
-      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}`
+      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}\n\nexport type TSGQLRequiredFragments<T> = (providedFragments: T) => T;`
     ),
   };
 }
 
 export async function cachedGenerateSchemaTypes(config: Config) {
   let schemaHash = hashString(
-    config.schemaHash + JSON.stringify(config.scalars) + config.readonlyTypes
+    config.schemaHash +
+      JSON.stringify(config.scalars) +
+      config.readonlyTypes +
+      lazyRequire<typeof import("@graphql-codegen/typescript/package.json")>()
+        .version
   );
   let types: string;
   let filename = path.join(

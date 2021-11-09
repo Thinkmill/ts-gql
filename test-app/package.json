@@ -16,14 +16,15 @@
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/parser": "^4.14.2",
     "apollo-server-micro": "^2.12.0",
-    "next": "^9.3.5",
+    "next": "^12.0.3",
     "raw-loader": "^4.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "urql": "^1.9.7"
   },
   "ts-gql": {
-    "schema": "schema.graphql"
+    "schema": "schema.graphql",
+    "mode": "mixed"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/main/test-app"
 }

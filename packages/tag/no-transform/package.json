@@ -1,0 +1,4 @@
+{
+  "main": "dist/tag.cjs.js",
+  "module": "dist/tag.esm.js"
+}

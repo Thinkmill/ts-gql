@@ -23,6 +23,7 @@ export type RawConfig = {
   scalars: Record<string, string>;
   addTypename: boolean;
   readonlyTypes: boolean;
+  mode: "transform" | "no-transform" | "mixed";
 };
 
 function parseFieldToConfig({
@@ -44,6 +45,7 @@ function parseFieldToConfig({
       scalars: field.scalars || {},
       addTypename: field.addTypename ?? true,
       readonlyTypes: field.readonlyTypes ?? true,
+      mode: field.mode ?? "transform",
     };
   }
   throw new ConfigNotFoundError("ts-gql config not found");

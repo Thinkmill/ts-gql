@@ -27,6 +27,7 @@ let testConfig: Config = {
   schemaHash: "123",
   schemaFilename: "schema.graphql",
   schema: () => builtSchema,
+  mode: "transform",
 };
 
 let fixturesPath = path.join(__dirname, "__fixtures__");
@@ -44,7 +45,16 @@ for (const fixture of fixtures) {
         ruleName: "ts-gql",
       })
       .withFileName(fixturePath)
-      .withOptions([testConfig] as any)
+      .withOptions([
+        {
+          ...testConfig,
+          mode: fixture.endsWith(".no-transform.ts")
+            ? "no-transform"
+            : fixture.endsWith(".mixed.ts")
+            ? "mixed"
+            : "transform",
+        },
+      ])
       .render();
     if (result.fixedOutput === code) {
       delete result.fixedOutput;

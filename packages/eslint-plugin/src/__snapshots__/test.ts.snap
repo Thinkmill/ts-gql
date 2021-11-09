@@ -1,5 +1,99 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`allow-no-transform.mixed.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag/no-transform\\";
+
+gql\`
+  query Thing {
+    something
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          89,
+          89,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag/no-transform\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    something
+~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`allow-transform.mixed.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    something
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": Object {
+        "range": Array [
+          76,
+          76,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    something
+~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
 exports[`basic.ts 1`] = `
 Object {
   "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
@@ -43,6 +137,166 @@ gql\`
 ~~~    [You must cast gql tags with the generated type]
 \`;
 ~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
+exports[`disallow-interpolation-with-transform.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 5,
+      "endColumn": 6,
+      "endLine": 11,
+      "line": 11,
+      "message": "Interpolations are not allowed in gql tags when using @ts-gql/tag. Set \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config and import @ts-gql/tag",
+      "messageId": "noInterpolation",
+      "nodeType": "Identifier",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+const x: any = undefined;
+
+gql\`
+  query Thing {
+    something
+  }
+  \${
+    // @ts-ignore
+    x
+    ~    [Interpolations are not allowed in gql tags when using @ts-gql/tag. Set \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config and import @ts-gql/tag]
+  }
+\`;
+",
+}
+`;
+
+exports[`disallow-no-transform.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    something
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 21,
+      "endColumn": 47,
+      "endLine": 1,
+      "fix": Object {
+        "range": Array [
+          20,
+          46,
+        ],
+        "text": "\\"@ts-gql/tag\\"",
+      },
+      "line": 1,
+      "message": "Importing \\"@ts-gql/tag/no-transform\\" is not allowed when the \\"mode\\" is set to \\"transform\\"(the default), either switch to using \\"@ts-gql/tag\\" or set the \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config.",
+      "messageId": "mustImportMainEntrypoint",
+      "nodeType": "Literal",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag/no-transform\\";
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag/no-transform\\" is not allowed when the \\"mode\\" is set to \\"transform\\"(the default), either switch to using \\"@ts-gql/tag\\" or set the \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config.]
+
+gql\`
+  query Thing {
+    something
+  }
+\`;
+",
+}
+`;
+
+exports[`disallow-transform.no-transform.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag/no-transform\\";
+
+gql\`
+  query Thing {
+    something
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 21,
+      "endColumn": 34,
+      "endLine": 1,
+      "fix": Object {
+        "range": Array [
+          20,
+          33,
+        ],
+        "text": "\\"@ts-gql/tag/no-transform\\"",
+      },
+      "line": 1,
+      "message": "Importing \\"@ts-gql/tag\\" is not allowed when the \\"mode\\" is set to \\"no-transform\\", either switch to using \\"@ts-gql/tag/no-transform\\" or set the \\"mode\\" to \\"transform\\" or \\"mixed\\" in your ts-gql config.",
+      "messageId": "mustImportNoTransformEntrypoint",
+      "nodeType": "Literal",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+                    ~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag\\" is not allowed when the \\"mode\\" is set to \\"no-transform\\", either switch to using \\"@ts-gql/tag/no-transform\\" or set the \\"mode\\" to \\"transform\\" or \\"mixed\\" in your ts-gql config.]
+
+gql\`
+  query Thing {
+    something
+  }
+\`;
+",
+}
+`;
+
+exports[`incorrect-fragment-interpolate-num.no-transform.ts 1`] = `
+Object {
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 12,
+      "line": 5,
+      "message": "When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag/no-transform\\";
+
+const x: any = undefined;
+
+gql\`
+~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  query Thing {
+~~~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    something
+~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    ...Blah_x
+~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+    ...Other_x
+~~~~~~~~~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  }
+~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+  \${x}
+~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+\` as import(// @ts-ignore
+~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
+\\"../__generated__/ts-gql/Thing\\").type;
 ",
 }
 `;
@@ -406,7 +660,7 @@ Object {
     Object {
       "column": 3,
       "line": 4,
-      "message": "Syntax Error: Unexpected Name \\"que\\"",
+      "message": "Syntax Error: Unexpected Name \\"que\\".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
@@ -417,15 +671,15 @@ import { gql } from \\"@ts-gql/tag\\";
 
 gql\`
   que Thing {
-  ~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\"]
+  ~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\".]
     something
-~~~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\"]
+~~~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\".]
   }
-~~~    [Syntax Error: Unexpected Name \\"que\\"]
+~~~    [Syntax Error: Unexpected Name \\"que\\".]
 \`;
-~~    [Syntax Error: Unexpected Name \\"que\\"]
+~~    [Syntax Error: Unexpected Name \\"que\\".]
 
-~    [Syntax Error: Unexpected Name \\"que\\"]",
+~    [Syntax Error: Unexpected Name \\"que\\".]",
 }
 `;
 

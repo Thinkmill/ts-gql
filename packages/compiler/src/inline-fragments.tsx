@@ -7,7 +7,6 @@ import type {
   FieldNode,
 } from "graphql";
 import { lazyRequire } from "lazy-require.macro";
-import { version } from "graphql/version";
 
 export function inlineIntoFirstOperationOrFragment(
   document: DocumentNode,
@@ -74,30 +73,26 @@ function findLast<Item, Return>(
   }
 }
 
-const is15OrGreater = Number(version.split(".")[0]) >= 15;
-
 // I'm pretty sure this is incomplete, I think this needs more work for interfaces and unions
 function removeUnnecessaryFragmentSpreads(
   document: DocumentNode,
   schema: GraphQLSchema
 ) {
-  const typeInfoExports = lazyRequire<
-    typeof import("graphql/utilities/TypeInfo")
-  >();
+  const typeInfoExports =
+    lazyRequire<typeof import("graphql/utilities/TypeInfo")>();
   const { TypeInfo } = typeInfoExports;
-  let { visit, visitWithTypeInfo } = lazyRequire<
-    typeof import("graphql/language/visitor")
-  >();
-  if (is15OrGreater) {
-    visitWithTypeInfo = (typeInfoExports as any).visitWithTypeInfo;
-  }
-  const { GraphQLObjectType } = lazyRequire<
-    typeof import("graphql/type/definition")
-  >();
+  const visitorExports =
+    lazyRequire<typeof import("graphql/language/visitor")>();
+  const visitWithTypeInfo: typeof typeInfoExports["visitWithTypeInfo"] =
+    typeInfoExports.visitWithTypeInfo ||
+    (visitorExports as any).visitWithTypeInfo;
+
+  const { GraphQLObjectType } =
+    lazyRequire<typeof import("graphql/type/definition")>();
 
   let typeInfo = new TypeInfo(schema);
 
-  visit(
+  visitorExports.visit(
     document,
     visitWithTypeInfo(typeInfo, {
       InlineFragment: {

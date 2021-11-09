@@ -22,14 +22,18 @@ const createRule = ESLintUtils.RuleCreator(
 const messages = {
   mustFetchId:
     "The id field on object and interface types must always be fetched if it exists so that caching works reliably",
-  noInterpolation: "Interpolations are not allowed in gql tags",
+  noInterpolation:
+    'Interpolations are not allowed in gql tags when using @ts-gql/tag. Set "mode" to "no-transform" or "mixed" in your ts-gql config and import @ts-gql/tag',
+  onlyInterpolationsAtEnd: "Interpolations in gql tags must be ",
   singleOperation: "GraphQL documents must have only one operation",
   mustBeNamed: "GraphQL operations must have a name",
   mustUseAs: "You must cast gql tags with the generated type",
   operationOrSingleFragment:
     "GraphQL documents must either have a single operation or a single fragment",
   mustBeNamedGql:
-    "`@ts-gql/tag`'s `gql` export must not be renamed when imported because other tags are not widely supported by tools like formatters and syntax highlighters",
+    '"@ts-gql/tag"\'s `gql` export must not be renamed when imported because other tags are not widely supported by tools like formatters and syntax highlighters',
+  mustImportMainEntrypoint: `Importing "@ts-gql/tag/no-transform" is not allowed when the "mode" is set to "transform"(the default), either switch to using "@ts-gql/tag" or set the "mode" to "no-transform" or "mixed" in your ts-gql config.`,
+  mustImportNoTransformEntrypoint: `Importing "@ts-gql/tag" is not allowed when the "mode" is set to "no-transform", either switch to using "@ts-gql/tag/no-transform" or set the "mode" to "transform" or "mixed" in your ts-gql config.`,
 };
 
 function checkFragment(
@@ -143,7 +147,7 @@ function checkDocument(
 export type MessageId = keyof typeof messages;
 
 export const rules = {
-  "ts-gql": createRule<[], MessageId>({
+  "ts-gql": createRule<[Config?], MessageId>({
     name: "ts-gql",
     meta: {
       fixable: "code",
@@ -161,36 +165,75 @@ export const rules = {
     create(context) {
       return {
         Program(programNode) {
-          let config: Config | undefined = (context.options as any)[0];
+          let config: Config | undefined = context.options[0];
           let report: typeof context["report"] = (arg) => {
             return context.report(arg);
           };
-          let hasTSGQLImport = false;
+          let tsGQLImport: "no-transform" | "transform" | undefined = undefined;
+
           for (const node of programNode.body) {
             if (
               node.type === "ImportDeclaration" &&
-              node.source.value === "@ts-gql/tag"
+              (node.source.value === "@ts-gql/tag" ||
+                node.source.value === "@ts-gql/tag/no-transform")
             ) {
               let gqlImportSpecifier = node.specifiers.find(
                 (x): x is TSESTree.ImportSpecifier =>
                   x.type === "ImportSpecifier" && x.imported.name === "gql"
               );
-              if (
-                gqlImportSpecifier &&
-                gqlImportSpecifier.local.name !== "gql"
-              ) {
+
+              if (!gqlImportSpecifier) continue;
+              if (gqlImportSpecifier.local.name !== "gql") {
                 report({
                   messageId: "mustBeNamedGql",
                   node: gqlImportSpecifier,
                 });
                 return;
               }
-              hasTSGQLImport = true;
+              if (!config) {
+                config = getConfigSync(path.dirname(context.getFilename()));
+              }
+              if (
+                config.mode === "transform" &&
+                node.source.value === "@ts-gql/tag/no-transform"
+              ) {
+                report({
+                  messageId: "mustImportMainEntrypoint",
+                  node: node.source,
+                  fix(fixer) {
+                    return fixer.replaceText(
+                      node.source,
+                      `${node.source.raw[0]}@ts-gql/tag${node.source.raw[0]}`
+                    );
+                  },
+                });
+                return;
+              }
+              if (
+                config.mode === "no-transform" &&
+                node.source.value === "@ts-gql/tag"
+              ) {
+                report({
+                  messageId: "mustImportNoTransformEntrypoint",
+                  node: node.source,
+                  fix(fixer) {
+                    return fixer.replaceText(
+                      node.source,
+                      `${node.source.raw[0]}@ts-gql/tag/no-transform${node.source.raw[0]}`
+                    );
+                  },
+                });
+                return;
+              }
+              tsGQLImport =
+                node.source.value === "@ts-gql/tag"
+                  ? "transform"
+                  : "no-transform";
               break;
             }
           }
 
-          if (!hasTSGQLImport) return;
+          if (tsGQLImport === undefined) return;
 
           for (const node of getNodes(context, programNode)) {
             if (node.type === "TaggedTemplateExpression") {
@@ -202,7 +245,8 @@ export const rules = {
                 const document = handleTemplateTag(
                   node,
                   report,
-                  config.schema()
+                  config.schema(),
+                  tsGQLImport
                 );
                 if (document) {
                   checkDocument(

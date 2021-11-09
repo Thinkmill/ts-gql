@@ -5,11 +5,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:4eb35d4812c8886680efbce5422b30a8
+      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
+  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
 }
 ts-gql-meta-end
 */
@@ -17,7 +17,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -26,11 +26,13 @@ type ThingQuery = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
   variables: ThingQueryVariables;
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
@@ -53,11 +55,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:4664490b42fd36d00bbef8d0f9948202
+      "content": "// ts-gql-integrity:2db42dcf41fb035aa1a7ac5783e61bbd
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ac4e3776a32bc060738e894c69ca7478\\"
+  \\"hash\\": \\"39c5f3b542f9bd5e91aa18ac2a573935\\"
 }
 ts-gql-meta-end
 */
@@ -65,7 +67,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -77,11 +79,13 @@ type ThingQuery = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
   variables: ThingQueryVariables;
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<{\\"Frag_a\\":true,\\"Frag_b\\":true}>
 }>
 
 declare module \\"./@schema\\" {
@@ -96,11 +100,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:4c1ee1a9aefda3dbd41cce4fc1e4379c
+      "content": "// ts-gql-integrity:8ce38c9a3b3a650a3ef852275f30c278
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"6422edc9d5e521feca600e68c8e75e8b\\"
+  \\"hash\\": \\"e0239ed20557b402c7d9ed14db256b25\\"
 }
 ts-gql-meta-end
 */
@@ -117,10 +121,13 @@ type Frag_aFragment = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"fragment\\";
   result: Frag_aFragment;
+  name: \\"Frag_a\\";
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
@@ -135,11 +142,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:d21a1142c061bb5447cfe95b3019d129
+      "content": "// ts-gql-integrity:5acca266965eec698c2aacf80e89badd
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"0ad88a45985e9ec0f04e586c1cb90704\\"
+  \\"hash\\": \\"d5b6672c86692d673f2b817476dd2f5a\\"
 }
 ts-gql-meta-end
 */
@@ -156,10 +163,13 @@ type Frag_bFragment = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"fragment\\";
   result: Frag_bFragment;
+  name: \\"Frag_b\\";
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
@@ -182,11 +192,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:4ebcdc6b434ff53283afd19006965ab6
+      "content": "// ts-gql-integrity:66217251aa448b43a1ea2aab2d20ea65
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"5dc8286a0a23cefafe23a15ed9ee6b71\\"
+  \\"hash\\": \\"c2bafcf7c3c6f41deedcdbbd94fbbade\\"
 }
 ts-gql-meta-end
 */
@@ -200,10 +210,13 @@ type Frag_aFragment = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"fragment\\";
   result: Frag_aFragment;
+  name: \\"Frag_a\\";
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
@@ -218,11 +231,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:29051367bdd2b919ceffd84721de9a0e
+      "content": "// ts-gql-integrity:823954861d205b46006dd9445eaf760c
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"fde55726bf215260642a5ff0d64fc2f3\\"
+  \\"hash\\": \\"23962528a45d70ea2189a23e219c20c9\\"
 }
 ts-gql-meta-end
 */
@@ -239,10 +252,13 @@ type Frag_bFragment = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"fragment\\";
   result: Frag_bFragment;
+  name: \\"Frag_b\\";
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
@@ -257,11 +273,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:08e7c35665a463f5035c26860a655e9d
+      "content": "// ts-gql-integrity:1bcb7977463a6fd460ee7775128d6f82
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"c2cb0eb5ad5ac044bc65649df273afc4\\"
+  \\"hash\\": \\"9662fdff478d796c081e13a09b7f7739\\"
 }
 ts-gql-meta-end
 */
@@ -269,7 +285,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -284,11 +300,13 @@ type ThingQuery = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
   variables: ThingQueryVariables;
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<{\\"Frag_a\\":true,\\"Frag_b\\":true}>
 }>
 
 declare module \\"./@schema\\" {
@@ -311,11 +329,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:4eb35d4812c8886680efbce5422b30a8
+      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"ed812131898601ba06f7be4f59a44fe5\\"
+  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
 }
 ts-gql-meta-end
 */
@@ -323,7 +341,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type ThingQueryVariables = {};
+type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
 type ThingQuery = (
@@ -332,11 +350,13 @@ type ThingQuery = (
 );
 
 
+      
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
   variables: ThingQueryVariables;
   documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
 
 declare module \\"./@schema\\" {
