@@ -13,7 +13,7 @@ First, you need to set the `mode` in your `ts-gql` config to `"no-transform"`.
 
 You can also set the mode to `"mixed"` to [migrate incrementally](#migrating).
 
-A query with no fragments works the same as when using the Babel plugin except that you import from `@ts-gql/tag/no-transform` rather than @ts-gql/tag`. You write the query as you did before.
+A query with no fragments works the same as when using the Babel plugin except that you import from `@ts-gql/tag/no-transform` rather than `@ts-gql/tag`. You write the query as you did before.
 
 ```tsx
 import { gql } from "@ts-gql/tag/no-transform";
