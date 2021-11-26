@@ -33,7 +33,7 @@ jobs:
         run: pnpm i
 
       - name: "Create Pull Request or Publish to npm"
-        uses: changesets/action@master
+        uses: changesets/action@v1
         with:
           publish: pnpm run release
           version: pnpm run version
