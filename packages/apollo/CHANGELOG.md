@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.11.0
+
+### Minor Changes
+
+- [`56aedff`](https://github.com/Thinkmill/ts-gql/commit/56aedff4aecb6ca3ea3215110833930ee544e1eb) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed support for TypeScript 4.3 and above in `refetchQueries` and dropped support for TypeScript 4.1 or below.
+
 ## 0.10.0
 
 ### Minor Changes
