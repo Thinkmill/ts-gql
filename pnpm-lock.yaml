@@ -202,7 +202,7 @@ importers:
   test-app:
     specifiers:
       '@apollo/client': ^3.1.2
-      '@ts-gql/apollo': ^0.10.0
+      '@ts-gql/apollo': ^0.11.0
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.15.0
       '@ts-gql/eslint-plugin': ^0.8.0
