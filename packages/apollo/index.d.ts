@@ -6,9 +6,9 @@ import {
   BaseTypedMutation,
   BaseOperations,
   AllDocuments,
-  BaseDocumentTypes,
   BaseTypedFragment,
   FragmentData,
+  BaseDocumentTypes,
 } from "@ts-gql/tag";
 import {
   QueryHookOptions as _QueryHookOptions,
@@ -143,19 +143,15 @@ export function useMutation<
 
 type KnownKeysWhichAreQueries<
   T extends Record<string, TypedDocumentNode<BaseDocumentTypes>>
-> = {
-  [K in keyof T]: string extends K
+> = Values<{
+  [K in keyof T as string extends K
     ? never
     : number extends K
     ? never
-    : T[K] extends TypedDocumentNode<BaseTypedQuery>
-    ? K
-    : never;
-} extends { [_ in keyof T]: infer U }
-  ? {} extends U
-    ? never
-    : U
-  : never;
+    : K]: T[K] extends TypedDocumentNode<BaseTypedQuery> ? K : never;
+}>;
+
+type Values<T> = T[keyof T];
 
 type RefetchQueryDescription<
   TTypedDocumentNode extends TypedDocumentNode<BaseTypedMutation>
