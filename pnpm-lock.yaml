@@ -163,6 +163,15 @@ importers:
       eslint-snapshot-test: 3.0.0_eslint@6.8.0
       graphql: 16.3.0
 
+  packages/fetch:
+    specifiers:
+      '@ts-gql/tag': ^0.6.0
+      graphql: ^16.3.0
+    dependencies:
+      '@ts-gql/tag': link:../tag
+    devDependencies:
+      graphql: 16.3.0
+
   packages/next:
     specifiers:
       '@babel/runtime': ^7.9.2

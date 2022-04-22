@@ -1,0 +1,17 @@
+{
+  "name": "@ts-gql/fetch",
+  "version": "0.0.0",
+  "main": "dist/fetch.cjs.js",
+  "module": "dist/fetch.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "@ts-gql/tag": "^0.6.0"
+  },
+  "peerDependencies": {
+    "graphql": "15 || 16"
+  },
+  "devDependencies": {
+    "graphql": "^16.3.0"
+  },
+  "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/fetch"
+}
