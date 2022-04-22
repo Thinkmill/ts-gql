@@ -36,19 +36,11 @@ type FetchResult<
   context?: C;
 };
 
-export type RequiredKeys<T> = {
-  [K in keyof T]: {} extends Pick<T, K> ? never : K;
-} extends { [_ in keyof T]: infer U }
-  ? {} extends U
-    ? never
-    : U
-  : never;
-
 export type HasRequiredVariables<
   TTypedDocumentNode extends TypedDocumentNode<BaseOperations>,
   RequiredResult,
   OptionalResult
-> = RequiredKeys<OperationVariables<TTypedDocumentNode>> extends never
+> = {} extends OperationVariables<TTypedDocumentNode>
   ? OptionalResult
   : RequiredResult;
 
