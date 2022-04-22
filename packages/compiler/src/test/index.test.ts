@@ -43,6 +43,7 @@ async function build(cwd: string) {
     ),
     fsOperations: result.fsOperations
       .filter((x) => !path.parse(x.filename).name.startsWith("@"))
+      .sort((a, b) => a.filename.localeCompare(b.filename))
       .map((x) => ({ ...x, filename: slash(path.relative(cwd, x.filename)) })),
   };
 }
@@ -206,6 +207,43 @@ test("with directory that ends with .ts", async () => {
       graphql`
         query Thing {
           hello
+        }
+      `,
+    ])
+  );
+  const dirEndsWithTs = path.join(dir, "thing.ts");
+  await fs.mkdir(dirEndsWithTs);
+
+  await fs.writeFile(path.join(dirEndsWithTs, "thing.mp4"), ``);
+
+  expect(await build(dir)).toMatchSnapshot();
+});
+
+test.skip("fragments with circular dependencies error well", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        fragment Frag_a on OutputThing {
+          ...Frag_b
+          other
+        }
+      `,
+      graphql`
+        fragment Frag_b on OutputThing {
+          ...Frag_a
+          arr {
+            id
+          }
+        }
+      `,
+      graphql`
+        query Thing {
+          someObj {
+            ...Frag_b
+          }
         }
       `,
     ])
