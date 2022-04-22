@@ -47,11 +47,6 @@ async function generateOperationTypes(
         "typescript-operations": {
           namespacedImportName: "SchemaTypes",
           immutableTypes: config.readonlyTypes,
-          avoidOptionals: {
-            object: true,
-            inputValue: false,
-            field: true,
-          },
           noExport: true,
           nonOptionalTypename: config.addTypename,
           skipTypename: !config.addTypename,

@@ -166,6 +166,154 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
 }
 `;
 
+exports[`optional and required variables 1`] = `
+Object {
+  "errors": Array [],
+  "fsOperations": Array [
+    Object {
+      "content": "// ts-gql-integrity:72db61d0869be42121ffac92ad9aee85
+/*
+ts-gql-meta-begin
+{
+  \\"hash\\": \\"728ac15462d4a290602d4ef9fcde14a9\\"
+}
+ts-gql-meta-end
+*/
+
+import * as SchemaTypes from \\"./@schema\\";
+import { TypedDocumentNode } from \\"@ts-gql/tag\\";
+
+type ThingQueryVariables = SchemaTypes.Exact<{
+  optional?: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
+  required: SchemaTypes.Scalars['String'];
+}>;
+
+
+type ThingQuery = { readonly __typename: 'Query', readonly optional: string, readonly other: string };
+
+
+      
+export type type = TypedDocumentNode<{
+  type: \\"query\\";
+  result: ThingQuery;
+  variables: ThingQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
+}>
+
+declare module \\"./@schema\\" {
+  interface TSGQLDocuments {
+    Thing: type;
+  }
+}
+
+export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"VariableDefinition\\\\\\",\\\\\\"variable\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"}},\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"String\\\\\\"}},\\\\\\"directives\\\\\\":[]},{\\\\\\"kind\\\\\\":\\\\\\"VariableDefinition\\\\\\",\\\\\\"variable\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"required\\\\\\"}},\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NonNullType\\\\\\",\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"String\\\\\\"}}},\\\\\\"directives\\\\\\":[]}],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"},\\\\\\"arguments\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Argument\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"thing\\\\\\"},\\\\\\"value\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"}}}],\\\\\\"directives\\\\\\":[]},{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"alias\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"other\\\\\\"},\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"},\\\\\\"arguments\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Argument\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"thing\\\\\\"},\\\\\\"value\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"required\\\\\\"}}}],\\\\\\"directives\\\\\\":[]}]}}]}\\")
+",
+      "filename": "__generated__/ts-gql/Thing.ts",
+      "type": "output",
+    },
+  ],
+}
+`;
+
+exports[`optional variable 1`] = `
+Object {
+  "errors": Array [],
+  "fsOperations": Array [
+    Object {
+      "content": "// ts-gql-integrity:b626a903d16cfb2763e76dc18f51f794
+/*
+ts-gql-meta-begin
+{
+  \\"hash\\": \\"ba253a8e550811efacb0f71293d24912\\"
+}
+ts-gql-meta-end
+*/
+
+import * as SchemaTypes from \\"./@schema\\";
+import { TypedDocumentNode } from \\"@ts-gql/tag\\";
+
+type ThingQueryVariables = SchemaTypes.Exact<{
+  optional?: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
+}>;
+
+
+type ThingQuery = { readonly __typename: 'Query', readonly optional: string };
+
+
+      
+export type type = TypedDocumentNode<{
+  type: \\"query\\";
+  result: ThingQuery;
+  variables: ThingQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
+}>
+
+declare module \\"./@schema\\" {
+  interface TSGQLDocuments {
+    Thing: type;
+  }
+}
+
+export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"VariableDefinition\\\\\\",\\\\\\"variable\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"}},\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"String\\\\\\"}},\\\\\\"directives\\\\\\":[]}],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"},\\\\\\"arguments\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Argument\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"thing\\\\\\"},\\\\\\"value\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"}}}],\\\\\\"directives\\\\\\":[]}]}}]}\\")
+",
+      "filename": "__generated__/ts-gql/Thing.ts",
+      "type": "output",
+    },
+  ],
+}
+`;
+
+exports[`required variable 1`] = `
+Object {
+  "errors": Array [],
+  "fsOperations": Array [
+    Object {
+      "content": "// ts-gql-integrity:aa3e07030f3cc2ab39e77bc106ffafe1
+/*
+ts-gql-meta-begin
+{
+  \\"hash\\": \\"5be0563e5d1dec63272f03f9895efaf4\\"
+}
+ts-gql-meta-end
+*/
+
+import * as SchemaTypes from \\"./@schema\\";
+import { TypedDocumentNode } from \\"@ts-gql/tag\\";
+
+type ThingQueryVariables = SchemaTypes.Exact<{
+  required: SchemaTypes.Scalars['String'];
+}>;
+
+
+type ThingQuery = { readonly __typename: 'Query', readonly optional: string };
+
+
+      
+export type type = TypedDocumentNode<{
+  type: \\"query\\";
+  result: ThingQuery;
+  variables: ThingQueryVariables;
+  documents: SchemaTypes.TSGQLDocuments;
+  fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
+}>
+
+declare module \\"./@schema\\" {
+  interface TSGQLDocuments {
+    Thing: type;
+  }
+}
+
+export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"VariableDefinition\\\\\\",\\\\\\"variable\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"required\\\\\\"}},\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NonNullType\\\\\\",\\\\\\"type\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"NamedType\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"String\\\\\\"}}},\\\\\\"directives\\\\\\":[]}],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"optional\\\\\\"},\\\\\\"arguments\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Argument\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"thing\\\\\\"},\\\\\\"value\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Variable\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"required\\\\\\"}}}],\\\\\\"directives\\\\\\":[]}]}}]}\\")
+",
+      "filename": "__generated__/ts-gql/Thing.ts",
+      "type": "output",
+    },
+  ],
+}
+`;
+
 exports[`something 1`] = `
 Object {
   "errors": Array [],

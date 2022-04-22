@@ -66,11 +66,6 @@ function generateSchemaTypes(
         typescript: {
           enumsAsTypes: true,
           scalars: config.scalars,
-          avoidOptionals: {
-            object: true,
-            inputValue: false,
-            field: true,
-          },
           immutableTypes: config.readonlyTypes,
           nonOptionalTypename: true,
           namingConvention: "keep",
@@ -101,7 +96,8 @@ export async function cachedGenerateSchemaTypes(config: Config) {
       JSON.stringify(config.scalars) +
       config.readonlyTypes +
       lazyRequire<typeof import("@graphql-codegen/typescript/package.json")>()
-        .version
+        .version +
+      "v2"
   );
   let types: string;
   let filename = path.join(

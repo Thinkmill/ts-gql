@@ -1,10 +1,10 @@
 import { gql } from "@ts-gql/tag/no-transform";
 import { useMutation } from "@ts-gql/apollo";
+import { createFetcher } from "@ts-gql/fetch";
 
 const query2 = gql`
-  query MyQueryApollo($x: Something!, $thng: String) {
-    optional(thing: $thng)
-    oneMore(other: $x)
+  query MyQueryApollo($thing: String) {
+    optional(thing: $thing)
   }
 ` as import("../__generated__/ts-gql/MyQueryApollo").type;
 
@@ -66,6 +66,11 @@ let someMutation = gql`
 ` as import("../__generated__/ts-gql/SomeMutationApollo").type;
 
 console.log({ query, someMutation });
+
+const fetchGraphQL = createFetcher("");
+
+fetchGraphQL(someMutation, { arg: "" });
+fetchGraphQL(query2);
 
 export default () => {
   // let client = useApolloClient();

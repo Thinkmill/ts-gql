@@ -235,7 +235,7 @@ export const getGeneratedTypes = async (
         config.schemaHash +
           JSON.stringify(document) +
           config.addTypename +
-          "v10" +
+          "v11" +
           config.readonlyTypes
       );
 

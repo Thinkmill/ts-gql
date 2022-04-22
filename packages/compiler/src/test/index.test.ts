@@ -219,6 +219,70 @@ test("with directory that ends with .ts", async () => {
   expect(await build(dir)).toMatchSnapshot();
 });
 
+test("optional variable", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing($optional: String) {
+          optional(thing: $optional)
+        }
+      `,
+    ])
+  );
+  const dirEndsWithTs = path.join(dir, "thing.ts");
+  await fs.mkdir(dirEndsWithTs);
+
+  await fs.writeFile(path.join(dirEndsWithTs, "thing.mp4"), ``);
+
+  expect(await build(dir)).toMatchSnapshot();
+});
+
+test("optional and required variables", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing($optional: String, $required: String!) {
+          optional(thing: $optional)
+          other: optional(thing: $required)
+        }
+      `,
+    ])
+  );
+  const dirEndsWithTs = path.join(dir, "thing.ts");
+  await fs.mkdir(dirEndsWithTs);
+
+  await fs.writeFile(path.join(dirEndsWithTs, "thing.mp4"), ``);
+
+  expect(await build(dir)).toMatchSnapshot();
+});
+
+test("required variable", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing($required: String!) {
+          optional(thing: $required)
+        }
+      `,
+    ])
+  );
+  const dirEndsWithTs = path.join(dir, "thing.ts");
+  await fs.mkdir(dirEndsWithTs);
+
+  await fs.writeFile(path.join(dirEndsWithTs, "thing.mp4"), ``);
+
+  expect(await build(dir)).toMatchSnapshot();
+});
+
 test.skip("fragments with circular dependencies error well", async () => {
   let dir = await setupEnv();
 

@@ -199,6 +199,7 @@ importers:
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.15.0
       '@ts-gql/eslint-plugin': ^0.8.0
+      '@ts-gql/fetch': ^0.0.0
       '@ts-gql/next': ^16.0.0
       '@ts-gql/tag': ^0.6.0
       '@types/node': ^13.13.2
@@ -215,6 +216,7 @@ importers:
       '@ts-gql/babel-plugin': link:../packages/babel-plugin
       '@ts-gql/compiler': link:../packages/compiler
       '@ts-gql/eslint-plugin': link:../packages/eslint-plugin
+      '@ts-gql/fetch': link:../packages/fetch
       '@ts-gql/next': link:../packages/next
       '@ts-gql/tag': link:../packages/tag
       '@types/node': 13.13.2
