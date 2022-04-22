@@ -37,8 +37,8 @@ export function parseSchema(filename: string, content: string) {
 }
 
 export class BatchGraphQLError extends Error {
-  errors: GraphQLError[];
-  constructor(errors: GraphQLError[]) {
+  errors: readonly GraphQLError[];
+  constructor(errors: readonly GraphQLError[]) {
     super(
       "There are validation errors in your GraphQL schema. If you're seeing this, there's likely a bug in ts-gql's error printing."
     );

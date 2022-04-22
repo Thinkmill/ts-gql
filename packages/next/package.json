@@ -9,11 +9,11 @@
   },
   "peerDependencies": {
     "@ts-gql/compiler": "*",
-    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16"
   },
   "devDependencies": {
     "@ts-gql/compiler": "*",
-    "graphql": "^15.7.2"
+    "graphql": "^16.3.0"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/next"
 }

@@ -1,6 +1,5 @@
 import * as fs from "./fs";
 import nodePath from "path";
-import type { FragmentDefinitionNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { visit } from "graphql/language/visitor";
 import { lazyRequire } from "lazy-require.macro";
@@ -19,7 +18,7 @@ import { Config } from "@ts-gql/config";
 import { promisify } from "util";
 import { CompilerError, TSGQLDocument } from "./types";
 import { cachedGenerateIntrospectionResult } from "./introspection-result";
-import { locFromSourceAndGraphQLError, hashString } from "./utils";
+import { locFromSourceAndGraphQLError, hashString, resolvable } from "./utils";
 import { getDocuments } from "./get-documents";
 import {
   validateDocument,
@@ -27,6 +26,7 @@ import {
   writeDocumentValidationCache,
   DocumentValidationCache,
 } from "./validate-documents";
+import { DocumentNode } from "graphql";
 
 function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
   const cache: { [key: string]: V } = {};
@@ -38,9 +38,22 @@ function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
 
 const walk = promisify(_walk);
 
+function weakMemoize<Arg extends object, Return>(
+  fn: (arg: Arg) => Return
+): (arg: Arg) => Return {
+  const cache = new WeakMap<Arg, Return>();
+  return (arg: Arg) => {
+    if (cache.has(arg)) return cache.get(arg)!;
+    const result = fn(arg);
+    cache.set(arg, result);
+    return result;
+  };
+}
+
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
-  return async (error: CompilerError) => {
+
+  return weakMemoize(async (error: CompilerError) => {
     const { codeFrameColumns } =
       lazyRequire<typeof import("@babel/code-frame")>();
     let content = await readFile(error.filename);
@@ -57,10 +70,8 @@ function getPrintCompilerError() {
           })
         : error.message)
     );
-  };
+  });
 }
-
-type Dependencies = string | Dependencies[];
 
 let tsExtensionRegex = /\.tsx?$/;
 
@@ -198,15 +209,26 @@ export const getGeneratedTypes = async (
   const dependencies = getDependencies(uniqueDocumentsByName, errors);
   const documentValidationCache = await readDocumentValidationCache(config);
   const newDocumentValidationCache: DocumentValidationCache = {};
+
+  const hasValidated = resolvable<void>();
+  const nodeNames = Object.keys(uniqueDocumentsByName);
+  let i = 0;
+  let validate = () => {
+    i++;
+    if (i === nodeNames.length) {
+      hasValidated.resolve();
+    }
+    return hasValidated;
+  };
+  const operationHashByName: Record<string, string> = {};
+
   await Promise.all(
-    Object.keys(uniqueDocumentsByName).map(async (key) => {
+    nodeNames.map(async (key) => {
       const documentInfo = uniqueDocumentsByName[key];
-      let nodes = [...new Set(dependencies[key].flat(Infinity))].map(
-        (x) => uniqueDocumentsByName[x].node as FragmentDefinitionNode
-      );
+      let nodes = dependencies[key].map((x) => uniqueDocumentsByName[x].node);
 
       let document = {
-        kind: "Document",
+        kind: "Document" as DocumentNode["kind"],
         definitions: nodes,
       } as const;
       let operationHash = hashString(
@@ -227,20 +249,32 @@ export const getGeneratedTypes = async (
       }
       newDocumentValidationCache[operationHash] =
         documentValidationCache[operationHash];
+      operationHashByName[key] = operationHash;
       const gqlErrors = documentValidationCache[operationHash];
       errors.push(...gqlErrors);
-
+      await validate();
       let filename = nodePath.join(
         generatedDirectory,
         `${nodes[0].name.value}.ts`
       );
-      let operation = gqlErrors.length
+      const allGraphQLErrorsForDocument = new Set<CompilerError>(gqlErrors);
+      for (const node of nodes) {
+        const errors =
+          newDocumentValidationCache[operationHashByName[node.name.value]];
+        for (const error of errors) {
+          allGraphQLErrorsForDocument.add(error);
+        }
+      }
+
+      let operation = allGraphQLErrorsForDocument.size
         ? await cachedGenerateErrorModuleFsOperation(
             filename,
-            `${documentInfo.filename}\nThere ${
-              gqlErrors.length === 1 ? "is an error" : "are errors"
-            } with ${nodes[0].name.value}\n${(
-              await Promise.all(errors.map((x) => printCompilerError(x)))
+            `\n${(
+              await Promise.all(
+                [...allGraphQLErrorsForDocument].map((x) =>
+                  printCompilerError(x)
+                )
+              )
             ).join("\n")}`
           )
         : await cachedGenerateOperationTypes(
@@ -255,9 +289,13 @@ export const getGeneratedTypes = async (
   await writeDocumentValidationCache(config, newDocumentValidationCache);
   return {
     fsOperations,
-    errors: await Promise.all(errors.map((x) => printCompilerError(x))),
+    errors: await Promise.all(
+      [...new Set(errors)].map((x) => printCompilerError(x))
+    ),
   };
 };
+
+type Dependencies = string | Dependencies[];
 
 function getDependencies(
   uniqueDocumentsByName: Record<string, TSGQLDocument>,
@@ -291,5 +329,9 @@ function getDependencies(
       },
     });
   }
-  return dependencies;
+  return Object.fromEntries(
+    Object.entries(dependencies).map(([name, deps]) => {
+      return [name, deps.flat(Infinity)];
+    })
+  );
 }

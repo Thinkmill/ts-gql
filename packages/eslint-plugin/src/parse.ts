@@ -22,7 +22,6 @@ import {
   ValidationRule,
   GraphQLError,
 } from "graphql";
-import { VariableUsage } from "graphql/validation/ValidationContext";
 
 // loosely based on https://github.com/apollographql/eslint-plugin-graphql/blob/master/src/createRule.js
 
@@ -288,9 +287,7 @@ function createNoUndefinedVariablesRule(
           variableNameDefined = Object.create(null);
         },
         leave(operation) {
-          const usages: VariableUsage[] = (
-            context as any
-          ).getRecursiveVariableUsages(operation);
+          const usages = context.getRecursiveVariableUsages(operation);
 
           for (const { node, type } of usages) {
             const varName = node.name.value;

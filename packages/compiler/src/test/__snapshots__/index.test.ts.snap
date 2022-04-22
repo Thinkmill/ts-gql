@@ -5,11 +5,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
+      "content": "// ts-gql-integrity:0cce47ed1c1989a4cf171de542312e50
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
+  \\"hash\\": \\"6e965cbf500a3377a14ef53b73fb4cc2\\"
 }
 ts-gql-meta-end
 */
@@ -20,10 +20,7 @@ import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
-type ThingQuery = (
-  { readonly __typename: 'Query' }
-  & Pick<SchemaTypes.Query, 'hello'>
-);
+type ThingQuery = { readonly __typename: 'Query', readonly hello: string };
 
 
       
@@ -55,11 +52,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:8ce38c9a3b3a650a3ef852275f30c278
+      "content": "// ts-gql-integrity:0ca0a5420b0e03840a122f238719d1e9
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"e0239ed20557b402c7d9ed14db256b25\\"
+  \\"hash\\": \\"33177e74a8314038858d33fb60689b8e\\"
 }
 ts-gql-meta-end
 */
@@ -67,13 +64,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type Frag_aFragment = (
-  { readonly __typename: 'Query' }
-  & { readonly arr: ReadonlyArray<(
-    { readonly __typename: 'OutputThing' }
-    & Pick<SchemaTypes.OutputThing, 'id'>
-  )> }
-);
+type Frag_aFragment = { readonly __typename: 'Query', readonly arr: ReadonlyArray<{ readonly __typename: 'OutputThing', readonly id: string }> };
 
 
       
@@ -97,11 +88,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:5acca266965eec698c2aacf80e89badd
+      "content": "// ts-gql-integrity:bc3859aac9363dabb73394589b0f88f7
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"d5b6672c86692d673f2b817476dd2f5a\\"
+  \\"hash\\": \\"29e4ce057db243ae7312ad55f27bf26e\\"
 }
 ts-gql-meta-end
 */
@@ -109,13 +100,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type Frag_bFragment = (
-  { readonly __typename: 'Query' }
-  & { readonly arr: ReadonlyArray<(
-    { readonly __typename: 'OutputThing' }
-    & Pick<SchemaTypes.OutputThing, 'other'>
-  )> }
-);
+type Frag_bFragment = { readonly __typename: 'Query', readonly arr: ReadonlyArray<{ readonly __typename: 'OutputThing', readonly other: string }> };
 
 
       
@@ -139,11 +124,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:2db42dcf41fb035aa1a7ac5783e61bbd
+      "content": "// ts-gql-integrity:13db6c512f9b82db7d982cca50fa8408
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"39c5f3b542f9bd5e91aa18ac2a573935\\"
+  \\"hash\\": \\"78cea25c96a1b42a0c914fc6b4fda3e8\\"
 }
 ts-gql-meta-end
 */
@@ -154,13 +139,7 @@ import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
-type ThingQuery = (
-  { readonly __typename: 'Query' }
-  & { readonly arr: ReadonlyArray<(
-    { readonly __typename: 'OutputThing' }
-    & Pick<SchemaTypes.OutputThing, 'id' | 'other'>
-  )> }
-);
+type ThingQuery = { readonly __typename: 'Query', readonly arr: ReadonlyArray<{ readonly __typename: 'OutputThing', readonly id: string, readonly other: string }> };
 
 
       
@@ -192,11 +171,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:66217251aa448b43a1ea2aab2d20ea65
+      "content": "// ts-gql-integrity:4669ce7362300ea27f6446ac60afc303
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"c2bafcf7c3c6f41deedcdbbd94fbbade\\"
+  \\"hash\\": \\"90907b9f2b9c67a140d95c2b5b0af5f1\\"
 }
 ts-gql-meta-end
 */
@@ -204,10 +183,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type Frag_aFragment = (
-  { readonly __typename: 'OutputThing' }
-  & Pick<SchemaTypes.OutputThing, 'other'>
-);
+type Frag_aFragment = { readonly __typename: 'OutputThing', readonly other: string };
 
 
       
@@ -231,11 +207,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:823954861d205b46006dd9445eaf760c
+      "content": "// ts-gql-integrity:34437b3ad16c80285d89e1e7a6d53bab
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"23962528a45d70ea2189a23e219c20c9\\"
+  \\"hash\\": \\"c5bdb50d4279d6191523b4657b2d2fe1\\"
 }
 ts-gql-meta-end
 */
@@ -243,13 +219,7 @@ ts-gql-meta-end
 import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
-type Frag_bFragment = (
-  { readonly __typename: 'OutputThing' }
-  & { readonly arr: ReadonlyArray<(
-    { readonly __typename: 'OutputThing' }
-    & Pick<SchemaTypes.OutputThing, 'id'>
-  )> }
-);
+type Frag_bFragment = { readonly __typename: 'OutputThing', readonly arr: ReadonlyArray<{ readonly __typename: 'OutputThing', readonly id: string }> };
 
 
       
@@ -273,11 +243,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:1bcb7977463a6fd460ee7775128d6f82
+      "content": "// ts-gql-integrity:74478a127a526aade23f9643cf619fc5
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"9662fdff478d796c081e13a09b7f7739\\"
+  \\"hash\\": \\"8f667885f3ad5a2ce4b9e70bc8d545bc\\"
 }
 ts-gql-meta-end
 */
@@ -288,16 +258,7 @@ import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
-type ThingQuery = (
-  { readonly __typename: 'Query' }
-  & { readonly someObj: (
-    { readonly __typename: 'OutputThing' }
-    & { readonly arr: ReadonlyArray<(
-      { readonly __typename: 'OutputThing' }
-      & Pick<SchemaTypes.OutputThing, 'other' | 'id'>
-    )> }
-  ) }
-);
+type ThingQuery = { readonly __typename: 'Query', readonly someObj: { readonly __typename: 'OutputThing', readonly arr: ReadonlyArray<{ readonly __typename: 'OutputThing', readonly other: string, readonly id: string }> } };
 
 
       
@@ -329,11 +290,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:0d675adca474e2b51e3e64f7ad5a4e03
+      "content": "// ts-gql-integrity:0cce47ed1c1989a4cf171de542312e50
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"6d4f1008499eac03a15ca04d802da07e\\"
+  \\"hash\\": \\"6e965cbf500a3377a14ef53b73fb4cc2\\"
 }
 ts-gql-meta-end
 */
@@ -344,10 +305,7 @@ import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
 
-type ThingQuery = (
-  { readonly __typename: 'Query' }
-  & Pick<SchemaTypes.Query, 'hello'>
-);
+type ThingQuery = { readonly __typename: 'Query', readonly hello: string };
 
 
       

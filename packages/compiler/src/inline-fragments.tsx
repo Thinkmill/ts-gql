@@ -45,14 +45,17 @@ export function inlineIntoFirstOperationOrFragment(
         throw new Error("unexpected non-number key");
       }
       let inlineSpread: InlineFragmentNode = {
-        kind: "InlineFragment",
+        kind: "InlineFragment" as InlineFragmentNode["kind"],
         selectionSet: fragment.selectionSet,
         typeCondition: fragment.typeCondition,
       };
       parent[key] = inlineSpread;
     },
   });
-  let newDocument = { kind: "Document", definitions: [firstNode] } as const;
+  let newDocument = {
+    kind: "Document" as DocumentNode["kind"],
+    definitions: [firstNode],
+  } as const;
 
   removeUnnecessaryFragmentSpreads(newDocument, schema);
 

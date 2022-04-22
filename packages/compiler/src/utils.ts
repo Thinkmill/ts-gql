@@ -70,3 +70,19 @@ export function locFromSourceAndGraphQLError(
     // },
   };
 }
+
+export function resolvable<T>(): Promise<T> & {
+  resolve: (value: T) => void;
+  reject: (reason?: any) => void;
+} {
+  let _resolve: (value: T) => void;
+  let _reject: (reason: any) => void;
+  const promise = new Promise<T>((resolve, reject) => {
+    _resolve = resolve;
+    _reject = reject;
+  });
+  return Object.assign(promise, {
+    resolve: _resolve!,
+    reject: _reject!,
+  });
+}

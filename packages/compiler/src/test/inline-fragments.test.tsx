@@ -43,8 +43,7 @@ test("basic", () => {
           id
         }
       }
-    }
-    "
+    }"
   `);
 });
 
@@ -65,8 +64,7 @@ test("single spread", () => {
       someObj {
         other
       }
-    }
-    "
+    }"
   `);
 });
 
@@ -104,7 +102,6 @@ test("interface", () => {
           id
         }
       }
-    }
-    "
+    }"
   `);
 });
