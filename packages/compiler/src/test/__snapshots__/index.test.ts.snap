@@ -171,7 +171,7 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:8863c8f285259624d86cf9ea58c8e3cf
+      "content": "// ts-gql-integrity:d63b0d76f8941e6fa31e36de1ef6f553
 /*
 ts-gql-meta-begin
 {
@@ -184,7 +184,7 @@ import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
 type ThingQueryVariables = SchemaTypes.Exact<{
-  optional: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
+  optional?: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
   required: SchemaTypes.Scalars['String'];
 }>;
 
@@ -221,7 +221,7 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:aef83417457632256cd8091ba15be34e
+      "content": "// ts-gql-integrity:7830dea677fdaea0679792ddce6ca199
 /*
 ts-gql-meta-begin
 {
@@ -234,7 +234,7 @@ import * as SchemaTypes from \\"./@schema\\";
 import { TypedDocumentNode } from \\"@ts-gql/tag\\";
 
 type ThingQueryVariables = SchemaTypes.Exact<{
-  optional: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
+  optional?: SchemaTypes.InputMaybe<SchemaTypes.Scalars['String']>;
 }>;
 
 
