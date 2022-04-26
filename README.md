@@ -138,6 +138,30 @@ This was the original plan! It's been abandoned though for a couple reasons:
 - Apollo already doesn't allow non-unique names anyway for their tooling anyway
 - TODO: there are more reasons
 
+### How do you pass types around?
+
+`@ts-gql/tag` comes with an `OperationData` type to get the type of an operation(`mutation` or `query`) and `FragmentData` to get the type for a fragment.
+
+```tsx
+import { gql, OperationData, FragmentData } from "@ts-gql/tag";
+
+let myQuery = gql`
+  query MyQuery {
+    hello
+  }
+` as import("../__generated__/ts-gql/MyQuery.ts").type;
+
+type MyQueryType = OperationData<typeof myQuery>;
+
+let myFragment = gql`
+  query MyFragment_something on SomeType {
+    hello
+  }
+` as import("../__generated__/ts-gql/MyFragment_something.ts").type;
+
+type MyFragmentType = FragmentData<typeof myFragment>;
+```
+
 ### This seems a lot like Relay, why not just use Relay?
 
 You're right! There are a lot of similarities between Relay and ts-gql. There are some important differences though. Relay is an entire GraphQL client, it can do a lot of cool things because of that but that also means that if you want the things that the Relay compiler offers, you have to use Relay which may not appeal to everyone. If Relay does work well for you though, that's fine too, use it!
