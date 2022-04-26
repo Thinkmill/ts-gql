@@ -1,5 +1,11 @@
 # @ts-gql/apollo
 
+## 0.11.2
+
+### Patch Changes
+
+- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Republish after broken release
+
 ## 0.11.1
 
 ### Patch Changes
