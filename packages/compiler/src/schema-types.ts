@@ -69,6 +69,12 @@ function generateSchemaTypes(
           immutableTypes: config.readonlyTypes,
           nonOptionalTypename: true,
           namingConvention: "keep",
+          avoidOptionals: {
+            field: true,
+            inputValue: false,
+            object: false,
+            defaultValue: false,
+          },
         },
       },
     ],

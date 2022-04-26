@@ -48,6 +48,12 @@ async function generateOperationTypes(
           namespacedImportName: "SchemaTypes",
           immutableTypes: config.readonlyTypes,
           noExport: true,
+          avoidOptionals: {
+            field: true,
+            inputValue: false,
+            object: false,
+            defaultValue: false,
+          },
           nonOptionalTypename: config.addTypename,
           skipTypename: !config.addTypename,
           namingConvention: "keep",
