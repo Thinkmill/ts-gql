@@ -140,10 +140,10 @@ This was the original plan! It's been abandoned though for a couple reasons:
 
 ### How do you pass types around?
 
-`ts-gql` comes with an `OperationData` type for this. Here is an example of how to use it:
+`@ts-gql/tag` comes with an `OperationData` type to get the type of an operation(`mutation` or `query`) and `FragmentData` to get the type for a fragment.
 
 ```tsx
-import { OperationData } from "@ts-gql/tag";
+import { gql, OperationData, FragmentData } from "@ts-gql/tag";
 
 let myQuery = gql`
   query MyQuery {
@@ -152,6 +152,14 @@ let myQuery = gql`
 ` as import("../__generated__/ts-gql/MyQuery.ts").type;
 
 type MyQueryType = OperationData<typeof myQuery>;
+
+let myFragment = gql`
+  query MyFragment_something on SomeType {
+    hello
+  }
+` as import("../__generated__/ts-gql/MyFragment_something.ts").type;
+
+type MyFragmentType = FragmentData<typeof myFragment>;
 ```
 
 ### This seems a lot like Relay, why not just use Relay?
