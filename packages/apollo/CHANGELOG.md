@@ -1,5 +1,16 @@
 # @ts-gql/apollo
 
+## 0.11.1
+
+### Patch Changes
+
+- [`d002ea4`](https://github.com/Thinkmill/ts-gql/commit/d002ea42b874d6431716c7e6c8b71dd0f7d59e00) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Simplified types for requiring or not requiring variables
+
+* [`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@16`
+
+* Updated dependencies [[`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd)]:
+  - @ts-gql/tag@0.6.1
+
 ## 0.11.0
 
 ### Minor Changes
