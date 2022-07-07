@@ -11,6 +11,7 @@ export let schema = gql`
     node: Node!
     optional(thing: String): String!
     oneMore(thing: String, other: Something!): String!
+    union: [Union]!
   }
 
   type Mutation {
@@ -45,5 +46,15 @@ export let schema = gql`
   input Something {
     yes: Boolean
     no: String!
+  }
+
+  union Union = A | B
+
+  type A {
+    a: String
+  }
+
+  type B {
+    b: String
   }
 `;
