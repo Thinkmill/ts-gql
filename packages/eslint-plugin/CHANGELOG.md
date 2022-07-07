@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.8.3
+
+### Patch Changes
+
+- [#96](https://github.com/Thinkmill/ts-gql/pull/96) [`1cecb2c`](https://github.com/Thinkmill/ts-gql/commit/1cecb2cd0c4c38f6da6d8f4914da5f81bef741f5) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed an internal error occurring when writing a selection set on a union type wrapped in a non-null or list type.
+
 ## 0.8.2
 
 ### Patch Changes
