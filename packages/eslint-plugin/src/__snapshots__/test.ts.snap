@@ -301,6 +301,77 @@ gql\`
 }
 `;
 
+exports[`interface.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    node {
+      id
+      ... on SomethingNode {
+        something
+      }
+      ... on AnotherNode {
+        another
+      }
+    }
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 15,
+      "fix": Object {
+        "range": Array [
+          194,
+          194,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    node {
+~~~~~~~~~~    [You must cast gql tags with the generated type]
+      id
+~~~~~~~~    [You must cast gql tags with the generated type]
+      ... on SomethingNode {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+        something
+~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+      }
+~~~~~~~    [You must cast gql tags with the generated type]
+      ... on AnotherNode {
+~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+        another
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+      }
+~~~~~~~    [You must cast gql tags with the generated type]
+    }
+~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
+}
+`;
+
 exports[`missing-id.ts 1`] = `
 Object {
   "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
@@ -680,6 +751,74 @@ gql\`
 ~~    [Syntax Error: Unexpected Name \\"que\\".]
 
 ~    [Syntax Error: Unexpected Name \\"que\\".]",
+}
+`;
+
+exports[`union.ts 1`] = `
+Object {
+  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+  query Thing {
+    union {
+      ... on A {
+        a
+      }
+      ... on B {
+        b
+      }
+    }
+  }
+\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+",
+  "lintMessages": Array [
+    Object {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 14,
+      "fix": Object {
+        "range": Array [
+          150,
+          150,
+        ],
+        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from \\"@ts-gql/tag\\";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    union {
+~~~~~~~~~~~    [You must cast gql tags with the generated type]
+      ... on A {
+~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+        a
+~~~~~~~~~    [You must cast gql tags with the generated type]
+      }
+~~~~~~~    [You must cast gql tags with the generated type]
+      ... on B {
+~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+        b
+~~~~~~~~~    [You must cast gql tags with the generated type]
+      }
+~~~~~~~    [You must cast gql tags with the generated type]
+    }
+~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+",
 }
 `;
 

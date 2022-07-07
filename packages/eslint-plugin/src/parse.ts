@@ -15,12 +15,11 @@ import {
   GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLUnionType,
-  GraphQLNonNull,
-  GraphQLList,
   ASTNode,
   NoUndefinedVariablesRule,
   ValidationRule,
   GraphQLError,
+  getNamedType,
 } from "graphql";
 
 // loosely based on https://github.com/apollographql/eslint-plugin-graphql/blob/master/src/createRule.js
@@ -183,18 +182,9 @@ export function handleTemplateTag(
             "Type for SelectionSet not found. This is an internal error. If you see this, this is most likely a bug in ts-gql"
           );
         }
+        type = getNamedType(type);
         if (type instanceof GraphQLUnionType) {
           return;
-        }
-        if (type instanceof GraphQLNonNull) {
-          type = type.ofType;
-        }
-
-        if (type instanceof GraphQLList) {
-          type = type.ofType;
-          if (type instanceof GraphQLNonNull) {
-            type = type.ofType;
-          }
         }
         if (
           !(

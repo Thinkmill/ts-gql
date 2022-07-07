@@ -339,11 +339,11 @@ test("returned nullable fields are not nullable", async () => {
       "errors": Array [],
       "fsOperations": Array [
         Object {
-          "content": "// ts-gql-integrity:dfdfd721d6fff5c53f80455b9f87f5fe
+          "content": "// ts-gql-integrity:8627ba0b1e9e1ede434b47ed51569bb5
     /*
     ts-gql-meta-begin
     {
-      \\"hash\\": \\"ab3ae6d6a5717aa0534198074d098314\\"
+      \\"hash\\": \\"8d96d487a372974ffda310944b1ce52b\\"
     }
     ts-gql-meta-end
     */
