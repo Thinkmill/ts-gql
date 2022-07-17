@@ -1,6 +1,7 @@
 import { gql } from "@ts-gql/tag/no-transform";
-import { useMutation } from "@ts-gql/apollo";
 import { createFetcher } from "@ts-gql/fetch";
+import * as urql from "urql";
+import * as apollo from "@apollo/client";
 
 const query2 = gql`
   query MyQueryApollo($thing: String) {
@@ -78,11 +79,29 @@ export default () => {
   // <MyComp query={data} />;
   // data.hello;
   // data.another;
-  let [mutate] = useMutation(someMutation);
+  const [stuff, mutate] = urql.useMutation(someMutation);
+  mutate();
   mutate({
-    variables: { arg: "" },
-    refetchQueries: ["SomeQueryApollo"],
+    arg: "",
+  }).then((x) => {
+    x.data?.__typename;
   });
+
+  stuff.data?.__typename;
+
+  const [apolloMutate, apolloStuff] = apollo.useMutation(someMutation, {
+    variables: {
+      arg: "",
+    },
+  });
+  apolloStuff.data?.optional;
+
+  apolloMutate({
+    variables: {
+      arg,
+    },
+  });
+
   // data.hello;
   // data.other;
   // data.aTh;

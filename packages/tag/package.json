@@ -6,6 +6,7 @@
   "license": "MIT",
   "types": "index.d.ts",
   "dependencies": {
+    "@graphql-typed-document-node/core": "^3.1.1",
     "graphql-tag": "^2.12.6"
   },
   "peerDependencies": {
