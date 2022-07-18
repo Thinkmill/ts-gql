@@ -54,8 +54,9 @@ function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
 
   return weakMemoize(async (error: CompilerError) => {
-    const { codeFrameColumns } =
-      lazyRequire<typeof import("@babel/code-frame")>();
+    const { codeFrameColumns } = lazyRequire<
+      typeof import("@babel/code-frame")
+    >();
     let content = await readFile(error.filename);
     return (
       error.filename +
@@ -235,7 +236,7 @@ export const getGeneratedTypes = async (
         config.schemaHash +
           JSON.stringify(document) +
           config.addTypename +
-          "v11" +
+          "v12" +
           config.readonlyTypes
       );
 

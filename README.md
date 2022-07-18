@@ -1,10 +1,10 @@
 # ts-gql
 
-> Write GraphQL queries in TypeScript and generate types effortlessly
+> Write GraphQL queries with a gql tag in TypeScript -> have generated types
 
 ## Why?
 
-There are lots of great tools(some of which ts-gql use internally!) for generating TypeScript types from GraphQL Queries though a lot of the solutions have at least one of two problems:
+There are lots of great tools(some of which ts-gql uses internally!) for generating TypeScript types from GraphQL queries though a lot of the solutions have at least one of two problems:
 
 - The writing of a query isn't connected to the type that it results in
 - You're forced to write queries in `.graphql` files rather than inline
@@ -46,21 +46,7 @@ TypeScript doesn't currently type tagged template literals with literal string t
 
 </details>
 
-What this means is that `myQuery` will be typed as something like this
-
-```tsx
-type MyQuery = {
-  ___type: {
-    type: "query";
-    result: { readonly hello: string };
-    variables: {};
-  };
-};
-```
-
-You can then use `@ts-gql/apollo` instead of `@apollo/client` so that the result and query variables of your queries and mutations are typed based on the queries.
-
-> `@ts-gql/apollo` only exposes a subset of `@apollo/client`'s functionality. For example, it doesn't expose `useLazyQuery` because we recommend using `useApolloClient().query` instead. If you disagree with some of the decisions that `@ts-gql/apollo` makes, you can use ts-gql but write your own type definitions for Apollo or another GraphQL client.
+You can then use GraphQL Clients like Apollo Client, urql or any other GraphQL client that supports `@graphql-typed-document-node/core` and get types for the variables and data.
 
 ## Getting Started
 
@@ -112,17 +98,7 @@ If you're using [Next.js](https://nextjs.org/), you can use `@ts-gql/next` to au
 
 ## Using Apollo
 
-> Note: ts-gql works with `@apollo/client`(Apollo client v3)
-
-```bash
-npm install @ts-gql/apollo
-```
-
-You can now use `useQuery` and etc. from `@ts-gql/apollo` with queries created with `@ts-gql/tag`.
-
-TODO: examples
-
-TODO: explain how to use with Apollo Client v2
+See [docs/using-ts-gql-with-apollo.md](docs/using-ts-gql-with-apollo.md) for how to use ts-gql with Apollo.
 
 ## FAQ
 
@@ -166,7 +142,7 @@ type MyFragmentType = FragmentData<typeof myFragment>;
 
 You're right! There are a lot of similarities between Relay and ts-gql. There are some important differences though. Relay is an entire GraphQL client, it can do a lot of cool things because of that but that also means that if you want the things that the Relay compiler offers, you have to use Relay which may not appeal to everyone. If Relay does work well for you though, that's fine too, use it!
 
-ts-gql isn't trying to be a GraphQL client, it's only trying to type GraphQL queries. While we only ship `@ts-gql/apollo`, there's no reason you couldn't write type definitions for other GraphQL clients.
+ts-gql isn't trying to be a GraphQL client, it's only trying to provide a way to type GraphQL queries so that clients can .
 
 ## Non-Goals
 

@@ -65,7 +65,7 @@ export function extractGraphQLDocumentsContentsFromFile(
         ],
         strictMode: false,
       });
-      babelTraverse(ast, {
+      babelTraverse(ast as any, {
         TSAsExpression(node) {
           // TODO: verify operation name === import
           if (

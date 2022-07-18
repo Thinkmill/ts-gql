@@ -17,6 +17,8 @@ import { TypedDocumentNode, BaseTypedFragment } from ".";
 type ProvidedFragments<T> = (requiredFragments: T) => T;
 
 type TypedDocumentNodeToBeCast<Fragment extends string> = {
+  kind: unknown;
+  definitions: unknown;
   ___type: {
     type: "query" | "fragment" | "mutation";
     result: any;

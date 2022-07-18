@@ -21,7 +21,7 @@ async function setupEnv(specificSchema: string = schema) {
       JSON.stringify(
         {
           name: "something",
-          "ts-gql": { schema: "schema.graphql" }
+          "ts-gql": { schema: "schema.graphql" },
         },
         null,
         2
@@ -38,13 +38,13 @@ async function setupEnv(specificSchema: string = schema) {
 async function build(cwd: string) {
   let result = await getGeneratedTypes(await getConfig(cwd), true);
   return {
-    errors: result.errors.map(x =>
+    errors: result.errors.map((x) =>
       stripAnsi(x.replace(slash(cwd), "CURRENT_WORKING_DIRECTORY"))
     ),
     fsOperations: result.fsOperations
-      .filter(x => !path.parse(x.filename).name.startsWith("@"))
+      .filter((x) => !path.parse(x.filename).name.startsWith("@"))
       .sort((a, b) => a.filename.localeCompare(b.filename))
-      .map(x => ({ ...x, filename: slash(path.relative(cwd, x.filename)) }))
+      .map((x) => ({ ...x, filename: slash(path.relative(cwd, x.filename)) })),
   };
 }
 
@@ -79,7 +79,7 @@ test("basic", async () => {
         query Thing {
           hello
         }
-      `
+      `,
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
@@ -110,7 +110,7 @@ test("list with fragment works as expected", async () => {
             other
           }
         }
-      `
+      `,
     ])
   );
 
@@ -143,7 +143,7 @@ test("something", async () => {
             ...Frag_b
           }
         }
-      `
+      `,
     ])
   );
   expect(await build(dir)).toMatchSnapshot();
@@ -173,7 +173,7 @@ test("errors in fragments are not shown for usages", async () => {
             i
           }
         }
-      `
+      `,
     ])
   );
   expect((await build(dir)).errors).toMatchInlineSnapshot(`
@@ -208,7 +208,7 @@ test("with directory that ends with .ts", async () => {
         query Thing {
           hello
         }
-      `
+      `,
     ])
   );
   const dirEndsWithTs = path.join(dir, "thing.ts");
@@ -229,7 +229,7 @@ test("optional variable", async () => {
         query Thing($optional: String) {
           optional(thing: $optional)
         }
-      `
+      `,
     ])
   );
   const dirEndsWithTs = path.join(dir, "thing.ts");
@@ -251,7 +251,7 @@ test("optional and required variables", async () => {
           optional(thing: $optional)
           other: optional(thing: $required)
         }
-      `
+      `,
     ])
   );
   const dirEndsWithTs = path.join(dir, "thing.ts");
@@ -272,7 +272,7 @@ test("required variable", async () => {
         query Thing($required: String!) {
           optional(thing: $required)
         }
-      `
+      `,
     ])
   );
   const dirEndsWithTs = path.join(dir, "thing.ts");
@@ -309,7 +309,7 @@ test.skip("fragments with circular dependencies error well", async () => {
             ...Frag_b
           }
         }
-      `
+      `,
     ])
   );
   const dirEndsWithTs = path.join(dir, "thing.ts");
@@ -330,7 +330,7 @@ test("returned nullable fields are not nullable", async () => {
         query Thing {
           something
         }
-      `
+      `,
     ])
   );
 
@@ -339,11 +339,11 @@ test("returned nullable fields are not nullable", async () => {
       "errors": Array [],
       "fsOperations": Array [
         Object {
-          "content": "// ts-gql-integrity:8627ba0b1e9e1ede434b47ed51569bb5
+          "content": "// ts-gql-integrity:53dc12c8b5eb242024eaf130b341a4dd
     /*
     ts-gql-meta-begin
     {
-      \\"hash\\": \\"8d96d487a372974ffda310944b1ce52b\\"
+      \\"hash\\": \\"96f59768aead2c201ff2a58ac942b9ca\\"
     }
     ts-gql-meta-end
     */
@@ -361,7 +361,7 @@ test("returned nullable fields are not nullable", async () => {
     export type type = TypedDocumentNode<{
       type: \\"query\\";
       result: ThingQuery;
-      variables: ThingQueryVariables;
+      variables: {};
       documents: SchemaTypes.TSGQLDocuments;
       fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
     }>

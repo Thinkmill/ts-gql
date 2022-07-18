@@ -1,4 +1,4 @@
-# Using ts-gql with @ts-gql/apollo
+# Using ts-gql with Apollo Client
 
 > This guide covers how to consume a GraphQL API in an app, not how to do the setup necessary for this to work.
 
@@ -67,11 +67,11 @@ const query = gql`
 
 Before we continue, make sure that you have your dev server running(assuming that you've set up your dev server to start ts-gql's watcher, if you haven't run `ts-gql watch`). This is necessary so that the files which contain the type information can be generated.
 
-Now we can use `useQuery` from `@ts-gql/apollo` to do the actual data fetching.
+Now we can use `useQuery` from `@apollo/client` to do the actual data fetching.
 
 ```jsx
 import { gql } from "@ts-gql/tag";
-import { useQuery } from "@ts-gql/apollo";
+import { useQuery } from "@apollo/client";
 
 const query = gql`
   query PostListPage {
@@ -103,7 +103,7 @@ Now we can actually use the data
 
 ```jsx
 import { gql } from "@ts-gql/tag";
-import { useQuery } from "@ts-gql/apollo";
+import { useQuery } from "@apollo/client";
 
 const query = gql`
   query PostListPage {
@@ -223,7 +223,7 @@ Now let's go back to our page component, and use our new component. We need to s
 
 ```jsx
 import { gql } from "@ts-gql/tag";
-import { useQuery } from "@ts-gql/apollo";
+import { useQuery } from "@apollo/client";
 import { PostList } from "./PostList";
 
 const query = gql`

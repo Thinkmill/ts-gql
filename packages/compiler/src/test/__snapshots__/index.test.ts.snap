@@ -5,11 +5,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:f73a615e5d6bc17322400627d43bbebf
+      "content": "// ts-gql-integrity:c7af006fe719d586834f9a670db4fdd9
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"75764207705babbff95ea3c6ad5fe89f\\"
+  \\"hash\\": \\"6d5ebfaa6570bd748ed9d409eb51945c\\"
 }
 ts-gql-meta-end
 */
@@ -27,7 +27,7 @@ type ThingQuery = { readonly __typename: 'Query', readonly hello: string };
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
-  variables: ThingQueryVariables;
+  variables: {};
   documents: SchemaTypes.TSGQLDocuments;
   fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
@@ -52,11 +52,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:a94884ed9b60982ce5e976ca859f61b5
+      "content": "// ts-gql-integrity:2b772e7696e52d4ca46864190058f936
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"81bff7b570121b4117f44c9cc3e7f1ed\\"
+  \\"hash\\": \\"a0e9d31d93d0d8fc6001289058f4045e\\"
 }
 ts-gql-meta-end
 */
@@ -88,11 +88,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:26e66cefa705e4c8cf46ecb246b69ec4
+      "content": "// ts-gql-integrity:a82c7727465307dfb689247f52914d55
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"d354a9967936a7ecaf71f2e8ecdc268f\\"
+  \\"hash\\": \\"f1e57390c892a5000eebca2efa7680f5\\"
 }
 ts-gql-meta-end
 */
@@ -124,11 +124,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:ecf0ac413b71229562d7281167179d8f
+      "content": "// ts-gql-integrity:1cdbbf01f35e2c70fd11dfbce98b9c47
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"bb6a42a0bf021b80e25f89c241c8b87d\\"
+  \\"hash\\": \\"e829f6da4a351ef97d87623fb97d3acc\\"
 }
 ts-gql-meta-end
 */
@@ -146,7 +146,7 @@ type ThingQuery = { readonly __typename: 'Query', readonly arr: ReadonlyArray<{ 
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
-  variables: ThingQueryVariables;
+  variables: {};
   documents: SchemaTypes.TSGQLDocuments;
   fragments: SchemaTypes.TSGQLRequiredFragments<{\\"Frag_a\\":true,\\"Frag_b\\":true}>
 }>
@@ -171,11 +171,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:4e257be0fb5d1c4b823423371bbe3b48
+      "content": "// ts-gql-integrity:05a40d27a4f31545619df61e2857d3f1
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"92456fe3490ba43a1887c222167eec62\\"
+  \\"hash\\": \\"3b9923f196a31060ce7c1e4560095fdd\\"
 }
 ts-gql-meta-end
 */
@@ -221,11 +221,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:ea413bbec3bf969db1ef3c7e3fb879fc
+      "content": "// ts-gql-integrity:bf8df281dd012b374075a1725b1f7319
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"6b44a23f62563691b2a48382095e2cb2\\"
+  \\"hash\\": \\"e1f5832739c3e3fe02abc9163b209f49\\"
 }
 ts-gql-meta-end
 */
@@ -270,11 +270,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:25ea356596e1d02974a5c03e22afd9e4
+      "content": "// ts-gql-integrity:89d3fd613023d24394c695405cec8630
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"83de845a1ea554b853149b7b517aeea9\\"
+  \\"hash\\": \\"2dbf63c94365ec5a2378be441282572f\\"
 }
 ts-gql-meta-end
 */
@@ -319,11 +319,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:beb6cb745f1237b8c702fc93a25b2019
+      "content": "// ts-gql-integrity:dd5543fa97cce3b78204d08a77cbe29e
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"2ba2a2e3ca1eae8430b7bd04c3ae76b8\\"
+  \\"hash\\": \\"8f70dab88a8008a56d5aa6906a9db501\\"
 }
 ts-gql-meta-end
 */
@@ -355,11 +355,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:639dbbefeae691cb2aaae2304ef41b16
+      "content": "// ts-gql-integrity:0b6bb71004925fe2b4136d64d0375667
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"1fab63cfff6497fc75978444f02c653a\\"
+  \\"hash\\": \\"83ff2c1940084e6aa8ed20d7a9d7e647\\"
 }
 ts-gql-meta-end
 */
@@ -391,11 +391,11 @@ export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\"
       "type": "output",
     },
     Object {
-      "content": "// ts-gql-integrity:0c74b795be8f088847ce9debe74cfb3e
+      "content": "// ts-gql-integrity:8c41e2ddfe779a6e4aa1b3cb35abd2ca
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"10d2cc16f1b2b64ca2ffc7ae887c4600\\"
+  \\"hash\\": \\"f84daf1fbbbc389006b2dbe5861b02fe\\"
 }
 ts-gql-meta-end
 */
@@ -413,7 +413,7 @@ type ThingQuery = { readonly __typename: 'Query', readonly someObj: { readonly _
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
-  variables: ThingQueryVariables;
+  variables: {};
   documents: SchemaTypes.TSGQLDocuments;
   fragments: SchemaTypes.TSGQLRequiredFragments<{\\"Frag_a\\":true,\\"Frag_b\\":true}>
 }>
@@ -438,11 +438,11 @@ Object {
   "errors": Array [],
   "fsOperations": Array [
     Object {
-      "content": "// ts-gql-integrity:f73a615e5d6bc17322400627d43bbebf
+      "content": "// ts-gql-integrity:c7af006fe719d586834f9a670db4fdd9
 /*
 ts-gql-meta-begin
 {
-  \\"hash\\": \\"75764207705babbff95ea3c6ad5fe89f\\"
+  \\"hash\\": \\"6d5ebfaa6570bd748ed9d409eb51945c\\"
 }
 ts-gql-meta-end
 */
@@ -460,7 +460,7 @@ type ThingQuery = { readonly __typename: 'Query', readonly hello: string };
 export type type = TypedDocumentNode<{
   type: \\"query\\";
   result: ThingQuery;
-  variables: ThingQueryVariables;
+  variables: {};
   documents: SchemaTypes.TSGQLDocuments;
   fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
 }>
