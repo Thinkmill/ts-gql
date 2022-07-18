@@ -1,4 +1,4 @@
-# Using ts-gql with @ts-gql/apollo
+# Using ts-gql with Apollo Client
 
 > This guide covers how to consume a GraphQL API in an app, not how to do the setup necessary for this to work.
 

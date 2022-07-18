@@ -36,7 +36,7 @@ importers:
       '@changesets/cli': 2.17.0
       '@manypkg/cli': 0.19.0
       '@preconstruct/cli': 2.1.0
-      '@ts-gql/eslint-plugin': 0.8.3_kqkhv4x2tejltmtyrw7vws3rv4
+      '@ts-gql/eslint-plugin': link:packages/eslint-plugin
       '@types/jest': 25.2.1
       '@typescript-eslint/eslint-plugin': 4.14.2_244q5h7haj6xnpajhd7553ps5q
       '@typescript-eslint/parser': 4.14.2_esndoj7uhzb4vgy4iv7xtori4m
@@ -197,7 +197,6 @@ importers:
   test-app:
     specifiers:
       '@apollo/client': ^3.6.9
-      '@ts-gql/apollo': ^0.11.1
       '@ts-gql/babel-plugin': ^0.1.0
       '@ts-gql/compiler': ^0.15.1
       '@ts-gql/eslint-plugin': ^0.8.1
@@ -215,10 +214,9 @@ importers:
       urql: ^2.2.0
     dependencies:
       '@apollo/client': 3.6.9_react@16.14.0
-      '@ts-gql/apollo': link:../packages/apollo
       '@ts-gql/babel-plugin': link:../packages/babel-plugin
       '@ts-gql/compiler': link:../packages/compiler
-      '@ts-gql/eslint-plugin': 0.8.3
+      '@ts-gql/eslint-plugin': link:../packages/eslint-plugin
       '@ts-gql/fetch': link:../packages/fetch
       '@ts-gql/next': link:../packages/next
       '@ts-gql/tag': link:../packages/tag
@@ -3159,66 +3157,6 @@ packages:
       defer-to-connect: 1.1.3
     dev: false
 
-  /@ts-gql/config/0.9.1:
-    resolution: {integrity: sha512-u0Sj+nmwRHpj208b4gWwa1avBizHy8yxE8CZOH1iYlGQPNRE0Onx5ZRzjwZMvNV7Ki5A7J9INaQc6wQa3avbeg==}
-    peerDependencies:
-      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16
-    dependencies:
-      '@babel/runtime': 7.15.4
-      find-pkg-json-field-up: 1.0.1
-      lazy-require.macro: 0.1.0
-      superstruct: 0.10.12
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@ts-gql/config/0.9.1_graphql@16.3.0:
-    resolution: {integrity: sha512-u0Sj+nmwRHpj208b4gWwa1avBizHy8yxE8CZOH1iYlGQPNRE0Onx5ZRzjwZMvNV7Ki5A7J9INaQc6wQa3avbeg==}
-    peerDependencies:
-      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16
-    dependencies:
-      '@babel/runtime': 7.15.4
-      find-pkg-json-field-up: 1.0.1
-      graphql: 16.3.0
-      lazy-require.macro: 0.1.0
-      superstruct: 0.10.12
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@ts-gql/eslint-plugin/0.8.3:
-    resolution: {integrity: sha512-Sohn/eMg+FE6eVfGnXrkE6kJ12dPVutWomN1rhfrij0+XSiQ1DoF6nKq0jsQEoq9vI0VgVCM9fGYoMct6EPnyA==}
-    peerDependencies:
-      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16
-    dependencies:
-      '@babel/runtime': 7.15.4
-      '@ts-gql/config': 0.9.1
-      '@typescript-eslint/experimental-utils': 2.34.0
-      find-pkg-json-field-up: 1.0.1
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - eslint
-      - supports-color
-      - typescript
-    dev: false
-
-  /@ts-gql/eslint-plugin/0.8.3_kqkhv4x2tejltmtyrw7vws3rv4:
-    resolution: {integrity: sha512-Sohn/eMg+FE6eVfGnXrkE6kJ12dPVutWomN1rhfrij0+XSiQ1DoF6nKq0jsQEoq9vI0VgVCM9fGYoMct6EPnyA==}
-    peerDependencies:
-      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16
-    dependencies:
-      '@babel/runtime': 7.15.4
-      '@ts-gql/config': 0.9.1_graphql@16.3.0
-      '@typescript-eslint/experimental-utils': 2.34.0_esndoj7uhzb4vgy4iv7xtori4m
-      find-pkg-json-field-up: 1.0.1
-      graphql: 16.3.0
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - eslint
-      - supports-color
-      - typescript
-    dev: false
-
   /@types/babel__code-frame/7.0.1:
     resolution: {integrity: sha512-FFfbQozKxYmOnCKFYV+EQprjBI7u2yaNc2ly/K9AhzyC8MzXtCtSRqptpw+HUJxhwCOo5mLwf1ATmzyhOaVbDg==}
     dev: false
@@ -3467,22 +3405,6 @@ packages:
       - typescript
     dev: false
 
-  /@typescript-eslint/experimental-utils/2.34.0_esndoj7uhzb4vgy4iv7xtori4m:
-    resolution: {integrity: sha512-eS6FTkq+wuMJ+sgtuNTtcqavWXqsflWcfBnlYhg/nS4aZ1leewkXGbvBhaapn1q6qf4M71bsR1tez5JTRMuqwA==}
-    engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
-    peerDependencies:
-      eslint: '*'
-    dependencies:
-      '@types/json-schema': 7.0.9
-      '@typescript-eslint/typescript-estree': 2.34.0_typescript@4.5.2
-      eslint: 6.8.0
-      eslint-scope: 5.1.1
-      eslint-utils: 2.0.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: false
-
   /@typescript-eslint/experimental-utils/4.14.2_esndoj7uhzb4vgy4iv7xtori4m:
     resolution: {integrity: sha512-mV9pmET4C2y2WlyHmD+Iun8SAEqkLahHGBkGqDVslHkmoj3VnxnGP4ANlwuxxfq1BsKdl/MPieDbohCEQgKrwA==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -3565,27 +3487,6 @@ packages:
       lodash: 4.17.19
       semver: 7.3.5
       tsutils: 3.21.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@typescript-eslint/typescript-estree/2.34.0_typescript@4.5.2:
-    resolution: {integrity: sha512-OMAr+nJWKdlVM9LOqCqh3pQQPwxHAN7Du8DR6dmwCrAmxtiXQnhHJ6tBNtf+cggqfo51SG/FCwnKhXCIM7hnVg==}
-    engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      debug: 4.3.2
-      eslint-visitor-keys: 1.1.0
-      glob: 7.1.6
-      is-glob: 4.0.3
-      lodash: 4.17.19
-      semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.5.2
-      typescript: 4.5.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -10033,16 +9934,6 @@ packages:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.11.1
-    dev: false
-
-  /tsutils/3.21.0_typescript@4.5.2:
-    resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
-    engines: {node: '>= 6'}
-    peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
-    dependencies:
-      tslib: 1.11.1
-      typescript: 4.5.2
     dev: false
 
   /tty-browserify/0.0.1:

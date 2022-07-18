@@ -1,6 +1,5 @@
-import { useQuery } from "@ts-gql/apollo";
 import { gql } from "@ts-gql/tag/no-transform";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
 const postListFragment = gql`

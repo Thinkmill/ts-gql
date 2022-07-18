@@ -98,7 +98,7 @@ export default () => {
 
   apolloMutate({
     variables: {
-      arg,
+      arg: "",
     },
   });
 

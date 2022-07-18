@@ -5,7 +5,6 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@ts-gql/apollo": "^0.11.1",
     "@ts-gql/babel-plugin": "^0.1.0",
     "@ts-gql/compiler": "^0.15.1",
     "@ts-gql/eslint-plugin": "^0.8.1",
