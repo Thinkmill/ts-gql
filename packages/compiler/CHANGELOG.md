@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.15.3
+
+### Patch Changes
+
+- [#98](https://github.com/Thinkmill/ts-gql/pull/98) [`bc8d6eb`](https://github.com/Thinkmill/ts-gql/commit/bc8d6ebbf1021829de24d3c916dad5e0b3ab1edf) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - When an operation has no variables, the variables type will now be `{}` instead of `{ [key: string]: never }`. The `{ [key: string]: never }` type attempts to describe an object with no properties but it means that a `TypedDocumentNode` with no variables won't be alllowed to be passed to something expecting a `TypedDocumentNode` with the variables of `{ [key: string]: any }`
+
 ## 0.15.2
 
 ### Patch Changes
