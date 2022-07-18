@@ -1,5 +1,12 @@
 # @ts-gql/fetch
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`bc8d6eb`](https://github.com/Thinkmill/ts-gql/commit/bc8d6ebbf1021829de24d3c916dad5e0b3ab1edf)]:
+  - @ts-gql/tag@0.7.0
+
 ## 0.1.1
 
 ### Patch Changes
