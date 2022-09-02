@@ -12,7 +12,7 @@ const fetchGraphQL = createFetcher("https://some-graphql-api");
 
 const someQueryOrMutation = gql`...` as import(...).type;
 
-const result = await fetchGraphQL();
+const result = await fetchGraphQL({ operation: someQueryOrMutation });
 ```
 
 If any GraphQL errors are returned, an instance of `GraphQLErrorResult` is thrown which has the `data` and `errors` on it.
