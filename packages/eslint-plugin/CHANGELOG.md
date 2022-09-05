@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.8.4
+
+### Patch Changes
+
+- [#100](https://github.com/Thinkmill/ts-gql/pull/100) [`63d269d`](https://github.com/Thinkmill/ts-gql/commit/63d269d441420dca5c4c934ec1c60b35831286a2) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed incorrect fix/error for casts on `gql` calls in source files in the same directory as the config.
+
 ## 0.8.3
 
 ### Patch Changes
