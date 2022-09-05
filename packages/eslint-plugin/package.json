@@ -21,7 +21,8 @@
     "@ts-gql/tag": "*",
     "@typescript-eslint/parser": "^4.14.2",
     "eslint-snapshot-test": "^3.0.0",
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "tempy": "1"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/eslint-plugin"
 }

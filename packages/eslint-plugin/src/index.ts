@@ -79,6 +79,9 @@ function addNameToGqlTag(
       path.join(generatedDirectory, name)
     )
   );
+  if (pathname[0] !== ".") {
+    pathname = "./" + pathname;
+  }
 
   if (node.parent?.type !== "TSAsExpression") {
     context.report({

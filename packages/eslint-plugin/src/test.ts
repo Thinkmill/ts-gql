@@ -4,6 +4,7 @@ import { Config } from "@ts-gql/config";
 import fs from "fs";
 import { buildSchema } from "graphql";
 import path from "path";
+import { directory } from "tempy";
 import { schema } from "../../compiler/src/test/test-schema";
 
 let snapshotCreator = new SnapshotCreator({
@@ -62,3 +63,82 @@ for (const fixture of fixtures) {
     expect(result).toMatchSnapshot();
   });
 }
+
+test("config and file in the same directory", () =>
+  directory.task(async (tmpPath) => {
+    const filePath = path.join(tmpPath, "test.ts");
+    fs.writeFileSync(
+      `${tmpPath}/package.json`,
+      JSON.stringify({
+        name: "blah",
+        "ts-gql": {
+          schema: "schema.graphql",
+        },
+      })
+    );
+    fs.writeFileSync(`${tmpPath}/schema.graphql`, schema);
+
+    const code = `
+    import { gql } from "@ts-gql/tag";
+    gql\`
+      query Something {
+        hello
+      }
+    \`;
+    `;
+    fs.writeFileSync(filePath, code);
+    let result = snapshotCreator
+      .mark({
+        code,
+        rule: rules["ts-gql"],
+        ruleName: "ts-gql",
+      })
+      .withFileName(filePath)
+      .render();
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "fixedOutput": "
+          import { gql } from \\"@ts-gql/tag\\";
+          gql\`
+            query Something {
+              hello
+            }
+          \`as import(\\"./__generated__/ts-gql/Something\\").type;
+          ",
+        "lintMessages": Array [
+          Object {
+            "column": 5,
+            "endColumn": 6,
+            "endLine": 7,
+            "fix": Object {
+              "range": Array [
+                100,
+                100,
+              ],
+              "text": "as import(\\"./__generated__/ts-gql/Something\\").type",
+            },
+            "line": 3,
+            "message": "You must cast gql tags with the generated type",
+            "messageId": "mustUseAs",
+            "nodeType": "TaggedTemplateExpression",
+            "ruleId": "ts-gql",
+            "severity": 2,
+          },
+        ],
+        "snapshot": "
+
+          import { gql } from \\"@ts-gql/tag\\";
+          gql\`
+          ~~~~    [You must cast gql tags with the generated type]
+            query Something {
+      ~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+              hello
+      ~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+            }
+      ~~~~~~~    [You must cast gql tags with the generated type]
+          \`;
+      ~~~~~    [You must cast gql tags with the generated type]
+          ",
+      }
+    `);
+  }));
