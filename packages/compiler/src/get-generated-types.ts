@@ -331,7 +331,7 @@ function getDependencies(
   }
   return Object.fromEntries(
     Object.entries(dependencies).map(([name, deps]) => {
-      return [name, deps.flat(Infinity)];
+      return [name, deps.flat(Infinity as 1) as string[]];
     })
   );
 }
