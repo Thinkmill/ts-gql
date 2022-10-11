@@ -3,6 +3,9 @@
   "version": "0.1.28",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "build": "ts-gql build"
+  },
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@ts-gql/babel-plugin": "^0.1.0",

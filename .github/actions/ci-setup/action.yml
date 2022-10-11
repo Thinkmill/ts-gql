@@ -1,0 +1,19 @@
+name: "CI setup"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Enable Corepack
+      run: corepack enable
+      shell: bash
+
+    - name: Use Node.js 16
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+        cache: "pnpm"
+
+    - name: Install Dependencies
+      run: pnpm install
+      shell: bash

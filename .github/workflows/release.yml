@@ -15,22 +15,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js 14.x
-        uses: actions/setup-node@main
-        with:
-          node-version: 14.x
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: pnpm-v5-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-v5-ubuntu-latest
-
-      - name: Install pnpm
-        run: npm i -g pnpm@6.19.0
-
-      - name: Install Dependencies
-        run: pnpm i
+      - uses: ./.github/actions/ci-setup
 
       - name: "Create Pull Request or Publish to npm"
         uses: changesets/action@v1
