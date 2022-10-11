@@ -49,6 +49,8 @@ const otherFragment = gql`
   }
 ` as import("../__generated__/ts-gql/OtherFragment_x").type;
 
+console.log(otherFragment);
+
 const query = gql`
   query SomeQueryApollo($arg: String!) {
     optional(thing: $arg)

@@ -11,11 +11,13 @@ const postListFragment = gql`
   }
 ` as import("../../__generated__/ts-gql/PostList_posts").type;
 
-const _authorListFragment = gql`
+const authorListFragment = gql`
   fragment AuthorList_author on Author {
     name
   }
 ` as import("../../__generated__/ts-gql/AuthorList_author").type;
+
+console.log(authorListFragment);
 
 const query = gql`
   query PostListPage {
