@@ -96,26 +96,26 @@ test("config and file in the same directory", () =>
       .withFileName(filePath)
       .render();
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "fixedOutput": "
-          import { gql } from \\"@ts-gql/tag\\";
+          import { gql } from "@ts-gql/tag";
           gql\`
             query Something {
               hello
             }
-          \`as import(\\"./__generated__/ts-gql/Something\\").type;
+          \`as import("./__generated__/ts-gql/Something").type;
           ",
-        "lintMessages": Array [
-          Object {
+        "lintMessages": [
+          {
             "column": 5,
             "endColumn": 6,
             "endLine": 7,
-            "fix": Object {
-              "range": Array [
+            "fix": {
+              "range": [
                 100,
                 100,
               ],
-              "text": "as import(\\"./__generated__/ts-gql/Something\\").type",
+              "text": "as import("./__generated__/ts-gql/Something").type",
             },
             "line": 3,
             "message": "You must cast gql tags with the generated type",
@@ -127,7 +127,7 @@ test("config and file in the same directory", () =>
         ],
         "snapshot": "
 
-          import { gql } from \\"@ts-gql/tag\\";
+          import { gql } from "@ts-gql/tag";
           gql\`
           ~~~~    [You must cast gql tags with the generated type]
             query Something {

@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@ts-gql/tag": "*",
-    "@typescript-eslint/parser": "^4.14.2",
+    "@typescript-eslint/parser": "^5.40.0",
     "eslint-snapshot-test": "^3.0.0",
     "graphql": "^16.3.0",
     "tempy": "1"

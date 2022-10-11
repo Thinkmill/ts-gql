@@ -177,23 +177,23 @@ test("errors in fragments are not shown for usages", async () => {
     ])
   );
   expect((await build(dir)).errors).toMatchInlineSnapshot(`
-    Array [
+    [
       "CURRENT_WORKING_DIRECTORY/index.tsx:12:11
       10 | gql\`
       11 |         fragment Frag_a on OutputThing {
     > 12 |           othe
-         |           ^ Cannot query field \\"othe\\" on type \\"OutputThing\\". Did you mean \\"other\\"?
+         |           ^ Cannot query field "othe" on type "OutputThing". Did you mean "other"?
       13 |           ...Frag_b
       14 |         }
-      15 |       \` as import(\\"./__generated__/ts-gql/Frag_a\\");",
+      15 |       \` as import("./__generated__/ts-gql/Frag_a");",
       "CURRENT_WORKING_DIRECTORY/index.tsx:20:13
       18 |         fragment Frag_b on OutputThing {
       19 |           arr {
     > 20 |             i
-         |             ^ Cannot query field \\"i\\" on type \\"OutputThing\\". Did you mean \\"id\\"?
+         |             ^ Cannot query field "i" on type "OutputThing". Did you mean "id"?
       21 |           }
       22 |         }
-      23 |       \` as import(\\"./__generated__/ts-gql/Frag_b\\");",
+      23 |       \` as import("./__generated__/ts-gql/Frag_b");",
     ]
   `);
 });
@@ -335,21 +335,21 @@ test("returned nullable fields are not nullable", async () => {
   );
 
   expect(await build(dir)).toMatchInlineSnapshot(`
-    Object {
-      "errors": Array [],
-      "fsOperations": Array [
-        Object {
-          "content": "// ts-gql-integrity:53dc12c8b5eb242024eaf130b341a4dd
+    {
+      "errors": [],
+      "fsOperations": [
+        {
+          "content": "// ts-gql-integrity:ce2d2c109f6e0fc1df75b640708527bc
     /*
     ts-gql-meta-begin
     {
-      \\"hash\\": \\"96f59768aead2c201ff2a58ac942b9ca\\"
+      "hash": "dddbac987d3b3da2e1c0ec597f6a6be1"
     }
     ts-gql-meta-end
     */
 
-    import * as SchemaTypes from \\"./@schema\\";
-    import { TypedDocumentNode } from \\"@ts-gql/tag\\";
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
 
     type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
 
@@ -359,20 +359,20 @@ test("returned nullable fields are not nullable", async () => {
 
           
     export type type = TypedDocumentNode<{
-      type: \\"query\\";
+      type: "query";
       result: ThingQuery;
       variables: {};
       documents: SchemaTypes.TSGQLDocuments;
-      fragments: SchemaTypes.TSGQLRequiredFragments<\\"none\\">
+      fragments: SchemaTypes.TSGQLRequiredFragments<"none">
     }>
 
-    declare module \\"./@schema\\" {
+    declare module "./@schema" {
       interface TSGQLDocuments {
         Thing: type;
       }
     }
 
-    export const document = JSON.parse(\\"{\\\\\\"kind\\\\\\":\\\\\\"Document\\\\\\",\\\\\\"definitions\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"OperationDefinition\\\\\\",\\\\\\"operation\\\\\\":\\\\\\"query\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"Thing\\\\\\"},\\\\\\"variableDefinitions\\\\\\":[],\\\\\\"directives\\\\\\":[],\\\\\\"selectionSet\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"SelectionSet\\\\\\",\\\\\\"selections\\\\\\":[{\\\\\\"kind\\\\\\":\\\\\\"Field\\\\\\",\\\\\\"name\\\\\\":{\\\\\\"kind\\\\\\":\\\\\\"Name\\\\\\",\\\\\\"value\\\\\\":\\\\\\"something\\\\\\"},\\\\\\"arguments\\\\\\":[],\\\\\\"directives\\\\\\":[]}]}}]}\\")
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"OperationDefinition\\",\\"operation\\":\\"query\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing\\"},\\"variableDefinitions\\":[],\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"something\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
     ",
           "filename": "__generated__/ts-gql/Thing.ts",
           "type": "output",
