@@ -21,7 +21,10 @@ async function setupEnv(specificSchema: string = schema) {
       JSON.stringify(
         {
           name: "something",
-          "ts-gql": { schema: "schema.graphql" },
+          "ts-gql": {
+            schema: "schema.graphql",
+            scalars: { JSON: "MyGloballyDefinedJSONType" },
+          },
         },
         null,
         2
@@ -320,7 +323,7 @@ test.skip("fragments with circular dependencies error well", async () => {
   expect(await build(dir)).toMatchSnapshot();
 });
 
-test("returned nullable fields are not nullable", async () => {
+test("returned nullable fields are not optional", async () => {
   let dir = await setupEnv();
 
   await fs.writeFile(
@@ -339,11 +342,11 @@ test("returned nullable fields are not nullable", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:ce2d2c109f6e0fc1df75b640708527bc
+          "content": "// ts-gql-integrity:d89a2d1c5a5cbdedfb643ed33bfd53b1
     /*
     ts-gql-meta-begin
     {
-      "hash": "dddbac987d3b3da2e1c0ec597f6a6be1"
+      "hash": "fb7906b70304f4893d572a7f75817585"
     }
     ts-gql-meta-end
     */
@@ -378,6 +381,201 @@ test("returned nullable fields are not nullable", async () => {
           "type": "output",
         },
       ],
+    }
+  `);
+});
+
+test("custom scalar types scalars are used", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        query Thing {
+          json
+        }
+      `,
+    ])
+  );
+
+  expect(await build(dir)).toMatchInlineSnapshot(`
+    {
+      "errors": [],
+      "fsOperations": [
+        {
+          "content": "// ts-gql-integrity:8b5b68c9c51b486983c4708a586918cc
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "e82353d75ba4186c356fdbadbdebb388"
+    }
+    ts-gql-meta-end
+    */
+
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
+
+    type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
+
+
+    type ThingQuery = { readonly __typename: 'Query', readonly json: MyGloballyDefinedJSONType | null };
+
+
+          
+    export type type = TypedDocumentNode<{
+      type: "query";
+      result: ThingQuery;
+      variables: {};
+      documents: SchemaTypes.TSGQLDocuments;
+      fragments: SchemaTypes.TSGQLRequiredFragments<"none">
+    }>
+
+    declare module "./@schema" {
+      interface TSGQLDocuments {
+        Thing: type;
+      }
+    }
+
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"OperationDefinition\\",\\"operation\\":\\"query\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing\\"},\\"variableDefinitions\\":[],\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"json\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
+    ",
+          "filename": "__generated__/ts-gql/Thing.ts",
+          "type": "output",
+        },
+      ],
+    }
+  `);
+});
+
+test("schema", async () => {
+  let dir = await setupEnv();
+  const result = await getGeneratedTypes(await getConfig(dir), true);
+  const schema = result.fsOperations.find((x) =>
+    x.filename.endsWith("@schema.d.ts")
+  );
+  schema!.filename = "@schema.d.ts";
+  expect(schema).toMatchInlineSnapshot(`
+    {
+      "content": "// ts-gql-integrity:3c75c673e8656a74f6a1b18246a68fdc
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "46fcf3608ccbddc2eed2d68681c56342"
+    }
+    ts-gql-meta-end
+    */
+    export type Maybe<T> = T | null;
+    export type InputMaybe<T> = Maybe<T>;
+    export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+    export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+    export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+    /** All built-in and custom scalars, mapped to their actual values */
+    export type Scalars = {
+      ID: string;
+      String: string;
+      Boolean: boolean;
+      Int: number;
+      Float: number;
+      JSON: MyGloballyDefinedJSONType;
+    };
+
+    export type Query = {
+      readonly __typename: 'Query';
+      readonly hello: Scalars['String'];
+      readonly other: Scalars['Boolean'];
+      readonly another: Scalars['String'];
+      readonly something: Maybe<Scalars['String']>;
+      readonly someObj: OutputThing;
+      readonly arr: ReadonlyArray<OutputThing>;
+      readonly node: Node;
+      readonly optional: Scalars['String'];
+      readonly oneMore: Scalars['String'];
+      readonly union: ReadonlyArray<Maybe<Union>>;
+      readonly json: Maybe<Scalars['JSON']>;
+    };
+
+
+    export type QueryoptionalArgs = {
+      thing?: InputMaybe<Scalars['String']>;
+    };
+
+
+    export type QueryoneMoreArgs = {
+      thing?: InputMaybe<Scalars['String']>;
+      other: Something;
+    };
+
+
+    export type QueryjsonArgs = {
+      json?: InputMaybe<Scalars['JSON']>;
+    };
+
+    export type Mutation = {
+      readonly __typename: 'Mutation';
+      readonly hello: Scalars['String'];
+      readonly other: Scalars['Boolean'];
+      readonly another: Scalars['String'];
+      readonly something: Maybe<Scalars['String']>;
+      readonly optional: Scalars['String'];
+      readonly oneMore: Scalars['String'];
+    };
+
+
+    export type MutationoptionalArgs = {
+      thing?: InputMaybe<Scalars['String']>;
+    };
+
+
+    export type MutationoneMoreArgs = {
+      thing?: InputMaybe<Scalars['String']>;
+      other: Something;
+    };
+
+    export type Node = {
+      readonly id: Scalars['ID'];
+    };
+
+    export type SomethingNode = Node & {
+      readonly __typename: 'SomethingNode';
+      readonly id: Scalars['ID'];
+      readonly something: Scalars['String'];
+    };
+
+    export type AnotherNode = Node & {
+      readonly __typename: 'AnotherNode';
+      readonly id: Scalars['ID'];
+      readonly another: Scalars['String'];
+    };
+
+    export type OutputThing = {
+      readonly __typename: 'OutputThing';
+      readonly id: Scalars['ID'];
+      readonly other: Scalars['String'];
+      readonly arr: ReadonlyArray<OutputThing>;
+    };
+
+    export type Something = {
+      readonly yes?: InputMaybe<Scalars['Boolean']>;
+      readonly no: Scalars['String'];
+    };
+
+    export type Union = A | B;
+
+    export type A = {
+      readonly __typename: 'A';
+      readonly a: Maybe<Scalars['String']>;
+    };
+
+    export type B = {
+      readonly __typename: 'B';
+      readonly b: Maybe<Scalars['String']>;
+    };
+
+    export interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}
+
+    export type TSGQLRequiredFragments<T> = (providedFragments: T) => T;",
+      "filename": "@schema.d.ts",
+      "type": "output",
     }
   `);
 });
