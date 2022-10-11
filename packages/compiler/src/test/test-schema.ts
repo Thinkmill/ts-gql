@@ -12,7 +12,10 @@ export let schema = gql`
     optional(thing: String): String!
     oneMore(thing: String, other: Something!): String!
     union: [Union]!
+    json(json: JSON): JSON
   }
+
+  scalar JSON
 
   type Mutation {
     hello: String!

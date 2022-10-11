@@ -57,6 +57,7 @@ async function generateOperationTypes(
           nonOptionalTypename: config.addTypename,
           skipTypename: !config.addTypename,
           namingConvention: "keep",
+          scalars: config.scalars,
         },
       },
     ],

@@ -5,11 +5,11 @@ exports[`basic 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:3ee8c19bdc6526db390489b97e0779ba
+      "content": "// ts-gql-integrity:956c7f9e85169ab50ff6bd9dcf35a35c
 /*
 ts-gql-meta-begin
 {
-  "hash": "bc503fcc4d213e1d40fa18a0d15e3cdf"
+  "hash": "f05d163c15a244fbe7f0ba7d230dff0a"
 }
 ts-gql-meta-end
 */
@@ -52,11 +52,11 @@ exports[`list with fragment works as expected 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:9105080e34699e0f58e25c33d1420ceb
+      "content": "// ts-gql-integrity:df985bdc990c08bed1b15f10ba6d254f
 /*
 ts-gql-meta-begin
 {
-  "hash": "fd62709571238ac3c4230807e0c254cb"
+  "hash": "22d1f1c093a393b90151bb3fcde566ab"
 }
 ts-gql-meta-end
 */
@@ -88,11 +88,11 @@ export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\"
       "type": "output",
     },
     {
-      "content": "// ts-gql-integrity:398854135794a6c4481bed6919108681
+      "content": "// ts-gql-integrity:3d5e0ab163127bc3ad43e283ded428fb
 /*
 ts-gql-meta-begin
 {
-  "hash": "926bbd162a93a1cabc8fafc2734da268"
+  "hash": "ad4ad733f3fd6e7f015edab44470b0b4"
 }
 ts-gql-meta-end
 */
@@ -124,11 +124,11 @@ export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\"
       "type": "output",
     },
     {
-      "content": "// ts-gql-integrity:699bcff1a5298ed918278e6412b936db
+      "content": "// ts-gql-integrity:8c2c1971910efed4cda4347ea1ffc343
 /*
 ts-gql-meta-begin
 {
-  "hash": "125b787bb7ef8c46b43bf380b9d17a71"
+  "hash": "41b756f334006af65e36ab4907bc03cc"
 }
 ts-gql-meta-end
 */
@@ -171,11 +171,11 @@ exports[`optional and required variables 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:64cef27a05420f53ae734d12467e6b8c
+      "content": "// ts-gql-integrity:b4b3ac5cedd099544aaf8bfd71338940
 /*
 ts-gql-meta-begin
 {
-  "hash": "e2217d8d27f31be614f6ade17eb34289"
+  "hash": "e7cb98cfca1d4571b4aa2f6e63d1e17a"
 }
 ts-gql-meta-end
 */
@@ -221,11 +221,11 @@ exports[`optional variable 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:ad1bd28626c2f646dcfb6832647078f6
+      "content": "// ts-gql-integrity:cce4e4ef1856ac96c81d01c848040bda
 /*
 ts-gql-meta-begin
 {
-  "hash": "0df7a70ad146bd049baa3d0257033aff"
+  "hash": "ff5544f9d61593ae04e1cd0be6d520ce"
 }
 ts-gql-meta-end
 */
@@ -270,11 +270,11 @@ exports[`required variable 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:83663065426a6d04a6bf8a6f5a91376b
+      "content": "// ts-gql-integrity:070a8d9a51e1bbe0cf503ca85d9b9581
 /*
 ts-gql-meta-begin
 {
-  "hash": "24ba3dfae79aa9c15a33ce5f96ff5a92"
+  "hash": "9b61b31831cd96262571785e5720fccf"
 }
 ts-gql-meta-end
 */
@@ -319,11 +319,11 @@ exports[`something 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:057f05352f4f0a1271249837491ec722
+      "content": "// ts-gql-integrity:b7cc77a302d8da799ccf07aff46019e1
 /*
 ts-gql-meta-begin
 {
-  "hash": "2e78fd859de29c8532fdf1cce24b0648"
+  "hash": "f6d8099af89094af8174f0713101f56b"
 }
 ts-gql-meta-end
 */
@@ -355,11 +355,11 @@ export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\"
       "type": "output",
     },
     {
-      "content": "// ts-gql-integrity:819edf560e5b603e5200a1642274efab
+      "content": "// ts-gql-integrity:99cc185b61e7d75c2ef6902c20d2b465
 /*
 ts-gql-meta-begin
 {
-  "hash": "c68bfb855a4c62cf355b2a421088a547"
+  "hash": "1a3c3552d2cb69119ce9bed72979b629"
 }
 ts-gql-meta-end
 */
@@ -391,11 +391,11 @@ export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\"
       "type": "output",
     },
     {
-      "content": "// ts-gql-integrity:bfd2e1be7b9549296d759c267340f728
+      "content": "// ts-gql-integrity:b0c16697202724781d6c08713f3708c8
 /*
 ts-gql-meta-begin
 {
-  "hash": "0285c3f44866ce4d2e973f97d62d0a5d"
+  "hash": "8f2ee54cc5c0f49f0c61951286123706"
 }
 ts-gql-meta-end
 */
@@ -438,11 +438,11 @@ exports[`with directory that ends with .ts 1`] = `
   "errors": [],
   "fsOperations": [
     {
-      "content": "// ts-gql-integrity:3ee8c19bdc6526db390489b97e0779ba
+      "content": "// ts-gql-integrity:956c7f9e85169ab50ff6bd9dcf35a35c
 /*
 ts-gql-meta-begin
 {
-  "hash": "bc503fcc4d213e1d40fa18a0d15e3cdf"
+  "hash": "f05d163c15a244fbe7f0ba7d230dff0a"
 }
 ts-gql-meta-end
 */
