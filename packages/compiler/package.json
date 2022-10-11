@@ -17,7 +17,6 @@
     "@babel/runtime": "^7.9.2",
     "@babel/types": "^7.9.6",
     "@graphql-codegen/plugin-helpers": "^2.4.2",
-    "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@nodelib/fs.walk": "^1.2.4",
     "@ts-gql/config": "^0.9.1",
@@ -39,7 +38,8 @@
     "@ts-gql/tag": "*",
     "fixturez": "^1.1.0",
     "graphql": "^16.3.0",
-    "lazy-require.macro": "^0.1.0"
+    "lazy-require.macro": "^0.1.0",
+    "tempy": "1.0.1"
   },
   "preconstruct": {
     "entrypoints": [

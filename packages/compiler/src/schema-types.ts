@@ -1,6 +1,5 @@
 import * as fs from "./fs";
 import path from "path";
-import { codegen } from "./codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -8,10 +7,10 @@ import {
   getDoesFileHaveIntegrity,
 } from "./integrity";
 import { Config } from "@ts-gql/config";
-import { lazyRequire } from "lazy-require.macro";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { CompilerError } from "./types";
 import { BatchGraphQLError } from "@ts-gql/config";
+import { printSchemaTypes } from "./schema";
 
 export class ThrowableCompilerErrorSet extends Error {
   compilerErrors: CompilerError[];
@@ -56,32 +55,6 @@ function generateSchemaTypes(
       },
     ]);
   }
-  let result = codegen({
-    documents: [],
-    schemaAst: config.schema(),
-    config: {},
-    filename: "",
-    plugins: [
-      {
-        typescript: {
-          enumsAsTypes: true,
-          scalars: config.scalars,
-          immutableTypes: config.readonlyTypes,
-          nonOptionalTypename: true,
-          namingConvention: "keep",
-          avoidOptionals: {
-            field: true,
-            inputValue: false,
-            object: false,
-            defaultValue: false,
-          },
-        },
-      },
-    ],
-    pluginMap: {
-      typescript: lazyRequire<typeof import("@graphql-codegen/typescript")>(),
-    },
-  });
 
   return {
     type: "output",
@@ -91,7 +64,11 @@ function generateSchemaTypes(
         { hash: schemaHash },
         null,
         2
-      )}\nts-gql-meta-end\n*/\n${result}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}\n\nexport type TSGQLRequiredFragments<T> = (providedFragments: T) => T;`
+      )}\nts-gql-meta-end\n*/\n${printSchemaTypes({
+        schema: config.schema(),
+        readonly: config.readonlyTypes,
+        scalars: config.scalars,
+      })}\nexport interface TSGQLDocuments extends Record<string, import('@ts-gql/tag').TypedDocumentNode<import('@ts-gql/tag').BaseDocumentTypes>> {}\n\nexport type TSGQLRequiredFragments<T> = (providedFragments: T) => T;`
     ),
   };
 }
@@ -101,9 +78,7 @@ export async function cachedGenerateSchemaTypes(config: Config) {
     config.schemaHash +
       JSON.stringify(config.scalars) +
       config.readonlyTypes +
-      lazyRequire<typeof import("@graphql-codegen/typescript/package.json")>()
-        .version +
-      "v2"
+      "v1"
   );
   let types: string;
   let filename = path.join(
