@@ -35,7 +35,7 @@
     "defaultBranch": "main"
   },
   "scripts": {
-    "postinstall": "preconstruct dev && cd test-app && pnpm run build",
+    "postinstall": "preconstruct dev && manypkg check && cd test-app && pnpm run build",
     "start": "cd test-app && pnpx next",
     "release": "preconstruct build && changeset publish",
     "version": "changeset version && pnpm i --frozen-lockfile=false && pnpm run format",
