@@ -100,9 +100,8 @@ export function validateDocument(
   config: Config,
   loc: FullSourceLocation
 ) {
-  const { specifiedRules, NoUnusedFragmentsRule, validate } = lazyRequire<
-    typeof import("graphql/validation")
-  >();
+  const { specifiedRules, NoUnusedFragmentsRule, validate } =
+    lazyRequire<typeof import("graphql/validation")>();
 
   if (!rules) {
     rules = {
