@@ -14,25 +14,25 @@ async function generateIntrospectionResult(
   schemaHash: string,
   filename: string
 ): Promise<FsOperation> {
-  const { introspectionFromSchema } = lazyRequire<
-    typeof import("graphql/utilities/introspectionFromSchema")
-  >();
+  const { introspectionFromSchema } =
+    lazyRequire<typeof import("graphql/utilities/introspectionFromSchema")>();
   const introspection = introspectionFromSchema(schema, {
     descriptions: false,
   });
   return {
     type: "output",
     filename,
-    content: wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
-      {
-        hash: schemaHash,
-      },
-      null,
-      2
-    )}\nts-gql-meta-end\n*/\n
+    content:
+      wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
+        {
+          hash: schemaHash,
+        },
+        null,
+        2
+      )}\nts-gql-meta-end\n*/\n
 export const result = JSON.parse(${JSON.stringify(
-      JSON.stringify(introspection)
-    )})
+        JSON.stringify(introspection)
+      )})
 `),
   };
 }

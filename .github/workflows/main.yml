@@ -13,25 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - name: Set Node.js 14.x
-        uses: actions/setup-node@main
-        with:
-          node-version: 14.x
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: pnpm-v5-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-v5-ubuntu-latest-
-
-      - name: Install pnpm
-        run: npm i -g pnpm@6.19.0
-
-      - name: Install Dependencies
-        run: pnpm i
-
-      - name: Build types for test app
-        run: cd test-app && pnpx ts-gql build
+      - uses: ./.github/actions/ci-setup
 
       - name: Check Types
         run: pnpm run types
@@ -46,23 +28,18 @@ jobs:
     runs-on: ${{matrix.platform}}
     steps:
       - uses: actions/checkout@main
-
-      - name: Set Node.js 14.x
-        uses: actions/setup-node@main
-        with:
-          node-version: 14.x
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: pnpm-${{ matrix.platform }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ matrix.platform }}-
-
-      - name: Install pnpm
-        run: npm i -g pnpm@6.19.0
-
-      - name: Install Dependencies
-        run: pnpm i
+      - uses: ./.github/actions/ci-setup
 
       - name: Run Tests
         run: pnpm run test
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: ./.github/actions/ci-setup
+
+      - name: ESLint
+        run: pnpm run lint
+      - name: Prettier
+        run: pnpm run format:check

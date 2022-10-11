@@ -54,9 +54,8 @@ function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));
 
   return weakMemoize(async (error: CompilerError) => {
-    const { codeFrameColumns } = lazyRequire<
-      typeof import("@babel/code-frame")
-    >();
+    const { codeFrameColumns } =
+      lazyRequire<typeof import("@babel/code-frame")>();
     let content = await readFile(error.filename);
     return (
       error.filename +
@@ -332,7 +331,7 @@ function getDependencies(
   }
   return Object.fromEntries(
     Object.entries(dependencies).map(([name, deps]) => {
-      return [name, deps.flat(Infinity)];
+      return [name, deps.flat(Infinity as 1) as string[]];
     })
   );
 }

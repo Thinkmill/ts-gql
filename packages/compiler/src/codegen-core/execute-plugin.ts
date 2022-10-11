@@ -34,5 +34,5 @@ export function executePlugin(
   if (typeof result.then === "function") {
     throw new Error("plugins must be synchronous");
   }
-  return (result as any) as Types.PluginOutput;
+  return result as any as Types.PluginOutput;
 }

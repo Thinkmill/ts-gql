@@ -27,32 +27,27 @@ export type BaseTypedFragment = BaseTypedDocument & {
 
 export type BaseDocumentTypes = BaseOperations | BaseTypedFragment;
 
-export type TypedDocumentNode<
-  TypedDocument extends BaseDocumentTypes
-> = DocumentNode & {
-  ___type: TypedDocument;
-} & (TypedDocument extends BaseOperations
-    ? import("@graphql-typed-document-node/core").TypedDocumentNode<
-        TypedDocument["result"],
-        TypedDocument["variables"]
-      >
-    : unknown);
+export type TypedDocumentNode<TypedDocument extends BaseDocumentTypes> =
+  DocumentNode & {
+    ___type: TypedDocument;
+  } & (TypedDocument extends BaseOperations
+      ? import("@graphql-typed-document-node/core").TypedDocumentNode<
+          TypedDocument["result"],
+          TypedDocument["variables"]
+        >
+      : unknown);
 
-export type OperationData<
-  Node extends TypedDocumentNode<BaseOperations>
-> = Node["___type"]["result"];
+export type OperationData<Node extends TypedDocumentNode<BaseOperations>> =
+  Node["___type"]["result"];
 
-export type OperationVariables<
-  Node extends TypedDocumentNode<BaseOperations>
-> = Node["___type"]["variables"];
+export type OperationVariables<Node extends TypedDocumentNode<BaseOperations>> =
+  Node["___type"]["variables"];
 
-export type FragmentData<
-  Node extends TypedDocumentNode<BaseTypedFragment>
-> = Node["___type"]["result"];
+export type FragmentData<Node extends TypedDocumentNode<BaseTypedFragment>> =
+  Node["___type"]["result"];
 
-export type AllDocuments<
-  Node extends TypedDocumentNode<BaseDocumentTypes>
-> = Node["___type"]["documents"];
+export type AllDocuments<Node extends TypedDocumentNode<BaseDocumentTypes>> =
+  Node["___type"]["documents"];
 
 export declare function gql(strings: TemplateStringsArray): never;
 

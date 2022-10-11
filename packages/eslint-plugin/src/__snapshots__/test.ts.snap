@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`allow-no-transform.mixed.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag/no-transform\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag/no-transform";
 
 gql\`
   query Thing {
     something
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           89,
           89,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -31,7 +31,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag/no-transform\\";
+import { gql } from "@ts-gql/tag/no-transform";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -48,26 +48,26 @@ gql\`
 `;
 
 exports[`allow-transform.mixed.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
     something
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           76,
           76,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -78,7 +78,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -95,26 +95,26 @@ gql\`
 `;
 
 exports[`basic.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
     something
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           76,
           76,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -125,7 +125,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -142,14 +142,14 @@ gql\`
 `;
 
 exports[`disallow-interpolation-with-transform.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 5,
       "endColumn": 6,
       "endLine": 11,
       "line": 11,
-      "message": "Interpolations are not allowed in gql tags when using @ts-gql/tag. Set \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config and import @ts-gql/tag",
+      "message": "Interpolations are not allowed in gql tags when using @ts-gql/tag. Set "mode" to "no-transform" or "mixed" in your ts-gql config and import @ts-gql/tag",
       "messageId": "noInterpolation",
       "nodeType": "Identifier",
       "ruleId": "ts-gql",
@@ -157,7 +157,7 @@ Object {
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 const x: any = undefined;
 
@@ -168,7 +168,7 @@ gql\`
   \${
     // @ts-ignore
     x
-    ~    [Interpolations are not allowed in gql tags when using @ts-gql/tag. Set \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config and import @ts-gql/tag]
+    ~    [Interpolations are not allowed in gql tags when using @ts-gql/tag. Set "mode" to "no-transform" or "mixed" in your ts-gql config and import @ts-gql/tag]
   }
 \`;
 ",
@@ -176,29 +176,29 @@ gql\`
 `;
 
 exports[`disallow-no-transform.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
     something
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 21,
       "endColumn": 47,
       "endLine": 1,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           20,
           46,
         ],
-        "text": "\\"@ts-gql/tag\\"",
+        "text": ""@ts-gql/tag"",
       },
       "line": 1,
-      "message": "Importing \\"@ts-gql/tag/no-transform\\" is not allowed when the \\"mode\\" is set to \\"transform\\"(the default), either switch to using \\"@ts-gql/tag\\" or set the \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config.",
+      "message": "Importing "@ts-gql/tag/no-transform" is not allowed when the "mode" is set to "transform"(the default), either switch to using "@ts-gql/tag" or set the "mode" to "no-transform" or "mixed" in your ts-gql config.",
       "messageId": "mustImportMainEntrypoint",
       "nodeType": "Literal",
       "ruleId": "ts-gql",
@@ -206,8 +206,8 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag/no-transform\\";
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag/no-transform\\" is not allowed when the \\"mode\\" is set to \\"transform\\"(the default), either switch to using \\"@ts-gql/tag\\" or set the \\"mode\\" to \\"no-transform\\" or \\"mixed\\" in your ts-gql config.]
+import { gql } from "@ts-gql/tag/no-transform";
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~    [Importing "@ts-gql/tag/no-transform" is not allowed when the "mode" is set to "transform"(the default), either switch to using "@ts-gql/tag" or set the "mode" to "no-transform" or "mixed" in your ts-gql config.]
 
 gql\`
   query Thing {
@@ -219,29 +219,29 @@ gql\`
 `;
 
 exports[`disallow-transform.no-transform.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag/no-transform\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag/no-transform";
 
 gql\`
   query Thing {
     something
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 21,
       "endColumn": 34,
       "endLine": 1,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           20,
           33,
         ],
-        "text": "\\"@ts-gql/tag/no-transform\\"",
+        "text": ""@ts-gql/tag/no-transform"",
       },
       "line": 1,
-      "message": "Importing \\"@ts-gql/tag\\" is not allowed when the \\"mode\\" is set to \\"no-transform\\", either switch to using \\"@ts-gql/tag/no-transform\\" or set the \\"mode\\" to \\"transform\\" or \\"mixed\\" in your ts-gql config.",
+      "message": "Importing "@ts-gql/tag" is not allowed when the "mode" is set to "no-transform", either switch to using "@ts-gql/tag/no-transform" or set the "mode" to "transform" or "mixed" in your ts-gql config.",
       "messageId": "mustImportNoTransformEntrypoint",
       "nodeType": "Literal",
       "ruleId": "ts-gql",
@@ -249,8 +249,8 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
-                    ~~~~~~~~~~~~~    [Importing \\"@ts-gql/tag\\" is not allowed when the \\"mode\\" is set to \\"no-transform\\", either switch to using \\"@ts-gql/tag/no-transform\\" or set the \\"mode\\" to \\"transform\\" or \\"mixed\\" in your ts-gql config.]
+import { gql } from "@ts-gql/tag";
+                    ~~~~~~~~~~~~~    [Importing "@ts-gql/tag" is not allowed when the "mode" is set to "no-transform", either switch to using "@ts-gql/tag/no-transform" or set the "mode" to "transform" or "mixed" in your ts-gql config.]
 
 gql\`
   query Thing {
@@ -262,9 +262,9 @@ gql\`
 `;
 
 exports[`incorrect-fragment-interpolate-num.no-transform.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 12,
@@ -276,7 +276,7 @@ Object {
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag/no-transform\\";
+import { gql } from "@ts-gql/tag/no-transform";
 
 const x: any = undefined;
 
@@ -296,14 +296,14 @@ gql\`
 ~~~~~~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
 \` as import(// @ts-ignore
 ~    [When using @ts-gql/tag/no-runtime, all of the fragments that are used must be interpolated, 2 fragments are used but 1 fragment is interpolated]
-\\"../__generated__/ts-gql/Thing\\").type;
+"../__generated__/ts-gql/Thing").type;
 ",
 }
 `;
 
 exports[`interface.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
@@ -317,19 +317,19 @@ gql\`
       }
     }
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 15,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           194,
           194,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -340,7 +340,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -373,8 +373,8 @@ gql\`
 `;
 
 exports[`missing-id.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
@@ -383,19 +383,19 @@ gql\`
       other
     }
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 9,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           94,
           94,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -404,12 +404,12 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
+    {
       "column": 14,
       "endColumn": 6,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           70,
           70,
         ],
@@ -425,7 +425,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -449,26 +449,26 @@ gql\`
 `;
 
 exports[`missing-variable.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing($thing: String) {
     optional(thing: $thing)
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           90,
           90,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -477,26 +477,26 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
+    {
       "column": 22,
       "endColumn": 23,
       "endLine": 5,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           54,
           54,
         ],
         "text": "($thing: String)",
       },
       "line": 5,
-      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "message": "Variable "$thing" is not defined by operation "Thing".",
       "nodeType": null,
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -504,7 +504,7 @@ gql\`
 ~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
     optional(thing: $thing)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
-                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+                     ~    [Variable "$thing" is not defined by operation "Thing".]
   }
 ~~~    [You must cast gql tags with the generated type]
 \`;
@@ -514,27 +514,27 @@ gql\`
 `;
 
 exports[`missing-variable-with-another-variable.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing($other: String, $thing: String) {
     optional(thing: $thing)
     other: optional(thing: $other)
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 8,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           141,
           141,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -543,26 +543,26 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
+    {
       "column": 22,
       "endColumn": 23,
       "endLine": 5,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           69,
           69,
         ],
         "text": ", $thing: String",
       },
       "line": 5,
-      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "message": "Variable "$thing" is not defined by operation "Thing".",
       "nodeType": null,
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -570,7 +570,7 @@ gql\`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
     optional(thing: $thing)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
-                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+                     ~    [Variable "$thing" is not defined by operation "Thing".]
     other: optional(thing: $other)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
   }
@@ -582,8 +582,8 @@ gql\`
 `;
 
 exports[`missing-variable-with-another-variable-with-comma-after.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 // prettier-ignore
 gql\`
@@ -591,19 +591,19 @@ gql\`
     optional(thing: $thing)
     other: optional(thing: $other)
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 9,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           162,
           162,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 4,
       "message": "You must cast gql tags with the generated type",
@@ -612,26 +612,26 @@ gql\`
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
+    {
       "column": 22,
       "endColumn": 23,
       "endLine": 6,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           88,
           88,
         ],
         "text": ", $thing: String",
       },
       "line": 6,
-      "message": "Variable \\"$thing\\" is not defined by operation \\"Thing\\".",
+      "message": "Variable "$thing" is not defined by operation "Thing".",
       "nodeType": null,
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 // prettier-ignore
 gql\`
@@ -640,7 +640,7 @@ gql\`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
     optional(thing: $thing)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
-                     ~    [Variable \\"$thing\\" is not defined by operation \\"Thing\\".]
+                     ~    [Variable "$thing" is not defined by operation "Thing".]
     other: optional(thing: $other)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
   }
@@ -652,51 +652,51 @@ gql\`
 `;
 
 exports[`multiple-validation-errors.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 5,
       "line": 5,
-      "message": "Cannot query field \\"a\\" on type \\"Query\\".",
+      "message": "Cannot query field "a" on type "Query".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
     },
-    Object {
+    {
       "column": 5,
       "line": 6,
-      "message": "Cannot query field \\"b\\" on type \\"Query\\".",
+      "message": "Cannot query field "b" on type "Query".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
     a
-    ~    [Cannot query field \\"a\\" on type \\"Query\\".]
+    ~    [Cannot query field "a" on type "Query".]
     b
-~~~~~    [Cannot query field \\"a\\" on type \\"Query\\".]
-    ~    [Cannot query field \\"b\\" on type \\"Query\\".]
+~~~~~    [Cannot query field "a" on type "Query".]
+    ~    [Cannot query field "b" on type "Query".]
   }
-~~~    [Cannot query field \\"a\\" on type \\"Query\\".]
-~~~    [Cannot query field \\"b\\" on type \\"Query\\".]
+~~~    [Cannot query field "a" on type "Query".]
+~~~    [Cannot query field "b" on type "Query".]
 \`;
-~~    [Cannot query field \\"a\\" on type \\"Query\\".]
-~~    [Cannot query field \\"b\\" on type \\"Query\\".]
+~~    [Cannot query field "a" on type "Query".]
+~~    [Cannot query field "b" on type "Query".]
 
-~    [Cannot query field \\"a\\" on type \\"Query\\".]
-~    [Cannot query field \\"b\\" on type \\"Query\\".]",
+~    [Cannot query field "a" on type "Query".]
+~    [Cannot query field "b" on type "Query".]",
 }
 `;
 
 exports[`no-name.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
@@ -709,7 +709,7 @@ Object {
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [GraphQL operations must have a name]
@@ -726,37 +726,37 @@ gql\`
 `;
 
 exports[`parse-error.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 3,
       "line": 4,
-      "message": "Syntax Error: Unexpected Name \\"que\\".",
+      "message": "Syntax Error: Unexpected Name "que".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
   que Thing {
-  ~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\".]
+  ~~~~~~~~~~~    [Syntax Error: Unexpected Name "que".]
     something
-~~~~~~~~~~~~~    [Syntax Error: Unexpected Name \\"que\\".]
+~~~~~~~~~~~~~    [Syntax Error: Unexpected Name "que".]
   }
-~~~    [Syntax Error: Unexpected Name \\"que\\".]
+~~~    [Syntax Error: Unexpected Name "que".]
 \`;
-~~    [Syntax Error: Unexpected Name \\"que\\".]
+~~    [Syntax Error: Unexpected Name "que".]
 
-~    [Syntax Error: Unexpected Name \\"que\\".]",
+~    [Syntax Error: Unexpected Name "que".]",
 }
 `;
 
 exports[`union.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing {
@@ -769,19 +769,19 @@ gql\`
       }
     }
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 14,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           150,
           150,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -792,7 +792,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -823,55 +823,55 @@ gql\`
 `;
 
 exports[`unknown-variable-type.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 23,
       "line": 4,
-      "message": "Unknown type \\"DoesNotExist\\".",
+      "message": "Unknown type "DoesNotExist".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing($thing: DoesNotExist) {
-                      ~~~~~~~~~~~~~~~    [Unknown type \\"DoesNotExist\\".]
+                      ~~~~~~~~~~~~~~~    [Unknown type "DoesNotExist".]
     optional(thing: $thing)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Unknown type \\"DoesNotExist\\".]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Unknown type "DoesNotExist".]
   }
-~~~    [Unknown type \\"DoesNotExist\\".]
+~~~    [Unknown type "DoesNotExist".]
 \`;
-~~    [Unknown type \\"DoesNotExist\\".]
+~~    [Unknown type "DoesNotExist".]
 
-~    [Unknown type \\"DoesNotExist\\".]",
+~    [Unknown type "DoesNotExist".]",
 }
 `;
 
 exports[`unused-variable.ts 1`] = `
-Object {
-  "fixedOutput": "import { gql } from \\"@ts-gql/tag\\";
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing($thing: String) {
     optional
   }
-\`as import(\\"../__generated__/ts-gql/Thing\\").type;
+\`as import("../__generated__/ts-gql/Thing").type;
 ",
-  "lintMessages": Array [
-    Object {
+  "lintMessages": [
+    {
       "column": 1,
       "endColumn": 2,
       "endLine": 7,
-      "fix": Object {
-        "range": Array [
+      "fix": {
+        "range": [
           91,
           91,
         ],
-        "text": "as import(\\"../__generated__/ts-gql/Thing\\").type",
+        "text": "as import("../__generated__/ts-gql/Thing").type",
       },
       "line": 3,
       "message": "You must cast gql tags with the generated type",
@@ -882,7 +882,7 @@ gql\`
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
 ~~~~    [You must cast gql tags with the generated type]
@@ -899,30 +899,30 @@ gql\`
 `;
 
 exports[`wrong-variable-type.ts 1`] = `
-Object {
-  "lintMessages": Array [
-    Object {
+{
+  "lintMessages": [
+    {
       "column": 15,
       "line": 4,
-      "message": "Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".",
+      "message": "Variable "$thing" of type "ID" used in position expecting type "String".",
       "nodeType": "TaggedTemplateExpression",
       "ruleId": "ts-gql",
       "severity": 2,
     },
   ],
   "snapshot": "
-import { gql } from \\"@ts-gql/tag\\";
+import { gql } from "@ts-gql/tag";
 
 gql\`
   query Thing($thing: ID) {
-              ~~~~~~~~~~~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+              ~~~~~~~~~~~~~    [Variable "$thing" of type "ID" used in position expecting type "String".]
     optional(thing: $thing)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~    [Variable "$thing" of type "ID" used in position expecting type "String".]
   }
-~~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+~~~    [Variable "$thing" of type "ID" used in position expecting type "String".]
 \`;
-~~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]
+~~    [Variable "$thing" of type "ID" used in position expecting type "String".]
 
-~    [Variable \\"$thing\\" of type \\"ID\\" used in position expecting type \\"String\\".]",
+~    [Variable "$thing" of type "ID" used in position expecting type "String".]",
 }
 `;
