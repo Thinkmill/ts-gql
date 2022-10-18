@@ -1,5 +1,39 @@
 # @ts-gql/compiler
 
+## 0.16.0
+
+### Minor Changes
+
+- [#105](https://github.com/Thinkmill/ts-gql/pull/105) [`11d562a`](https://github.com/Thinkmill/ts-gql/commit/11d562aa0074f6b4a5896bb2f4f45cf16dd61fd0) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - TypeScript types for object, union and interface types are no longer generated in `__generated__/ts-gql/@schema.d.ts`. These types have an unclear meaning and were not intended to be used. If you relied on these types, you may want to use [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen) to generate those types for you.
+
+- [#105](https://github.com/Thinkmill/ts-gql/pull/105) [`11d562a`](https://github.com/Thinkmill/ts-gql/commit/11d562aa0074f6b4a5896bb2f4f45cf16dd61fd0) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - The correct types are now generated to account for [list input coercion](https://spec.graphql.org/October2021/#sec-List.Input-Coercion) in input object types(the correct types were already generated for variables) so for example, given an input object like:
+
+  ```graphql
+  input SomeInput {
+    ids: [ID!]!
+  }
+  ```
+
+  The generated TypeScript type will now be equivelent to this:
+
+  ```ts
+  export type SomeInput = {
+    ids: string | string[];
+  };
+  ```
+
+  instead of what it was previously:
+
+  ```ts
+  export type SomeInput = {
+    ids: string[];
+  };
+  ```
+
+### Patch Changes
+
+- [#102](https://github.com/Thinkmill/ts-gql/pull/102) [`ec3330f`](https://github.com/Thinkmill/ts-gql/commit/ec3330fd2b7e1e47162773a065bb76e3c11ed072) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed custom scalar types not being respected in output types
+
 ## 0.15.3
 
 ### Patch Changes
