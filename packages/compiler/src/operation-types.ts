@@ -98,7 +98,7 @@ async function generateOperationTypes(
         2
       )}\nts-gql-meta-end\n*/\n\nimport * as SchemaTypes from "./@schema";\nimport { TypedDocumentNode } from "@ts-gql/tag";\n\n${result}
 
-      
+
 export type type = TypedDocumentNode<{
   type: ${JSON.stringify(operationType)};
   result: ${operationNode.name.value + upperCaseOperationType};${
@@ -145,9 +145,7 @@ function generateErrorModuleFsOperation(
     filename,
     content:
       wrapFileInIntegrityComment(`/*\nts-gql-meta-begin\n${JSON.stringify(
-        {
-          hash,
-        },
+        { hash },
         null,
         2
       )}\nts-gql-meta-end\n*/

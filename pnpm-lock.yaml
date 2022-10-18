@@ -77,7 +77,6 @@ importers:
       '@babel/runtime': ^7.9.2
       '@babel/types': ^7.9.6
       '@graphql-codegen/plugin-helpers': ^2.4.2
-      '@graphql-codegen/typescript': ^2.4.8
       '@graphql-codegen/typescript-operations': ^2.3.5
       '@nodelib/fs.walk': ^1.2.4
       '@ts-gql/config': ^0.9.1
@@ -95,13 +94,13 @@ importers:
       lazy-require.macro: ^0.1.0
       slash: ^3.0.0
       strip-ansi: ^6.0.0
+      tempy: 1.0.1
     dependencies:
       '@babel/code-frame': 7.18.6
       '@babel/parser': 7.19.4
       '@babel/runtime': 7.19.4
       '@babel/types': 7.19.4
       '@graphql-codegen/plugin-helpers': 2.7.1_graphql@16.6.0
-      '@graphql-codegen/typescript': 2.7.3_graphql@16.6.0
       '@graphql-codegen/typescript-operations': 2.5.3_graphql@16.6.0
       '@nodelib/fs.walk': 1.2.8
       '@ts-gql/config': link:../config
@@ -120,6 +119,7 @@ importers:
       fixturez: 1.1.0
       graphql: 16.6.0
       lazy-require.macro: 0.1.0
+      tempy: 1.0.1
 
   packages/config:
     specifiers:
@@ -147,7 +147,7 @@ importers:
       find-pkg-json-field-up: ^1.0.1
       graphql: ^16.3.0
       slash: ^3.0.0
-      tempy: '1'
+      tempy: 1.0.1
     dependencies:
       '@babel/runtime': 7.19.4
       '@ts-gql/config': link:../config
