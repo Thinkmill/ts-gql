@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/test-app",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,10 +9,10 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@ts-gql/babel-plugin": "^0.1.0",
-    "@ts-gql/compiler": "^0.15.3",
+    "@ts-gql/compiler": "^0.16.0",
     "@ts-gql/eslint-plugin": "^0.8.1",
     "@ts-gql/fetch": "^0.1.2",
-    "@ts-gql/next": "^16.0.3",
+    "@ts-gql/next": "^17.0.0",
     "@ts-gql/tag": "^0.7.0",
     "@types/node": "^13.13.2",
     "@types/react": "^16.9.43",
