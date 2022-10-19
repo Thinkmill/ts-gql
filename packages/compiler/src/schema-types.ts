@@ -78,7 +78,7 @@ export async function cachedGenerateSchemaTypes(config: Config) {
     config.schemaHash +
       JSON.stringify(config.scalars) +
       config.readonlyTypes +
-      "v1"
+      "v2"
   );
   let types: string;
   let filename = path.join(
