@@ -22,7 +22,7 @@ const introspectionTypeNames = new Set(
   introspectionTypes.map((type) => type.name)
 );
 
-const builtinScalars = {
+const builtinScalars: Record<string, string> = {
   ID: "string",
   String: "string",
   Boolean: "boolean",
@@ -51,8 +51,14 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 ${deprecatedComment}
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
+${deprecatedComment}
 export type Scalars = {
 `;
+
+type InternalPrinterOptions = {
+  inlinables: Map<string, string>;
+  readonly: boolean;
+};
 
 export function printSchemaTypes(options: SchemaPrinterOptions) {
   const { schema } = options;
@@ -61,6 +67,17 @@ export function printSchemaTypes(options: SchemaPrinterOptions) {
     ...builtinScalars,
     ...options.scalars,
   };
+  const inlinables = new Map<string, string>();
+  for (const builtin of specifiedScalarTypes) {
+    if (options.scalars[builtin.name] === undefined) {
+      inlinables.set(builtin.name, builtinScalars[builtin.name]);
+    }
+  }
+  const internalOptions: InternalPrinterOptions = {
+    inlinables,
+    readonly: options.readonly,
+  };
+
   const typeMap = schema.getTypeMap();
   const allTypes: Set<GraphQLNamedType> = new Set(specifiedScalarTypes);
   const types = Object.values(typeMap);
@@ -74,10 +91,19 @@ export function printSchemaTypes(options: SchemaPrinterOptions) {
       output += "\n\n" + printEnumType(type);
     }
     if (type instanceof GraphQLInputObjectType) {
-      output += "\n\n" + printInputObjectType(type, options.readonly);
+      output += "\n\n" + printInputObjectType(type, internalOptions);
     }
     if (type instanceof GraphQLScalarType) {
-      scalarsOutput += `  ${type.name}: ${allScalars[type.name] ?? "any"};\n`;
+      const inlinedContent = inlinables.get(type.name);
+      if (inlinedContent !== undefined) {
+        scalarsOutput += `  ${type.name}: ${inlinedContent};\n`;
+        continue;
+      }
+      output +=
+        "\n\n" +
+        `export type ${type.name} = ${allScalars[type.name] ?? "any"};`;
+
+      scalarsOutput += `  ${type.name}: ${type.name};\n`;
       continue;
     }
   }
@@ -94,19 +120,19 @@ export function printSchemaTypes(options: SchemaPrinterOptions) {
 
 function printInputObjectType(
   type: GraphQLInputObjectType,
-  isReadonly: boolean
+  options: InternalPrinterOptions
 ) {
   return `export type ${type.name} = {\n${printInputFields(
     Object.values(type.getFields()),
-    isReadonly
+    options
   )}\n};`;
 }
 
 function printInputFields(
   fields: readonly GraphQLInputField[],
-  isReadonly: boolean
+  options: InternalPrinterOptions
 ) {
-  const readonlyPart = isReadonly ? "readonly " : "";
+  const readonlyPart = options.readonly ? "readonly " : "";
   return fields
     .map(
       (field) =>
@@ -115,7 +141,7 @@ function printInputFields(
           field.defaultValue === undefined
             ? ""
             : "?"
-        }: ${printTypeReference(field.type, isReadonly)};`
+        }: ${printTypeReference(field.type, options)};`
     )
     .join("\n");
 }
@@ -129,21 +155,25 @@ function printEnumType(type: GraphQLEnumType) {
 
 function printTypeReferenceWithoutNullability(
   type: GraphQLNullableType,
-  isReadonly: boolean
+  options: InternalPrinterOptions
 ): string {
   if (type instanceof GraphQLList) {
-    return `TSGQLMaybeArray<${printTypeReference(type.ofType, isReadonly)}>`;
+    return `TSGQLMaybeArray<${printTypeReference(type.ofType, options)}>`;
   }
-  if (type instanceof GraphQLScalarType) {
-    return `Scalars['${type.name}']`;
+  const inline = options.inlinables.get(type.name);
+  if (inline !== undefined) {
+    return inline;
   }
   return type.name;
 }
 
-function printTypeReference(type: GraphQLType, isReadonly: boolean): string {
+function printTypeReference(
+  type: GraphQLType,
+  options: InternalPrinterOptions
+): string {
   if (type instanceof GraphQLNonNull) {
-    return printTypeReferenceWithoutNullability(type.ofType, isReadonly);
+    return printTypeReferenceWithoutNullability(type.ofType, options);
   }
-  const inner = printTypeReferenceWithoutNullability(type, isReadonly);
+  const inner = printTypeReferenceWithoutNullability(type, options);
   return `${inner} | null`;
 }
