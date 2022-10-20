@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.1
+
+### Patch Changes
+
+- [#106](https://github.com/Thinkmill/ts-gql/pull/106) [`69b71e4`](https://github.com/Thinkmill/ts-gql/commit/69b71e4a929cd255c4e69c9557e2a84257173bf6) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Built-in scalars that haven't been overriden in the `scalars` config will now be inlined when generating the schema input types rather than referencing the generated `Scalars` type (which should not be imported outside of ts-gql's generated files).
+
 ## 0.16.0
 
 ### Minor Changes
