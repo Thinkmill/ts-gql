@@ -6,9 +6,8 @@
   "packageManager": "pnpm@7.13.4",
   "repository": "https://github.com/Thinkmill/ts-gql",
   "license": "MIT",
-  "packageManager": "pnpm@7.10.0",
   "engines": {
-    "pnpm": "7.10.0"
+    "pnpm": "^7.10.0"
   },
   "dependencies": {
     "@babel/core": "^7.19.3",
