@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
-  "packageManager": "pnpm@7.13.4",
   "repository": "https://github.com/Thinkmill/ts-gql",
   "license": "MIT",
-  "packageManager": "pnpm@7.10.0",
+  "packageManager": "pnpm@7.14.2",
   "engines": {
-    "pnpm": "7.10.0"
+    "pnpm": "7.14.2"
   },
   "dependencies": {
     "@babel/core": "^7.19.3",
