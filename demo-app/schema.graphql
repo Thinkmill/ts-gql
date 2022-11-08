@@ -1,0 +1,92 @@
+# Copy of the Countries GraphQL API schema: https://countries.trevorblades.com/
+#
+# You can point GraphQL codegen at the API endpoint to generate this file and
+# keep it up to date, but that is beyond the scope of this demo.
+
+directive @extends on INTERFACE | OBJECT
+
+directive @external on FIELD_DEFINITION | OBJECT
+
+directive @key(fields: String!) on INTERFACE | OBJECT
+
+directive @provides(fields: String!) on FIELD_DEFINITION
+
+directive @requires(fields: String!) on FIELD_DEFINITION
+
+type Continent {
+  code: ID!
+  countries: [Country!]!
+  name: String!
+}
+
+input ContinentFilterInput {
+  code: StringQueryOperatorInput
+}
+
+type Country {
+  capital: String
+  code: ID!
+  continent: Continent!
+  currency: String
+  emoji: String!
+  emojiU: String!
+  languages: [Language!]!
+  name: String!
+  native: String!
+  phone: String!
+  states: [State!]!
+}
+
+input CountryFilterInput {
+  code: StringQueryOperatorInput
+  continent: StringQueryOperatorInput
+  currency: StringQueryOperatorInput
+}
+
+type Language {
+  code: ID!
+  name: String
+  native: String
+  rtl: Boolean!
+}
+
+input LanguageFilterInput {
+  code: StringQueryOperatorInput
+}
+
+type Query {
+  _entities(representations: [_Any!]!): [_Entity]!
+  _service: _Service!
+  continent(code: ID!): Continent
+  continents(filter: ContinentFilterInput): [Continent!]!
+  countries(filter: CountryFilterInput): [Country!]!
+  country(code: ID!): Country
+  language(code: ID!): Language
+  languages(filter: LanguageFilterInput): [Language!]!
+}
+
+type State {
+  code: String
+  country: Country!
+  name: String!
+}
+
+input StringQueryOperatorInput {
+  eq: String
+  glob: String
+  in: [String]
+  ne: String
+  nin: [String]
+  regex: String
+}
+
+scalar _Any
+
+union _Entity = Continent | Country | Language
+
+type _Service {
+  """
+  The sdl representing the federated service capabilities. Includes federation directives, removes federation types, and includes rest of full schema after schema directives have been applied
+  """
+  sdl: String
+}
