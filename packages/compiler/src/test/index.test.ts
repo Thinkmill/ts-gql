@@ -342,11 +342,11 @@ test("returned nullable fields are not optional", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:6de535838f744a7359151432fde7329b
+          "content": "// ts-gql-integrity:bf5649cf5e4ae32a7de7c2223f7b230a
     /*
     ts-gql-meta-begin
     {
-      "hash": "12c66fd54195642a9d34f679397ad42b"
+      "hash": "3553f6603e62d5558248d7a518a45234"
     }
     ts-gql-meta-end
     */
@@ -404,11 +404,11 @@ test("custom scalar types scalars are used", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:3baa546c1d2642d5e3b35fe60129e3ed
+          "content": "// ts-gql-integrity:a64e5e59bbaca0afc0621efc7c2c4ad0
     /*
     ts-gql-meta-begin
     {
-      "hash": "abe64f35652fe59d9da3a289032796e3"
+      "hash": "9a9cf6a9b44e09156af0371e31945971"
     }
     ts-gql-meta-end
     */
@@ -456,11 +456,11 @@ test("schema", async () => {
   schema!.filename = "@schema.d.ts";
   expect(schema).toMatchInlineSnapshot(`
     {
-      "content": "// ts-gql-integrity:1e5d977ea90a009690c0e82ce161b9a2
+      "content": "// ts-gql-integrity:db870eae780993d8779ef43d535c97ba
     /*
     ts-gql-meta-begin
     {
-      "hash": "ef5c60e4b1bbd14924c21b1faad70082"
+      "hash": "8ddaec01cb87c52452efc60aa929dc4c"
     }
     ts-gql-meta-end
     */
@@ -484,6 +484,10 @@ test("schema", async () => {
       ID: string;
       JSON: JSON;
     };
+
+    export type SomeEnum =
+      | "a"
+      | "b";
 
     export type JSON = MyGloballyDefinedJSONType;
 

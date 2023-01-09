@@ -13,6 +13,12 @@ export let schema = gql`
     oneMore(thing: String, other: Something!): String!
     union: [Union]!
     json(json: JSON): JSON
+    enum(a: SomeEnum): SomeEnum
+  }
+
+  enum SomeEnum {
+    a
+    b
   }
 
   scalar JSON

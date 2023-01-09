@@ -147,7 +147,7 @@ function printInputFields(
 }
 
 function printEnumType(type: GraphQLEnumType) {
-  return `type ${type.name} = ${type
+  return `export type ${type.name} =\n${type
     .getValues()
     .map((value) => `  | "${value.name}"`)
     .join("\n")};`;
