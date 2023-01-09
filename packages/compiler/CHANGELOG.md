@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.2
+
+### Patch Changes
+
+- [`57d5d10`](https://github.com/Thinkmill/ts-gql/commit/57d5d1038674c5d9cc25581ba18082741886d5c8) Thanks [@emmatown](https://github.com/emmatown)! - Fix enums not being exported by @schema
+
 ## 0.16.1
 
 ### Patch Changes
