@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.3
+
+### Patch Changes
+
+- [`08e1a62`](https://github.com/Thinkmill/ts-gql/commit/08e1a62aee6d063320d31283cee05016d263c5a6) Thanks [@emmatown](https://github.com/emmatown)! - Fixes duplicate fragments in `document` export of generated files
+
 ## 0.16.2
 
 ### Patch Changes
