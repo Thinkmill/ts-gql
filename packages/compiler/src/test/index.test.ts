@@ -507,3 +507,189 @@ test("schema", async () => {
     }
   `);
 });
+
+test("same fragment used twice", async () => {
+  let dir = await setupEnv();
+
+  await fs.writeFile(
+    path.join(dir, "index.tsx"),
+    makeSourceFile([
+      graphql`
+        fragment Thing_a on Query {
+          hello
+        }
+      `,
+      graphql`
+        fragment Thing_b on Query {
+          ...Thing_a
+        }
+      `,
+      graphql`
+        fragment Thing_c on Query {
+          ...Thing_a
+          other
+        }
+      `,
+      graphql`
+        query Thing {
+          ...Thing_b
+          ...Thing_c
+        }
+      `,
+    ])
+  );
+  expect(await build(dir)).toMatchInlineSnapshot(`
+    {
+      "errors": [],
+      "fsOperations": [
+        {
+          "content": "// ts-gql-integrity:775908a224152839472ac0cfcbb28f5f
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "a36420f3a2192f2ec9abc6d520ed2532"
+    }
+    ts-gql-meta-end
+    */
+
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
+
+    type Thing_aFragment = { readonly __typename: 'Query', readonly hello: string };
+
+
+
+    export type type = TypedDocumentNode<{
+      type: "fragment";
+      result: Thing_aFragment;
+      name: "Thing_a";
+      documents: SchemaTypes.TSGQLDocuments;
+      fragments: SchemaTypes.TSGQLRequiredFragments<"none">
+    }>
+
+    declare module "./@schema" {
+      interface TSGQLDocuments {
+        Thing_a: type;
+      }
+    }
+
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"hello\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
+    ",
+          "filename": "__generated__/ts-gql/Thing_a.ts",
+          "type": "output",
+        },
+        {
+          "content": "// ts-gql-integrity:e87ee36bb63001944f1b17ec7b5653b5
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "6cb2b52169d5f95ce4f74334e11e8989"
+    }
+    ts-gql-meta-end
+    */
+
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
+
+    type Thing_bFragment = { readonly __typename: 'Query', readonly hello: string };
+
+
+
+    export type type = TypedDocumentNode<{
+      type: "fragment";
+      result: Thing_bFragment;
+      name: "Thing_b";
+      documents: SchemaTypes.TSGQLDocuments;
+      fragments: SchemaTypes.TSGQLRequiredFragments<{"Thing_a":true}>
+    }>
+
+    declare module "./@schema" {
+      interface TSGQLDocuments {
+        Thing_b: type;
+      }
+    }
+
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_b\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"directives\\":[]}]}},{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"hello\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
+    ",
+          "filename": "__generated__/ts-gql/Thing_b.ts",
+          "type": "output",
+        },
+        {
+          "content": "// ts-gql-integrity:2f1dbdd99ae4aec0a0a4b11bfa303cad
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "0111674c0a21250a1593083cc93f3970"
+    }
+    ts-gql-meta-end
+    */
+
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
+
+    type Thing_cFragment = { readonly __typename: 'Query', readonly other: boolean, readonly hello: string };
+
+
+
+    export type type = TypedDocumentNode<{
+      type: "fragment";
+      result: Thing_cFragment;
+      name: "Thing_c";
+      documents: SchemaTypes.TSGQLDocuments;
+      fragments: SchemaTypes.TSGQLRequiredFragments<{"Thing_a":true}>
+    }>
+
+    declare module "./@schema" {
+      interface TSGQLDocuments {
+        Thing_c: type;
+      }
+    }
+
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_c\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"directives\\":[]},{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"other\\"},\\"arguments\\":[],\\"directives\\":[]}]}},{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"hello\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
+    ",
+          "filename": "__generated__/ts-gql/Thing_c.ts",
+          "type": "output",
+        },
+        {
+          "content": "// ts-gql-integrity:05ea7ceb5803d7bcda985b30c1700aac
+    /*
+    ts-gql-meta-begin
+    {
+      "hash": "3aee00e06a422fc60bfbabcbd44066a2"
+    }
+    ts-gql-meta-end
+    */
+
+    import * as SchemaTypes from "./@schema";
+    import { TypedDocumentNode } from "@ts-gql/tag";
+
+    type ThingQueryVariables = SchemaTypes.Exact<{ [key: string]: never; }>;
+
+
+    type ThingQuery = { readonly __typename: 'Query', readonly hello: string, readonly other: boolean };
+
+
+
+    export type type = TypedDocumentNode<{
+      type: "query";
+      result: ThingQuery;
+      variables: {};
+      documents: SchemaTypes.TSGQLDocuments;
+      fragments: SchemaTypes.TSGQLRequiredFragments<{"Thing_b":true,"Thing_c":true}>
+    }>
+
+    declare module "./@schema" {
+      interface TSGQLDocuments {
+        Thing: type;
+      }
+    }
+
+    export const document = JSON.parse("{\\"kind\\":\\"Document\\",\\"definitions\\":[{\\"kind\\":\\"OperationDefinition\\",\\"operation\\":\\"query\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing\\"},\\"variableDefinitions\\":[],\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_b\\"},\\"directives\\":[]},{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_c\\"},\\"directives\\":[]}]}},{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_b\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"directives\\":[]}]}},{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"hello\\"},\\"arguments\\":[],\\"directives\\":[]}]}},{\\"kind\\":\\"FragmentDefinition\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_c\\"},\\"typeCondition\\":{\\"kind\\":\\"NamedType\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Query\\"}},\\"directives\\":[],\\"selectionSet\\":{\\"kind\\":\\"SelectionSet\\",\\"selections\\":[{\\"kind\\":\\"FragmentSpread\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"Thing_a\\"},\\"directives\\":[]},{\\"kind\\":\\"Field\\",\\"name\\":{\\"kind\\":\\"Name\\",\\"value\\":\\"other\\"},\\"arguments\\":[],\\"directives\\":[]}]}}]}")
+    ",
+          "filename": "__generated__/ts-gql/Thing.ts",
+          "type": "output",
+        },
+      ],
+    }
+  `);
+});
