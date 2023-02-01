@@ -898,6 +898,61 @@ gql\`
 }
 `;
 
+exports[`with-array-destructuring-that-ignores.ts 1`] = `
+{
+  "fixedOutput": "import { gql } from "@ts-gql/tag";
+
+gql\`
+  query Thing {
+    optional
+  }
+\`as import("../__generated__/ts-gql/Thing").type;
+
+const [, b] = ["a", "b"];
+
+console.log(b);
+",
+  "lintMessages": [
+    {
+      "column": 1,
+      "endColumn": 2,
+      "endLine": 7,
+      "fix": {
+        "range": [
+          75,
+          75,
+        ],
+        "text": "as import("../__generated__/ts-gql/Thing").type",
+      },
+      "line": 3,
+      "message": "You must cast gql tags with the generated type",
+      "messageId": "mustUseAs",
+      "nodeType": "TaggedTemplateExpression",
+      "ruleId": "ts-gql",
+      "severity": 2,
+    },
+  ],
+  "snapshot": "
+import { gql } from "@ts-gql/tag";
+
+gql\`
+~~~~    [You must cast gql tags with the generated type]
+  query Thing {
+~~~~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+    optional
+~~~~~~~~~~~~    [You must cast gql tags with the generated type]
+  }
+~~~    [You must cast gql tags with the generated type]
+\`;
+~    [You must cast gql tags with the generated type]
+
+const [, b] = ["a", "b"];
+
+console.log(b);
+",
+}
+`;
+
 exports[`wrong-variable-type.ts 1`] = `
 {
   "lintMessages": [

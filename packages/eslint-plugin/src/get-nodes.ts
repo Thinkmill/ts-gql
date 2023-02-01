@@ -26,7 +26,11 @@ export function* getNodes(
       if (!child) {
         continue;
       } else if (Array.isArray(child)) {
-        queue.push(...child);
+        for (const node of child) {
+          if (node) {
+            queue.push(node);
+          }
+        }
       } else {
         queue.push(child);
       }
