@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.8.5
+
+### Patch Changes
+
+- [`f5e7421`](https://github.com/Thinkmill/ts-gql/commit/f5e7421f3525fd34b64e6c1dfef751ee09e52625) Thanks [@emmatown](https://github.com/emmatown)! - Fix linting files with array destructuring that ignore elements like `[,something]`
+
 ## 0.8.4
 
 ### Patch Changes
