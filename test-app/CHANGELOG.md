@@ -259,7 +259,7 @@
 
 ### Minor Changes
 
-- [`b444283`](https://github.com/Thinkmill/ts-gql/commit/b44428353e6e94f7df60b8ffc409b44b6fbca1ca) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Initial release
+- [`b444283`](https://github.com/Thinkmill/ts-gql/commit/b44428353e6e94f7df60b8ffc409b44b6fbca1ca) Thanks [@emmatown](https://github.com/emmatown)! - Initial release
 
 ### Patch Changes
 

@@ -18,7 +18,7 @@
 
 ### Patch Changes
 
-- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Republish after broken release
+- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@emmatown](https://github.com/emmatown)! - Republish after broken release
 
 - Updated dependencies [[`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754)]:
   - @ts-gql/compiler@0.15.2
@@ -27,7 +27,7 @@
 
 ### Patch Changes
 
-- [`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@16`
+- [`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd) Thanks [@emmatown](https://github.com/emmatown)! - Support `graphql@16`
 
 - Updated dependencies [[`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd)]:
   - @ts-gql/compiler@0.15.1
@@ -36,7 +36,7 @@
 
 ### Major Changes
 
-- [#90](https://github.com/Thinkmill/ts-gql/pull/90) [`dc22e45`](https://github.com/Thinkmill/ts-gql/commit/dc22e457d14c816274037010a627d10bcb30f11d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added support for `"mode": "no-transform"` and `"mode": "mixed"`. See https://github.com/Thinkmill/ts-gql/blob/main/docs/no-transform.md for more details
+- [#90](https://github.com/Thinkmill/ts-gql/pull/90) [`dc22e45`](https://github.com/Thinkmill/ts-gql/commit/dc22e457d14c816274037010a627d10bcb30f11d) Thanks [@emmatown](https://github.com/emmatown)! - Added support for `"mode": "no-transform"` and `"mode": "mixed"`. See https://github.com/Thinkmill/ts-gql/blob/main/docs/no-transform.md for more details
 
 ### Patch Changes
 
@@ -54,7 +54,7 @@
 
 ### Patch Changes
 
-- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@^15.0.0`
+- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@emmatown](https://github.com/emmatown)! - Support `graphql@^15.0.0`
 
 - Updated dependencies [[`3b426f3`](https://github.com/Thinkmill/ts-gql/commit/3b426f3ca4124ffc63f25cb79dab639d5b7db7a1), [`b7e2775`](https://github.com/Thinkmill/ts-gql/commit/b7e2775618dc8ffbf320a02c01706a97933c7458), [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8)]:
   - @ts-gql/compiler@0.14.0
@@ -63,7 +63,7 @@
 
 ### Major Changes
 
-- [`ab25d45`](https://github.com/Thinkmill/ts-gql/commit/ab25d45bd80dfe58f878a500c92e0bdb3eef5c86) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove automatic insertion of `@ts-gql/babel-plugin`, you should include it yourself. Automatically including the babel plugin caused confusion when the code would run with Next but would not run when using another tool like Jest or etc.
+- [`ab25d45`](https://github.com/Thinkmill/ts-gql/commit/ab25d45bd80dfe58f878a500c92e0bdb3eef5c86) Thanks [@emmatown](https://github.com/emmatown)! - Remove automatic insertion of `@ts-gql/babel-plugin`, you should include it yourself. Automatically including the babel plugin caused confusion when the code would run with Next but would not run when using another tool like Jest or etc.
 
 ### Patch Changes
 
@@ -146,7 +146,7 @@
 
 ### Major Changes
 
-- [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Exit the process when ts-gql fails with a fatal error(this means something has gone very wrong, not that a user has a syntax error, a GraphQL error or etc.)
+- [`987ae27`](https://github.com/Thinkmill/ts-gql/commit/987ae27ec21cfcd8d35d829385c1220431fc295b) Thanks [@emmatown](https://github.com/emmatown)! - Exit the process when ts-gql fails with a fatal error(this means something has gone very wrong, not that a user has a syntax error, a GraphQL error or etc.)
 
 ### Patch Changes
 
@@ -171,7 +171,7 @@
 
 ### Minor Changes
 
-- [`e4c60ad`](https://github.com/Thinkmill/ts-gql/commit/e4c60adcc45abba018c4b9d4d0379e7d529a9af1) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Initial release
+- [`e4c60ad`](https://github.com/Thinkmill/ts-gql/commit/e4c60adcc45abba018c4b9d4d0379e7d529a9af1) Thanks [@emmatown](https://github.com/emmatown)! - Initial release
 
 ### Patch Changes
 

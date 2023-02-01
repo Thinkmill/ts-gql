@@ -11,13 +11,13 @@
 
 ### Patch Changes
 
-- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Republish after broken release
+- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@emmatown](https://github.com/emmatown)! - Republish after broken release
 
 ## 0.1.0
 
 ### Minor Changes
 
-- [`c9356b8`](https://github.com/Thinkmill/ts-gql/commit/c9356b86d05c368409dced5f111d2bbcdf00f586) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Initial release
+- [`c9356b8`](https://github.com/Thinkmill/ts-gql/commit/c9356b86d05c368409dced5f111d2bbcdf00f586) Thanks [@emmatown](https://github.com/emmatown)! - Initial release
 
 ### Patch Changes
 

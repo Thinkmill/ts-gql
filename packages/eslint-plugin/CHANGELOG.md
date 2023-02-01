@@ -10,25 +10,25 @@
 
 ### Patch Changes
 
-- [#100](https://github.com/Thinkmill/ts-gql/pull/100) [`63d269d`](https://github.com/Thinkmill/ts-gql/commit/63d269d441420dca5c4c934ec1c60b35831286a2) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed incorrect fix/error for casts on `gql` calls in source files in the same directory as the config.
+- [#100](https://github.com/Thinkmill/ts-gql/pull/100) [`63d269d`](https://github.com/Thinkmill/ts-gql/commit/63d269d441420dca5c4c934ec1c60b35831286a2) Thanks [@emmatown](https://github.com/emmatown)! - Fixed incorrect fix/error for casts on `gql` calls in source files in the same directory as the config.
 
 ## 0.8.3
 
 ### Patch Changes
 
-- [#96](https://github.com/Thinkmill/ts-gql/pull/96) [`1cecb2c`](https://github.com/Thinkmill/ts-gql/commit/1cecb2cd0c4c38f6da6d8f4914da5f81bef741f5) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed an internal error occurring when writing a selection set on a union type wrapped in a non-null or list type.
+- [#96](https://github.com/Thinkmill/ts-gql/pull/96) [`1cecb2c`](https://github.com/Thinkmill/ts-gql/commit/1cecb2cd0c4c38f6da6d8f4914da5f81bef741f5) Thanks [@emmatown](https://github.com/emmatown)! - Fixed an internal error occurring when writing a selection set on a union type wrapped in a non-null or list type.
 
 ## 0.8.2
 
 ### Patch Changes
 
-- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Republish after broken release
+- [`5b800e7`](https://github.com/Thinkmill/ts-gql/commit/5b800e763cb428c972ff0bfb85592405bb513754) Thanks [@emmatown](https://github.com/emmatown)! - Republish after broken release
 
 ## 0.8.1
 
 ### Patch Changes
 
-- [`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@16`
+- [`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd) Thanks [@emmatown](https://github.com/emmatown)! - Support `graphql@16`
 
 - Updated dependencies [[`0e3e2f5`](https://github.com/Thinkmill/ts-gql/commit/0e3e2f5004c7e42bbc394664c5e667ce3597e6fd)]:
   - @ts-gql/config@0.9.1
@@ -37,7 +37,7 @@
 
 ### Minor Changes
 
-- [#90](https://github.com/Thinkmill/ts-gql/pull/90) [`dc22e45`](https://github.com/Thinkmill/ts-gql/commit/dc22e457d14c816274037010a627d10bcb30f11d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Added support for `"mode": "no-transform"` and `"mode": "mixed"`. See https://github.com/Thinkmill/ts-gql/blob/main/docs/no-transform.md for more details
+- [#90](https://github.com/Thinkmill/ts-gql/pull/90) [`dc22e45`](https://github.com/Thinkmill/ts-gql/commit/dc22e457d14c816274037010a627d10bcb30f11d) Thanks [@emmatown](https://github.com/emmatown)! - Added support for `"mode": "no-transform"` and `"mode": "mixed"`. See https://github.com/Thinkmill/ts-gql/blob/main/docs/no-transform.md for more details
 
 ### Patch Changes
 
@@ -48,7 +48,7 @@
 
 ### Patch Changes
 
-- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Support `graphql@^15.0.0`
+- [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8) Thanks [@emmatown](https://github.com/emmatown)! - Support `graphql@^15.0.0`
 
 - Updated dependencies [[`603c9ed`](https://github.com/Thinkmill/ts-gql/commit/603c9ed186377c8de4517a8371aec08b45a3a425), [`3149ffe`](https://github.com/Thinkmill/ts-gql/commit/3149ffe2ffb428273e80451d8a67873073e052c8)]:
   - @ts-gql/config@0.8.0
@@ -64,7 +64,7 @@
 
 ### Minor Changes
 
-- [`d4a220a`](https://github.com/Thinkmill/ts-gql/commit/d4a220ad74a7e57bafcd2c3ec3b22cafabbfe744) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add autofix for undefined variables
+- [`d4a220a`](https://github.com/Thinkmill/ts-gql/commit/d4a220ad74a7e57bafcd2c3ec3b22cafabbfe744) Thanks [@emmatown](https://github.com/emmatown)! - Add autofix for undefined variables
 
 ### Patch Changes
 
@@ -75,19 +75,19 @@
 
 ### Patch Changes
 
-- [`94d642d`](https://github.com/Thinkmill/ts-gql/commit/94d642d514dac32c183881cfe75e6cc61851707d) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Improve heuristic to determine when it is necessary to fetch an id
+- [`94d642d`](https://github.com/Thinkmill/ts-gql/commit/94d642d514dac32c183881cfe75e6cc61851707d) Thanks [@emmatown](https://github.com/emmatown)! - Improve heuristic to determine when it is necessary to fetch an id
 
 ## 0.6.0
 
 ### Minor Changes
 
-- [`63bbe54`](https://github.com/Thinkmill/ts-gql/commit/63bbe543b2ba34e14565ca3627187e37a9bbd619) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Throw a fixable error when ids aren't fetched for types that have them
+- [`63bbe54`](https://github.com/Thinkmill/ts-gql/commit/63bbe543b2ba34e14565ca3627187e37a9bbd619) Thanks [@emmatown](https://github.com/emmatown)! - Throw a fixable error when ids aren't fetched for types that have them
 
 ## 0.5.0
 
 ### Minor Changes
 
-- [`4f18b26`](https://github.com/Thinkmill/ts-gql/commit/4f18b264c0b3f6cb754b327b70ef47894f387492) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Determine whether a given gql tag is a ts-gql gql tag by the import rather than the TypeScript type to improve the ESLint plugin's performance and remove the dependency on the TypeScript compiler
+- [`4f18b26`](https://github.com/Thinkmill/ts-gql/commit/4f18b264c0b3f6cb754b327b70ef47894f387492) Thanks [@emmatown](https://github.com/emmatown)! - Determine whether a given gql tag is a ts-gql gql tag by the import rather than the TypeScript type to improve the ESLint plugin's performance and remove the dependency on the TypeScript compiler
 
 ## 0.4.5
 
@@ -121,7 +121,7 @@
 
 ### Patch Changes
 
-- [`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Use `@ts-gql/config` package
+- [`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52) Thanks [@emmatown](https://github.com/emmatown)! - Use `@ts-gql/config` package
 
 - Updated dependencies [[`e42383b`](https://github.com/Thinkmill/ts-gql/commit/e42383b5970a554462384f9851aabc173f7fcf52)]:
   - @ts-gql/config@0.1.0
@@ -130,7 +130,7 @@
 
 ### Minor Changes
 
-- [`e4c60ad`](https://github.com/Thinkmill/ts-gql/commit/e4c60adcc45abba018c4b9d4d0379e7d529a9af1) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Use new technique to generate types.
+- [`e4c60ad`](https://github.com/Thinkmill/ts-gql/commit/e4c60adcc45abba018c4b9d4d0379e7d529a9af1) Thanks [@emmatown](https://github.com/emmatown)! - Use new technique to generate types.
 
   This requires you to use `@ts-gql/compiler` and `@ts-gql/babel-plugin` in addition to `@ts-gql/eslint-plugin`.
 
@@ -148,22 +148,22 @@
 
 ### Patch Changes
 
-- [`756f672`](https://github.com/Thinkmill/ts-gql/commit/756f67221ce5bf44a7a949779df8413712eed7ab) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Improve fragment type not found error
+- [`756f672`](https://github.com/Thinkmill/ts-gql/commit/756f67221ce5bf44a7a949779df8413712eed7ab) Thanks [@emmatown](https://github.com/emmatown)! - Improve fragment type not found error
 
 ## 0.3.0
 
 ### Minor Changes
 
-- [`8175079`](https://github.com/Thinkmill/ts-gql/commit/817507911de80cb628e01f42d1c547915f811415) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Represent enums as types rather than TS enums and add scalars option
+- [`8175079`](https://github.com/Thinkmill/ts-gql/commit/817507911de80cb628e01f42d1c547915f811415) Thanks [@emmatown](https://github.com/emmatown)! - Represent enums as types rather than TS enums and add scalars option
 
 ## 0.2.0
 
 ### Minor Changes
 
-- [`8485b1a`](https://github.com/Thinkmill/ts-gql/commit/8485b1a28228feea836d076cc7dd1a0691414248) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Remove -with-required-variables types
+- [`8485b1a`](https://github.com/Thinkmill/ts-gql/commit/8485b1a28228feea836d076cc7dd1a0691414248) Thanks [@emmatown](https://github.com/emmatown)! - Remove -with-required-variables types
 
 ## 0.1.0
 
 ### Minor Changes
 
-- [`b444283`](https://github.com/Thinkmill/ts-gql/commit/b44428353e6e94f7df60b8ffc409b44b6fbca1ca) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Initial release
+- [`b444283`](https://github.com/Thinkmill/ts-gql/commit/b44428353e6e94f7df60b8ffc409b44b6fbca1ca) Thanks [@emmatown](https://github.com/emmatown)! - Initial release
