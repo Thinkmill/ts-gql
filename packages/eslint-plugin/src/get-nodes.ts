@@ -1,6 +1,6 @@
 // loosely based off https://github.com/discord/eslint-traverse/blob/master/index.js
 
-import { TSESLint, TSESTree } from "@typescript-eslint/experimental-utils";
+import { TSESLint, TSESTree } from "@typescript-eslint/utils";
 
 export function* getNodes(
   context: TSESLint.RuleContext<any, any>,
