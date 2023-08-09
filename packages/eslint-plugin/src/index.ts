@@ -12,7 +12,7 @@ import { getConfigSync, Config } from "@ts-gql/config";
 
 const createRule = ESLintUtils.RuleCreator(
   (name) =>
-    `https://github.com/Thinkmill/ts-gql/blob/master/packages/eslint-plugin/docs/rules/${name}.md`
+    `https://github.com/Thinkmill/ts-gql/blob/main/packages/eslint-plugin/docs/rules/${name}.md`
 );
 
 const messages = {
