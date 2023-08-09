@@ -1,8 +1,4 @@
-import {
-  ESLintUtils,
-  TSESTree,
-  TSESLint,
-} from "@typescript-eslint/experimental-utils";
+import { ESLintUtils, TSESTree, TSESLint } from "@typescript-eslint/utils";
 import path from "path";
 import {
   OperationDefinitionNode,
@@ -57,6 +53,17 @@ function checkFragment(
   addNameToGqlTag(node, definition, context, generatedDirectory);
 }
 
+function argOrParameter(
+  importType: TSESTree.TSImportType
+): TSESTree.TSImportType["argument"] {
+  return (
+    importType.argument ??
+    // this is for backwards-compatibility with typescript-eslint@5
+    // https://github.com/typescript-eslint/typescript-eslint/pull/3076
+    (importType as any).parameter
+  );
+}
+
 function addNameToGqlTag(
   node: TSESTree.TaggedTemplateExpression,
   gqlNode: OperationDefinitionNode | FragmentDefinitionNode,
@@ -96,12 +103,16 @@ function addNameToGqlTag(
     });
     return false;
   }
+  let arg;
   if (
     node.parent.typeAnnotation.type !== "TSImportType" ||
-    node.parent.typeAnnotation.isTypeOf ||
-    node.parent.typeAnnotation.parameter.type !== "TSLiteralType" ||
-    node.parent.typeAnnotation.parameter.literal.type !== "Literal" ||
-    node.parent.typeAnnotation.parameter.literal.value !== pathname ||
+    // this is for backwards-compatibility with typescript-eslint@5
+    // https://github.com/typescript-eslint/typescript-eslint/pull/3076
+    (node.parent.typeAnnotation as any).isTypeOf ||
+    (arg = argOrParameter(node.parent.typeAnnotation)).type !==
+      "TSLiteralType" ||
+    arg.literal.type !== "Literal" ||
+    arg.literal.value !== pathname ||
     !node.parent.typeAnnotation.qualifier ||
     node.parent.typeAnnotation.qualifier.type !== "Identifier" ||
     node.parent.typeAnnotation.qualifier.name !== "type"
@@ -155,9 +166,8 @@ export const rules = {
     meta: {
       fixable: "code",
       docs: {
-        requiresTypeChecking: true,
-        category: "Best Practices",
-        recommended: "error",
+        requiresTypeChecking: false,
+        recommended: "recommended",
         description: "",
       },
       messages,
