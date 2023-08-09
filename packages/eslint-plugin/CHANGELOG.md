@@ -1,5 +1,11 @@
 # @ts-gql/eslint-plugin
 
+## 0.9.0
+
+### Minor Changes
+
+- [#117](https://github.com/Thinkmill/ts-gql/pull/117) [`9cc5227`](https://github.com/Thinkmill/ts-gql/commit/9cc52277322af7e9cc3007abc9125e4af210e9ca) Thanks [@emmatown](https://github.com/emmatown)! - Support `typescript-eslint@6`
+
 ## 0.8.5
 
 ### Patch Changes
