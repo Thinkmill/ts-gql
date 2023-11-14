@@ -456,11 +456,11 @@ test("schema", async () => {
   schema!.filename = "@schema.d.ts";
   expect(schema).toMatchInlineSnapshot(`
     {
-      "content": "// ts-gql-integrity:db870eae780993d8779ef43d535c97ba
+      "content": "// ts-gql-integrity:328ec744a16c993c5077df3eabb775a8
     /*
     ts-gql-meta-begin
     {
-      "hash": "8ddaec01cb87c52452efc60aa929dc4c"
+      "hash": "84e341588ded04dc71606d1d4c3faa2e"
     }
     ts-gql-meta-end
     */
@@ -485,15 +485,102 @@ test("schema", async () => {
       JSON: JSON;
     };
 
+    export type Query = {
+      readonly __typename: "Query";
+      readonly hello: string;
+      readonly other: boolean;
+      readonly another: string;
+      readonly something: string | null;
+      readonly someObj: OutputThing;
+      readonly arr: ReadonlyArray<OutputThing>;
+      readonly node: Node;
+      readonly optional: string;
+      readonly oneMore: string;
+      readonly union: ReadonlyArray<Union | null>;
+      readonly json: JSON | null;
+      readonly enum: SomeEnum | null;
+    };
+
+    export type QueryoptionalArgs = {
+      readonly thing?: string | null;
+    };
+
+    export type QueryoneMoreArgs = {
+      readonly thing?: string | null;
+      readonly other: Something;
+    };
+
+    export type QueryjsonArgs = {
+      readonly json?: JSON | null;
+    };
+
+    export type QueryenumArgs = {
+      readonly a?: SomeEnum | null;
+    };
+
     export type SomeEnum =
       | "a"
       | "b";
 
     export type JSON = MyGloballyDefinedJSONType;
 
+    export type Mutation = {
+      readonly __typename: "Mutation";
+      readonly hello: string;
+      readonly other: boolean;
+      readonly another: string;
+      readonly something: string | null;
+      readonly optional: string;
+      readonly oneMore: string;
+    };
+
+    export type MutationoptionalArgs = {
+      readonly thing?: string | null;
+    };
+
+    export type MutationoneMoreArgs = {
+      readonly thing?: string | null;
+      readonly other: Something;
+    };
+
+    export type Node = {
+      readonly id: string;
+    };
+
+    export type SomethingNode = {
+      readonly __typename: "SomethingNode";
+      readonly id: string;
+      readonly something: string;
+    };
+
+    export type AnotherNode = {
+      readonly __typename: "AnotherNode";
+      readonly id: string;
+      readonly another: string;
+    };
+
+    export type OutputThing = {
+      readonly __typename: "OutputThing";
+      readonly id: string;
+      readonly other: string;
+      readonly arr: ReadonlyArray<OutputThing>;
+    };
+
     export type Something = {
       readonly yes?: boolean | null;
       readonly no: string;
+    };
+
+    export type Union = A | B;
+
+    export type A = {
+      readonly __typename: "A";
+      readonly a: string | null;
+    };
+
+    export type B = {
+      readonly __typename: "B";
+      readonly b: string | null;
     };
 
     type TSGQLMaybeArray<T> = ReadonlyArray<T> | T

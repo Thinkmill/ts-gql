@@ -121,6 +121,15 @@ test("basic", () => {
       SomeCustomScalar: SomeCustomScalar;
     };
 
+    export type Query = {
+      __typename: "Query";
+      thing: string | null;
+    };
+
+    export type QuerythingArgs = {
+      thing: SomeInput;
+    };
+
     export type UnknownCustomScalar = any;
 
     export type SomeCustomScalar = string;
@@ -183,6 +192,15 @@ test("readonly", () => {
       ID: string;
       UnknownCustomScalar: UnknownCustomScalar;
       SomeCustomScalar: SomeCustomScalar;
+    };
+
+    export type Query = {
+      readonly __typename: "Query";
+      readonly thing: string | null;
+    };
+
+    export type QuerythingArgs = {
+      readonly thing: SomeInput;
     };
 
     export type UnknownCustomScalar = any;
@@ -251,6 +269,15 @@ test("overriding built in scalar", () => {
     };
 
     export type ID = string | number;
+
+    export type Query = {
+      readonly __typename: "Query";
+      readonly thing: string | null;
+    };
+
+    export type QuerythingArgs = {
+      readonly thing: SomeInput;
+    };
 
     export type UnknownCustomScalar = any;
 
