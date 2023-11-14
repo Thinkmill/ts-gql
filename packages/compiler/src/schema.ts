@@ -1,13 +1,17 @@
 import {
   GraphQLEnumType,
+  GraphQLField,
   GraphQLInputField,
   GraphQLInputObjectType,
+  GraphQLInterfaceType,
   GraphQLList,
   GraphQLNamedType,
   GraphQLNonNull,
   GraphQLNullableType,
+  GraphQLObjectType,
   GraphQLScalarType,
   GraphQLType,
+  GraphQLUnionType,
 } from "graphql/type/definition";
 import { specifiedScalarTypes } from "graphql/type/scalars";
 import { introspectionTypes } from "graphql/type/introspection";
@@ -93,6 +97,35 @@ export function printSchemaTypes(options: SchemaPrinterOptions) {
     if (type instanceof GraphQLInputObjectType) {
       output += "\n\n" + printInputObjectType(type, internalOptions);
     }
+    if (type instanceof GraphQLObjectType) {
+      output += "\n\n" + printObjectType(type, internalOptions);
+    }
+    if (type instanceof GraphQLInterfaceType) {
+      output += "\n\n" + printInterfaceType(type, internalOptions);
+    }
+    if (
+      type instanceof GraphQLObjectType ||
+      type instanceof GraphQLInterfaceType
+    ) {
+      for (const field of Object.values(type.getFields())) {
+        if (field.args.length === 0) continue;
+        output +=
+          "\n\n" +
+          `export type ${type.name}${field.name}Args = {\n${printInputFields(
+            field.args,
+            internalOptions
+          )}\n};`;
+      }
+    }
+    if (type instanceof GraphQLUnionType) {
+      output +=
+        "\n\n" +
+        `export type ${type.name} = ${type
+          .getTypes()
+          .map((type) => type.name)
+          .join(" | ")};`;
+    }
+
     if (type instanceof GraphQLScalarType) {
       const inlinedContent = inlinables.get(type.name);
       if (inlinedContent !== undefined) {
@@ -128,6 +161,45 @@ function printInputObjectType(
   )}\n};`;
 }
 
+function printObjectType(
+  type: GraphQLObjectType,
+  options: InternalPrinterOptions
+) {
+  return `export type ${type.name} = {\n  ${
+    options.readonly ? "readonly " : ""
+  }__typename: ${JSON.stringify(type.name)};\n${printOutputFields(
+    Object.values(type.getFields()),
+    options
+  )}\n};`;
+}
+
+function printInterfaceType(
+  type: GraphQLInterfaceType,
+  options: InternalPrinterOptions
+) {
+  return `export type ${type.name} = {\n${printOutputFields(
+    Object.values(type.getFields()),
+    options
+  )}\n};`;
+}
+
+function printOutputFields(
+  fields: GraphQLField<any, any>[],
+  options: InternalPrinterOptions
+) {
+  const readonlyPart = options.readonly ? "readonly " : "";
+  return fields
+    .map(
+      (field) =>
+        `  ${readonlyPart}${field.name}: ${printTypeReference(
+          field.type,
+          options,
+          "output"
+        )};`
+    )
+    .join("\n");
+}
+
 function printInputFields(
   fields: readonly GraphQLInputField[],
   options: InternalPrinterOptions
@@ -141,7 +213,7 @@ function printInputFields(
           field.defaultValue === undefined
             ? ""
             : "?"
-        }: ${printTypeReference(field.type, options)};`
+        }: ${printTypeReference(field.type, options, "input")};`
     )
     .join("\n");
 }
@@ -155,10 +227,17 @@ function printEnumType(type: GraphQLEnumType) {
 
 function printTypeReferenceWithoutNullability(
   type: GraphQLNullableType,
-  options: InternalPrinterOptions
+  options: InternalPrinterOptions,
+  mode: "input" | "output"
 ): string {
   if (type instanceof GraphQLList) {
-    return `TSGQLMaybeArray<${printTypeReference(type.ofType, options)}>`;
+    return `${
+      mode === "input"
+        ? "TSGQLMaybeArray"
+        : options.readonly
+        ? "ReadonlyArray"
+        : "Array"
+    }<${printTypeReference(type.ofType, options, mode)}>`;
   }
   const inline = options.inlinables.get(type.name);
   if (inline !== undefined) {
@@ -169,11 +248,12 @@ function printTypeReferenceWithoutNullability(
 
 function printTypeReference(
   type: GraphQLType,
-  options: InternalPrinterOptions
+  options: InternalPrinterOptions,
+  mode: "input" | "output"
 ): string {
   if (type instanceof GraphQLNonNull) {
-    return printTypeReferenceWithoutNullability(type.ofType, options);
+    return printTypeReferenceWithoutNullability(type.ofType, options, mode);
   }
-  const inner = printTypeReferenceWithoutNullability(type, options);
+  const inner = printTypeReferenceWithoutNullability(type, options, mode);
   return `${inner} | null`;
 }
