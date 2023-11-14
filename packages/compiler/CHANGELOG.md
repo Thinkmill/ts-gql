@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.4
+
+### Patch Changes
+
+- [#121](https://github.com/Thinkmill/ts-gql/pull/121) [`f71eef0`](https://github.com/Thinkmill/ts-gql/commit/f71eef0a402eb43c5fbaa324ef93fd2dcd2ab2ab) Thanks [@emmatown](https://github.com/emmatown)! - Add generated output types back to `@schema.d.ts`
+
 ## 0.16.3
 
 ### Patch Changes
