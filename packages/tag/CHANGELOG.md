@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.7.1
+
+### Patch Changes
+
+- [`74154ca`](https://github.com/Thinkmill/ts-gql/commit/74154ca7dab4ea3bd03ff5da5105ca770a63afad) Thanks [@emmatown](https://github.com/emmatown)! - Add `exports` field to `package.json`
+
 ## 0.7.0
 
 ### Minor Changes

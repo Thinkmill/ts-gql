@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/fetch",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/fetch.cjs.js",
   "module": "dist/fetch.esm.js",
   "exports": {
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ts-gql/tag": "^0.7.0"
+    "@ts-gql/tag": "^0.7.1"
   },
   "peerDependencies": {
     "graphql": "15 || 16"
