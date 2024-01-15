@@ -3,6 +3,13 @@
   "version": "0.12.0",
   "main": "dist/apollo.cjs.js",
   "module": "dist/apollo.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/apollo.esm.js",
+      "default": "./dist/apollo.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "dependencies": {
     "@ts-gql/tag": "^0.7.0"

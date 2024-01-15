@@ -3,6 +3,13 @@
   "version": "0.9.1",
   "main": "dist/config.cjs.js",
   "module": "dist/config.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/config.esm.js",
+      "default": "./dist/config.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2",

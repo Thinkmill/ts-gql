@@ -3,6 +3,13 @@
   "version": "17.0.0",
   "main": "dist/next.cjs.js",
   "module": "dist/next.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/next.esm.js",
+      "default": "./dist/next.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.9.2"

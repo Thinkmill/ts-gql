@@ -3,6 +3,17 @@
   "version": "0.16.4",
   "main": "dist/compiler.cjs.js",
   "module": "dist/compiler.esm.js",
+  "exports": {
+    "./cli": {
+      "module": "./cli/dist/compiler.esm.js",
+      "default": "./cli/dist/compiler.cjs.js"
+    },
+    ".": {
+      "module": "./dist/compiler.esm.js",
+      "default": "./dist/compiler.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "files": [
     "dist",

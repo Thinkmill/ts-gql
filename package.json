@@ -18,7 +18,7 @@
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.0",
     "@manypkg/cli": "0.19.2",
-    "@preconstruct/cli": "^2.2.2",
+    "@preconstruct/cli": "^2.8.3",
     "@ts-gql/eslint-plugin": "*",
     "@types/jest": "^29.1.2",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
@@ -49,6 +49,7 @@
     "packages": [
       "packages/*"
     ],
-    "distFilenameStrategy": "unscoped-package-name"
+    "distFilenameStrategy": "unscoped-package-name",
+    "exports": true
   }
 }

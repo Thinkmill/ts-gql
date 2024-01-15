@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "main": "dist/babel-plugin.cjs.js",
   "module": "dist/babel-plugin.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/babel-plugin.esm.js",
+      "default": "./dist/babel-plugin.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "!**/*.d.ts"

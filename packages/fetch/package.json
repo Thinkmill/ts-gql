@@ -3,6 +3,13 @@
   "version": "0.1.2",
   "main": "dist/fetch.cjs.js",
   "module": "dist/fetch.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/fetch.esm.js",
+      "default": "./dist/fetch.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "dependencies": {
     "@ts-gql/tag": "^0.7.0"

@@ -3,6 +3,17 @@
   "version": "0.7.0",
   "main": "dist/tag.cjs.js",
   "module": "dist/tag.esm.js",
+  "exports": {
+    ".": {
+      "module": "./dist/tag.esm.js",
+      "default": "./dist/tag.cjs.js"
+    },
+    "./no-transform": {
+      "module": "./no-transform/dist/tag.esm.js",
+      "default": "./no-transform/dist/tag.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "types": "index.d.ts",
   "dependencies": {
