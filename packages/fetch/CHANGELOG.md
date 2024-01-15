@@ -1,5 +1,14 @@
 # @ts-gql/fetch
 
+## 0.1.3
+
+### Patch Changes
+
+- [`74154ca`](https://github.com/Thinkmill/ts-gql/commit/74154ca7dab4ea3bd03ff5da5105ca770a63afad) Thanks [@emmatown](https://github.com/emmatown)! - Add `exports` field to `package.json`
+
+- Updated dependencies [[`74154ca`](https://github.com/Thinkmill/ts-gql/commit/74154ca7dab4ea3bd03ff5da5105ca770a63afad)]:
+  - @ts-gql/tag@0.7.1
+
 ## 0.1.2
 
 ### Patch Changes

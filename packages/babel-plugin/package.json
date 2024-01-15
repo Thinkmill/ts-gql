@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/babel-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/babel-plugin.cjs.js",
   "module": "dist/babel-plugin.esm.js",
   "exports": {

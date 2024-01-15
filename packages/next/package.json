@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/next",
-  "version": "17.0.0",
+  "version": "17.0.1",
   "main": "dist/next.cjs.js",
   "module": "dist/next.esm.js",
   "exports": {
