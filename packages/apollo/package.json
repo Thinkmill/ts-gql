@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/apollo",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "main": "dist/apollo.cjs.js",
   "module": "dist/apollo.esm.js",
   "exports": {
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ts-gql/tag": "^0.7.1"
+    "@ts-gql/tag": "^0.7.2"
   },
   "peerDependencies": {
     "@apollo/client": "*",

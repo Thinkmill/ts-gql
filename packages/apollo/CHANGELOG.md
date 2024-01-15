@@ -1,5 +1,14 @@
 # @ts-gql/apollo
 
+## 0.12.2
+
+### Patch Changes
+
+- [`2ecd4a5`](https://github.com/Thinkmill/ts-gql/commit/2ecd4a569ca7964cce876d24d73b901c14d4526a) Thanks [@emmatown](https://github.com/emmatown)! - Fix types
+
+- Updated dependencies [[`2ecd4a5`](https://github.com/Thinkmill/ts-gql/commit/2ecd4a569ca7964cce876d24d73b901c14d4526a)]:
+  - @ts-gql/tag@0.7.2
+
 ## 0.12.1
 
 ### Patch Changes
