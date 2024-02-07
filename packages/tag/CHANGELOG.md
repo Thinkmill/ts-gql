@@ -1,5 +1,11 @@
 # @ts-gql/tag
 
+## 0.7.3
+
+### Patch Changes
+
+- [#125](https://github.com/Thinkmill/ts-gql/pull/125) [`65adda4`](https://github.com/Thinkmill/ts-gql/commit/65adda40943ff8fc459ea152e76cf4d15d9ed4e5) Thanks [@emmatown](https://github.com/emmatown)! - Fix importing in TypeScript module resolution modes that don't respect the `exports` field
+
 ## 0.7.2
 
 ### Patch Changes
