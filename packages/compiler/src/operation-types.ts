@@ -1,6 +1,6 @@
 import * as fs from "./fs";
 import { DocumentNode, ExecutableDefinitionNode } from "graphql";
-import { codegen } from "./codegen-core";
+import { codegen } from "./vendor/codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -11,6 +11,7 @@ import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
 import { inlineIntoFirstOperationOrFragment } from "./inline-fragments";
+import { typescriptOperationsPlugin } from "./vendor/typescript-operations";
 
 function getUsedFragments(node: ExecutableDefinitionNode) {
   const visit = lazyRequire<typeof import("graphql/language/visitor")>().visit;
@@ -62,10 +63,9 @@ async function generateOperationTypes(
       },
     ],
     pluginMap: {
-      "typescript-operations":
-        lazyRequire<typeof import("@graphql-codegen/typescript-operations")>(),
+      "typescript-operations": { plugin: typescriptOperationsPlugin },
     },
-  }).replace(/(SchemaTypes\.Scalars\['[^']+'\])\['(?:input|output)'\]/g, "$1");
+  });
 
   const operationNode = operation.definitions[0];
   if (

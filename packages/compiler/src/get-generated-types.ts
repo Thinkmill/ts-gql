@@ -27,6 +27,7 @@ import {
   DocumentValidationCache,
 } from "./validate-documents";
 import { DocumentNode } from "graphql";
+import { weakMemoize } from "./weakMemoize";
 
 function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
   const cache: { [key: string]: V } = {};
@@ -37,18 +38,6 @@ function memoize<V>(fn: (arg: string) => V): (arg: string) => V {
 }
 
 const walk = promisify(_walk);
-
-function weakMemoize<Arg extends object, Return>(
-  fn: (arg: Arg) => Return
-): (arg: Arg) => Return {
-  const cache = new WeakMap<Arg, Return>();
-  return (arg: Arg) => {
-    if (cache.has(arg)) return cache.get(arg)!;
-    const result = fn(arg);
-    cache.set(arg, result);
-    return result;
-  };
-}
 
 function getPrintCompilerError() {
   let readFile = memoize((filename: string) => fs.readFile(filename, "utf8"));

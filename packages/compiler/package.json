@@ -27,8 +27,6 @@
     "@babel/parser": "^7.9.6",
     "@babel/runtime": "^7.9.2",
     "@babel/types": "^7.9.6",
-    "@graphql-codegen/plugin-helpers": "^5.0.3",
-    "@graphql-codegen/typescript-operations": "^4.2.0",
     "@nodelib/fs.walk": "^1.2.4",
     "@ts-gql/config": "^0.9.2",
     "chokidar": "^3.4.0",
