@@ -39,6 +39,7 @@
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || 14 || 15 || 16"
   },
   "devDependencies": {
+    "@graphql-codegen/plugin-helpers": "^5.0.3",
     "@ts-gql/tag": "*",
     "@types/babel__code-frame": "^7.0.1",
     "@types/graceful-fs": "^4.1.3",
