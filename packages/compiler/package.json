@@ -1,6 +1,6 @@
 {
   "name": "@ts-gql/compiler",
-  "version": "0.16.5",
+  "version": "0.16.6",
   "main": "dist/compiler.cjs.js",
   "module": "dist/compiler.esm.js",
   "exports": {
