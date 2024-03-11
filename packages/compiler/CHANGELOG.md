@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.7
+
+### Patch Changes
+
+- [#128](https://github.com/Thinkmill/ts-gql/pull/128) [`c19f5c3`](https://github.com/Thinkmill/ts-gql/commit/c19f5c3c89039f8bdb7b90f343d3f19e754d3340) Thanks [@emmatown](https://github.com/emmatown)! - Inline some dependencies to reduce the size of the package
+
 ## 0.16.6
 
 ### Patch Changes
