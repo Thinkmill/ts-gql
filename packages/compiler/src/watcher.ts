@@ -1,6 +1,6 @@
 // https://gist.github.com/petehunt/bee47e20701329792153453409b1922b
 import type { FSWatcher } from "chokidar";
-import invariant from "invariant";
+import assert from "node:assert";
 
 interface WatcherFsEvent {
   type: "add" | "unlink" | "change";
@@ -20,7 +20,7 @@ function createPromiseSignal<T>() {
   return {
     promise,
     resolve(value: T) {
-      invariant(!resolved, "already resolved");
+      assert(!resolved, "already resolved");
       resolved = true;
       resolve!(value);
     },
@@ -40,7 +40,7 @@ export const createWatcher = (watcher: FSWatcher) => {
     }
   }
   async function start() {
-    invariant(!started, "already started");
+    assert(!started, "already started");
     started = true;
 
     ready = false;

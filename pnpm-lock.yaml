@@ -83,14 +83,11 @@ importers:
       '@ts-gql/tag': '*'
       '@types/babel__code-frame': ^7.0.1
       '@types/graceful-fs': ^4.1.3
-      '@types/invariant': ^2.2.32
       chokidar: ^3.4.0
-      fast-glob: ^3.2.4
       find-pkg-json-field-up: ^1.0.1
       fixturez: ^1.1.0
       graceful-fs: ^4.2.4
       graphql: ^16.3.0
-      invariant: ^2.2.4
       lazy-require.macro: ^0.1.0
       slash: ^3.0.0
       strip-ansi: ^6.0.0
@@ -104,18 +101,15 @@ importers:
       '@graphql-codegen/typescript-operations': 2.5.3_graphql@16.6.0
       '@nodelib/fs.walk': 1.2.8
       '@ts-gql/config': link:../config
-      '@types/babel__code-frame': 7.0.3
-      '@types/graceful-fs': 4.1.5
-      '@types/invariant': 2.2.35
       chokidar: 3.5.3
-      fast-glob: 3.2.12
       find-pkg-json-field-up: 1.0.1
       graceful-fs: 4.2.10
-      invariant: 2.2.4
       slash: 3.0.0
       strip-ansi: 6.0.1
     devDependencies:
       '@ts-gql/tag': link:../tag
+      '@types/babel__code-frame': 7.0.3
+      '@types/graceful-fs': 4.1.5
       fixturez: 1.1.0
       graphql: 16.6.0
       lazy-require.macro: 0.1.0
@@ -2631,7 +2625,7 @@ packages:
 
   /@types/babel__code-frame/7.0.3:
     resolution: {integrity: sha512-2TN6oiwtNjOezilFVl77zwdNPwQWaDBBCCWWxyo1ctiO3vAtd7H/aB/CBJdw9+kqq3+latD0SXoedIuHySSZWw==}
-    dev: false
+    dev: true
 
   /@types/babel__core/7.1.19:
     resolution: {integrity: sha512-WEOTgRsbYkvA/KCsDwVEGkd7WAr1e3g31VHQ8zy5gul/V1qKullU/BU5I68X5v7V3GnB9eotmom4v5a5gjxorw==}
@@ -2670,11 +2664,6 @@ packages:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
       '@types/node': 18.8.4
-    dev: false
-
-  /@types/invariant/2.2.35:
-    resolution: {integrity: sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg==}
-    dev: false
 
   /@types/is-ci/3.0.0:
     resolution: {integrity: sha512-Q0Op0hdWbYd1iahB+IFNQcWXFq4O0Q5MwQP7uN0souuQ4rPg1vEYcnIOfr1gY+M+6rc8FGoRaBO1mOOvL29sEQ==}
@@ -2732,7 +2721,6 @@ packages:
 
   /@types/node/18.8.4:
     resolution: {integrity: sha512-WdlVphvfR/GJCLEMbNA8lJ0lhFNBj4SW3O+O5/cEGw9oYrv0al9zTwuQsq+myDUXgNx2jgBynoVgZ2MMJ6pbow==}
-    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
