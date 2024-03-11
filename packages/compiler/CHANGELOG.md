@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.6
+
+### Patch Changes
+
+- [`afa33d0`](https://github.com/Thinkmill/ts-gql/commit/afa33d0e6c9535d5fff4d540a511ea3c4a1f80f1) Thanks [@emmatown](https://github.com/emmatown)! - Remove unused deps
+
 ## 0.16.5
 
 ### Patch Changes
