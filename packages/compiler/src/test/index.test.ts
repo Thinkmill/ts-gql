@@ -139,6 +139,7 @@ test("something", async () => {
       `,
       graphql`
         query Thing {
+          json
           someObj {
             arr {
               ...Frag_a

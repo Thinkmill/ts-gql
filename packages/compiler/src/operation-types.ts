@@ -65,7 +65,7 @@ async function generateOperationTypes(
       "typescript-operations":
         lazyRequire<typeof import("@graphql-codegen/typescript-operations")>(),
     },
-  });
+  }).replace(/(SchemaTypes\.Scalars\['[^']+'\])\['(?:input|output)'\]/g, "$1");
 
   const operationNode = operation.definitions[0];
   if (
