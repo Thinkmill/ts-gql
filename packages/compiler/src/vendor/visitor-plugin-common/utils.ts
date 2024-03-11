@@ -1,19 +1,7 @@
 import {
   FieldNode,
   FragmentSpreadNode,
-  GraphQLInputObjectType,
-  GraphQLNamedType,
-  GraphQLObjectType,
-  GraphQLOutputType,
-  GraphQLSchema,
   InlineFragmentNode,
-  isAbstractType,
-  isInputObjectType,
-  isListType,
-  isNonNullType,
-  isObjectType,
-  isScalarType,
-  Kind,
   NamedTypeNode,
   NameNode,
   SelectionNode,
@@ -21,7 +9,21 @@ import {
   StringValueNode,
   TypeNode,
   DirectiveNode,
-} from "graphql";
+} from "graphql/language/ast";
+import { Kind } from "graphql/language/kinds";
+import {
+  GraphQLInputObjectType,
+  GraphQLNamedType,
+  GraphQLObjectType,
+  GraphQLOutputType,
+  isAbstractType,
+  isInputObjectType,
+  isListType,
+  isNonNullType,
+  isObjectType,
+  isScalarType,
+} from "graphql/type/definition";
+import { GraphQLSchema } from "graphql/type/schema";
 import { RawConfig } from "./base-visitor";
 import { parseMapper } from "./mappers";
 import { DEFAULT_SCALARS } from "./scalars";

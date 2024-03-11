@@ -1,4 +1,4 @@
-import { ASTNode } from "graphql";
+import type { ASTNode } from "graphql";
 import { ConvertFn } from "./types";
 
 function getName(node: ASTNode | string | undefined): string | undefined {

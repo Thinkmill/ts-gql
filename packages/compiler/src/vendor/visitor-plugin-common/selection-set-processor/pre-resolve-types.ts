@@ -3,7 +3,7 @@ import {
   GraphQLObjectType,
   isEnumType,
   isNonNullType,
-} from "graphql";
+} from "graphql/type/definition";
 import {
   BaseSelectionSetProcessor,
   LinkField,

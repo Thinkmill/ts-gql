@@ -1,4 +1,4 @@
-import { ASTNode, FragmentDefinitionNode, DirectiveNode } from "graphql";
+import type { ASTNode, FragmentDefinitionNode, DirectiveNode } from "graphql";
 import { ParsedMapper } from "./mappers";
 
 /**

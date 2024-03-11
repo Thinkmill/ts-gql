@@ -7,7 +7,8 @@ import {
   ParsedDirectiveArgumentAndInputFieldMappings,
   ParsedEnumValuesMap,
 } from "../visitor-plugin-common";
-import { Kind, TypeNode } from "graphql";
+import type { TypeNode } from "graphql";
+import { Kind } from "graphql/language/kinds";
 
 export class TypeScriptOperationVariablesToObject extends OperationVariablesToObject {
   constructor(

@@ -1,17 +1,15 @@
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { LoadedFragment } from "../visitor-plugin-common";
-import {
-  concatAST,
-  FragmentDefinitionNode,
-  GraphQLSchema,
-  Kind,
-} from "graphql";
+import type { FragmentDefinitionNode, GraphQLSchema } from "graphql";
+import { Kind } from "graphql/language/kinds";
+import { concatAST } from "graphql/utilities/concatAST";
 import { TypeScriptDocumentsPluginConfig } from "./config";
 import { TypeScriptDocumentsVisitor } from "./visitor";
 
 export type { TypeScriptDocumentsPluginConfig } from "./config";
 
-import { ASTNode, visit } from "graphql";
+import type { ASTNode } from "graphql";
+import { visit } from "graphql/language/visitor";
 
 type VisitFn = typeof visit;
 type NewVisitor = Partial<Parameters<VisitFn>[1]>;

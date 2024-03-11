@@ -6,7 +6,10 @@ import {
   ProcessResult,
   SelectionSetProcessorConfig,
 } from "../visitor-plugin-common";
-import { GraphQLInterfaceType, GraphQLObjectType } from "graphql";
+import {
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+} from "graphql/type/definition";
 
 export class TypeScriptSelectionSetProcessor extends BaseSelectionSetProcessor<SelectionSetProcessorConfig> {
   transformPrimitiveFields(

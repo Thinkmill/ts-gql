@@ -13,12 +13,11 @@ import {
   wrapTypeWithModifiers,
 } from "../visitor-plugin-common";
 import { autoBind } from "../auto-bind";
-import {
+import { isEnumType, isNonNullType } from "graphql/type/definition";
+import type {
   GraphQLNamedType,
   GraphQLOutputType,
   GraphQLSchema,
-  isEnumType,
-  isNonNullType,
 } from "graphql";
 import { TypeScriptDocumentsPluginConfig } from "./config";
 import { TypeScriptOperationVariablesToObject } from "./ts-operation-variables-to-object";

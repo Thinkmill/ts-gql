@@ -1,11 +1,11 @@
-import {
+import type {
   DirectiveNode,
-  Kind,
   NameNode,
   TypeNode,
   ValueNode,
   VariableNode,
-} from "graphql";
+} from "graphql/language/ast";
+import { Kind } from "graphql/language/kinds";
 import { BaseVisitorConvertOptions } from "./base-visitor";
 import {
   ConvertNameFn,
