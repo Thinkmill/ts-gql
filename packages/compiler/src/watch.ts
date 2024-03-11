@@ -10,8 +10,6 @@ export const watch = async (cwd: string) => {
   // we're requiring these here because we lazily require them in the code that generates the types
   // which is what we want so builds that don't have to regenerate files are fast
   // but for watch, a slightly slower start up is better than a slightly slower first build which requires type generation
-  require("@graphql-codegen/typescript");
-  require("@graphql-codegen/typescript-operations");
   require("@babel/code-frame");
   require("graphql/validation");
 

@@ -1,6 +1,6 @@
 import * as fs from "./fs";
 import { DocumentNode, ExecutableDefinitionNode } from "graphql";
-import { codegen } from "./codegen-core";
+import { codegen } from "./vendor/codegen-core";
 import { hashString, parseTsGqlMeta } from "./utils";
 import { FsOperation } from "./fs-operations";
 import {
@@ -11,6 +11,7 @@ import stripAnsi from "strip-ansi";
 import { Config } from "@ts-gql/config";
 import { lazyRequire } from "lazy-require.macro";
 import { inlineIntoFirstOperationOrFragment } from "./inline-fragments";
+import { typescriptOperationsPlugin } from "./vendor/typescript-operations";
 
 function getUsedFragments(node: ExecutableDefinitionNode) {
   const visit = lazyRequire<typeof import("graphql/language/visitor")>().visit;
@@ -23,12 +24,20 @@ function getUsedFragments(node: ExecutableDefinitionNode) {
   return [...usedFragments];
 }
 
+let plugin:
+  | typeof import("./vendor/typescript-operations").typescriptOperationsPlugin
+  | null = null;
+
 async function generateOperationTypes(
   config: Config,
   operation: DocumentNode,
   filename: string,
   operationHash: string
 ): Promise<FsOperation> {
+  if (!plugin) {
+    plugin = (await import("./vendor/typescript-operations"))
+      .typescriptOperationsPlugin;
+  }
   let result = codegen({
     documents: [
       {
@@ -62,8 +71,7 @@ async function generateOperationTypes(
       },
     ],
     pluginMap: {
-      "typescript-operations":
-        lazyRequire<typeof import("@graphql-codegen/typescript-operations")>(),
+      "typescript-operations": { plugin },
     },
   });
 
