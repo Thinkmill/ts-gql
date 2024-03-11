@@ -24,12 +24,20 @@ function getUsedFragments(node: ExecutableDefinitionNode) {
   return [...usedFragments];
 }
 
+let plugin:
+  | typeof import("./vendor/typescript-operations").typescriptOperationsPlugin
+  | null = null;
+
 async function generateOperationTypes(
   config: Config,
   operation: DocumentNode,
   filename: string,
   operationHash: string
 ): Promise<FsOperation> {
+  if (!plugin) {
+    plugin = (await import("./vendor/typescript-operations"))
+      .typescriptOperationsPlugin;
+  }
   let result = codegen({
     documents: [
       {
@@ -63,7 +71,7 @@ async function generateOperationTypes(
       },
     ],
     pluginMap: {
-      "typescript-operations": { plugin: typescriptOperationsPlugin },
+      "typescript-operations": { plugin },
     },
   });
 
