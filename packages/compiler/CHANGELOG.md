@@ -1,5 +1,11 @@
 # @ts-gql/compiler
 
+## 0.16.8
+
+### Patch Changes
+
+- [#131](https://github.com/Thinkmill/ts-gql/pull/131) [`5f1a037dcae2a1494317c44871944e835e80be24`](https://github.com/Thinkmill/ts-gql/commit/5f1a037dcae2a1494317c44871944e835e80be24) Thanks [@emmatown](https://github.com/emmatown)! - Add support for `@oneOf` on input objects. Note this is dependent on having a version of `graphql` that supports `@oneOf` as well.
+
 ## 0.16.7
 
 ### Patch Changes
