@@ -155,6 +155,16 @@ function printInputObjectType(
   type: GraphQLInputObjectType,
   options: InternalPrinterOptions
 ) {
+  if (type.isOneOf) {
+    return `export type ${type.name} = {\n${Object.values(type.getFields())
+      .map((field) =>
+        printInputFields(
+          [{ ...field, type: new GraphQLNonNull(field.type) }],
+          options
+        )
+      )
+      .join("\n} | {\n")}\n};`;
+  }
   return `export type ${type.name} = {\n${printInputFields(
     Object.values(type.getFields()),
     options

@@ -14,6 +14,17 @@ export let schema = gql`
     union: [Union]!
     json(json: JSON): JSON
     enum(a: SomeEnum): SomeEnum
+    inputObject(a: SomeOneOf, b: OneOfWithOnlyOne): String
+  }
+
+  input SomeOneOf @oneOf {
+    a: String
+    b: Int
+    c: Boolean
+  }
+
+  input OneOfWithOnlyOne @oneOf {
+    a: String
   }
 
   enum SomeEnum {
