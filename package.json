@@ -21,6 +21,7 @@
     "@preconstruct/cli": "^2.8.3",
     "@ts-gql/eslint-plugin": "*",
     "@types/jest": "^29.1.2",
+    "@types/node": "^22.13.1",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^6.3.0",
     "babel-jest": "^29.1.2",
