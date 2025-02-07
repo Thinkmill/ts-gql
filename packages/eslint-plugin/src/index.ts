@@ -179,7 +179,7 @@ export const rules = {
       return {
         Program(programNode) {
           let config: Config | undefined = context.options[0];
-          let report: typeof context["report"] = (arg) => {
+          let report: (typeof context)["report"] = (arg) => {
             return context.report(arg);
           };
           let tsGQLImport: "no-transform" | "transform" | undefined = undefined;

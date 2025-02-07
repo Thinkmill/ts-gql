@@ -86,7 +86,7 @@ function removeUnnecessaryFragmentSpreads(
   const { TypeInfo } = typeInfoExports;
   const visitorExports =
     lazyRequire<typeof import("graphql/language/visitor")>();
-  const visitWithTypeInfo: typeof typeInfoExports["visitWithTypeInfo"] =
+  const visitWithTypeInfo: (typeof typeInfoExports)["visitWithTypeInfo"] =
     typeInfoExports.visitWithTypeInfo ||
     (visitorExports as any).visitWithTypeInfo;
 
