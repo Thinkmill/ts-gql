@@ -18,7 +18,7 @@
     "graphql": "15 || 16"
   },
   "devDependencies": {
-    "graphql": "^16.3.0"
+    "graphql": "^16.10.0"
   },
   "repository": "https://github.com/Thinkmill/ts-gql/tree/main/packages/fetch"
 }

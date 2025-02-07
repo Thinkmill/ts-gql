@@ -343,11 +343,11 @@ test("returned nullable fields are not optional", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:bf5649cf5e4ae32a7de7c2223f7b230a
+          "content": "// ts-gql-integrity:a1d7fcfaec67f151f5c6515eefd74fb9
     /*
     ts-gql-meta-begin
     {
-      "hash": "3553f6603e62d5558248d7a518a45234"
+      "hash": "ac9af659262975d0b7178b6b3fa89c54"
     }
     ts-gql-meta-end
     */
@@ -405,11 +405,11 @@ test("custom scalar types scalars are used", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:a64e5e59bbaca0afc0621efc7c2c4ad0
+          "content": "// ts-gql-integrity:a8adb2cc1a751f5fb1e62e80737a8943
     /*
     ts-gql-meta-begin
     {
-      "hash": "9a9cf6a9b44e09156af0371e31945971"
+      "hash": "c154f4080a06868e3d012e4587502116"
     }
     ts-gql-meta-end
     */
@@ -457,11 +457,11 @@ test("schema", async () => {
   schema!.filename = "@schema.d.ts";
   expect(schema).toMatchInlineSnapshot(`
     {
-      "content": "// ts-gql-integrity:328ec744a16c993c5077df3eabb775a8
+      "content": "// ts-gql-integrity:f31465ae62ea6baa80923fd8e4c0edf3
     /*
     ts-gql-meta-begin
     {
-      "hash": "84e341588ded04dc71606d1d4c3faa2e"
+      "hash": "4e658dccccf6f11877e50bc829626b6d"
     }
     ts-gql-meta-end
     */
@@ -500,6 +500,7 @@ test("schema", async () => {
       readonly union: ReadonlyArray<Union | null>;
       readonly json: JSON | null;
       readonly enum: SomeEnum | null;
+      readonly inputObject: string | null;
     };
 
     export type QueryoptionalArgs = {
@@ -517,6 +518,23 @@ test("schema", async () => {
 
     export type QueryenumArgs = {
       readonly a?: SomeEnum | null;
+    };
+
+    export type QueryinputObjectArgs = {
+      readonly a?: SomeOneOf | null;
+      readonly b?: OneOfWithOnlyOne | null;
+    };
+
+    export type SomeOneOf = {
+      readonly a: string;
+    } | {
+      readonly b: number;
+    } | {
+      readonly c: boolean;
+    };
+
+    export type OneOfWithOnlyOne = {
+      readonly a: string;
     };
 
     export type SomeEnum =
@@ -631,11 +649,11 @@ test("same fragment used twice", async () => {
       "errors": [],
       "fsOperations": [
         {
-          "content": "// ts-gql-integrity:775908a224152839472ac0cfcbb28f5f
+          "content": "// ts-gql-integrity:e061b537ce4ec6ab7e02c1dc9f2b7a14
     /*
     ts-gql-meta-begin
     {
-      "hash": "a36420f3a2192f2ec9abc6d520ed2532"
+      "hash": "2aec65ca2024f5a992b96e9c088f531d"
     }
     ts-gql-meta-end
     */
@@ -667,11 +685,11 @@ test("same fragment used twice", async () => {
           "type": "output",
         },
         {
-          "content": "// ts-gql-integrity:e87ee36bb63001944f1b17ec7b5653b5
+          "content": "// ts-gql-integrity:7faffe66f1ea1426680b19eef89b0a94
     /*
     ts-gql-meta-begin
     {
-      "hash": "6cb2b52169d5f95ce4f74334e11e8989"
+      "hash": "0d753e347786649d0a095a59168e75aa"
     }
     ts-gql-meta-end
     */
@@ -703,11 +721,11 @@ test("same fragment used twice", async () => {
           "type": "output",
         },
         {
-          "content": "// ts-gql-integrity:2f1dbdd99ae4aec0a0a4b11bfa303cad
+          "content": "// ts-gql-integrity:42260d782978d9ac63885da552cd7762
     /*
     ts-gql-meta-begin
     {
-      "hash": "0111674c0a21250a1593083cc93f3970"
+      "hash": "fa10b58f5385332208405ca427c5e37a"
     }
     ts-gql-meta-end
     */
@@ -739,11 +757,11 @@ test("same fragment used twice", async () => {
           "type": "output",
         },
         {
-          "content": "// ts-gql-integrity:05ea7ceb5803d7bcda985b30c1700aac
+          "content": "// ts-gql-integrity:8b48ebbff14eeceb2fb47ee5ef77e678
     /*
     ts-gql-meta-begin
     {
-      "hash": "3aee00e06a422fc60bfbabcbd44066a2"
+      "hash": "40533504e18ab2909461c413f2778fb0"
     }
     ts-gql-meta-end
     */
